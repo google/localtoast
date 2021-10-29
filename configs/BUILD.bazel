@@ -1,0 +1,66 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_embed_data", "go_library", "go_test")
+
+package(default_visibility = ["//visibility:public"])
+
+exports_files(glob(["*/*.textproto"]))
+
+filegroup(
+    name = "cis_configs",
+    srcs = glob(["*/*.textproto"]),
+)
+
+go_binary(
+    name = "gen_reduced_configs",
+    srcs = ["gen_reduced_configs.go"],
+    deps = [":genreducedconfigs"],
+)
+
+go_library(
+    name = "genreducedconfigs",
+    srcs = ["gen_reduced_configs_lib.go"],
+    importpath = "github.com/google/localtoast/configs/genreducedconfigs",
+    deps = [
+        "//:protofilehandler",
+        "//library/proto:api_go_proto",
+    ],
+)
+
+go_test(
+    name = "genreducedconfigs_test",
+    size = "small",
+    srcs = ["gen_reduced_configs_test.go"],
+    deps = [
+        ":genreducedconfigs",
+        "//library/proto:api_go_proto",
+        "//library/proto:compliance_go_proto",
+        "@com_github_google_go_cmp//cmp:go_default_library",
+        "@org_golang_google_protobuf//encoding/prototext",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)
+
+go_embed_data(
+    name = "scan_configs_test",
+    testonly = 1,
+    srcs = ["//configs:cis_configs"],
+    package = "configs_test",
+    var = "scanConfigs",
+)
+
+go_test(
+    name = "configs_test",
+    size = "small",
+    srcs = [
+        "configs_test.go",
+        ":scan_configs_test",
+    ],
+    deps = [
+        "//library/proto:api_go_proto",
+        "//library/proto:compliance_go_proto",
+        "//library/proto:scan_instructions_go_proto",
+        "@com_bitbucket_creachadair_stringset//:go_default_library",
+        "@com_github_google_go_cmp//cmp:go_default_library",
+        "@org_golang_google_protobuf//encoding/prototext",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)

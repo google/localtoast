@@ -1,0 +1,347 @@
+opt_out_config: {
+  content_optout_regexes: "/etc/.*"
+  filename_optout_regexes: "/var/spool/crash"
+}
+
+benchmark_configs: {
+  id: "ip-forwarding-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Ensure IP forwarding is disabled"
+    description:
+      "The net.ipv4.ip_forward and net.ipv6.conf.all.forwarding flags "
+      "are used to tell the system whether it can forward packets or "
+      "not."
+    rationale:
+      "Setting the flags to 0 ensures that a system with multiple "
+      "interfaces (for example, a hard proxy), will never be able to "
+      "forward packets, and therefore, never serve as a router"
+    remediation:
+      "Set the following parameter in a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.ip_forward = 0\n"
+      "net.ipv6.conf.all.forwarding = 0\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.ip_forward=0\n"
+      "# sysctl -w net.ipv6.conf.all.forwarding=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/ip_forward\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/forwarding\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "packet-redirect-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Ensure IP forwarding is disabled"
+    description:
+      "ICMP Redirects are used to send routing information to other hosts. "
+      "As a host itself does not act as a router (in a host only configuration), "
+      "there is no need to send redirects."
+    rationale:
+      "An attacker could use a compromised host to send invalid ICMP redirects "
+      "to other router devices in an attempt to corrupt routing and have users "
+      "access a system set up by the attacker as opposed to a valid system."
+    remediation:
+      "Set the following parameters in a /etc/sysctl.d/* file:"
+      "net.ipv4.conf.all.send_redirects = 0"
+      "net.ipv4.conf.default.send_redirects = 0"
+      "Run the following commands to set the active kernel parameters:"
+      "# sysctl -w net.ipv4.conf.all.send_redirects=0"
+      "# sysctl -w net.ipv4.conf.default.send_redirects=0"
+      "# sysctl -w net.ipv4.route.flush=1"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/send_redirects\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/send_redirects\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/sysctl.d/\""
+      "      recursive: true"
+      "    }}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"net.ipv4.conf.all.send_redirects *=.*\""
+      "        expected_regex: \"net.ipv4.conf.all.send_redirects *= *0\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"net.ipv4.conf.default.send_redirects *=.*\""
+      "        expected_regex: \"net.ipv4.conf.default.send_redirects *= *0\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "motd-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Ensure permissions on /etc/motd are configured"
+    description:
+      "The contents of the /etc/motd file are displayed to users "
+      "after login and function as a message of the day for "
+      "authenticated users."
+    rationale:
+      "If the /etc/motd file does not have the correct ownership it "
+      "could be modified by unauthorized users with incorrect "
+      "or misleading information."
+    remediation:
+      "Run the following commands to set permissions on /etc/motd:"
+      "# chown root:root /etc/motd"
+      "# chmod 644 /etc/motd"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    permission:{"
+      "      set_bits: 0644"
+      "      clear_bits: 0133"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "etc-issue-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Ensure permissions on /etc/issue are configured"
+    description:
+      "The contents of the /etc/issue file are displayed to users prior to "
+      "login for local terminals."
+    rationale:
+      "If the /etc/issue file does not have the correct ownership it "
+      "could be modified by unauthorized users with incorrect or "
+      "misleading information."
+    remediation:
+      "Run the following commands to set permissions on /etc/issue:"
+      "# chown root:root /etc/issue"
+      "# chmod 644 /etc/issue"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "    permission:{"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      set_bits: 0644"
+      "      clear_bits: 0133"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "home-dirs-exist"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Ensure all users' home directories exist"
+    description:
+      "Users can be defined in /etc/passwd without a home directory or with a "
+      "home directory that does not actually exist."
+    rationale:
+      "If the user's home directory does not exist or is unassigned, the user "
+      "will be placed in \"/\" and will not be able to write any files or have "
+      "local environment variables set."
+    remediation:
+      "If any users' home directories do not exist, create them and make sure "
+      "the respective user owns the directory. Users without an assigned home "
+      "directory should be removed or assigned a home directory as appropriate."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    existence:{should_exist: true}"
+      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "home-dirs-owned"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Ensure users own their home directories"
+    description:
+      "The user home directory is space defined for the particular user to set "
+      "local environment variables and to store personal files."
+    rationale:
+      "Since the user is accountable for files stored in the user home "
+      "directory, the user must be the owner of the directory."
+    remediation:
+      "Change the ownership of any home directories that are not owned by the "
+      "defined user to the correct user."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    permission:{user: {name: \"$user\" should_own: true}}"
+      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "no-suid-execs"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Audit SUID executable"
+    description:
+      "The owner of a file can set the file's permissions to run with the "
+      "owner's or group's permissions, even if the user running the program is "
+      "not the owner or a member of the group. The most common reason for a SUID "
+      "program is to enable users to perform functions (such as changing their "
+      "password) that require root privileges."
+    rationale:
+      "There are valid reasons for SUID programs, but it is important to "
+      "identify and review such programs to ensure they are legitimate."
+    remediation:
+      "Ensure that no rogue SUID programs have been introduced into the system. "
+      "Review the files returned by the action in the Audit section and confirm "
+      "the integrity of these binaries"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/\""
+      "      recursive: true"
+      "      files_only: true"
+      "      opt_out_path_regexes: \"/proc\""
+      "      opt_out_path_regexes: \"/usr/bin/sudo\""
+      "      opt_out_path_regexes: \"/sbin/mount.nfs\""
+      "      opt_out_path_regexes: \"/usr/libexec/dbus-daemon-launch-helper\""
+      "    }}"
+      "    permission:{ clear_bits: 04000 }"
+      "    non_compliance_msg: \"some files on the filesystem have the SUID bit set\""
+      "    file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -4000\""
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "no-sgid-execs"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "2.0.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.1" }
+    version: { cpe_uri: "cpe:/example" version: "1.0.0" }
+    title: "Audit SGID executable"
+    description:
+      "The owner of a file can set the file's permissions to run with the "
+      "owner's or group's permissions, even if the user running the program is "
+      "not the owner or a member of the group. The most common reason for a SGID "
+      "program is to enable users to perform functions (such as changing their "
+      "password) that require root privileges."
+    rationale:
+      "There are valid reasons for SGID programs, but it is important to "
+      "identify and review such programs to ensure they are legitimate. Review "
+      "the files returned by the action in the audit section and check to see if "
+      "system binaries have a different md5 checksum than what from the package. "
+      "This is an indication that the binary may have been replaced."
+    remediation:
+      "Ensure that no rogue SGID programs have been introduced into the system. "
+      "Review the files returned by the action in the Audit section and confirm "
+      "the integrity of these binaries"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/\""
+      "      recursive: true"
+      "      files_only: true"
+      "      opt_out_path_regexes: \"/proc\""
+      "    }}"
+      "    permission:{ clear_bits: 02000 }"
+      "    non_compliance_msg: \"some files on the filesystem have the SGID bit set\""
+      "    file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -2000\""
+      "  }"
+      "}"
+  }
+}

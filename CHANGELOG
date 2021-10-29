@@ -1,0 +1,29 @@
+1.1.1:
+* Add option to skip symlinks during traversal
+* Add option to skip specific replacements in the RepeatConfig
+* Remove unused API functions
+* Fix some TODOs
+* Make instruction deserialization more robust
+
+1.1.0:
+* Add core functionality for SQL scanning
+* Add script for creating reduced benchmark config files
+* Implement CheckAlternatives
+* Add more features for the RepeatedOptions and ProcessDir instruction
+
+1.0.2:
+* Force garbage collection during file traversal to improve memory usage a bit
+
+1.0.1:
+* Switch to using Grafeas's Compliance proto for the benchmark configs
+* Add CLI arg for chrooting
+* Add CLI arg for opting out files from being traversed
+
+1.0.0:
+* Add CLI args for opting out files from the scan results
+* Add initial benchmark config file for COS 89
+* Implement more file check instructions
+
+0.0.1:
+* Initial version
+* Add the basic scanner structure and support for some file check instructions

@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+package(default_visibility = ["//visibility:public"])
+
+go_library(
+    name = "testconfigcreator",
+    testonly = 1,
+    srcs = ["test_config_creator.go"],
+    importpath = "github.com/google/localtoast/library/testing/testconfigcreator",
+    deps = [
+        "//library/proto:api_go_proto",
+        "//library/proto:compliance_go_proto",
+        "//library/proto:scan_instructions_go_proto",
+        "@org_golang_google_protobuf//encoding/prototext",
+    ],
+)

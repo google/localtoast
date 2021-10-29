@@ -1,0 +1,29 @@
+benchmark_configs: {
+  id: "no-test-database"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/example" version: "1.1.0" }
+    title: "Ensure the 'test' database is not installed"
+    description:
+      "The default MySQL installation comes with an unused database called test. "
+      "It is recommended that the test database be dropped."
+    rationale:
+      "The test database can be accessed by all users and can be used to consume "
+      "system resources. Dropping the test database will reduce the attack "
+      "surface of the MySQL server."
+    remediation:
+      "Execute the following SQL statement to drop the test database: `DROP "
+      "DATABASE 'test';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW DATABASES LIKE 'test';\""
+      "    expect_results: false"
+      "  }"
+      "}"
+  }
+}

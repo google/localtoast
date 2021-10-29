@@ -1,0 +1,94 @@
+/*
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package localtoast;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "library/proto/compliance.proto";
+
+option go_package = "github.com/google/localtoast/library/proto/api_go_proto";
+
+message ScanConfig {
+  // The maximum amount of time the scan and individual benchmark checks can run
+  // for.
+  google.protobuf.Duration scan_timeout = 1;
+  google.protobuf.Duration benchmark_check_timeout = 2;
+  // A list of files to opt out of being displayed in the scan results.
+  OptOutConfig opt_out_config = 3;
+  repeated BenchmarkConfig benchmark_configs = 4;
+}
+
+message OptOutConfig {
+  // Don't display the file content / filename of the files whose path matches
+  // a regex in the list.
+  repeated string content_optout_regexes = 1;
+  repeated string filename_optout_regexes = 2;
+  // Skip the files/directories when traversing the filesystem recursively if
+  // they match a regex in the list.
+  repeated string traversal_optout_regexes = 3;
+}
+
+message BenchmarkConfig {
+  string id = 1;
+  grafeas.v1.ComplianceNote compliance_note = 2;
+}
+
+message ScanResults {
+  google.protobuf.Timestamp start_time = 1;
+  google.protobuf.Timestamp end_time = 2;
+  string scanner_version = 3;
+  string benchmark_version = 4;
+  ScanStatus status = 5;
+  repeated ComplianceResult compliant_benchmarks = 6;
+  repeated ComplianceResult non_compliant_benchmarks = 7;
+}
+
+message ScanStatus {
+  ScanStatusEnum status = 1;
+  string failure_reason = 2;
+  enum ScanStatusEnum {
+    UNSPECIFIED = 0;
+    FAILED = 1;
+    SUCCEEDED = 2;
+  }
+}
+
+message ComplianceResult {
+  reserved 2;
+  // ID of the Compliance Note associated with the Compliance Occurrence.
+  // This is used to identify which benchmark failed.
+  string id = 1;
+  grafeas.v1.ComplianceOccurrence compliance_occurrence = 3;
+}
+
+// Messages used by the ScanApiProvider to interact with the file system.
+message DirContent {
+  string name = 1;
+  bool is_dir = 2;
+  bool is_symlink = 3;
+}
+message PosixPermissions {
+  // File permissions represented by 4 octal digits
+  // (flags, owner, group, other), e.g. 1744
+  int32 permission_num = 1;
+  int32 uid = 2;
+  string user = 3;  // "" if unowned
+  int32 gid = 4;
+  string group = 5;  // "" if unowned
+}
