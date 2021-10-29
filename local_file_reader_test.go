@@ -59,12 +59,6 @@ func TestMain(m *testing.M) {
 	}
 
 	exitCode := m.Run()
-
-	// Clean up.
-	if err := os.RemoveAll(testDirPath); err != nil {
-		panic(fmt.Sprintf("Error while removing directory %s: %v",
-			testDirPath, err))
-	}
 	os.Exit(exitCode)
 }
 

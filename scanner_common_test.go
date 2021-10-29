@@ -125,10 +125,6 @@ func TestRunScan(t *testing.T) {
 			}
 		})
 	}
-
-	if err := os.RemoveAll(testDirPath); err != nil {
-		t.Fatalf("Error clearing test directory: %v", err)
-	}
 }
 
 func TestApplyCLIFlagsToConfig(t *testing.T) {
