@@ -36,6 +36,7 @@ message CheckAlternative {
 
 // A check to be performed on one or more files.
 message FileCheck {
+  reserved 8;
   repeated FileSet files_to_check = 1;
   oneof check_type {
     ExistenceCheck existence = 2;
@@ -51,9 +52,6 @@ message FileCheck {
   // Optional, can be used to make the check run several times with slightly
   // different settings.
   RepeatConfig repeat_config = 9;
-  // The old format of the RepeatConfig field.
-  // TODO(b/181930060): Remove once this is no longer used by anything.
-  RepeatOptions repeat_options = 8 [deprecated = true];
 }
 
 message RepeatConfig {
@@ -85,14 +83,6 @@ message RepeatConfig {
     string value = 2;
   }
   repeated OptOutSubstitution opt_out = 2;
-}
-
-enum RepeatOptions {
-  ONCE = 0;
-  FOR_EACH_USER_WITH_LOGIN = 1;
-  FOR_EACH_SYSTEM_USER_WITH_LOGIN = 4;
-  FOR_EACH_OPEN_IPV4_PORT = 2;
-  FOR_EACH_OPEN_IPV6_PORT = 3;
 }
 
 message ExistenceCheck {

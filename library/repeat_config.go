@@ -67,30 +67,10 @@ type TokenReplacement struct {
 
 // CreateRepeatConfigs creates a list of configs with the appropriate token
 // substitutions based on the supplied repeat config enum.
-func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, legacyRepeatConfig ipb.RepeatOptions, f FileReader) []*RepeatConfig {
-	roType := repeatOptions.GetType()
-	// Use the legacy options if the new ones aren't set.
-	// TODO(b/181930060): Remove once the legacy options are no longer used.
-	if roType == ipb.RepeatConfig_ONCE {
-		switch legacyRepeatConfig {
-		case ipb.RepeatOptions_ONCE:
-			roType = ipb.RepeatConfig_ONCE
-		case ipb.RepeatOptions_FOR_EACH_USER_WITH_LOGIN:
-			roType = ipb.RepeatConfig_FOR_EACH_USER_WITH_LOGIN
-		case ipb.RepeatOptions_FOR_EACH_SYSTEM_USER_WITH_LOGIN:
-			roType = ipb.RepeatConfig_FOR_EACH_SYSTEM_USER_WITH_LOGIN
-		case ipb.RepeatOptions_FOR_EACH_OPEN_IPV4_PORT:
-			roType = ipb.RepeatConfig_FOR_EACH_OPEN_IPV4_PORT
-		case ipb.RepeatOptions_FOR_EACH_OPEN_IPV6_PORT:
-			roType = ipb.RepeatConfig_FOR_EACH_OPEN_IPV6_PORT
-		default:
-			return repeatConfigWithError(fmt.Errorf("unknown legacy repeat option type %s", legacyRepeatConfig))
-		}
-	}
-
+func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, f FileReader) []*RepeatConfig {
 	var rc []*RepeatConfig
 	var err error
-	switch roType {
+	switch repeatOptions.GetType() {
 	case ipb.RepeatConfig_ONCE:
 		rc, err = []*RepeatConfig{&RepeatConfig{}}, nil
 	case ipb.RepeatConfig_FOR_EACH_USER:

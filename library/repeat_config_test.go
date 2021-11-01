@@ -29,8 +29,6 @@ import (
 	"github.com/google/localtoast/library/repeatconfig"
 )
 
-const legacyOptUnset = ipb.RepeatOptions_ONCE
-
 type fakeFileReader struct {
 	content          string
 	loginDefsContent string
@@ -56,7 +54,7 @@ func configHasError(config []*repeatconfig.RepeatConfig) bool {
 }
 
 func TestCreateRepeatConfigsOnce(t *testing.T) {
-	got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: ipb.RepeatConfig_ONCE}, legacyOptUnset, &fakeFileReader{})
+	got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: ipb.RepeatConfig_ONCE}, &fakeFileReader{})
 	want := []*repeatconfig.RepeatConfig{&repeatconfig.RepeatConfig{}}
 	if diff := cmp.Diff(want, got, cmp.AllowUnexported(repeatconfig.RepeatConfig{}, repeatconfig.TokenReplacement{})); diff != "" {
 		t.Errorf("repeatconfig.CreateRepeatConfigs(ONCE) returned unexpected diff (-want +got):\n%s", diff)
@@ -139,7 +137,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: tc.configType}, legacyOptUnset, &fakeFileReader{content: passwd})
+			got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: tc.configType}, &fakeFileReader{content: passwd})
 			if diff := cmp.Diff(tc.want, got, cmp.AllowUnexported(repeatconfig.RepeatConfig{}, repeatconfig.TokenReplacement{})); diff != "" {
 				t.Errorf("repeatconfig.CreateRepeatConfigs(FOR_EACH_USER_WITH_LOGIN) returned unexpected diff (-want +got):\n%s", diff)
 			}
@@ -211,7 +209,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_SYSTEM_USER_WITH_LOGIN}, legacyOptUnset, &fakeFileReader{content: tc.passwd, loginDefsContent: tc.loginDefs})
+			got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_SYSTEM_USER_WITH_LOGIN}, &fakeFileReader{content: tc.passwd, loginDefsContent: tc.loginDefs})
 			if diff := cmp.Diff(tc.want, got, cmp.AllowUnexported(repeatconfig.RepeatConfig{}, repeatconfig.TokenReplacement{})); diff != "" {
 				t.Errorf("repeatconfig.CreateRepeatConfigs(FOR_EACH_USER) returned unexpected diff (-want +got):\n%s", diff)
 			}
@@ -221,7 +219,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 
 func TestCreateRepeatConfigsInvalidPasswd(t *testing.T) {
 	passwd := "invalid"
-	if got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_USER_WITH_LOGIN}, legacyOptUnset, &fakeFileReader{content: passwd}); !configHasError(got) {
+	if got := repeatconfig.CreateRepeatConfigs(context.Background(), &ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_USER_WITH_LOGIN}, &fakeFileReader{content: passwd}); !configHasError(got) {
 		t.Fatalf("repeatconfig.CreateRepeatConfigs(FOR_EACH_USER_WITH_LOGIN) didn't return an error")
 	}
 }
@@ -283,7 +281,6 @@ func TestCreateRepeatConfigForEachOpenIpv4Port(t *testing.T) {
 			got := repeatconfig.CreateRepeatConfigs(
 				context.Background(),
 				&ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_OPEN_IPV4_PORT},
-				legacyOptUnset,
 				&fakeFileReader{content: tc.tcpContent},
 			)
 			sort := func(r1, r2 *repeatconfig.RepeatConfig) bool {
@@ -353,7 +350,6 @@ func TestCreateRepeatConfigForEachOpenIpv6Port(t *testing.T) {
 			got := repeatconfig.CreateRepeatConfigs(
 				context.Background(),
 				&ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_OPEN_IPV6_PORT},
-				legacyOptUnset,
 				&fakeFileReader{content: tc.tcpContent},
 			)
 			sort := func(r1, r2 *repeatconfig.RepeatConfig) bool {
@@ -373,7 +369,6 @@ func TestCreateRepeatConfigForEachOpenPortInvalidTCPContent(t *testing.T) {
 	if got := repeatconfig.CreateRepeatConfigs(
 		context.Background(),
 		&ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_OPEN_IPV4_PORT},
-		legacyOptUnset,
 		&fakeFileReader{content: tcpContent},
 	); !configHasError(got) {
 		t.Fatalf("repeatconfig.CreateRepeatConfigs(FOR_EACH_OPEN_IPV4_PORT) didn't return an error")
@@ -382,7 +377,6 @@ func TestCreateRepeatConfigForEachOpenPortInvalidTCPContent(t *testing.T) {
 	if got := repeatconfig.CreateRepeatConfigs(
 		context.Background(),
 		&ipb.RepeatConfig{Type: ipb.RepeatConfig_FOR_EACH_OPEN_IPV6_PORT},
-		legacyOptUnset,
 		&fakeFileReader{content: tcpContent},
 	); !configHasError(got) {
 		t.Fatalf("repeatconfig.CreateRepeatConfigs(FOR_EACH_OPEN_IPV6_PORT) didn't return an error")
@@ -407,7 +401,7 @@ func TestCreateRepeatConfigsWithOptOut(t *testing.T) {
 			},
 		},
 	}
-	got := repeatconfig.CreateRepeatConfigs(context.Background(), repeatOptions, legacyOptUnset, &fakeFileReader{content: passwd})
+	got := repeatconfig.CreateRepeatConfigs(context.Background(), repeatOptions, &fakeFileReader{content: passwd})
 	want := []*repeatconfig.RepeatConfig{
 		{
 			TokenReplacements: []*repeatconfig.TokenReplacement{
