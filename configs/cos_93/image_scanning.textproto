@@ -315,10 +315,6 @@ benchmark_configs: {
       "}"
   }
 }
-# TODO(b/379711502): Add the removable-nodev check.
-# TODO(b/379711502): Add the removable-nosuid check.
-# TODO(b/379711502): Add the removable-noexec check.
-
 benchmark_configs: {
   id: "automounting-disabled"
   compliance_note: {
@@ -356,7 +352,44 @@ benchmark_configs: {
       "}"
   }
 }
-# TODO(b/379711502): Add the dm-verity-installed check.
+benchmark_configs: {
+  id: "dm-verity-installed-cos-93"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    title: "Ensure dm-verity is enabled"
+    description:
+      "device-mapper-verity (dm-verity) kernel feature provides transparent "
+      "integrity checking of block devices using a cryptographic digest "
+      "provided by the kernel crypto API."
+    rationale:
+      "The Container-Optimized OS root filesystem is always mounted as "
+      "read-only. Additionally, its checksum is computed at build time and "
+      "verified by the kernel on each boot. This mechanism prevents against "
+      "attackers from \"owning\" the machine through permanent local changes."
+    remediation: "An OS image update that has the dm-verity enabled kernel is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/boot\""
+      "      recursive: false"
+      "      filename_regex: \"config-.*\""
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"CONFIG_DM_VERITY=.*\""
+      "        expected_regex: \"CONFIG_DM_VERITY=y\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
 benchmark_configs: {
   id: "bootloader-permissions-cos"
   compliance_note: {
