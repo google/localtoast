@@ -481,6 +481,7 @@ benchmark_configs: {
       "  }"
       "}"
   }
+  # TODO(b/379711502): Add an additional check that doesn't use /proc.
 }
 benchmark_configs: {
   id: "auth-for-single-user-required-cos"
