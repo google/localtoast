@@ -1,3 +1,8 @@
+1.1.2:
+* Add more detailed error logging
+* Set a maximum traversal depth to mitigate loops in cyclic filesystems
+* Expand the RepeatConfig instruction capabilities
+
 1.1.1:
 * Add option to skip symlinks during traversal
 * Add option to skip specific replacements in the RepeatConfig
