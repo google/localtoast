@@ -3778,7 +3778,7 @@ benchmark_configs: {
       "        expected_regex: \".*:.*:$gid:.*\""
       "      }"
       "    }"
-      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "    repeat_config:{type: FOR_EACH_USER}"
       "    non_compliance_msg: \"a GID from /etc/passwd isn't present in /etc/group\""
       "    file_display_command:"
       "      \"#!/bin/bash\\n\""
