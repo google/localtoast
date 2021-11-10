@@ -27,7 +27,7 @@ import (
 	"strings"
 	"time"
 
-	gpb "github.com/google/localtoast/library/proto/compliance_go_proto"
+	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/configchecks"
 
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"

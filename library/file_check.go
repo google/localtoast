@@ -26,7 +26,7 @@ import (
 	"path"
 
 	"google.golang.org/protobuf/proto"
-	gpb "github.com/google/localtoast/library/proto/compliance_go_proto"
+	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/fileset"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"

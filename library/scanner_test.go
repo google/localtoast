@@ -27,7 +27,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "github.com/google/localtoast/library/proto/compliance_go_proto"
+	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
 	"github.com/google/localtoast/library/scanner"

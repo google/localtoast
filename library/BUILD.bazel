@@ -16,8 +16,8 @@ go_library(
         ":fileset",
         ":repeatconfig",
         "//library/proto:api_go_proto",
-        "//library/proto:compliance_go_proto",
         "//library/proto:scan_instructions_go_proto",
+        "@go_googleapis//grafeas/v1:grafeas_go_proto",
         "@org_golang_google_protobuf//encoding/prototext",
         "@org_golang_google_protobuf//proto",
     ],
@@ -60,10 +60,10 @@ go_test(
         ":configchecks",
         ":fileset",
         "//library/proto:api_go_proto",
-        "//library/proto:compliance_go_proto",
         "//library/proto:scan_instructions_go_proto",
         "//library/testing:testconfigcreator",
         "@com_github_google_go_cmp//cmp:go_default_library",
+        "@go_googleapis//grafeas/v1:grafeas_go_proto",
         "@org_golang_google_protobuf//testing/protocmp",
     ],
 )
@@ -104,7 +104,7 @@ go_library(
     deps = [
         ":configchecks",
         "//library/proto:api_go_proto",
-        "//library/proto:compliance_go_proto",
+        "@go_googleapis//grafeas/v1:grafeas_go_proto",
         "@org_golang_google_protobuf//types/known/timestamppb",
     ],
 )
@@ -116,11 +116,11 @@ go_test(
     deps = [
         ":scanner",
         "//library/proto:api_go_proto",
-        "//library/proto:compliance_go_proto",
         "//library/proto:scan_instructions_go_proto",
         "//library/testing:testconfigcreator",
         "@com_github_google_go_cmp//cmp:go_default_library",
         "@com_github_google_go_cmp//cmp/cmpopts:go_default_library",
+        "@go_googleapis//grafeas/v1:grafeas_go_proto",
         "@org_golang_google_protobuf//proto",
         "@org_golang_google_protobuf//testing/protocmp",
     ],

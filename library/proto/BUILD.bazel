@@ -7,9 +7,9 @@ proto_library(
     name = "api_proto",
     srcs = ["api.proto"],
     deps = [
-        "//library/proto:compliance_proto",
         "@com_google_protobuf//:duration_proto",
         "@com_google_protobuf//:timestamp_proto",
+        "@go_googleapis//grafeas/v1:grafeas_proto",
     ],
 )
 
@@ -17,7 +17,7 @@ go_proto_library(
     name = "api_go_proto",
     importpath = "github.com/google/localtoast/library/proto/api_go_proto",
     protos = [":api_proto"],
-    deps = ["//library/proto:compliance_go_proto"],
+    deps = ["@go_googleapis//grafeas/v1:grafeas_go_proto"],
 )
 
 proto_library(
@@ -29,15 +29,4 @@ go_proto_library(
     name = "scan_instructions_go_proto",
     importpath = "github.com/google/localtoast/library/proto/scan_instructions_go_proto",
     protos = [":scan_instructions_proto"],
-)
-
-proto_library(
-    name = "compliance_proto",
-    srcs = ["compliance.proto"],
-)
-
-go_proto_library(
-    name = "compliance_go_proto",
-    importpath = "github.com/google/localtoast/library/proto/compliance_go_proto",
-    protos = [":compliance_proto"],
 )

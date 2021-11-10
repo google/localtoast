@@ -24,7 +24,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "github.com/google/localtoast/library/proto/compliance_go_proto"
+	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/configs/genreducedconfigs"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 )

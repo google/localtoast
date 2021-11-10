@@ -61,20 +61,19 @@ go_repository(
     tag = "v0.0.8",
 )
 
-# TODO(b/199497413): Uncomment once Grafeas is imported from googleapis/grafeas.
-# http_archive(
-#     name = "com_google_googleapis",
-#     sha256 = "b7baca3d060579dd2b10cf1865e62942437198f89dc8efb72f36195e110cc800",
-#     strip_prefix = "googleapis-060218c3cc10a8669ca3d410a17e74a89c462c70",
-#     urls = ["https://github.com/googleapis/googleapis/archive/060218c3cc10a8669ca3d410a17e74a89c462c70.tar.gz"],
-# )
+http_archive(
+    name = "go_googleapis",
+    sha256 = "a68c845bca01381db6fcc2cf2873636f7b4ec73118ad741b0aa1579c5f1379ff",
+    strip_prefix = "googleapis-381ab78414f71d6f9476c3044c212e13d762e822",
+    urls = ["https://github.com/googleapis/googleapis/archive/381ab78414f71d6f9476c3044c212e13d762e822.tar.gz"],
+)
 
-# load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
-# switched_rules_by_language(
-#     name = "com_google_googleapis_imports",
-#     go = True,
-#     grpc = True,
-# )
+load("@go_googleapis//:repository_rules.bzl", "switched_rules_by_language")
+switched_rules_by_language(
+    name = "com_google_googleapis_imports",
+    go = True,
+    grpc = True,
+)
 
 go_repository(
     name = "org_golang_google_grpc",
