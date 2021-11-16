@@ -28,6 +28,9 @@ import (
 	sipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
 )
 
+var configFileNames = stringset.New(
+	"vm_image_scanning.textproto", "container_image_scanning.textproto", "instance_scanning.textproto")
+
 // Validate behavior across all the configs.
 func TestRequiredAttributes(t *testing.T) {
 	fullNoteIDmap := make(map[string]*gpb.ComplianceNote)
@@ -105,15 +108,14 @@ func TestRequiredAttributes(t *testing.T) {
 func TestFilesHaveSupportedName(t *testing.T) {
 	for filePath := range scanConfigs {
 		fileName := filepath.Base(filePath)
-		if fileName != "image_scanning.textproto" && fileName != "instance_scanning.textproto" && fileName != "image_scanning_qa_extra.textproto" {
+		if !configFileNames.Contains(fileName) {
 			t.Errorf("checking file names: got %q, want image_scanning.textproto or instance_scanning.textproto", fileName)
 		}
 	}
 }
 
 func TestScanInstructionsSameForFileSets(t *testing.T) {
-	fileNames := [2]string{"image_scanning.textproto", "instance_scanning.textproto"}
-	for _, fileName := range fileNames {
+	for _, fileName := range configFileNames.Elements() {
 		scanInstructionForNoteID := make(map[string]*sipb.BenchmarkScanInstruction)
 		for filePath, configBytes := range scanConfigs {
 			if filepath.Base(filePath) != fileName {
