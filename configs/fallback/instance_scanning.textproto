@@ -7891,8 +7891,11 @@ benchmark_configs: {
     remediation:
       "Ensure that no rogue SUID programs have been introduced into the "
       "system. Review the files returned by the display_command "
-      "confirm the integrity of these binaries, then add them to the "
-      "CIS scanner's exclusion list."
+      "confirm the integrity of these binaries. If they have a valid reason to "
+      "be SUID, add them to the CIS scanner's exclusion list by editing the "
+      "scanner invocation script and adding the appropriate "
+      "`--filename-opt-out-regexes` argument. If a binary doesn't have a "
+      "valid reason to be SUID, remove the SUID flag from it."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -7937,8 +7940,11 @@ benchmark_configs: {
     remediation:
       "Ensure that no rogue SGID programs have been introduced into the "
       "system. Review the files returned by the display_command "
-      "confirm the integrity of these binaries, then add them to the "
-      "CIS scanner's exclusion list."
+      "confirm the integrity of these binaries. If they have a valid reason to "
+      "be SGID, add them to the CIS scanner's exclusion list by editing the "
+      "scanner invocation script and adding the appropriate "
+      "`--filename-opt-out-regexes` argument. If a binary doesn't have a "
+      "valid reason to be SGID, remove the SGID flag from it."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
