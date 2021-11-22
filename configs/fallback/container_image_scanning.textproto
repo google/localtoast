@@ -3439,6 +3439,7 @@ benchmark_configs: {
       "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    permission:{clear_bits: 0027}"
       "    repeat_config:{"
       "      type: FOR_EACH_USER_WITH_LOGIN"
       "      opt_out: {wildcard: \"$user\", value: \"halt\"}"
