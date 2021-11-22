@@ -35,8 +35,6 @@ benchmark_configs: {
       "      opt_out_path_regexes: \"/dev\""
       "    }}"
       "    permission:{set_bits: 01000 clear_bits: 0002 bits_should_match: EITHER_SET_OR_CLEAR}"
-      "    non_compliance_msg: \"there are non-sticky world-writable directories on the filesystem\""
-      "    file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \\\\( -perm -0002 -a ! -perm -1000 \\\\) 2>/dev/null\""
       "  }"
       "}"
   }
