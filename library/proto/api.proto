@@ -92,3 +92,13 @@ message PosixPermissions {
   int32 gid = 4;
   string group = 5;  // "" if unowned
 }
+
+// Per-OS benchmark configs are stored in .textproto files using this format.
+// TODO(b/200859368): Use this proto in the configs/ dir instead of ScanConfig.
+message PerOsBenchmarkConfig {
+  // The OS and config versions the benchmarks applies to.
+  grafeas.v1.ComplianceVersion version = 1;
+  // The benchmark IDs that apply to this OS. The referenced benchmarks are
+  // defined in separate benchmark definition files.
+  repeated string benchmark_id = 2;
+}
