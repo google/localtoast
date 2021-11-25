@@ -3292,7 +3292,7 @@ benchmark_configs: {
       "      }"
       "    }"
       "    existence:{should_exist: false}"
-      "    file_display_command: \"find /etc/systemd/system -name 'autofs.service'; find /etc/systemd/system -name 'rpcbind.service'\""
+      "    file_display_command: \"find /etc/systemd/system -name 'nfs.service'; find /etc/systemd/system -name 'rpcbind.service'\""
       "  }"
       "}"
   }
