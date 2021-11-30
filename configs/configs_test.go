@@ -23,7 +23,8 @@ import (
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/testing/protocmp"
 	"bitbucket.org/creachadair/stringset"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	spb "google.golang.org/genproto/googleapis/grafeas/v1"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	sipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
 )
@@ -33,7 +34,7 @@ var configFileNames = stringset.New(
 
 // Validate behavior across all the configs.
 func TestRequiredAttributes(t *testing.T) {
-	fullNoteIDmap := make(map[string]*gpb.ComplianceNote)
+	fullNoteIDmap := make(map[string]*cpb.ComplianceNote)
 	cpeVersionMap := make(map[string]*stringset.Set)
 	for filePath, configBytes := range scanConfigs {
 		config := &apb.ScanConfig{}
@@ -69,7 +70,7 @@ func TestRequiredAttributes(t *testing.T) {
 			if note.GetCisBenchmark().GetProfileLevel() < 1 || note.GetCisBenchmark().GetProfileLevel() > 3 {
 				t.Errorf("%s GetCisBenchmark().GetProfilelevel(): got %d, want 1 <= level <= 3", noteID, note.GetCisBenchmark().GetProfileLevel())
 			}
-			if note.GetCisBenchmark().GetSeverity() == gpb.Severity_SEVERITY_UNSPECIFIED {
+			if note.GetCisBenchmark().GetSeverity() == spb.Severity_SEVERITY_UNSPECIFIED {
 				t.Errorf("%s GetCisBenchmark().GetSeverity(): got %s, want any specified severity", noteID, note.GetCisBenchmark().GetSeverity())
 			}
 			scanInstructions := &sipb.BenchmarkScanInstruction{}
@@ -82,7 +83,7 @@ func TestRequiredAttributes(t *testing.T) {
 			// However, image notes have shorter scan instructions because we can't scan for everything that
 			// instance scanning does.
 			if val, ok := fullNoteIDmap[noteID]; ok {
-				if diff := cmp.Diff(val, note, protocmp.Transform(), protocmp.IgnoreFields(&gpb.ComplianceNote{}, "version", "scan_instructions")); diff != "" {
+				if diff := cmp.Diff(val, note, protocmp.Transform(), protocmp.IgnoreFields(&cpb.ComplianceNote{}, "version", "scan_instructions")); diff != "" {
 					t.Errorf("%s checking note uniqueness: got %v, wanted no diff", noteID, diff)
 				}
 			} else {

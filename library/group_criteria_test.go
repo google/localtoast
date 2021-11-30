@@ -21,7 +21,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/configchecks"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
@@ -34,7 +34,7 @@ func TestGroupCriteria(t *testing.T) {
 		fileContent               string
 		check                     *ipb.ContentEntryCheck
 		expectedError             bool
-		expectedNonCompliantFiles []*gpb.NonCompliantFile
+		expectedNonCompliantFiles []*cpb.NonCompliantFile
 	}{
 		{
 			description: "LESS_THAN does not match if group cannot be parsed",
@@ -54,8 +54,8 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "VALUE=abc", expected "(?s)^VALUE=(\\w+)$ with group criteria {[group#1 < 300]}"`,
 				},
@@ -80,7 +80,7 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError:             false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{},
 		},
 		{
 			description: "LESS_THAN does not match const",
@@ -101,12 +101,12 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "VALUE=100", expected "(?s)^VALUE=(\\d+)$ with group criteria {[group#1 < 100]}"`,
 				},
-				&gpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "VALUE=200", expected "(?s)^VALUE=(\\d+)$ with group criteria {[group#1 < 100]}"`,
 				},
@@ -130,7 +130,7 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError:             false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{},
 		},
 		{
 			description: "LESS_THAN does not match on Today()",
@@ -150,8 +150,8 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: fmt.Sprintf(`File contains entry "DAYS_SINCE_EPOCH=%d", expected "(?s)^DAYS_SINCE_EPOCH=(\\d+)$ with group criteria {[group#1 < today]}"`, today),
 				},
@@ -175,8 +175,8 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: fmt.Sprintf(`File contains entry "DAYS_SINCE_EPOCH=%d", expected "(?s)^DAYS_SINCE_EPOCH=(\\d+)$ with group criteria {[group#1 < today]}"`, today+1),
 				},
@@ -200,8 +200,8 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "VALUE=abc", expected "(?s)^VALUE=(\\w+)$ with group criteria {[group#1 > 0]}"`,
 				},
@@ -226,7 +226,7 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError:             false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{},
 		},
 		{
 			description: "GREATER_THAN does not match const",
@@ -247,12 +247,12 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "VALUE=100", expected "(?s)^VALUE=(\\d+)$ with group criteria {[group#1 > 200]}"`,
 				},
-				&gpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "VALUE=200", expected "(?s)^VALUE=(\\d+)$ with group criteria {[group#1 > 200]}"`,
 				},
@@ -276,7 +276,7 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError:             false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{},
 		},
 		{
 			description: "GREATER_THAN does not match on Today()",
@@ -296,8 +296,8 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: fmt.Sprintf(`File contains entry "DAYS_SINCE_EPOCH=%d", expected "(?s)^DAYS_SINCE_EPOCH=(\\d+)$ with group criteria {[group#1 > today]}"`, today),
 				},
@@ -321,8 +321,8 @@ func TestGroupCriteria(t *testing.T) {
 				}},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "DAYS_SINCE_EPOCH=0", expected "(?s)^DAYS_SINCE_EPOCH=(\\d+)$ with group criteria {[group#1 > today]}"`,
 				},
@@ -367,8 +367,8 @@ func TestGroupCriteria(t *testing.T) {
 				},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "UMASK=888", expected "(?s)^UMASK=(.*)$ with group criteria {[group#1 not less restrictive than 23]}"`,
 				},
@@ -394,8 +394,8 @@ func TestGroupCriteria(t *testing.T) {
 				},
 			},
 			expectedError: false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "UMASK=000", expected "(?s)^UMASK=(.*)$ with group criteria {[group#1 not less restrictive than 23]}"`,
 				},
@@ -421,7 +421,7 @@ func TestGroupCriteria(t *testing.T) {
 				},
 			},
 			expectedError:             false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{},
 		},
 		{
 			description: "NO_LESS_RESTRICTIVE_UMASK matches",
@@ -443,7 +443,7 @@ func TestGroupCriteria(t *testing.T) {
 				},
 			},
 			expectedError:             false,
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{},
 		},
 		{
 			description: "UNIQUE does not match",
@@ -463,8 +463,8 @@ func TestGroupCriteria(t *testing.T) {
 					},
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: `File contains entry "USER=sergey", expected "(?s)^USER=(.*)$ with group criteria {[group#1 is unique]}"`,
 				},
@@ -568,7 +568,7 @@ func TestGroupCriteria(t *testing.T) {
 
 			want := &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonCompliantFiles: tc.expectedNonCompliantFiles,
 				},
 			}

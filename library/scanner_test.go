@@ -27,7 +27,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
 	"github.com/google/localtoast/library/scanner"
@@ -242,13 +242,13 @@ func TestNonCompliantFileCheckResultsAreAggregated(t *testing.T) {
 			expectedNonCompliantBenchmarks: []*apb.ComplianceResult{
 				&apb.ComplianceResult{
 					Id: "id",
-					ComplianceOccurrence: &gpb.ComplianceOccurrence{
-						NonCompliantFiles: []*gpb.NonCompliantFile{
-							&gpb.NonCompliantFile{
+					ComplianceOccurrence: &cpb.ComplianceOccurrence{
+						NonCompliantFiles: []*cpb.NonCompliantFile{
+							&cpb.NonCompliantFile{
 								Path:   testFilePath1,
 								Reason: fmt.Sprintf("Got content %q, expected \"Different content 1\"", testFileContent1),
 							},
-							&gpb.NonCompliantFile{
+							&cpb.NonCompliantFile{
 								Path:   testFilePath2,
 								Reason: fmt.Sprintf("Got content %q, expected \"Different content 2\"", testFileContent2),
 							},
@@ -276,8 +276,8 @@ func TestNonCompliantFileCheckResultsAreAggregated(t *testing.T) {
 			expectedNonCompliantBenchmarks: []*apb.ComplianceResult{
 				&apb.ComplianceResult{
 					Id: "id",
-					ComplianceOccurrence: &gpb.ComplianceOccurrence{
-						NonCompliantFiles:   []*gpb.NonCompliantFile{},
+					ComplianceOccurrence: &cpb.ComplianceOccurrence{
+						NonCompliantFiles:   []*cpb.NonCompliantFile{},
 						NonComplianceReason: fmt.Sprintf("Expected no results for query %q, but got 1 rows.\nExpected results for query %q, but got none.", testQueryOneRow, testQueryNoRows),
 					},
 				},
@@ -463,7 +463,7 @@ func TestInstructionsWithUnknownField(t *testing.T) {
 		BenchmarkConfigs: []*apb.BenchmarkConfig{
 			&apb.BenchmarkConfig{
 				Id: "test",
-				ComplianceNote: &gpb.ComplianceNote{
+				ComplianceNote: &cpb.ComplianceNote{
 					ScanInstructions: []byte(instructions),
 				},
 			},
@@ -494,7 +494,7 @@ func TestInstructionsWithBinarySerialization(t *testing.T) {
 		BenchmarkConfigs: []*apb.BenchmarkConfig{
 			&apb.BenchmarkConfig{
 				Id: "test",
-				ComplianceNote: &gpb.ComplianceNote{
+				ComplianceNote: &cpb.ComplianceNote{
 					ScanInstructions: serInstructions,
 				},
 			},
@@ -553,8 +553,8 @@ func TestCheckAlternativeAggregation(t *testing.T) {
 			},
 			expectedCompliantBenchmarks: []*apb.ComplianceResult{&apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{},
 				},
 			}},
 			expectedNonCompliantBenchmarks: []*apb.ComplianceResult{},
@@ -574,8 +574,8 @@ func TestCheckAlternativeAggregation(t *testing.T) {
 			},
 			expectedCompliantBenchmarks: []*apb.ComplianceResult{&apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{},
 				},
 			}},
 			expectedNonCompliantBenchmarks: []*apb.ComplianceResult{},
@@ -596,13 +596,13 @@ func TestCheckAlternativeAggregation(t *testing.T) {
 			expectedCompliantBenchmarks: []*apb.ComplianceResult{},
 			expectedNonCompliantBenchmarks: []*apb.ComplianceResult{&apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath1,
 							Reason: fmt.Sprintf("Got content %q, expected \"Different content\"", testFileContent1),
 						},
-						&gpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath2,
 							Reason: fmt.Sprintf("Got content %q, expected \"Different content\"", testFileContent2),
 						},
@@ -690,8 +690,8 @@ func TestDuplicateFindingsRemoved(t *testing.T) {
 	// Expect only a single non-compliance finding.
 	want := []*apb.ComplianceResult{&apb.ComplianceResult{
 		Id: "id",
-		ComplianceOccurrence: &gpb.ComplianceOccurrence{
-			NonCompliantFiles: []*gpb.NonCompliantFile{&gpb.NonCompliantFile{
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{
+			NonCompliantFiles: []*cpb.NonCompliantFile{&cpb.NonCompliantFile{
 				DisplayCommand: displayCmd,
 				Reason:         nonComplianceMsg,
 			}},
@@ -712,9 +712,9 @@ func benchmarkConfigsWithVersions(t *testing.T, versions [][]string) []*apb.Benc
 	})
 	benchmarkConfigs := make([]*apb.BenchmarkConfig, 0, len(versions))
 	for i, v := range versions {
-		versions := make([]*gpb.ComplianceVersion, 0, len(v))
+		versions := make([]*cpb.ComplianceVersion, 0, len(v))
 		for _, vv := range v {
-			versions = append(versions, &gpb.ComplianceVersion{Version: vv})
+			versions = append(versions, &cpb.ComplianceVersion{Version: vv})
 		}
 		bc := testconfigcreator.NewBenchmarkConfig(t, fmt.Sprintf("id%d", i+1), instruction)
 		bc.GetComplianceNote().Version = versions
@@ -796,14 +796,14 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 	testCases := []struct {
 		desc                     string
 		optOutConfig             *apb.OptOutConfig
-		expectedNonCompliantFile *gpb.NonCompliantFile
+		expectedNonCompliantFile *cpb.NonCompliantFile
 	}{
 		{
 			desc: "non-compliance reason not displayed",
 			optOutConfig: &apb.OptOutConfig{
 				ContentOptoutRegexes: []string{regexMatchingTestFiles},
 			},
-			expectedNonCompliantFile: &gpb.NonCompliantFile{
+			expectedNonCompliantFile: &cpb.NonCompliantFile{
 				Path:   testFilePath1,
 				Reason: "[redacted due to opt-out config]",
 			},
@@ -813,7 +813,7 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 			optOutConfig: &apb.OptOutConfig{
 				FilenameOptoutRegexes: []string{regexMatchingTestFiles},
 			},
-			expectedNonCompliantFile: &gpb.NonCompliantFile{
+			expectedNonCompliantFile: &cpb.NonCompliantFile{
 				Path:   "[redacted due to opt-out config]",
 				Reason: fmt.Sprintf("Got content %q, expected %q", testFileContent1, wrongContent),
 			},
@@ -847,8 +847,8 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 
 			want := []*apb.ComplianceResult{&apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{tc.expectedNonCompliantFile},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{tc.expectedNonCompliantFile},
 				},
 			}}
 			if diff := cmp.Diff(want, result.GetNonCompliantBenchmarks(), protocmp.Transform()); diff != "" {

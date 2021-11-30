@@ -21,7 +21,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/configchecks"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
@@ -33,7 +33,7 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 		description               string
 		fileContent               string
 		check                     *ipb.ContentEntryCheck
-		expectedNonCompliantFiles []*gpb.NonCompliantFile
+		expectedNonCompliantFiles []*cpb.NonCompliantFile
 	}{
 		{
 			description: "single criterion matches",
@@ -60,8 +60,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 					ExpectedRegex: "VALUE2=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: "File contains entry \"VALUE2=false\", expected \"(?s)^VALUE2=true$\"",
 				},
@@ -78,8 +78,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 					ExpectedRegex: "VALUE1=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: "File contains entry \"VALUE1=false\", expected \"(?s)^VALUE1=true$\"",
 				},
@@ -95,8 +95,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 					ExpectedRegex: "VALUE2=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   fmt.Sprintf("single_file:{path:%q}", testFilePath),
 					Reason: "No entry matching \"(?s)^VALUE2=.*$\" found among files",
 				},
@@ -134,8 +134,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 					ExpectedRegex: "VALUE1=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: "Criteria expected to match in order but file entry \"VALUE1=true\", matched \"(?s)^VALUE1=true$\" before \"(?s)^VALUE3=true$\" was matched",
 				},
@@ -156,8 +156,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 					ExpectedRegex: "VALUE2=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: "Criteria expected to match in order but file entry \"VALUE1=true\", matched \"(?s)^VALUE1=true$\" after \"(?s)^VALUE2=true$\" was matched",
 				},
@@ -187,8 +187,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 					ExpectedRegex: "VALUE1=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   testFilePath,
 					Reason: "File contains entry \"VALUE1=true\", didn't expect any entries matching \"(?s)^VALUE1=true$\"",
 				},
@@ -270,7 +270,7 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 
 			want := &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonCompliantFiles: tc.expectedNonCompliantFiles,
 				},
 			}
@@ -285,7 +285,7 @@ func TestFileContentEntryFileDoesntExist(t *testing.T) {
 	testCases := []struct {
 		name                      string
 		check                     *ipb.ContentEntryCheck
-		expectedNonCompliantFiles []*gpb.NonCompliantFile
+		expectedNonCompliantFiles []*cpb.NonCompliantFile
 	}{
 		{
 			name: "all_match_criterion_is_non_compliant",
@@ -296,12 +296,12 @@ func TestFileContentEntryFileDoesntExist(t *testing.T) {
 					ExpectedRegex: "VALUE1=true",
 				}},
 			},
-			expectedNonCompliantFiles: []*gpb.NonCompliantFile{
-				&gpb.NonCompliantFile{
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   nonExistentFilePath,
 					Reason: "File doesn't exist",
 				},
-				&gpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
 					Path:   fmt.Sprintf("single_file:{path:%q}", nonExistentFilePath),
 					Reason: "No entry matching \"(?s)^VALUE1=.*$\" found among files",
 				},
@@ -353,7 +353,7 @@ func TestFileContentEntryFileDoesntExist(t *testing.T) {
 
 			want := &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonCompliantFiles: tc.expectedNonCompliantFiles,
 				},
 			}
@@ -407,7 +407,7 @@ func TestFileContentEntryCheckOnDirectory(t *testing.T) {
 
 	expected := &apb.ComplianceResult{
 		Id: "id",
-		ComplianceOccurrence: &gpb.ComplianceOccurrence{
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{
 			// The check passes if one of the two files in the dir had a matching entry.
 			NonCompliantFiles: nil,
 		},

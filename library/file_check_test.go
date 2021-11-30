@@ -26,7 +26,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/configchecks"
 	"github.com/google/localtoast/library/fileset"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
@@ -330,9 +330,9 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "custom reason",
 						},
@@ -349,9 +349,9 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							DisplayCommand: "display command",
 							Reason:         "custom reason",
 						},
@@ -367,7 +367,7 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 	}
@@ -454,7 +454,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -464,7 +464,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -474,9 +474,9 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   fileset.FileSetToString(testconfigcreator.SingleFileWithPath(nonExistentFilePath)),
 							Reason: "File doesn't exist but it should",
 						},
@@ -497,9 +497,9 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path: fileset.FileSetToString(&ipb.FileSet{
 								FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{
 									DirPath:       testDirPath,
@@ -520,9 +520,9 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "File exists but it shouldn't",
 						},
@@ -567,7 +567,7 @@ func TestFileExistenceWithWrappedError(t *testing.T) {
 	openFileFunc := func(ctx context.Context, filePath string) (io.ReadCloser, error) {
 		return nil, fmt.Errorf("Error: %w", os.ErrNotExist)
 	}
-	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &gpb.ComplianceOccurrence{}}
+	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
 
 	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, newFakeAPI(withOpenFileFunc(openFileFunc)))
 	resultMap, err := check.Exec()
@@ -604,7 +604,7 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -615,9 +615,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   nonExistentFilePath,
 							Reason: "File doesn't exist",
 						},
@@ -631,9 +631,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			permissionCheck: &ipb.PermissionCheck{SetBits: 0643},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "File permission is 0644, expected the following bits to be set: 0643",
 						},
@@ -647,9 +647,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			permissionCheck: &ipb.PermissionCheck{ClearBits: 0135},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "File permission is 0644, expected the following bits to be clear: 0135",
 						},
@@ -667,7 +667,7 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -680,9 +680,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "File permission is 0644, expected the following bits to be set: 0643 and the following bits to be clear: 0133",
 						},
@@ -700,9 +700,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "File permission is 0644, expected the following bits to be set: 0643 or the following bits to be clear: 0135",
 						},
@@ -720,9 +720,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "File permission is 0644, expected the following bits to be set: 0643 and the following bits to be clear: 0135",
 						},
@@ -738,9 +738,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "Owner is root, expected it to be not-root",
 						},
@@ -756,9 +756,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "Owner is root, expected it to be a different user",
 						},
@@ -774,9 +774,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "Group is root, expected it to be not-root",
 						},
@@ -792,9 +792,9 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: "Group is root, expected it to be a different group",
 						},
@@ -841,7 +841,7 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 			}},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -852,9 +852,9 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 			}},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: fmt.Sprintf("Got content %q, expected \"Different content\"", testFileContent),
 						},
@@ -870,9 +870,9 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 			}},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   nonExistentFilePath,
 							Reason: "File doesn't exist",
 						},
@@ -892,9 +892,9 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 			}},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   nonExistentFilePath,
 							Reason: "File doesn't exist",
 						},
@@ -920,13 +920,13 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
-					NonCompliantFiles: []*gpb.NonCompliantFile{
-						&gpb.NonCompliantFile{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: fmt.Sprintf("Got content %q, expected \"Different content 1\"", testFileContent),
 						},
-						&gpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
 							Path:   testFilePath,
 							Reason: fmt.Sprintf("Got content %q, expected \"Different content 2\"", testFileContent),
 						},
@@ -1015,9 +1015,9 @@ func TestGzippedFileUnzipped(t *testing.T) {
 	expectedResult :=
 		&apb.ComplianceResult{
 			Id: "id",
-			ComplianceOccurrence: &gpb.ComplianceOccurrence{
-				NonCompliantFiles: []*gpb.NonCompliantFile{
-					&gpb.NonCompliantFile{
+			ComplianceOccurrence: &cpb.ComplianceOccurrence{
+				NonCompliantFiles: []*cpb.NonCompliantFile{
+					&cpb.NonCompliantFile{
 						Path:   filePath,
 						Reason: fmt.Sprintf("Got content %q, expected \"Different content\"", fileContent),
 					},
@@ -1055,9 +1055,9 @@ func TestRepeatConfigApplied(t *testing.T) {
 	expectedResult1 :=
 		&apb.ComplianceResult{
 			Id: "id",
-			ComplianceOccurrence: &gpb.ComplianceOccurrence{
-				NonCompliantFiles: []*gpb.NonCompliantFile{
-					&gpb.NonCompliantFile{
+			ComplianceOccurrence: &cpb.ComplianceOccurrence{
+				NonCompliantFiles: []*cpb.NonCompliantFile{
+					&cpb.NonCompliantFile{
 						Path:   "/home/user1/file.txt",
 						Reason: "Owner is root, expected it to be user1",
 					},
@@ -1067,9 +1067,9 @@ func TestRepeatConfigApplied(t *testing.T) {
 	expectedResult2 :=
 		&apb.ComplianceResult{
 			Id: "id",
-			ComplianceOccurrence: &gpb.ComplianceOccurrence{
-				NonCompliantFiles: []*gpb.NonCompliantFile{
-					&gpb.NonCompliantFile{
+			ComplianceOccurrence: &cpb.ComplianceOccurrence{
+				NonCompliantFiles: []*cpb.NonCompliantFile{
+					&cpb.NonCompliantFile{
 						Path:   "/home/user2/file.txt",
 						Reason: "Owner is root, expected it to be user2",
 					},
@@ -1133,7 +1133,7 @@ func TestRepeatConfigCreationFails(t *testing.T) {
 	}}
 	want := &apb.ComplianceResult{
 		Id: "id",
-		ComplianceOccurrence: &gpb.ComplianceOccurrence{
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{
 			NonComplianceReason: "error creating RepeatConfig: can't parse line 1 in /etc/passwd: expected at least 7 tokens, got 1",
 		},
 	}

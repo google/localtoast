@@ -19,7 +19,7 @@ import (
 	"errors"
 	"fmt"
 
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
 )
@@ -58,7 +58,7 @@ func (c *MySQLCheck) Exec() (ComplianceMap, error) {
 	}
 	r := &apb.ComplianceResult{
 		Id: c.benchmarkID,
-		ComplianceOccurrence: &gpb.ComplianceOccurrence{
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{
 			NonComplianceReason: reason,
 		},
 	}

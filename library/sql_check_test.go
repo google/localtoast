@@ -22,7 +22,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/configchecks"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
@@ -126,7 +126,7 @@ func TestMySQLCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -138,7 +138,7 @@ func TestMySQLCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id:                   "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{},
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 			},
 		},
 		{
@@ -150,7 +150,7 @@ func TestMySQLCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonComplianceReason: fmt.Sprintf("Expected results for query %q, but got none.", fakeQueryNoRows),
 				},
 			},
@@ -164,7 +164,7 @@ func TestMySQLCheckComplianceResults(t *testing.T) {
 			},
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonComplianceReason: fmt.Sprintf("Expected no results for query %q, but got 1 rows.", fakeQueryOneRow),
 				},
 			},
@@ -225,7 +225,7 @@ func TestMySQLCustomNonComplianceMessage(t *testing.T) {
 
 	if diff := cmp.Diff(&apb.ComplianceResult{
 		Id: "id",
-		ComplianceOccurrence: &gpb.ComplianceOccurrence{
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{
 			NonComplianceReason: reason,
 		},
 	}, result, protocmp.Transform()); diff != "" {

@@ -27,7 +27,7 @@ import (
 	"strings"
 	"time"
 
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/configchecks"
 
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -239,9 +239,9 @@ func deduplicateNonCompliantFiles(compliances []*apb.ComplianceResult) {
 				reason:         f.Reason,
 			}] = true
 		}
-		occ.NonCompliantFiles = make([]*gpb.NonCompliantFile, 0, len(fileMap))
+		occ.NonCompliantFiles = make([]*cpb.NonCompliantFile, 0, len(fileMap))
 		for key, _ := range fileMap {
-			f := &gpb.NonCompliantFile{
+			f := &cpb.NonCompliantFile{
 				Path:           key.path,
 				Reason:         key.reason,
 				DisplayCommand: key.displayCommand,

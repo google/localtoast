@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"google.golang.org/protobuf/encoding/prototext"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
 )
@@ -40,7 +40,7 @@ func NewBenchmarkConfig(t *testing.T, id string, scanInstruction *ipb.BenchmarkS
 	}
 	return &apb.BenchmarkConfig{
 		Id:             id,
-		ComplianceNote: &gpb.ComplianceNote{ScanInstructions: serializedInstruction},
+		ComplianceNote: &cpb.ComplianceNote{ScanInstructions: serializedInstruction},
 	}
 }
 

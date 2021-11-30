@@ -24,7 +24,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/testing/protocmp"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/configs/genreducedconfigs"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 )
@@ -58,7 +58,7 @@ func TestDescriptionsRemoved(t *testing.T) {
 		BenchmarkConfigs: []*apb.BenchmarkConfig{
 			&apb.BenchmarkConfig{
 				Id: "id1",
-				ComplianceNote: &gpb.ComplianceNote{
+				ComplianceNote: &cpb.ComplianceNote{
 					Title:       "Title1",
 					Description: "Description1",
 					Rationale:   "Rationale1",
@@ -67,7 +67,7 @@ func TestDescriptionsRemoved(t *testing.T) {
 			},
 			&apb.BenchmarkConfig{
 				Id: "id2",
-				ComplianceNote: &gpb.ComplianceNote{
+				ComplianceNote: &cpb.ComplianceNote{
 					Title:       "Title2",
 					Description: "Description2",
 					Rationale:   "Rationale2",
@@ -80,11 +80,11 @@ func TestDescriptionsRemoved(t *testing.T) {
 		BenchmarkConfigs: []*apb.BenchmarkConfig{
 			&apb.BenchmarkConfig{
 				Id:             "id1",
-				ComplianceNote: &gpb.ComplianceNote{},
+				ComplianceNote: &cpb.ComplianceNote{},
 			},
 			&apb.BenchmarkConfig{
 				Id:             "id2",
-				ComplianceNote: &gpb.ComplianceNote{},
+				ComplianceNote: &cpb.ComplianceNote{},
 			}},
 	}
 

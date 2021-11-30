@@ -26,7 +26,7 @@ import (
 	"path"
 
 	"google.golang.org/protobuf/proto"
-	gpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/library/fileset"
 	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
@@ -76,12 +76,12 @@ type fileCheck struct {
 	alternativeID     int
 	checkInstruction  *ipb.FileCheck
 	filesToCheck      *ipb.FileSet
-	nonCompliantFiles []*gpb.NonCompliantFile
+	nonCompliantFiles []*cpb.NonCompliantFile
 	err               error
 }
 
 func (fc *fileCheck) addNonCompliantFile(path string, reason string) {
-	fc.nonCompliantFiles = append(fc.nonCompliantFiles, &gpb.NonCompliantFile{Path: path, Reason: reason})
+	fc.nonCompliantFiles = append(fc.nonCompliantFiles, &cpb.NonCompliantFile{Path: path, Reason: reason})
 }
 
 // File checks are placed into the same batch if they have these properties in common.
@@ -485,7 +485,7 @@ func (e *erroredFileCheckBatch) exec() (ComplianceMap, error) {
 	for _, fc := range e.fileChecks {
 		result[fc.alternativeID] = &apb.ComplianceResult{
 			Id: fc.benchmarkID,
-			ComplianceOccurrence: &gpb.ComplianceOccurrence{
+			ComplianceOccurrence: &cpb.ComplianceOccurrence{
 				NonComplianceReason: e.err.Error(),
 			},
 		}
@@ -511,7 +511,7 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 					// TODO(b/181930060): Check for this during config reading, before the scans are run.
 					return nil, fmt.Errorf("check for benchmark %s has a file display command set but no non-compliance message", fc.benchmarkID)
 				}
-				nonCompliantFiles = []*gpb.NonCompliantFile{&gpb.NonCompliantFile{
+				nonCompliantFiles = []*cpb.NonCompliantFile{&cpb.NonCompliantFile{
 					DisplayCommand: fc.checkInstruction.GetFileDisplayCommand(),
 					Reason:         fc.checkInstruction.GetNonComplianceMsg(),
 				}}
@@ -528,7 +528,7 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 		} else {
 			result[fc.alternativeID] = &apb.ComplianceResult{
 				Id: fc.benchmarkID,
-				ComplianceOccurrence: &gpb.ComplianceOccurrence{
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonCompliantFiles: nonCompliantFiles,
 				},
 			}
