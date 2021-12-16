@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -12,23 +12,10 @@ go_binary(
         "-w",
     ],
     deps = [
-        ":localfilereader",
-        ":scannercommon",
         "//library/proto:api_go_proto",
+        "//localfilereader",
+        "//scannercommon",
     ],
-)
-
-go_library(
-    name = "cli",
-    srcs = ["cli.go"],
-    importpath = "github.com/google/localtoast/cli",
-)
-
-go_test(
-    name = "cli_test",
-    size = "small",
-    srcs = ["cli_test.go"],
-    deps = [":cli"],
 )
 
 go_binary(
@@ -39,97 +26,10 @@ go_binary(
         "-w",
     ],
     deps = [
-        ":localfilereader",
-        ":scannercommon",
-        ":sqlquerier",
         "//library/proto:api_go_proto",
+        "//localfilereader",
+        "//scannercommon",
+        "//sqlquerier",
         "@com_github_go_sql_driver_mysql//:go_default_library",
-    ],
-)
-
-go_library(
-    name = "protofilehandler",
-    srcs = ["proto_file_handler.go"],
-    importpath = "github.com/google/localtoast/protofilehandler",
-    deps = [
-        "@org_golang_google_protobuf//encoding/prototext",
-        "@org_golang_google_protobuf//proto",
-    ],
-)
-
-go_test(
-    name = "protofilehandler_test",
-    size = "small",
-    srcs = ["proto_file_handler_test.go"],
-    deps = [
-        ":protofilehandler",
-        "//library/proto:api_go_proto",
-        "@com_github_google_go_cmp//cmp:go_default_library",
-        "@org_golang_google_protobuf//testing/protocmp",
-    ],
-)
-
-go_library(
-    name = "localfilereader",
-    srcs = ["local_file_reader.go"],
-    importpath = "github.com/google/localtoast/localfilereader",
-    deps = ["//library/proto:api_go_proto"],
-)
-
-go_test(
-    name = "localfilereader_test",
-    size = "small",
-    srcs = ["local_file_reader_test.go"],
-    deps = [
-        ":localfilereader",
-        "//library/proto:api_go_proto",
-        "@com_github_google_go_cmp//cmp:go_default_library",
-        "@com_github_google_go_cmp//cmp/cmpopts:go_default_library",
-        "@org_golang_google_protobuf//testing/protocmp",
-    ],
-)
-
-go_library(
-    name = "scannercommon",
-    srcs = ["scanner_common.go"],
-    importpath = "github.com/google/localtoast/scannercommon",
-    deps = [
-        ":cli",
-        ":protofilehandler",
-        "//library:scanner",
-        "//library/proto:api_go_proto",
-    ],
-)
-
-go_test(
-    name = "scannercommon_test",
-    size = "small",
-    srcs = ["scanner_common_test.go"],
-    deps = [
-        ":cli",
-        ":localfilereader",
-        ":protofilehandler",
-        ":scannercommon",
-        "//library/proto:api_go_proto",
-        "//library/proto:scan_instructions_go_proto",
-        "//library/testing:testconfigcreator",
-        "@com_github_google_go_cmp//cmp:go_default_library",
-        "@org_golang_google_protobuf//testing/protocmp",
-    ],
-)
-
-go_library(
-    name = "sqlquerier",
-    srcs = ["sql_querier.go"],
-    importpath = "github.com/google/localtoast/sqlquerier",
-)
-
-go_test(
-    name = "sqlquerier_test",
-    size = "small",
-    srcs = ["sql_querier_test.go"],
-    deps = [
-        ":sqlquerier",
-        "//testing:fakedb",
     ],
 )

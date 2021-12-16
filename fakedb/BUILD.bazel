@@ -5,5 +5,5 @@ package(default_visibility = ["//visibility:public"])
 go_library(
     name = "fakedb",
     srcs = ["fakedb.go"],
-    importpath = "github.com/google/localtoast/testing/fakedb",
+    importpath = "github.com/google/localtoast/fakedb",
 )

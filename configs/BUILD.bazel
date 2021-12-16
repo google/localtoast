@@ -20,8 +20,8 @@ go_library(
     srcs = ["gen_reduced_configs_lib.go"],
     importpath = "github.com/google/localtoast/configs/genreducedconfigs",
     deps = [
-        "//:protofilehandler",
         "//library/proto:api_go_proto",
+        "//protofilehandler",
     ],
 )
 

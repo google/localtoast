@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+package(default_visibility = ["//visibility:public"])
+
+go_library(
+    name = "sqlquerier",
+    srcs = ["sql_querier.go"],
+    importpath = "github.com/google/localtoast/sqlquerier",
+)
+
+go_test(
+    name = "sqlquerier_test",
+    size = "small",
+    srcs = ["sql_querier_test.go"],
+    deps = [
+        ":sqlquerier",
+        "//fakedb",
+    ],
+)

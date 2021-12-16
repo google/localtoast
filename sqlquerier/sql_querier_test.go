@@ -19,8 +19,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/google/localtoast/fakedb"
 	"github.com/google/localtoast/sqlquerier"
-	"github.com/google/localtoast/testing/fakedb"
 )
 
 func TestSQLCheckWithNoDatabaseFlag(t *testing.T) {

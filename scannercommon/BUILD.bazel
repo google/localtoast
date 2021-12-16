@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+package(default_visibility = ["//visibility:public"])
+
+go_library(
+    name = "scannercommon",
+    srcs = ["scanner_common.go"],
+    importpath = "github.com/google/localtoast/scannercommon",
+    deps = [
+        "//cli",
+        "//library:scanner",
+        "//library/proto:api_go_proto",
+        "//protofilehandler",
+    ],
+)
+
+go_test(
+    name = "scannercommon_test",
+    size = "small",
+    srcs = ["scanner_common_test.go"],
+    deps = [
+        ":scannercommon",
+        "//cli",
+        "//library/proto:api_go_proto",
+        "//library/proto:scan_instructions_go_proto",
+        "//library/testing:testconfigcreator",
+        "//localfilereader",
+        "//protofilehandler",
+        "@com_github_google_go_cmp//cmp:go_default_library",
+        "@org_golang_google_protobuf//testing/protocmp",
+    ],
+)

@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+package(default_visibility = ["//visibility:public"])
+
+go_library(
+    name = "cli",
+    srcs = ["cli.go"],
+    importpath = "github.com/google/localtoast/cli",
+)
+
+go_test(
+    name = "cli_test",
+    size = "small",
+    srcs = ["cli_test.go"],
+    deps = [":cli"],
+)
