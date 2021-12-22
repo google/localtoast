@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package scanner provides an interface for running compliance and config
+// Package scannerlib provides an interface for running compliance and config
 // security checks on a machine.
-package scanner
+package scannerlib
 
 import (
 	"context"
@@ -28,10 +28,10 @@ import (
 	"time"
 
 	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
-	"github.com/google/localtoast/library/configchecks"
+	"github.com/google/localtoast/scannerlib/configchecks"
 
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 // ScanAPIProvider is an interface that gives read access to the filesystem of

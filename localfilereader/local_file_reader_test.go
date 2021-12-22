@@ -27,8 +27,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/testing/protocmp"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	"github.com/google/localtoast/localfilereader"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 var testDirPath string

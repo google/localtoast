@@ -23,8 +23,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	"github.com/google/localtoast/protofilehandler"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 var testDirPath = os.Getenv("TEST_TMPDIR")

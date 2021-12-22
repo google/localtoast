@@ -25,8 +25,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	"github.com/google/localtoast/protofilehandler"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 // Generate generates the reduced config files in the given directory.

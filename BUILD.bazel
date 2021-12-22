@@ -12,9 +12,9 @@ go_binary(
         "-w",
     ],
     deps = [
-        "//library/proto:api_go_proto",
         "//localfilereader",
         "//scannercommon",
+        "//scannerlib/proto:api_go_proto",
     ],
 )
 
@@ -26,9 +26,9 @@ go_binary(
         "-w",
     ],
     deps = [
-        "//library/proto:api_go_proto",
         "//localfilereader",
         "//scannercommon",
+        "//scannerlib/proto:api_go_proto",
         "//sqlquerier",
         "@com_github_go_sql_driver_mysql//:go_default_library",
     ],

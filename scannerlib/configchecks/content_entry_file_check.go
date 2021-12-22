@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/google/localtoast/library/fileset"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
+	"github.com/google/localtoast/scannerlib/fileset"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 // contentEntryFileCheckBatch performs a series of checks about whether files have specific

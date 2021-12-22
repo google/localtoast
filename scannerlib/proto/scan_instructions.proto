@@ -18,7 +18,7 @@ syntax = "proto3";
 
 package localtoast;
 
-option go_package = "github.com/google/localtoast/library/proto/scan_instructions_go_proto";
+option go_package = "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto";
 
 // Describes how the scanner should check for compliance with a given
 // benchmark.

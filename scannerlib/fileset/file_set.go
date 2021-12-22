@@ -29,8 +29,8 @@ import (
 	"strings"
 
 	"google.golang.org/protobuf/encoding/prototext"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 const maxTraversalDepth = 100

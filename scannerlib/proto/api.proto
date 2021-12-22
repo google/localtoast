@@ -22,7 +22,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "grafeas/v1/compliance.proto";
 
-option go_package = "github.com/google/localtoast/library/proto/api_go_proto";
+option go_package = "github.com/google/localtoast/scannerlib/proto/api_go_proto";
 
 message ScanConfig {
   // The maximum amount of time the scan and individual benchmark checks can run

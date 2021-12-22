@@ -26,7 +26,7 @@ import (
 	"strings"
 
 	"google.golang.org/protobuf/proto"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 const (

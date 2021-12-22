@@ -22,9 +22,9 @@ import (
 	"strings"
 
 	"github.com/google/localtoast/cli"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	"github.com/google/localtoast/library/scanner"
 	"github.com/google/localtoast/protofilehandler"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	"github.com/google/localtoast/scannerlib"
 )
 
 // ParseFlags parses the scanner binary's cli flags.
@@ -65,7 +65,7 @@ func ParseFlags() *cli.Flags {
 }
 
 // RunScan executes the scan with the given CLI flags and API provider.
-func RunScan(flags *cli.Flags, provider scanner.ScanAPIProvider) {
+func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) {
 	log.Printf("Reading scan config from %s\n", flags.ConfigFile)
 	config := &apb.ScanConfig{}
 	if err := protofilehandler.ReadProtoFromFile(flags.ConfigFile, config); err != nil {
@@ -74,7 +74,7 @@ func RunScan(flags *cli.Flags, provider scanner.ScanAPIProvider) {
 	ApplyCLIFlagsToConfig(config, flags)
 
 	log.Printf("Running scan of %d benchmarks\n", len(config.GetBenchmarkConfigs()))
-	scanner := scanner.Scanner{}
+	scanner := scannerlib.Scanner{}
 	result, err := scanner.Scan(context.Background(), config, provider)
 	if err != nil {
 		log.Fatalf("Error while scanning: %v\n", err)

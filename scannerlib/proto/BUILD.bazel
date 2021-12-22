@@ -15,7 +15,7 @@ proto_library(
 
 go_proto_library(
     name = "api_go_proto",
-    importpath = "github.com/google/localtoast/library/proto/api_go_proto",
+    importpath = "github.com/google/localtoast/scannerlib/proto/api_go_proto",
     protos = [":api_proto"],
     deps = ["@go_googleapis//grafeas/v1:grafeas_go_proto"],
 )
@@ -27,6 +27,6 @@ proto_library(
 
 go_proto_library(
     name = "scan_instructions_go_proto",
-    importpath = "github.com/google/localtoast/library/proto/scan_instructions_go_proto",
+    importpath = "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto",
     protos = [":scan_instructions_proto"],
 )

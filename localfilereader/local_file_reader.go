@@ -26,7 +26,7 @@ import (
 	"strings"
 	"syscall"
 
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 // Flags for special UNIX permission bits.

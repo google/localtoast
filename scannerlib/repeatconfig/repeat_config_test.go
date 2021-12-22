@@ -25,8 +25,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/testing/protocmp"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
-	"github.com/google/localtoast/library/repeatconfig"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
+	"github.com/google/localtoast/scannerlib/repeatconfig"
 )
 
 type fakeFileReader struct {

@@ -27,12 +27,12 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
 	"github.com/google/localtoast/cli"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
-	"github.com/google/localtoast/library/testing/testconfigcreator"
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/protofilehandler"
 	"github.com/google/localtoast/scannercommon"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
+	"github.com/google/localtoast/scannerlib/testconfigcreator"
 )
 
 var testDirPath = ""

@@ -3,23 +3,24 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 package(default_visibility = ["//visibility:public"])
 
 go_library(
-    name = "protofilehandler",
-    srcs = ["proto_file_handler.go"],
-    importpath = "github.com/google/localtoast/protofilehandler",
+    name = "fileset",
+    srcs = ["file_set.go"],
+    importpath = "github.com/google/localtoast/scannerlib/fileset",
     deps = [
+        "//scannerlib/proto:api_go_proto",
+        "//scannerlib/proto:scan_instructions_go_proto",
         "@org_golang_google_protobuf//encoding/prototext",
-        "@org_golang_google_protobuf//proto",
     ],
 )
 
 go_test(
-    name = "protofilehandler_test",
+    name = "fileset_test",
     size = "small",
-    srcs = ["proto_file_handler_test.go"],
+    srcs = ["file_set_test.go"],
     deps = [
-        ":protofilehandler",
+        ":fileset",
         "//scannerlib/proto:api_go_proto",
+        "//scannerlib/proto:scan_instructions_go_proto",
         "@com_github_google_go_cmp//cmp:go_default_library",
-        "@org_golang_google_protobuf//testing/protocmp",
     ],
 )

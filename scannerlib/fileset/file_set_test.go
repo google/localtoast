@@ -28,9 +28,9 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/localtoast/library/fileset"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
+	"github.com/google/localtoast/scannerlib/fileset"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 const (

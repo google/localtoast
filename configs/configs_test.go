@@ -25,8 +25,8 @@ import (
 	"bitbucket.org/creachadair/stringset"
 	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	spb "google.golang.org/genproto/googleapis/grafeas/v1"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	sipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 var configFileNames = stringset.New(

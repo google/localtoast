@@ -8,9 +8,9 @@ go_library(
     importpath = "github.com/google/localtoast/scannercommon",
     deps = [
         "//cli",
-        "//library:scanner",
-        "//library/proto:api_go_proto",
         "//protofilehandler",
+        "//scannerlib",
+        "//scannerlib/proto:api_go_proto",
     ],
 )
 
@@ -21,11 +21,11 @@ go_test(
     deps = [
         ":scannercommon",
         "//cli",
-        "//library/proto:api_go_proto",
-        "//library/proto:scan_instructions_go_proto",
-        "//library/testing:testconfigcreator",
         "//localfilereader",
         "//protofilehandler",
+        "//scannerlib/proto:api_go_proto",
+        "//scannerlib/proto:scan_instructions_go_proto",
+        "//scannerlib/testconfigcreator",
         "@com_github_google_go_cmp//cmp:go_default_library",
         "@org_golang_google_protobuf//testing/protocmp",
     ],

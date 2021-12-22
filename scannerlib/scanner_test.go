@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package scanner_test
+package scannerlib_test
 
 import (
 	"bytes"
@@ -28,10 +28,10 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
-	"github.com/google/localtoast/library/scanner"
-	"github.com/google/localtoast/library/testing/testconfigcreator"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
+	"github.com/google/localtoast/scannerlib"
+	"github.com/google/localtoast/scannerlib/testconfigcreator"
 )
 
 const (
@@ -73,19 +73,19 @@ func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) 
 
 func TestScannerVersion(t *testing.T) {
 	config := &apb.ScanConfig{}
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 	if err != nil {
-		t.Fatalf("scanner.Scan() had unexpected error: %v", err)
+		t.Fatalf("scannerlib.Scan() had unexpected error: %v", err)
 	}
 	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-		t.Fatalf("scanner.Scan() returned unsuccessful scan status: %v",
+		t.Fatalf("scannerlib.Scan() returned unsuccessful scan status: %v",
 			result.GetStatus().GetStatus())
 	}
 
-	if result.GetScannerVersion() != scanner.ScannerVersion {
-		t.Errorf("scanner.Scan() returned scanner version: %s, expected %s",
-			result.GetScannerVersion(), scanner.ScannerVersion)
+	if result.GetScannerVersion() != scannerlib.ScannerVersion {
+		t.Errorf("scannerlib.Scan() returned scanner version: %s, expected %s",
+			result.GetScannerVersion(), scannerlib.ScannerVersion)
 	}
 }
 
@@ -103,22 +103,22 @@ func TestCompliantScan(t *testing.T) {
 		},
 	}
 
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 	if err != nil {
-		t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+		t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 	}
 	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-		t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+		t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 			config, result.GetStatus().GetStatus())
 	}
 
 	if len(result.GetCompliantBenchmarks()) != 1 {
-		t.Errorf("scanner.Scan(%v) returned check result: %v, expected 1 compliant check.",
+		t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 1 compliant check.",
 			config, result)
 	}
 	if len(result.GetNonCompliantBenchmarks()) != 0 {
-		t.Errorf("scanner.Scan(%v) returned check result: %v, expected 0 non-compliant configchecks.",
+		t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 0 non-compliant configchecks.",
 			config, result)
 	}
 }
@@ -161,21 +161,21 @@ func TestNonCompliantScan(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			result, err := scanner.Scanner{}.Scan(context.Background(), tc.config, fakeAPIProvider{})
+			result, err := scannerlib.Scanner{}.Scan(context.Background(), tc.config, fakeAPIProvider{})
 
 			if err != nil {
-				t.Fatalf("scanner.Scan(%v) had unexpected error: %v", tc.config, err)
+				t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", tc.config, err)
 			}
 			if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-				t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+				t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 					tc.config, result.GetStatus().GetStatus())
 			}
 
 			if len(result.GetCompliantBenchmarks()) != 0 {
-				t.Errorf("scanner.Scan(%v) returned check result: %v, expected 0 compliant configchecks.", tc.config, result)
+				t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 0 compliant configchecks.", tc.config, result)
 			}
 			if len(result.GetNonCompliantBenchmarks()) != 1 {
-				t.Errorf("scanner.Scan(%v) returned check result: %v, expected 1 non-compliant check.",
+				t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 1 non-compliant check.",
 					tc.config, result)
 			}
 		})
@@ -197,13 +197,13 @@ func TestFailingScan(t *testing.T) {
 		},
 	}
 
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 	if err != nil {
-		t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+		t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 	}
 	if result.GetStatus().GetStatus() != apb.ScanStatus_FAILED {
-		t.Errorf("scanner.Scan(%v) returned scan status: %v, expected ScanStatus_FAILED",
+		t.Errorf("scannerlib.Scan(%v) returned scan status: %v, expected ScanStatus_FAILED",
 			config, result.GetStatus().GetStatus())
 	}
 
@@ -215,7 +215,7 @@ func TestFailingScan(t *testing.T) {
 
 	if diff := cmp.Diff(expectedFailureReason, result.GetStatus().GetFailureReason(),
 		protocmp.Transform()); diff != "" {
-		t.Errorf("scanner.Scan(%v) returned unexpected failure reason, (-want +got):\n%s", config, diff)
+		t.Errorf("scannerlib.Scan(%v) returned unexpected failure reason, (-want +got):\n%s", config, diff)
 	}
 }
 
@@ -296,25 +296,25 @@ func TestNonCompliantFileCheckResultsAreAggregated(t *testing.T) {
 				},
 			}
 
-			result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+			result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 			if err != nil {
-				t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+				t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 			}
 			if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-				t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+				t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 					config, result.GetStatus().GetStatus())
 			}
 
 			if len(result.GetCompliantBenchmarks()) != 0 {
-				t.Errorf("scanner.Scan(%v) returned check result: %v, expected 0 compliant configchecks.",
+				t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 0 compliant configchecks.",
 					config, result)
 			}
 
 			sortProtos := cmpopts.SortSlices(func(m1, m2 protocmp.Message) bool { return m1.String() < m2.String() })
 			if diff := cmp.Diff(tc.expectedNonCompliantBenchmarks, result.GetNonCompliantBenchmarks(),
 				protocmp.Transform(), sortProtos); diff != "" {
-				t.Errorf("scanner.Scan(%v) returned unexpected results (-want +got):\n%s", config, diff)
+				t.Errorf("scannerlib.Scan(%v) returned unexpected results (-want +got):\n%s", config, diff)
 			}
 		})
 	}
@@ -337,22 +337,22 @@ func TestBenchmarkIsNonCompliantIfOneCheckIsNonCompliant(t *testing.T) {
 		},
 	}
 
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 	if err != nil {
-		t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+		t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 	}
 	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-		t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+		t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 			config, result.GetStatus().GetStatus())
 	}
 
 	if len(result.GetCompliantBenchmarks()) != 0 {
-		t.Errorf("scanner.Scan(%v) returned check result: %v, expected 0 compliant configchecks.",
+		t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 0 compliant configchecks.",
 			config, result)
 	}
 	if len(result.GetNonCompliantBenchmarks()) != 1 {
-		t.Errorf("scanner.Scan(%v) returned check result: %v, expected 1 non-compliant check.",
+		t.Errorf("scannerlib.Scan(%v) returned check result: %v, expected 1 non-compliant check.",
 			config, result)
 	}
 }
@@ -371,8 +371,8 @@ func TestDuplicateBenchmarkIDs(t *testing.T) {
 		},
 	}
 
-	if _, err := (scanner.Scanner{}).Scan(context.Background(), config, fakeAPIProvider{}); err == nil {
-		t.Fatalf("scanner.Scan(%v) didn't return an error", config)
+	if _, err := (scannerlib.Scanner{}).Scan(context.Background(), config, fakeAPIProvider{}); err == nil {
+		t.Fatalf("scannerlib.Scan(%v) didn't return an error", config)
 	}
 }
 
@@ -440,18 +440,18 @@ func TestAlternativeWithFileAndDBChecks(t *testing.T) {
 				},
 			}
 
-			result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+			result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 			if err != nil {
-				t.Fatalf("scanner.Scan(%v) returned an error: %v", config, err)
+				t.Fatalf("scannerlib.Scan(%v) returned an error: %v", config, err)
 			}
 			if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-				t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+				t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 					config, result.GetStatus().GetStatus())
 			}
 
 			compliant := len(result.GetNonCompliantBenchmarks()) == 0
 			if tc.expectCompliance != compliant {
-				t.Errorf("scanner.Scan(%v) expected to return compliance status %t, got %t:\n%v", config, tc.expectCompliance, compliant, result)
+				t.Errorf("scannerlib.Scan(%v) expected to return compliance status %t, got %t:\n%v", config, tc.expectCompliance, compliant, result)
 			}
 		})
 	}
@@ -470,12 +470,12 @@ func TestInstructionsWithUnknownField(t *testing.T) {
 		},
 	}
 
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 	if err != nil {
-		t.Fatalf("scanner.Scan(%v) returned an error: %v", config, err)
+		t.Fatalf("scannerlib.Scan(%v) returned an error: %v", config, err)
 	}
 	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-		t.Errorf("scanner.Scan(%v) returned unsuccessful scan status: %v", config, result.GetStatus().GetStatus())
+		t.Errorf("scannerlib.Scan(%v) returned unsuccessful scan status: %v", config, result.GetStatus().GetStatus())
 	}
 }
 
@@ -501,16 +501,16 @@ func TestInstructionsWithBinarySerialization(t *testing.T) {
 		},
 	}
 
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 	if err != nil {
-		t.Fatalf("scanner.Scan(%v) returned an error: %v", config, err)
+		t.Fatalf("scannerlib.Scan(%v) returned an error: %v", config, err)
 	}
 	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-		t.Errorf("scanner.Scan(%v) returned unsuccessful scan status: %v", config, result.GetStatus().GetStatus())
+		t.Errorf("scannerlib.Scan(%v) returned unsuccessful scan status: %v", config, result.GetStatus().GetStatus())
 	}
 
 	if len(result.GetNonCompliantBenchmarks()) > 0 {
-		t.Errorf("scanner.Scan(%v) returned non-compliant benchmarks, expected none: %v", config, result.GetNonCompliantBenchmarks())
+		t.Errorf("scannerlib.Scan(%v) returned non-compliant benchmarks, expected none: %v", config, result.GetNonCompliantBenchmarks())
 	}
 }
 
@@ -639,21 +639,21 @@ func TestCheckAlternativeAggregation(t *testing.T) {
 					testconfigcreator.NewBenchmarkConfig(t, "id", tc.instructions),
 				},
 			}
-			result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+			result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 			if err != nil {
-				t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+				t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 			}
 			if result.GetStatus().GetStatus() != tc.expectedScanStatus {
-				t.Fatalf("expected scan status %v, scanner.Scan(%v) returned: %v",
+				t.Fatalf("expected scan status %v, scannerlib.Scan(%v) returned: %v",
 					tc.expectedScanStatus, config, result.GetStatus().GetStatus())
 			}
 
 			if diff := cmp.Diff(tc.expectedCompliantBenchmarks, result.GetCompliantBenchmarks(), protocmp.Transform()); diff != "" {
-				t.Errorf("scanner.Scan(%v) returned unexpected compliant files (-want +got):\n%s", config, diff)
+				t.Errorf("scannerlib.Scan(%v) returned unexpected compliant files (-want +got):\n%s", config, diff)
 			}
 			if diff := cmp.Diff(tc.expectedNonCompliantBenchmarks, result.GetNonCompliantBenchmarks(), protocmp.Transform()); diff != "" {
-				t.Errorf("scanner.Scan(%v) returned unexpected non-compliant files (-want +got):\n%s", config, diff)
+				t.Errorf("scannerlib.Scan(%v) returned unexpected non-compliant files (-want +got):\n%s", config, diff)
 			}
 		})
 	}
@@ -681,10 +681,10 @@ func TestDuplicateFindingsRemoved(t *testing.T) {
 			testconfigcreator.NewBenchmarkConfig(t, "id", testconfigcreator.NewFileScanInstruction(checks)),
 		},
 	}
-	result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 	if err != nil {
-		t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+		t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 	}
 
 	// Expect only a single non-compliance finding.
@@ -699,7 +699,7 @@ func TestDuplicateFindingsRemoved(t *testing.T) {
 	}}
 
 	if diff := cmp.Diff(want, result.GetNonCompliantBenchmarks(), protocmp.Transform()); diff != "" {
-		t.Errorf("scanner.Scan(%v) returned unexpected non-compliant files (-want +got):\n%s", config, diff)
+		t.Errorf("scannerlib.Scan(%v) returned unexpected non-compliant files (-want +got):\n%s", config, diff)
 	}
 }
 
@@ -774,18 +774,18 @@ func TestOldestBenchmarkVersionInScanResult(t *testing.T) {
 			BenchmarkConfigs: benchmarkConfigsWithVersions(t, tc.versions),
 		}
 
-		result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+		result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 		if err != nil {
-			t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+			t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 		}
 		if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-			t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+			t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 				config, result.GetStatus().GetStatus())
 		}
 
 		if result.GetBenchmarkVersion() != tc.expectedVersion {
-			t.Errorf("%v: scanner.Scan(%v) returned benchmark version %s, expected %s",
+			t.Errorf("%v: scannerlib.Scan(%v) returned benchmark version %s, expected %s",
 				tc.desc, config, result.GetBenchmarkVersion(), tc.expectedVersion)
 		}
 	}
@@ -835,13 +835,13 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 				OptOutConfig: tc.optOutConfig,
 			}
 
-			result, err := scanner.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+			result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
 			if err != nil {
-				t.Fatalf("scanner.Scan(%v) had unexpected error: %v", config, err)
+				t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 			}
 			if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-				t.Fatalf("scanner.Scan(%v) returned unsuccessful scan status: %v",
+				t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
 					config, result.GetStatus().GetStatus())
 			}
 
@@ -852,7 +852,7 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 				},
 			}}
 			if diff := cmp.Diff(want, result.GetNonCompliantBenchmarks(), protocmp.Transform()); diff != "" {
-				t.Errorf("scanner.Scan(%v) returned unexpected non-compliant files (-want +got):\n%s", config, diff)
+				t.Errorf("scannerlib.Scan(%v) returned unexpected non-compliant files (-want +got):\n%s", config, diff)
 			}
 		})
 	}

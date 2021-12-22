@@ -6,7 +6,7 @@ go_library(
     name = "localfilereader",
     srcs = ["local_file_reader.go"],
     importpath = "github.com/google/localtoast/localfilereader",
-    deps = ["//library/proto:api_go_proto"],
+    deps = ["//scannerlib/proto:api_go_proto"],
 )
 
 go_test(
@@ -15,7 +15,7 @@ go_test(
     srcs = ["local_file_reader_test.go"],
     deps = [
         ":localfilereader",
-        "//library/proto:api_go_proto",
+        "//scannerlib/proto:api_go_proto",
         "@com_github_google_go_cmp//cmp:go_default_library",
         "@com_github_google_go_cmp//cmp/cmpopts:go_default_library",
         "@org_golang_google_protobuf//testing/protocmp",

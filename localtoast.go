@@ -22,9 +22,9 @@ import (
 	"io"
 	"path"
 
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/scannercommon"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 // localScanAPIProvider provides access to the local filesystem.

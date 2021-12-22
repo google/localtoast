@@ -10,11 +10,11 @@ The scanner can either be used as a standalone binary to scan the local machine 
 2. ./bazel-bin/localtoast_/localtoast --config=configs/example.textproto --result=scan-result.textproto
 
 ### As a library:
-1. Import `library/scanner.go` in your Go project
+1. Import `scannerlib/scanner.go` in your Go project
 2. Write a custom implementation for the `ScanAPIProvider` interface
-3. Call `scanner.Scanner{}.Scan()` with the appropriate config and the implementation
+3. Call `scannerlib.Scanner{}.Scan()` with the appropriate config and the implementation
 
-See the [scan config](library/proto/api.proto) and [result](library/proto/scan_instructions.proto) protos for details on the input+output format.
+See the [scan config](scannerlib/proto/api.proto) and [result](scannerlib/proto/scan_instructions.proto) protos for details on the input+output format.
 
 ## Contributing
 Read how to [contribute to Localtoast](CONTRIBUTING.md).

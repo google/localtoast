@@ -26,8 +26,8 @@ import (
 	"path"
 	"time"
 
-	"github.com/google/localtoast/library/configchecks"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
+	"github.com/google/localtoast/scannerlib/configchecks"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 const (

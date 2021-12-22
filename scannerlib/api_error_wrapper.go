@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package scanner
+package scannerlib
 
 import (
 	"context"
 	"fmt"
 	"io"
 
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 // apiErrorWrapper is a wrapper around the scanner's scan API that makes the error

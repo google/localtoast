@@ -20,8 +20,8 @@ import (
 	"fmt"
 
 	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
-	ipb "github.com/google/localtoast/library/proto/scan_instructions_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 // SQLQuerier is an interface that supports SQL queries to a target

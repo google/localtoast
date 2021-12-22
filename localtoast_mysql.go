@@ -23,9 +23,9 @@ import (
 	"log"
 	"path"
 
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/scannercommon"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	"github.com/google/localtoast/sqlquerier"
 
 	// We need this import to call sql.Open with the "mysql" driver.

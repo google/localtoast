@@ -26,7 +26,7 @@ import (
 	"google.golang.org/protobuf/testing/protocmp"
 	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
 	"github.com/google/localtoast/configs/genreducedconfigs"
-	apb "github.com/google/localtoast/library/proto/api_go_proto"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 func createTestFile(t *testing.T, testDir, filename string, config *apb.ScanConfig) error {
