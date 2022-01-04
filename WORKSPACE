@@ -61,20 +61,6 @@ go_repository(
     tag = "v0.0.8",
 )
 
-http_archive(
-    name = "go_googleapis",
-    sha256 = "a68c845bca01381db6fcc2cf2873636f7b4ec73118ad741b0aa1579c5f1379ff",
-    strip_prefix = "googleapis-381ab78414f71d6f9476c3044c212e13d762e822",
-    urls = ["https://github.com/googleapis/googleapis/archive/381ab78414f71d6f9476c3044c212e13d762e822.tar.gz"],
-)
-
-load("@go_googleapis//:repository_rules.bzl", "switched_rules_by_language")
-switched_rules_by_language(
-    name = "com_google_googleapis_imports",
-    go = True,
-    grpc = True,
-)
-
 go_repository(
     name = "org_golang_google_grpc",
     build_file_proto_mode = "disable",

@@ -23,8 +23,8 @@ import (
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/testing/protocmp"
 	"bitbucket.org/creachadair/stringset"
-	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
-	spb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	spb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )

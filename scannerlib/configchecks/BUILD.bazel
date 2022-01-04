@@ -15,9 +15,9 @@ go_library(
     deps = [
         "//scannerlib/fileset",
         "//scannerlib/proto:api_go_proto",
+        "//scannerlib/proto:compliance_go_proto",
         "//scannerlib/proto:scan_instructions_go_proto",
         "//scannerlib/repeatconfig",
-        "@go_googleapis//grafeas/v1:grafeas_go_proto",
         "@org_golang_google_protobuf//encoding/prototext",
         "@org_golang_google_protobuf//proto",
     ],
@@ -37,10 +37,10 @@ go_test(
         ":configchecks",
         "//scannerlib/fileset",
         "//scannerlib/proto:api_go_proto",
+        "//scannerlib/proto:compliance_go_proto",
         "//scannerlib/proto:scan_instructions_go_proto",
         "//scannerlib/testconfigcreator",
         "@com_github_google_go_cmp//cmp:go_default_library",
-        "@go_googleapis//grafeas/v1:grafeas_go_proto",
         "@org_golang_google_protobuf//testing/protocmp",
     ],
 )

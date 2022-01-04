@@ -19,7 +19,7 @@ import (
 	"errors"
 	"fmt"
 
-	cpb "google.golang.org/genproto/googleapis/grafeas/v1"
+	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )

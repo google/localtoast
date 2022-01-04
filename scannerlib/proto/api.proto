@@ -20,7 +20,7 @@ package localtoast;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "grafeas/v1/compliance.proto";
+import "scannerlib/proto/compliance.proto";
 
 option go_package = "github.com/google/localtoast/scannerlib/proto/api_go_proto";
 
