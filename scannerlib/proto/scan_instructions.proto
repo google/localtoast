@@ -20,6 +20,12 @@ package localtoast;
 
 option go_package = "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto";
 
+// After making changes to this proto, the corresponding go_proto in
+// scan_instructions_go_proto needs to be re-created using "bazel build
+// scan_instructions_go_proto".
+// TODO(b/206023198): Make the generation of the go_protos part of the build
+// process.
+
 // Describes how the scanner should check for compliance with a given
 // benchmark.
 // TODO(b/200859368): Use this proto in the benchmark configs instead

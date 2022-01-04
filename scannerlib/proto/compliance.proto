@@ -18,6 +18,11 @@ package grafeas.v1;
 
 option go_package = "github.com/google/localtoast/scannerlib/proto/compliance_go_proto";
 
+// After making changes to this proto, the corresponding go_proto in
+// compliance_go_proto needs to be re-created using "bazel build
+// compliance_go_proto".
+// TODO(b/206023198): Make the generation of the go_protos part of the build
+// process.
 // TODO(b/206023198): Stop inlining this file once it can be imported from
 // github.com/googleapis/go-genproto.
 
