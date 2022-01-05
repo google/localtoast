@@ -1,4 +1,4 @@
-# Localtoast
+ # Localtoast
 Localtoast is a scanner for running security-related configuration checks such as [CIS benchmarks](https://www.cisecurity.org/cis-benchmarks) in an easily configurable manner.
 
 The scanner can either be used as a standalone binary to scan the local machine or as a library with a custom wrapper to perform scans on e.g. container images or remote hosts.
@@ -6,8 +6,16 @@ The scanner can either be used as a standalone binary to scan the local machine 
 ## How to use
 
 ### As a standalone binary:
-1. bazel build localtoast
-2. ./bazel-bin/localtoast_/localtoast --config=configs/example.textproto --result=scan-result.textproto
+
+**With Bazel:**
+
+1. `bazel build localtoast`
+2. `./bazel-bin/localtoast_/localtoast --config=configs/example.textproto --result=scan-result.textproto`
+
+**Without Bazel:**
+
+1. `make`
+2. `./localtoast --config=configs/example.textproto --result=scan-result.textproto`
 
 ### As a library:
 1. Import `scannerlib/scanner.go` in your Go project
