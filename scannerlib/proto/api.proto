@@ -24,11 +24,6 @@ import "scannerlib/proto/compliance.proto";
 
 option go_package = "github.com/google/localtoast/scannerlib/proto/api_go_proto";
 
-// After making changes to this proto, the corresponding go_proto in
-// api_go_proto needs to be re-created using "bazel build api_go_proto".
-// TODO(b/206023198): Make the generation of the go_protos part of the build
-// process.
-
 message ScanConfig {
   // The maximum amount of time the scan and individual benchmark checks can run
   // for.
