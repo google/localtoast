@@ -20,6 +20,7 @@ import (
 	"compress/gzip"
 	"errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -79,10 +80,10 @@ func ReadProtoFromFile(filePath string, inputProto proto.Message) error {
 			return err
 		}
 		defer reader.Close()
-		if protoTxt, err = io.ReadAll(reader); err != nil {
+		if protoTxt, err = ioutil.ReadAll(reader); err != nil {
 			return err
 		}
-	} else if protoTxt, err = io.ReadAll(f); err != nil {
+	} else if protoTxt, err = ioutil.ReadAll(f); err != nil {
 		return err
 	}
 

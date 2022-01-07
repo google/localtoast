@@ -22,6 +22,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path"
 	"regexp"
@@ -234,7 +235,7 @@ func walkProcessPaths(ctx context.Context, procName string, fileName string, fsR
 			return fmt.Errorf("unable to read file %s/stat: %v", dirName, err)
 		}
 		defer fh.Close()
-		stat, err := io.ReadAll(fh)
+		stat, err := ioutil.ReadAll(fh)
 		if err != nil {
 			return fmt.Errorf("unable to read from file %s/stat: %v", dirName, err)
 		}

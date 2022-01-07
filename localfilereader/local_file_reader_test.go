@@ -18,7 +18,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -127,15 +126,15 @@ func TestFilePermissionsCorrectPermissionNumbers(t *testing.T) {
 func TestFilePermissionsCorrectSpecialFlags(t *testing.T) {
 	testFilePath := filepath.Join(testDirPath, fileName)
 	testCases := []struct {
-		flagToAdd       fs.FileMode
+		flagToAdd       os.FileMode
 		expectedSetFlag int32
 	}{
-		{flagToAdd: fs.ModeSetuid, expectedSetFlag: localfilereader.SetuidFlag},
-		{flagToAdd: fs.ModeSetgid, expectedSetFlag: localfilereader.SetgidFlag},
-		{flagToAdd: fs.ModeSticky, expectedSetFlag: localfilereader.StickyFlag},
+		{flagToAdd: os.ModeSetuid, expectedSetFlag: localfilereader.SetuidFlag},
+		{flagToAdd: os.ModeSetgid, expectedSetFlag: localfilereader.SetgidFlag},
+		{flagToAdd: os.ModeSticky, expectedSetFlag: localfilereader.StickyFlag},
 	}
 	for _, tc := range testCases {
-		os.Chmod(testFilePath, fs.FileMode(filePermission)|tc.flagToAdd)
+		os.Chmod(testFilePath, os.FileMode(filePermission)|tc.flagToAdd)
 		permission, err := localfilereader.FilePermissions(context.Background(), testFilePath)
 		if err != nil {
 			t.Fatalf("localfilereader.FilePermissions(%s) had unexpected error: %v", testFilePath, err)

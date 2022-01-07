@@ -18,7 +18,6 @@ package localfilereader
 import (
 	"context"
 	"io"
-	"io/fs"
 	"io/ioutil"
 	"os"
 	"os/user"
@@ -53,11 +52,11 @@ func FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
 	}
 	contents := make([]*apb.DirContent, 0, len(files))
 	for _, f := range files {
-		if f.Mode().IsDir() || f.Mode().IsRegular() || f.Mode()&fs.ModeSymlink == fs.ModeSymlink {
+		if f.Mode().IsDir() || f.Mode().IsRegular() || f.Mode()&os.ModeSymlink == os.ModeSymlink {
 			contents = append(contents, &apb.DirContent{
 				Name:      f.Name(),
 				IsDir:     f.Mode().IsDir(),
-				IsSymlink: f.Mode()&fs.ModeSymlink == fs.ModeSymlink,
+				IsSymlink: f.Mode()&os.ModeSymlink == os.ModeSymlink,
 			})
 		}
 	}
@@ -105,13 +104,13 @@ func FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, e
 	perms := int32(fi.Mode().Perm())
 	// Mode().Perm() only contains the regular permission bits, so add the
 	// special flag bits separately.
-	if fi.Mode()&fs.ModeSetuid != 0 {
+	if fi.Mode()&os.ModeSetuid != 0 {
 		perms |= SetuidFlag
 	}
-	if fi.Mode()&fs.ModeSetgid != 0 {
+	if fi.Mode()&os.ModeSetgid != 0 {
 		perms |= SetgidFlag
 	}
-	if fi.Mode()&fs.ModeSticky != 0 {
+	if fi.Mode()&os.ModeSticky != 0 {
 		perms |= StickyFlag
 	}
 	return &apb.PosixPermissions{
