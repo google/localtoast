@@ -22,6 +22,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path"
 
@@ -440,7 +441,7 @@ func (c *contentFileCheckBatch) exec() (ComplianceMap, error) {
 				return err
 			}
 			var content []byte
-			content, err = io.ReadAll(f)
+			content, err = ioutil.ReadAll(f)
 			if err != nil {
 				return err
 			}

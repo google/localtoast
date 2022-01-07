@@ -17,7 +17,6 @@ package localfilereader_test
 import (
 	"context"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -67,7 +66,7 @@ func TestOpenFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("localfilereader.OpenFile(%s) had unexpected error: %v", testFilePath, err)
 	}
-	content, err := io.ReadAll(reader)
+	content, err := ioutil.ReadAll(reader)
 	if err != nil {
 		t.Fatalf("Reading file %s had unexpected error: %v", testFilePath, err)
 	}
