@@ -139,7 +139,10 @@ type addFileCheckToBatchMapOptions struct {
 }
 
 func addFileCheckToBatchMap(ctx context.Context, options addFileCheckToBatchMapOptions) error {
-	repeatConfigs := repeatconfig.CreateRepeatConfigs(ctx, options.fc.GetRepeatConfig(), options.fs)
+	repeatConfigs, err := repeatconfig.CreateRepeatConfigs(ctx, options.fc.GetRepeatConfig(), options.fs)
+	if err != nil {
+		return err
+	}
 	for _, repeatConfig := range repeatConfigs {
 		fc := repeatconfig.ApplyRepeatConfigToInstruction(options.fc, repeatConfig)
 		for _, filesToCheck := range fc.GetFilesToCheck() {

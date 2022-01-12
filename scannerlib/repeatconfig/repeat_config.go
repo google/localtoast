@@ -67,7 +67,7 @@ type TokenReplacement struct {
 
 // CreateRepeatConfigs creates a list of configs with the appropriate token
 // substitutions based on the supplied repeat config enum.
-func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, f FileReader) []*RepeatConfig {
+func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, f FileReader) ([]*RepeatConfig, error) {
 	var rc []*RepeatConfig
 	var err error
 	switch repeatOptions.GetType() {
@@ -90,12 +90,12 @@ func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, f
 	case ipb.RepeatConfig_FOR_EACH_OPEN_IPV6_PORT:
 		rc, err = createRepeatConfigForEachOpenTCPPort(ctx, f, true)
 	default:
-		return repeatConfigWithError(fmt.Errorf("unknown repeat option type %s", repeatOptions))
+		return nil, fmt.Errorf("unknown repeat option type %s", repeatOptions)
 	}
 	if err != nil {
-		return repeatConfigWithError(err)
+		return repeatConfigWithError(err), nil
 	}
-	return applyOptOutConfig(rc, repeatOptions.GetOptOut())
+	return applyOptOutConfig(rc, repeatOptions.GetOptOut()), nil
 }
 
 func repeatConfigWithError(err error) []*RepeatConfig {
