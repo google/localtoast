@@ -50,22 +50,22 @@ func TestMain(m *testing.M) {
 }
 
 func TestNoInputPaths(t *testing.T) {
-	if err := genfullconfig.Generate([]string{}, []string{"out.textproto"}); err == nil {
-		t.Errorf("genfullconfig.Generate({}, {'out.textproto'}) didn't return an error")
+	if err := genfullconfig.Generate([]string{}, []string{"out.textproto"}, false); err == nil {
+		t.Errorf("genfullconfig.Generate({}, {'out.textproto'}, false) didn't return an error")
 	}
 }
 
 func TestNoOutputPaths(t *testing.T) {
-	if err := genfullconfig.Generate([]string{"in.textproto"}, []string{}); err == nil {
-		t.Errorf("genfullconfig.Generate({'in.textproto'}, {}) didn't return an error")
+	if err := genfullconfig.Generate([]string{"in.textproto"}, []string{}, false); err == nil {
+		t.Errorf("genfullconfig.Generate({'in.textproto'}, {}, false) didn't return an error")
 	}
 }
 
 func TestTooFewInputPaths(t *testing.T) {
 	out := []string{"full_config_1.textproto", "full_config_2.textproto"}
 	in := []string{"reduced_config.textproto", "config_def.textproto"}
-	if err := genfullconfig.Generate(in, out); err == nil {
-		t.Errorf("genfullconfig.Generate(%v, %v) didn't return an error", in, out)
+	if err := genfullconfig.Generate(in, out, false); err == nil {
+		t.Errorf("genfullconfig.Generate(%v, %v, false) didn't return an error", in, out)
 	}
 }
 
@@ -98,8 +98,8 @@ func TestCreateSingleConfig(t *testing.T) {
 	writeReducedConfigToFile(t, defaultReducedPath, "id", version)
 	writeConfigDefToFile(t, defaultDefPath, "id", []*gpb.ComplianceVersion{version}, "generic:{check_alternatives:{}}")
 
-	if err := genfullconfig.Generate([]string{defaultReducedPath, defaultDefPath}, []string{defaultOutPath}); err != nil {
-		t.Errorf("genfullconfig.Generate([%v, %v], [%v]) returned an error: %v", defaultReducedPath, defaultDefPath, defaultOutPath, err)
+	if err := genfullconfig.Generate([]string{defaultReducedPath, defaultDefPath}, []string{defaultOutPath}, false); err != nil {
+		t.Errorf("genfullconfig.Generate([%v, %v], [%v], false) returned an error: %v", defaultReducedPath, defaultDefPath, defaultOutPath, err)
 	}
 
 	got := &apb.ScanConfig{}
@@ -109,7 +109,7 @@ func TestCreateSingleConfig(t *testing.T) {
 
 	want := createTestScanConfig("id", []*gpb.ComplianceVersion{version}, "check_alternatives:{}")
 	if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
-		t.Errorf("genfullconfig.Generate([%v, %v], [%v]) returned unexpected diff (-want +got):\n%s",
+		t.Errorf("genfullconfig.Generate([%v, %v], [%v], false) returned unexpected diff (-want +got):\n%s",
 			defaultReducedPath, defaultDefPath, defaultOutPath, diff)
 	}
 }
@@ -119,8 +119,8 @@ func TestMissingDefinition(t *testing.T) {
 	writeReducedConfigToFile(t, defaultReducedPath, "id", version)
 	writeConfigDefToFile(t, defaultDefPath, "different-id", []*gpb.ComplianceVersion{version}, "generic:{check_alternatives:{}}")
 
-	if err := genfullconfig.Generate([]string{defaultReducedPath, defaultDefPath}, []string{defaultOutPath}); err == nil {
-		t.Errorf("genfullconfig.Generate([%v, %v], [%v]) didn't return an error", defaultReducedPath, defaultDefPath, defaultOutPath)
+	if err := genfullconfig.Generate([]string{defaultReducedPath, defaultDefPath}, []string{defaultOutPath}, false); err == nil {
+		t.Errorf("genfullconfig.Generate([%v, %v], [%v], false) didn't return an error", defaultReducedPath, defaultDefPath, defaultOutPath)
 	}
 }
 
@@ -144,8 +144,8 @@ func TestInstructionsDifferPerScanType(t *testing.T) {
 	vmOutPath := path.Join(reducedDirPath, "vm_out.textproto")
 	inPaths := []string{instancePath, containerPath, vmPath, defaultDefPath}
 	outPaths := []string{instanceOutPath, containerOutPath, vmOutPath}
-	if err := genfullconfig.Generate(inPaths, outPaths); err != nil {
-		t.Errorf("genfullconfig.Generate(%v, %v) returned an error: %v", inPaths, outPaths, err)
+	if err := genfullconfig.Generate(inPaths, outPaths, false); err != nil {
+		t.Errorf("genfullconfig.Generate(%v, %v, false) returned an error: %v", inPaths, outPaths, err)
 	}
 
 	testCases := []struct {
@@ -178,7 +178,7 @@ func TestInstructionsDifferPerScanType(t *testing.T) {
 
 			want := createTestScanConfig("id", []*gpb.ComplianceVersion{version}, tc.expectedInstructions)
 			if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
-				t.Errorf("genfullconfig.Generate() returned unexpected diff for %s (-want +got):\n%s", tc.path, diff)
+				t.Errorf("genfullconfig.Generate(, false) returned unexpected diff for %s (-want +got):\n%s", tc.path, diff)
 			}
 		})
 	}
@@ -200,8 +200,8 @@ func TestSameBenchmarkWithDifferentVersions(t *testing.T) {
 	version2OutPath := path.Join(reducedDirPath, "version2_out.textproto")
 	inPaths := []string{version1ReducedPath, version2ReducedPath, version1DefPath, version2DefPath}
 	outPaths := []string{version1OutPath, version2OutPath}
-	if err := genfullconfig.Generate(inPaths, outPaths); err != nil {
-		t.Errorf("genfullconfig.Generate(%v, %v) returned an error: %v", inPaths, outPaths, err)
+	if err := genfullconfig.Generate(inPaths, outPaths, false); err != nil {
+		t.Errorf("genfullconfig.Generate(%v, %v, false) returned an error: %v", inPaths, outPaths, err)
 	}
 
 	testCases := []struct {
@@ -232,8 +232,49 @@ func TestSameBenchmarkWithDifferentVersions(t *testing.T) {
 
 			want := createTestScanConfig("id", []*gpb.ComplianceVersion{tc.expectedVersion}, tc.expectedInstructions)
 			if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
-				t.Errorf("genfullconfig.Generate() returned unexpected diff for %s (-want +got):\n%s", tc.path, diff)
+				t.Errorf("genfullconfig.Generate(, false) returned unexpected diff for %s (-want +got):\n%s", tc.path, diff)
 			}
 		})
+	}
+}
+
+func TestOmitDescriptionFields(t *testing.T) {
+	version := &gpb.ComplianceVersion{CpeUri: "cpe", Version: "1.0.0"}
+	writeReducedConfigToFile(t, defaultReducedPath, "id", version)
+
+	def := &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{&apb.BenchmarkConfig{
+		Id: "id",
+		ComplianceNote: &gpb.ComplianceNote{
+			Title:            "Title",
+			Description:      "Description",
+			Version:          []*gpb.ComplianceVersion{version},
+			Rationale:        "Rationale",
+			Remediation:      "Remediation",
+			ScanInstructions: []byte("generic:{check_alternatives:{}}"),
+		},
+	}}}
+	if err := protofilehandler.WriteProtoToFile(defaultDefPath, def); err != nil {
+		t.Errorf("protofilehandler.WriteProtoToFile(%s, %v) returned an error: %v", defaultDefPath, def, err)
+	}
+
+	if err := genfullconfig.Generate([]string{defaultReducedPath, defaultDefPath}, []string{defaultOutPath}, true); err != nil {
+		t.Errorf("genfullconfig.Generate([%v, %v], [%v], true) returned an error: %v", defaultReducedPath, defaultDefPath, defaultOutPath, err)
+	}
+
+	got := &apb.ScanConfig{}
+	if err := protofilehandler.ReadProtoFromFile(defaultOutPath, got); err != nil {
+		t.Errorf("protofilehandler.ReadProtoFromFile(%s, %v) returned an error: %v", defaultOutPath, got, err)
+	}
+
+	want := &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{&apb.BenchmarkConfig{
+		Id: "id",
+		ComplianceNote: &gpb.ComplianceNote{
+			Version:          []*gpb.ComplianceVersion{version},
+			ScanInstructions: []byte("check_alternatives:{}"),
+		},
+	}}}
+	if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
+		t.Errorf("genfullconfig.Generate([%v, %v], [%v], true) returned unexpected diff (-want +got):\n%s",
+			defaultReducedPath, defaultDefPath, defaultOutPath, diff)
 	}
 }

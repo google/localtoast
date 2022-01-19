@@ -47,7 +47,7 @@ const (
 
 // Generate creates the full OS-specific config values from the config
 // definitions and per-OS configs and writes them to the specified output path.
-func Generate(inPaths []string, outPaths []string) error {
+func Generate(inPaths []string, outPaths []string, omitDescriptions bool) error {
 	if len(inPaths) == 0 {
 		return errors.New("--in not set")
 	}
@@ -89,6 +89,9 @@ func Generate(inPaths []string, outPaths []string) error {
 			return err
 		}
 		config, err := getFullConfig(reduced, configDefs, scanType)
+		if omitDescriptions {
+			removeDescriptionFields(config)
+		}
 		if err != nil {
 			return fmt.Errorf("error fetching full config: %v", err)
 		}
@@ -191,4 +194,13 @@ func selectInstructionForScanType(config *apb.BenchmarkConfig, scanType scanType
 	result := proto.Clone(config).(*apb.BenchmarkConfig)
 	result.ComplianceNote.ScanInstructions = instructionBytes
 	return result, nil
+}
+
+func removeDescriptionFields(config *apb.ScanConfig) {
+	for _, b := range config.GetBenchmarkConfigs() {
+		b.GetComplianceNote().Title = ""
+		b.GetComplianceNote().Description = ""
+		b.GetComplianceNote().Rationale = ""
+		b.GetComplianceNote().Remediation = ""
+	}
 }
