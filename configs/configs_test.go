@@ -32,11 +32,25 @@ import (
 var configFileNames = stringset.New(
 	"vm_image_scanning.textproto", "container_image_scanning.textproto", "instance_scanning.textproto")
 
+// Check if the serialized config uses the new reduced per-OS format.
+// The test will skip these so that the migration to the reduced format can
+// happen in several steps.
+// TODO(b/200859368): Remove the usage of this function and update the tests
+// once all configs have been migrated.
+func isReducedConfigFile(configBytes []byte) bool {
+	config := &apb.PerOsBenchmarkConfig{}
+	err := prototext.Unmarshal(configBytes, config)
+	return err == nil
+}
+
 // Validate behavior across all the configs.
 func TestRequiredAttributes(t *testing.T) {
 	fullNoteIDmap := make(map[string]*cpb.ComplianceNote)
 	cpeVersionMap := make(map[string]*stringset.Set)
 	for filePath, configBytes := range scanConfigs {
+		if isReducedConfigFile(configBytes) {
+			continue
+		}
 		config := &apb.ScanConfig{}
 		if err := prototext.Unmarshal(configBytes, config); err != nil {
 			t.Errorf("error reading %s: %v", filePath, err)
@@ -117,6 +131,9 @@ func TestFilesHaveSupportedName(t *testing.T) {
 
 func TestScanInstructionsHaveDisplayCommandAndNonComplianceReason(t *testing.T) {
 	for filePath, configBytes := range scanConfigs {
+		if isReducedConfigFile(configBytes) {
+			continue
+		}
 		config := &apb.ScanConfig{}
 		if err := prototext.Unmarshal(configBytes, config); err != nil {
 			t.Errorf("error reading %s: %v", filePath, err)
@@ -143,6 +160,9 @@ func TestScanInstructionsSameForFileSets(t *testing.T) {
 		scanInstructionForNoteID := make(map[string]*sipb.BenchmarkScanInstruction)
 		for filePath, configBytes := range scanConfigs {
 			if filepath.Base(filePath) != fileName {
+				continue
+			}
+			if isReducedConfigFile(configBytes) {
 				continue
 			}
 			config := &apb.ScanConfig{}
@@ -172,6 +192,9 @@ func TestScanInstructionsSameForFileSets(t *testing.T) {
 func TestFallbackNotesHaveExpectedIdFormat(t *testing.T) {
 	for filePath, configBytes := range scanConfigs {
 		if !strings.Contains(filePath, "fallback") {
+			continue
+		}
+		if isReducedConfigFile(configBytes) {
 			continue
 		}
 		config := &apb.ScanConfig{}
