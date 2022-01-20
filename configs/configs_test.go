@@ -115,6 +115,29 @@ func TestFilesHaveSupportedName(t *testing.T) {
 	}
 }
 
+func TestScanInstructionsHaveDisplayCommandAndNonComplianceReason(t *testing.T) {
+	for filePath, configBytes := range scanConfigs {
+		config := &apb.ScanConfig{}
+		if err := prototext.Unmarshal(configBytes, config); err != nil {
+			t.Errorf("error reading %s: %v", filePath, err)
+		}
+		for _, b := range config.GetBenchmarkConfigs() {
+			noteID := b.GetId()
+			scanInstructions := &sipb.BenchmarkScanInstruction{}
+			if err := prototext.Unmarshal(b.GetComplianceNote().GetScanInstructions(), scanInstructions); err != nil {
+				t.Errorf("%s could not parse scan instructions: %v", noteID, err)
+			}
+			for _, a := range scanInstructions.GetCheckAlternatives() {
+				for _, f := range a.GetFileChecks() {
+					if len(f.GetFileDisplayCommand()) > 0 && len(f.GetNonComplianceMsg()) == 0 {
+						t.Errorf("check for benchmark %s has a file display command set but no non-compliance message", noteID)
+					}
+				}
+			}
+		}
+	}
+}
+
 func TestScanInstructionsSameForFileSets(t *testing.T) {
 	for _, fileName := range configFileNames.Elements() {
 		scanInstructionForNoteID := make(map[string]*sipb.BenchmarkScanInstruction)
