@@ -1,3 +1,9 @@
+1.1.4:
+* Miscellaneous benchmark fixes
+* Remove the Basel-related build files
+* Make building compatible with older Go versions
+* More work on de-duplicating benchmark configs
+
 1.1.3:
 * Make compilation with "go build" possible
 * Fix some of the checks in the COS benchmark config
