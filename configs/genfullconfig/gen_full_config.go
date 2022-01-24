@@ -21,7 +21,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/google/localtoast/configs/genfullconfig/genfullconfig"
+	"github.com/google/localtoast/configs/genfullconfig/genfullconfiglib"
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 		}
 	}
 
-	if err := genfullconfig.Generate(inPaths, outPaths, *omitDescriptions); err != nil {
+	if err := genfullconfiglib.Generate(inPaths, outPaths, *omitDescriptions); err != nil {
 		log.Fatal(err)
 	}
 }

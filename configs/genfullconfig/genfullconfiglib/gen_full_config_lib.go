@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package genfullconfig creates full per-OS scan config files by combining
+// Package genfullconfiglib creates full per-OS scan config files by combining
 // the config definition and the reduced config files.
-package genfullconfig
+package genfullconfiglib
 
 import (
 	"errors"
