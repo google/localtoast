@@ -1,0 +1,3063 @@
+benchmark_configs: {
+  id: "tmp-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure /tmp is configured"
+    description:
+      "The /tmp directory is a world-writable directory used for temporary "
+      "storage by all users and some applications."
+    rationale:
+      "Making /tmp its own file system allows an administrator to set the "
+      "noexec option on the mount, making /tmp useless for an attacker to "
+      "install executable code. It would also prevent an attacker from "
+      "establishing a hardlink to a system setuid program and wait for it to "
+      "be updated. Once the program was updated, the hardlink would be "
+      "broken and the attacker would have his own copy of the program. If "
+      "the program happened to have a security vulnerability, the attacker "
+      "could continue to exploit the known flaw. This can be accomplished "
+      "by either mounting tmpfs to /tmp, or creating a separate partition "
+      "for /tmp."
+    remediation:
+      "Configure /etc/fstab as appropriate.\n"
+      "example:\n"
+      "```\n"
+      "tmpfs /tmp tmpfs defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
+      "```\n"
+      "OR\n"
+      "Run the following commands to enable systemd /tmp mounting:\n"
+      "```\n"
+      "systemctl unmask tmp.mount\n"
+      "systemctl enable tmp.mount\n"
+      "```\n"
+      "Edit /usr/lib/systemd/system/tmp.mount to configure "
+      "the /tmp mount:\n"
+      "```\n"
+      "[Mount]\n"
+      "What=tmpfs\n"
+      "Where=/tmp\n"
+      "Type=tmpfs\n"
+      "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /tmp .*- .*\""
+      "          expected_regex: \".* /tmp .*- tmpfs tmpfs.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/lib/systemd/system/tmp.mount\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Type=.*\""
+      "          expected_regex: \"Type=tmpfs\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/lib/systemd/system/tmp.mount\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Type=.*\""
+      "          expected_regex: \"Type=tmpfs\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "var-nodev-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nodev option set on /var partition"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain "
+      "special devices."
+    rationale:
+      "Since the /var filesystem is not intended to support devices, set "
+      "this option to ensure that users cannot attempt to create block or "
+      "character special devices in /var."
+    remediation:
+      "Run the following command to remount /var:\n"
+      "```\n"
+      "# mount -o remount,nodev /var\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "var-nosuid-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nosuid option set on /var partition"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain "
+      "setuid files."
+    rationale:
+      "Since the /var filesystem is only intended for temporary file "
+      "storage, set this option to ensure that users cannot create setuid "
+      "files in /var."
+    remediation:
+      "Run the following command to remount /var:\n"
+      "```\n"
+      "# mount -o remount,nosuid /var\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "var-noexec-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure noexec option set on /var partition"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain "
+      "executable binaries."
+    rationale:
+      "Since the /var filesystem is only intended for temporary file "
+      "storage, set this option to ensure that users cannot run executable "
+      "binaries from /var."
+    remediation:
+      "Run the following command to remount /var:\n"
+      "```\n"
+      "# mount -o remount,noexec /var\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*noexec.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "tmp-nodev-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nodev option set on /tmp partition"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain "
+      "special devices."
+    rationale:
+      "Since the /tmp filesystem is not intended to support devices, set "
+      "this option to ensure that users cannot attempt to create block or "
+      "character special devices in /tmp ."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
+      "options) for the /tmp partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /tmp:\n"
+      "```\n"
+      "# mount -o remount,nodev /tmp\n"
+      "```\n"
+      "or\n"
+      "Edit the config file in /usr/lib/systemd/system/tmp.mount.d to add "
+      "nodev to the /tmp mount options:\n"
+      "```\n"
+      "[Mount]\n"
+      "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
+      "Run the following command to remount /tmp:\n"
+      "# mount -o remount,nodev /tmp\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /tmp .* - .*\""
+      "          expected_regex: \".* /tmp .*nodev.* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/lib/systemd/system/tmp.mount.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Options=.*\""
+      "          expected_regex: \"Options=.*nodev.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/lib/systemd/system/tmp.mount.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Options=.*\""
+      "          expected_regex: \"Options=.*nodev.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "tmp-nosuid-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nosuid option set on /tmp partition"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain "
+      "setuid files."
+    rationale:
+      "Since the /tmp filesystem is only intended for temporary file "
+      "storage, set this option to ensure that users cannot create setuid "
+      "files in /tmp ."
+    remediation:
+      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting "
+      "options) for the /tmp partition. See the fstab(5) manual page for "
+      "more information."
+      "Run the following command to remount /tmp:\n"
+      "```\n"
+      "# mount -o remount,nosuid /tmp\n"
+      "```\n"
+      "or\n"
+      "Edit the config file in /usr/lib/systemd/system/tmp.mount.d to add "
+      "nosuid to the /tmp mount options:\n"
+      "```\n"
+      "[Mount]\n"
+      "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
+      "```\n"
+      "Run the following command to remount /tmp:\n"
+      "```\n"
+      "# mount -o remount,nosuid /tmp\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /tmp .* - .*\""
+      "          expected_regex: \".* /tmp .*nosuid.* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/lib/systemd/system/tmp.mount.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Options=.*\""
+      "          expected_regex: \"Options=.*nosuid.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/lib/systemd/system/tmp.mount.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Options=.*\""
+      "          expected_regex: \"Options=.*nosuid.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "tmp-noexec-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure noexec option set on /tmp partition"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain "
+      "executable binaries."
+    rationale:
+      "Since the /tmp filesystem is only intended for temporary file "
+      "storage, set this option to ensure that users cannot run executable "
+      "binaries from /tmp ."
+    remediation:
+      "Edit the /etc/fstab file and add noexec to the fourth field (mounting "
+      "options) for the /tmp partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /tmp:\n"
+      "```\n"
+      "# mount -o remount,noexec /tmp\n"
+      "```\n"
+      "or\n"
+      "Edit the config file in /usr/lib/systemd/system/tmp.mount.d to add "
+      "noexec to the /tmp mount options:\n"
+      "```\n"
+      "[Mount]\n"
+      "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
+      "```\n"
+      "Run the following command to remount /tmp:\n"
+      "```\n"
+      "# mount -o remount,noexec /tmp\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /tmp .* - .*\""
+      "          expected_regex: \".* /tmp .*noexec.* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/lib/systemd/system/tmp.mount.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Options=.*\""
+      "          expected_regex: \"Options=.*noexec.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/lib/systemd/system/tmp.mount.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Options=.*\""
+      "          expected_regex: \"Options=.*noexec.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "home-nodev-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nodev option set on /home partition"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain "
+      "special devices."
+    rationale:
+      "Since the user partitions are not intended to support devices, set "
+      "this option to ensure that users cannot attempt to create block or "
+      "character special devices."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
+      "options) for the /home partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "# mount -o remount,nodev /home\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /home .* - .*\""
+      "        expected_regex: \".* /home .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "shm-nodev-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nodev option set on /dev/shm partition"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain "
+      "special devices."
+    rationale:
+      "Since the /dev/shm filesystem is not intended to support devices, set "
+      "this option to ensure that users cannot attempt to create special "
+      "devices in /dev/shm partitions."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
+      "options) for the /dev/shm partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /dev/shm:\n"
+      "```\n"
+      "# mount -o remount,nodev /dev/shm\n\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /dev/shm .* - .*\""
+      "        expected_regex: \".* /dev/shm .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "shm-nosuid-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure nosuid option set on /dev/shm partition"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain "
+      "setuid files."
+    rationale:
+      "Setting this option on a file system prevents users from introducing "
+      "privileged programs onto the system and allowing non-root users to "
+      "execute them."
+    remediation:
+      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting "
+      "options) for the /dev/shm partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /dev/shm:\n"
+      "```\n"
+      "# mount -o remount,nosuid /dev/shm\n\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /dev/shm .* - .*\""
+      "        expected_regex: \".* /dev/shm .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "shm-noexec-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure noexec option set on /dev/shm partition"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain "
+      "executable binaries."
+    rationale:
+      "Setting this option on a file system prevents users from executing "
+      "programs from shared memory. This deters users from introducing "
+      "potentially malicious software on the system."
+    remediation:
+      "Make sure the /usr/lib/systemd/system/dev-shm-remount.service file "
+      "remounts the /dev/shm partition with noexec:\n"
+      "```\n"
+      "ExecStart=/bin/mount -o remount,noexec /dev/shm\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .* - .*\""
+      "          expected_regex: \".* /dev/shm .*noexec.* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/lib/systemd/system/dev-shm-remount.service\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"ExecStart=.*\""
+      "          expected_regex: \"ExecStart=/bin/mount -o remount.*noexec.* /dev/shm\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/lib/systemd/system/dev-shm-remount.service\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"ExecStart=.*\""
+      "          expected_regex: \"ExecStart=/bin/mount -o remount.*noexec.* /dev/shm\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "dm-verity-installed-cos-93"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure dm-verity is enabled"
+    description:
+      "device-mapper-verity (dm-verity) kernel feature provides transparent "
+      "integrity checking of block devices using a cryptographic digest "
+      "provided by the kernel crypto API."
+    rationale:
+      "The Container-Optimized OS root filesystem is always mounted as "
+      "read-only. Additionally, its checksum is computed at build time and "
+      "verified by the kernel on each boot. This mechanism prevents against "
+      "attackers from \"owning\" the machine through permanent local changes."
+    remediation: "An OS image update that has the dm-verity enabled kernel is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/boot\""
+      "      recursive: false"
+      "      filename_regex: \"config-.*\""
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"CONFIG_DM_VERITY=.*\""
+      "        expected_regex: \"CONFIG_DM_VERITY=y\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "bootloader-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on bootloader config are configured"
+    description:
+      "The grub configuration file contains information on boot settings and "
+      "passwords for unlocking boot options. The grub configuration is usually "
+      "grub.cfg stored in /boot/grub2/ or /boot/grub/."
+    rationale:
+      "Setting the permissions to read and write for root only prevents "
+      "non-root users from seeing the boot parameters or changing them. "
+      "Non-root users who read the boot parameters may be able to identify "
+      "weaknesses in security upon boot and be able to exploit them."
+    remediation:
+      "Changing the permissions on grub configuration is not possible because "
+      "rootfs is read-only file system. An image update with the correct grub "
+      "configuration is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/efi/boot/grub.cfg\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "auth-for-single-user-required-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure authentication required for single user mode"
+    description:
+      "Single user mode is used for recovery when the system detects an "
+      "issue during boot or by manual selection from the bootloader."
+    rationale:
+      "Requiring authentication in single user mode prevents an unauthorized "
+      "user from rebooting the system into single user to gain root "
+      "privileges without credentials."
+    remediation:
+      "Rootfs is read-only file system. Therefore, update to an OS image "
+      "which requires single user mode authentication."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/rescue.service\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"ExecStart=-/usr/lib/systemd/systemd-sulogin-shell.*\""
+      "        expected_regex: \"ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/emergency.service\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"ExecStart=-/usr/lib/systemd/systemd-sulogin-shell.*\""
+      "        expected_regex: \"ExecStart=-/usr/lib/systemd/systemd-sulogin-shell emergency\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "core-dumps-restricted-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure core dumps are restricted"
+    description:
+      "A core dump is the memory of an executable program. It is generally "
+      "used to determine why a program aborted. It can also be used to glean "
+      "confidential information from a core file. The system provides the "
+      "ability to set a soft limit for core dumps, but this can be overridden "
+      "by the user."
+    rationale:
+      "Setting a hard limit on core dumps prevents users from overriding the "
+      "soft variable. If core dumps are required, consider setting limits for "
+      "user groups (see limits.conf(5) ). In addition, setting the "
+      "fs.suid_dumpable variable to 0 will prevent setuid programs from "
+      "dumping core."
+    remediation:
+      "Add the following line to /etc/security/limits.conf or a "
+      "/etc/security/limits.d/* file\n:"
+      "* hard core 0\n"
+      "Run the following command to set the active kernel parameter:\n"
+      "```\n"
+      "# sysctl -w fs.suid_dumpable=0\n"
+      "```\n"
+      "If systemd-coredump@ is installed:\n"
+      "edit /etc/systemd/coredump.conf and add/modify the following lines:\n"
+      "```\n"
+      "Storage=none\n"
+      "ProcessSizeMax=0\n"
+      "```\n"
+      "Run the command:\n"
+      "```\n"
+      "systemctl daemon-reload\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/limits.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*hard core.*\""
+      "          expected_regex: \"\\\\* hard core 0\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/fs/suid_dumpable\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "        files_in_dir:{"
+      "          dir_path:\"/usr/lib/systemd/system\""
+      "          recursive: true"
+      "          filename_regex: \"systemd-coredump@.service\""
+      "        }"
+      "      }"
+      "      existence:{should_exist: true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "        files_in_dir:{"
+      "          dir_path:\"/usr/lib/systemd/system\""
+      "          recursive: true"
+      "          filename_regex: \"systemd-coredump.socket\""
+      "        }"
+      "      }"
+      "      existence:{should_exist: true}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/share/google/security\""
+      "        filename_regex: \".*\\\\.sh\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"echo .* /etc/security/limits.conf\""
+      "          expected_regex: \"echo \\\"\\\\* hard core 0\\\" >> /etc/security/limits.conf\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "motd-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure message of the day is configured properly"
+    description:
+      "The contents of the /etc/motd file are displayed to users after login "
+      "and function as a message of the day for authenticated users.\n"
+      "Unix-based systems have typically displayed information about the OS "
+      "release and patch level upon logging in to the system. This information "
+      "can be useful to developers who are developing software for a "
+      "particular OS platform. If mingetty(8) supports the following options, "
+      "they display operating system information: \\m - machine architecture "
+      "\\r - operating system release \\s - operating system name \\v - "
+      "operating system version"
+    rationale:
+      "Warning messages inform users who are attempting to login to the "
+      "system of their legal status regarding the system and must include the "
+      "name of the organization that owns the system and any monitoring "
+      "policies that are in place. Displaying OS and patch level information "
+      "in login banners also has the side effect of providing detailed system "
+      "information to attackers attempting to target specific exploits of a "
+      "system. Authorized users can easily get this information by running "
+      "the \"uname -a\" command once they have logged in."
+    remediation:
+      "Edit the /etc/motd file with the appropriate contents according to "
+      "your site policy, remove any instances of \\m , \\r , \\s , \\v or "
+      "references to the OS platform\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    content:{content:\"\"}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "local-login-warning-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure local login warning banner is configured properly"
+    description:
+      "The contents of the /etc/issue file are displayed to users prior to "
+      "login for local terminals. Unix-based systems have typically "
+      "displayed information about the OS release and patch level upon "
+      "logging in to the system. This information can be useful to "
+      "developers who are developing software for a particular OS platform. "
+      "If mingetty(8) supports the following options, they display operating "
+      "system information: \\m - machine architecture \\r - operating system "
+      "release \\s - operating system name \\v - operating system version - or "
+      "the operating system's name"
+    rationale:
+      "Warning messages inform users who are attempting to login to the "
+      "system of their legal status regarding the system and must include "
+      "the name of the organization that owns the system and any monitoring "
+      "policies that are in place. Displaying OS and patch level information "
+      "in login banners also has the side effect of providing detailed "
+      "system information to attackers attempting to target specific "
+      "exploits of a system. Authorized users can easily get this "
+      "information by running the \" uname -a \" command once they have logged in."
+    remediation:
+      "Make sure the /etc/issue file is empty. Alternatively, edit the /etc/issue "
+      "file with the appropriate contents according to your site policy, remove "
+      "any instances of \\m , \\r , \\s , \\v or references to the OS platform, "
+      "and opt the file out from scanning to prevent further compliance reports.\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "    content:{content:\"\"}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "remote-login-warning-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure remote login warning banner is configured properly"
+    description:
+      "The contents of the /etc/issue.net file are displayed to users prior to "
+      "login for remote connections from configured services."
+      "Unix-based systems have typically displayed information about the OS "
+      "release and patch level upon logging in to the system. This "
+      "information can be useful to developers who are developing software "
+      "for a particular OS platform. If mingetty(8) supports the following "
+      "options, they display operating system information: \\m - machine "
+      "architecture \\r - operating system release \\s - operating system "
+      "name \\v - operating system version"
+    rationale:
+      "Warning messages inform users who are attempting to login to the "
+      "system of their legal status regarding the system and must include "
+      "the name of the organization that owns the system and any monitoring "
+      "policies that are in place. Displaying OS and patch level information "
+      "in login banners also has the side effect of providing detailed "
+      "system information to attackers attempting to target specific "
+      "exploits of a system. Authorized users can easily get this "
+      "information by running the \" uname -a \" command once they have logged "
+      "in."
+    remediation:
+      "Make sure the /etc/issue.net file is empty or deleted. Alternatively, "
+      "edit the /etc/issue.net file with the appropriate contents according "
+      "to your site policy, remove any instances of \\m , \\r , \\s , \\v "
+      "or references to the OS platform and opt the file out from scanning "
+      "to prevent further compliance reports.\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "    content:{content:\"\"}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "motd-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on /etc/motd are configured"
+    description:
+      "The contents of the /etc/motd file are displayed to users after login "
+      "and function as a message of the day for authenticated users."
+    rationale:
+      "If the /etc/motd file does not have the correct ownership it could be "
+      "modified by unauthorized users with incorrect or misleading information."
+    remediation:
+      "Run the following commands to set permissions on /etc/motd:\n"
+      "```\n"
+      "# chown root:root /etc/motd\n"
+      "# chmod 644 /etc/motd\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    permission:{"
+      "      set_bits: 0444"
+      "      clear_bits: 0133"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "etc-issue-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on /etc/issue are configured"
+    description:
+      "The contents of the /etc/issue file are displayed to users prior to "
+      "login for local terminals."
+    rationale:
+      "If the /etc/issue file does not have the correct ownership it could "
+      "be modified by unauthorized users with incorrect or misleading "
+      "information."
+    remediation:
+      "Run the following commands to set permissions on /etc/issue:\n"
+      "```\n"
+      "# chown root:root /etc/issue\n"
+      "# chmod 644 /etc/issue\n\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "    permission:{"
+      "      set_bits: 0444"
+      "      clear_bits: 0133"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "etc-issue-net-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on /etc/issue.net are configured"
+    description:
+      "The contents of the /etc/issue.net file are displayed to users prior "
+      "to login for remote connections from configured services."
+    rationale:
+      "If the /etc/issue.net file does not have the correct ownership it "
+      "could be modified by unauthorized users with incorrect or misleading "
+      "information."
+    remediation:
+      "Run the following commands to set permissions on /etc/issue.net:\n"
+      "```\n"
+      "# chown root:root /etc/issue.net\n"
+      "# chmod 644 /etc/issue.net\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "    permission:{"
+      "      set_bits: 0444"
+      "      clear_bits: 0133"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "chrony-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure time synchronization is in use"
+    description:
+      "System time should be synchronized between all systems in an environment. This\n"
+      "is typically done by establishing an authoritative time server or set of\n"
+      "servers and having all systems synchronize their clocks to them."
+    rationale:
+      "Time synchronization is important to support time sensitive security\n"
+      "mechanisms like Kerberos and also ensures log files have consistent time\n"
+      "records across the enterprise, which aids in forensic investigations."
+    remediation:
+      "On physical systems or virtual systems where host based time "
+      "synchronization is not available update to an image that comes with "
+      "chrony package installed.\n"
+      "On virtual systems where host based time synchronization is available "
+      "consult your virtualization software documentation and setup host "
+      "based synchronization."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"chrony\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"chrony\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "chrony-configured-cos-89"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    title: "Ensure chrony is configured"
+    description:
+      "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
+      "designed to synchronize system clocks across a variety of systems and use a\n"
+      "source that is highly accurate. More information on chrony can be found at\n"
+      "http://chrony.tuxfamily.org/. chrony can be configured to be a client and/or a\n"
+      "server."
+    rationale:
+      "If chrony is in use on the system proper configuration is vital to ensuring\n"
+      "time synchronization is working properly. This recommendation only applies if\n"
+      "chrony is in use on the system."
+    remediation:
+      "Add or edit server or pool lines to /etc/chrony.conf as appropriate:\n"
+      "```\n"
+      "server <remote-server>\n"
+      "```\n"
+      "Configure chrony to run as the chrony user by configuring the appropriate\n"
+      "startup script for your distribution. Startup scripts are typically stored in \n"
+      "/etc/init.d or /etc/systemd"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "chrony-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure chrony is configured"
+    description:
+      "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
+      "designed to synchronize system clocks across a variety of systems and use a\n"
+      "source that is highly accurate. More information on chrony can be found at\n"
+      "http://chrony.tuxfamily.org/. chrony can be configured to be a client and/or a\n"
+      "server."
+    rationale:
+      "If chrony is in use on the system proper configuration is vital to ensuring\n"
+      "time synchronization is working properly. This recommendation only applies if\n"
+      "chrony is in use on the system."
+    remediation:
+      "Add or edit server or pool lines to /etc/chrony.conf as appropriate:\n"
+      "```\n"
+      "server <remote-server>\n"
+      "```\n"
+      "Configure chrony to run as the chrony user by configuring the appropriate\n"
+      "startup script for your distribution. Startup scripts are typically stored in\n"
+      "etc/init.d or /etc/systemd"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      permission:{user: {name: \"ntp\" should_own: true}}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "x-window-system-not-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure X Window System is not installed"
+    description:
+      "The X Window System provides a Graphical User Interface (GUI) where users can\n"
+      "have multiple windows in which to run programs and various add on. The X\n"
+      "Windows system is typically used on workstations where users login, but not on\n"
+      "servers where users typically do not login."
+    rationale:
+      "Unless your organization specifically requires graphical login access via X\n"
+      "Windows, remove it to reduce the potential attack surface."
+    remediation: "An OS image update that does not include X Window System is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\".*xorg.*\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\".*xorg.*\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "nfs-rpc-disabled-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure NFS and RPC are not enabled"
+    description:
+      "The Network File System (NFS) is one of the first and most widely distributed\n"
+      "file systems in the UNIX environment. It provides the ability for systems to\n"
+      "mount file systems of other servers through the network."
+    rationale:
+      "If the system does not export NFS shares or act as an NFS client, it is\n"
+      "recommended that these services be disabled to reduce the remote attack\n"
+      "surface."
+    remediation:
+      "Run one of the following commands to disable nfs and rpcbind:\n"
+      "```\n"
+      "# chkconfig nfs off\n"
+      "# chkconfig rpcbind off\n"
+      "# systemctl disable nfs\n"
+      "# systemctl disable rpcbind\n"
+      "# update-rc.d nfs disable\n"
+      "# update-rc.d rpcbind disable\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"nfs.service\""
+      "      }"
+      "    }"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"rpcbind.service\""
+      "      }"
+      "    }"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables nfs or rpcbind\""
+      "    file_display_command: \"find /etc/systemd/system -name 'nfs.service'; find /etc/systemd/system -name 'rpcbind.service'\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "rsync-disabled-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure rsync service is not enabled"
+    description:
+      "The rsyncd service can be used to synchronize files between systems over\n"
+      "network links."
+    rationale:
+      "The rsyncd service presents a security risk as it uses unencrypted protocols\n"
+      "for communication."
+    remediation:
+      "Run the following command to disable rsyncd:\n"
+      "```\n"
+      "# systemctl --now disable rsyncd\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"rsyncd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables rsyncd\""
+      "    file_display_command: \"find /etc/systemd/system -name rsyncd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "nis-client-not-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure NIS Client is not installed"
+    description:
+      "The Network Information Service (NIS), formerly known as Yellow Pages, is a\n"
+      "client-server directory service protocol used to distribute system\n"
+      "configuration files. The NIS client ( ypbind ) was used to bind a machine to\n"
+      "an NIS server and receive the distributed configuration files."
+    rationale:
+      "The NIS service is inherently an insecure system that has been vulnerable to\n"
+      "DOS attacks, buffer overflows and has poor authentication for querying NIS\n"
+      "maps. NIS generally has been replaced by such protocols as Lightweight\n"
+      "Directory Access Protocol (LDAP). It is recommended that the service be removed."
+    remediation:
+      "Uninstall ypbind using the appropriate package manager or manual installation:\n"
+      "```\n"
+      "yum remove ypbind\n"
+      "apt-get remove ypbind\n"
+      "zypper remove ypbind\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"ypbind\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"ypbind\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "rsh-client-not-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure rsh client is not installed"
+    description: "The rsh package contains the client commands for the rsh services."
+    rationale:
+      "These legacy clients contain numerous security exposures and have been\n"
+      "replaced with the more secure SSH package. Even if the server is removed, it\n"
+      "is best to ensure the clients are also removed to prevent users from\n"
+      "inadvertently attempting to use these commands and therefore exposing their\n"
+      "credentials. Note that removing the rsh package removes the clients for rsh,\n"
+      "rcp and rlogin."
+    remediation:
+      "Uninstall rsh using the appropriate package manager or manual installation:\n"
+      "```\n"
+      "yum remove rsh\n"
+      "apt-get remove rsh\n"
+      "zypper remove rsh\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"rsh\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"rsh\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "talk-client-not-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure talk client is not installed"
+    description:
+      "The talk software makes it possible for users to send and receive messages\n"
+      "across systems through a terminal session. The talk client, which allows\n"
+      "initialization of talk sessions, is installed by default."
+    rationale:
+      "The software presents a security risk as it uses unencrypted protocols for\n"
+      "communication."
+    remediation:
+      "Uninstall talk using the appropriate package manager or manual installation:\n"
+      "```\n"
+      "yum remove talk\n"
+      "apt-get remove talk\n"
+      "zypper remove talk\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"talk\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"talk\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "telnet-client-not-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure telnet client is not installed"
+    description:
+      "The telnet package contains the telnet client, which allows users to start\n"
+      "connections to other systems via the telnet protocol."
+    rationale:
+      "The telnet protocol is insecure and unencrypted. The use of an unencrypted\n"
+      "transmission medium could allow an unauthorized user to steal credentials. The\n"
+      "ssh package provides an encrypted session and stronger security and is\n"
+      "included in most Linux distributions."
+    remediation:
+      "Uninstall telnet using the appropriate package manager or manual installation:\n"
+      "```\n"
+      "# yum remove telnet\n"
+      "# apt-get remove telnet\n"
+      "# zypper remove telnet\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"telnet\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"telnet\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ldap-client-not-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure LDAP client is not installed"
+    description:
+      "The Lightweight Directory Access Protocol (LDAP) was introduced as a\n"
+      "replacement for NIS/YP. It is a service that provides a method for looking up\n"
+      "information from a central database."
+    rationale:
+      "If the system will not need to act as an LDAP client, it is recommended that\n"
+      "the software be removed to reduce the potential attack surface."
+    remediation:
+      "Uninstall openldap-clients using the appropriate package manager or manual\n"
+      "installation:\n"
+      "```\n"
+      "# yum remove openldap-clients\n"
+      "# apt-get remove openldap-clients\n"
+      "# zypper remove openldap-clients\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"openldap-clients\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"openldap-clients\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "packet-redirect-sending-disabled-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure packet redirect sending is disabled"
+    description:
+      "ICMP Redirects are used to send routing information to other hosts. As a host\n"
+      "itself does not act as a router (in a host only configuration), there is no\n"
+      "need to send redirects."
+    rationale:
+      "An attacker could use a compromised host to send invalid ICMP redirects to\n"
+      "other router devices in an attempt to corrupt routing and have users access a\n"
+      "system set up by the attacker as opposed to a valid system."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.conf.all.send_redirects = 0\n"
+      "net.ipv4.conf.default.send_redirects = 0\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.send_redirects=0\n"
+      "# sysctl -w net.ipv4.conf.default.send_redirects=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/send_redirects\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/send_redirects\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.send_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.send_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.send_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.send_redirects *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables send_redirects\""
+      "      file_display_command: \"grep -l 'send_redirects' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.send_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.send_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.send_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.send_redirects *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables send_redirects\""
+      "      file_display_command: \"grep -l 'send_redirects' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "source-routed-packets-not-accepted-cos-89"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    title: "Ensure source routed packets are not accepted"
+    description:
+      "In networking, source routing allows a sender to partially or fully specify\n"
+      "the route packets take through a network. In contrast, non-source routed\n"
+      "packets travel a path determined by routers in the network. In some cases,\n"
+      "systems may not be routable or reachable from some locations (e.g. private\n"
+      "addresses vs. Internet routable), and so source routed packets would need to\n"
+      "be used."
+    rationale:
+      "Setting net.ipv4.conf.all.accept_source_route, and \n"
+      "net.ipv4.conf.default.accept_source_route to 0 disables the system from \n"
+      "accepting source routed packets. Assume this system was capable of routing \n"
+      "packets to Internet routable addresses on one interface and private addresses \n"
+      "on another interface. Assume that the private addresses were not routable to \n"
+      "the Internet routable addresses and vice versa. Under normal routing \n"
+      "circumstances, an attacker from the Internet routable addresses could not use \n"
+      "the system as a way to reach the private address systems. If, however, source \n"
+      "routed packets were allowed, they could be used to gain access to the private \n"
+      "address systems as the route could be specified, rather than rely on routing \n"
+      "protocols that did not allow this routing."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.accept_source_route=0\n"
+      "# sysctl -w net.ipv4.conf.default.accept_source_route=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/accept_source_route\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/accept_source_route\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.accept_source_route *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.accept_source_route *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.accept_source_route *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.accept_source_route *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables accept_source_route\""
+      "      file_display_command: \"grep -l 'accept_source_route' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "source-routed-packets-not-accepted-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure source routed packets are not accepted"
+    description:
+      "In networking, source routing allows a sender to partially or fully specify\n"
+      "the route packets take through a network. In contrast, non-source routed\n"
+      "packets travel a path determined by routers in the network. In some cases,\n"
+      "systems may not be routable or reachable from some locations (e.g. private\n"
+      "addresses vs. Internet routable), and so source routed packets would need to\n"
+      "be used."
+    rationale:
+      "Setting net.ipv4.conf.all.accept_source_route, and \n"
+      "net.ipv4.conf.default.accept_source_route to 0 disables the system from \n"
+      "accepting source routed packets. Assume this system was capable of routing \n"
+      "packets to Internet routable addresses on one interface and private addresses \n"
+      "on another interface. Assume that the private addresses were not routable to \n"
+      "the Internet routable addresses and vice versa. Under normal routing \n"
+      "circumstances, an attacker from the Internet routable addresses could not use \n"
+      "the system as a way to reach the private address systems. If, however, source \n"
+      "routed packets were allowed, they could be used to gain access to the private \n"
+      "address systems as the route could be specified, rather than rely on routing \n"
+      "protocols that did not allow this routing."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.accept_source_route=0\n"
+      "# sysctl -w net.ipv4.conf.default.accept_source_route=0\n"
+      "# sysctl -w net.ipv6.conf.all.accept_source_route=0\n"
+      "# sysctl -w net.ipv6.conf.default.accept_source_route=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/accept_source_route\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/accept_source_route\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/accept_source_route\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/default/accept_source_route\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.accept_source_route *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.accept_source_route *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.accept_source_route *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.accept_source_route *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables accept_source_route\""
+      "      file_display_command: \"grep -l 'accept_source_route' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "icmp-redirects-not-accepted-cos-89"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    title: "Ensure ICMP redirects are not accepted"
+    description:
+      "ICMP redirect messages are packets that convey routing information and tell\n"
+      "your host (acting as a router) to send packets via an alternate path. It is a\n"
+      "way of allowing an outside routing device to update your system routing\n"
+      "tables. By setting net.ipv4.conf.all.accept_redirects to 0, the system will\n"
+      "not accept any ICMP redirect messages, and therefore, won't allow outsiders\n"
+      "to update the system's routing tables."
+    rationale:
+      "Attackers could use bogus ICMP redirect messages to maliciously alter the\n"
+      "system routing tables and get them to send packets to incorrect networks and\n"
+      "allow your system packets to be captured."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.accept_redirects=0\n"
+      "# sysctl -w net.ipv4.conf.default.accept_redirects=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/accept_redirects\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/accept_redirects\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "icmp-redirects-not-accepted-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure ICMP redirects are not accepted"
+    description:
+      "ICMP redirect messages are packets that convey routing information and tell\n"
+      "your host (acting as a router) to send packets via an alternate path. It is a\n"
+      "way of allowing an outside routing device to update your system routing\n"
+      "tables. By setting net.ipv4.conf.all.accept_redirects and net.ipv6.conf.all\n"
+      "accept_redirects to 0, the system will not accept any ICMP redirect messages,\n"
+      "and therefore, won't allow outsiders to update the system's routing tables."
+    rationale:
+      "Attackers could use bogus ICMP redirect messages to maliciously alter the\n"
+      "system routing tables and get them to send packets to incorrect networks and\n"
+      "allow your system packets to be captured."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.accept_redirects=0\n"
+      "# sysctl -w net.ipv4.conf.default.accept_redirects=0\n"
+      "# sysctl -w net.ipv6.conf.all.accept_redirects=0\n"
+      "# sysctl -w net.ipv6.conf.default.accept_redirects=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/accept_redirects\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/accept_redirects\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/accept_redirects\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/default/accept_redirects\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "secure-icmp-redirects-not-accepted-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure secure ICMP redirects are not accepted"
+    description:
+      "Secure ICMP redirects are the same as ICMP redirects, except they come "
+      "from gateways listed on the default gateway list. It is assumed that "
+      "these gateways are known to your system, and that they are likely to "
+      "be secure."
+    rationale:
+      "It is still possible for even known gateways to be compromised. "
+      "Setting net.ipv4.conf.all.secure_redirects to 0 protects the system "
+      "from routing table updates by possibly compromised known gateways."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.secure_redirects=0\n"
+      "# sysctl -w net.ipv4.conf.default.secure_redirects=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/secure_redirects\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/secure_redirects\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "suspicious-packets-logged-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure suspicious packets are logged"
+    description:
+      "When enabled, this feature logs packets with un-routable source "
+      "addresses to the kernel log."
+    rationale:
+      "Enabling this feature and logging these packets allows an administrator "
+      "to investigate the possibility that an attacker is sending spoofed "
+      "packets to their system."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.log_martians=1\n"
+      "# sysctl -w net.ipv4.conf.default.log_martians=1\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/log_martians\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/log_martians\"}}"
+      "    content:{content:\"1\\n\"}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "broadcast-icmp-requests-ignored-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure broadcast ICMP requests are ignored"
+    description:
+      "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to\n"
+      "ignore all ICMP echo and timestamp requests to broadcast and multicast\n"
+      "addresses."
+    rationale:
+      "Accepting ICMP echo and timestamp requests with broadcast or multicast\n"
+      "destinations for your network could be used to trick your host into starting\n"
+      "or participating) in a Smurf attack. A Smurf attack relies on an attacker\n"
+      "sending large amounts of ICMP broadcast messages with a spoofed source\n"
+      "address. All hosts receiving this message and responding would send echo-reply\n"
+      "messages back to the spoofed address, which is probably not routable. If many\n"
+      "hosts respond to the packets, the amount of traffic on the network could be\n"
+      "significantly multiplied."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.icmp_echo_ignore_broadcasts = 1\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.icmp_echo_ignore_broadcasts *=.*\""
+      "          expected_regex: \"net.ipv4.icmp_echo_ignore_broadcasts *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable echo_ignore_broadcasts\""
+      "      file_display_command: \"grep -l 'echo_ignore_broadcasts' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.icmp_echo_ignore_broadcasts *=.*\""
+      "          expected_regex: \"net.ipv4.icmp_echo_ignore_broadcasts *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable echo_ignore_broadcasts\""
+      "      file_display_command: \"grep -l 'echo_ignore_broadcasts' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "bogus-icmp-responses-ignored-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure bogus ICMP responses are ignored"
+    description:
+      "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from\n"
+      "logging bogus responses (RFC-1122 non-compliant) from broadcast reframes,\n"
+      "keeping file systems from filling up with useless log messages."
+    rationale:
+      "Some routers (and some attackers) will send responses that violate RFC-1122\n"
+      "and attempt to fill up a log file system with many useless error messages."
+    remediation:
+      "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.icmp_ignore_bogus_error_responses = 1\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/icmp_ignore_bogus_error_responses\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.icmp_ignore_bogus_error_responses *=.*\""
+      "          expected_regex: \"net.ipv4.icmp_ignore_bogus_error_responses *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable icmp_ignore_bogus_error_responses\""
+      "      file_display_command: \"grep -l 'icmp_ignore_bogus_error_responses' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.icmp_ignore_bogus_error_responses *=.*\""
+      "          expected_regex: \"net.ipv4.icmp_ignore_bogus_error_responses *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable icmp_ignore_bogus_error_responses\""
+      "      file_display_command: \"grep -l 'icmp_ignore_bogus_error_responses' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "reverse-path-filtering-enabled-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure Reverse Path Filtering is enabled"
+    description:
+      "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1\n"
+      "forces the Linux kernel to utilize reverse path filtering on a received packet\n"
+      "to determine if the packet was valid. Essentially, with reverse path\n"
+      "filtering, if the return packet does not go out the same interface that the\n"
+      "corresponding source packet came from, the packet is dropped (and logged if\n"
+      "log_martians is set)."
+    rationale:
+      "Setting these flags is a good way to deter attackers from sending your system\n"
+      "bogus packets that cannot be responded to. One instance where this feature\n"
+      "breaks down is if asymmetrical routing is employed. This would occur when\n"
+      "using dynamic routing protocols (bgp, ospf, etc) on your system. If you are\n"
+      "using asymmetrical routing on your system, you will not be able to enable this\n"
+      "feature without breaking the routing."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.conf.all.rp_filter = 1\n"
+      "net.ipv4.conf.default.rp_filter = 1\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.rp_filter=1\n"
+      "# sysctl -w net.ipv4.conf.default.rp_filter=1\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/rp_filter\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/rp_filter\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.rp_filter *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.rp_filter *= *1\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.rp_filter *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.rp_filter *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable rp_filter\""
+      "      file_display_command: \"grep -l 'rp_filter' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.rp_filter *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.rp_filter *= *1\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.rp_filter *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.rp_filter *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable rp_filter\""
+      "      file_display_command: \"grep -l 'rp_filter' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "tcp-syn-cookies-enabled-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure TCP SYN Cookies is enabled"
+    description:
+      "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally\n"
+      "until the half-open connection queue is full, at which time, the SYN cookie\n"
+      "functionality kicks in. SYN cookies work by not using the SYN queue at all.\n"
+      "Instead, the kernel simply replies to the SYN with a SYN|ACK, but will include\n"
+      "a specially crafted TCP sequence number that encodes the source and\n"
+      "destination IP address and port number and the time the packet was sent. A\n"
+      "legitimate connection would send the ACK packet of the three way handshake\n"
+      "with the specially crafted sequence number. This allows the system to verify\n"
+      "that it has received a valid response to a SYN cookie and allow the\n"
+      "connection, even though there is no corresponding SYN in the queue."
+    rationale:
+      "Attackers use SYN flood attacks to perform a denial of service attacked on a\n"
+      "system by sending many SYN packets without completing the three way handshake.\n"
+      "This will quickly use up slots in the kernel's half-open connection queue and\n"
+      "prevent legitimate connections from succeeding. SYN cookies allow the system\n"
+      "to keep accepting valid connections, even if under a denial of service attack."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.tcp_syncookies = 1\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.tcp_syncookies=1\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/tcp_syncookies\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.tcp_syncookies *=.*\""
+      "          expected_regex: \"net.ipv4.tcp_syncookies *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable tcp_syncookies\""
+      "      file_display_command: \"grep -l 'tcp_syncookies' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.tcp_syncookies *=.*\""
+      "          expected_regex: \"net.ipv4.tcp_syncookies *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"config files in /etc/sysctl.d/ do not enable tcp_syncookies\""
+      "      file_display_command: \"grep -l 'tcp_syncookies' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-router-advertisements-not-accepted-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure IPv6 router advertisements are not accepted"
+    description:
+      "This setting disables the system's ability to accept IPv6 router "
+      "advertisements."
+    rationale:
+      "It is recommended that systems do not accept router advertisements as "
+      "they could be tricked into routing traffic to compromised machines. "
+      "Setting hard routes within the system (usually a single default route "
+      "to a trusted router) protects the system from bad routes."
+    remediation:
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv6.conf.all.accept_ra=0\n"
+      "# sysctl -w net.ipv6.conf.default.accept_ra=0\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/accept_ra\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/default/accept_ra\"}}"
+      "    content:{content:\"0\\n\"}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "iptables-installed-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure iptables is installed"
+    description:
+      "iptables allows configuration of the IPv4 and IPv6 tables in the linux kernel\n"
+      "and the rules stored within them. Most firewall configuration utilities\n"
+      "operate as a front end to iptables."
+    rationale: "iptables is required for firewall management and configuration."
+    remediation: "An OS image update is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\"name\\\": \\\"iptables\\\".*\""
+      "        expected_regex: \".*\\\"name\\\": \\\"iptables\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "journald-compress-large-log-files-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure journald is configured to compress large log files"
+    description:
+      "The journald system includes the capability of compressing overly "
+      "large files to avoid filling up the system with logs or making the "
+      "logs unmanageably large."
+    rationale:
+      "Uncompressed large files may unexpectedly fill a filesystem leading to "
+      "resource unavailability. Compressing logs prior to write can prevent "
+      "sudden, unexpected filesystem impacts."
+    remediation:
+      "Edit the /etc/systemd/journald.conf file and add the following line:\n"
+      "```\n"
+      "Compress=yes\n"
+      "```\n"
+      "Reload the configuration to be effective.\n"
+      "```\n"
+      "# systemctl force-reload systemd-journald\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/journald.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Compress=.*\""
+      "          expected_regex: \"Compress=yes\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/share/google/security\""
+      "        filename_regex: \".*\\\\.sh\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"sed -i 's/\\\\^#Compress=.*/Compress=.*/' /etc/systemd/journald.conf\""
+      "          expected_regex: \"sed -i 's/\\\\^#Compress=.*/Compress=yes/' /etc/systemd/journald.conf\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "journald-write-to-persistent-disk-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure journald is configured to write logfiles to persistent disk"
+    description:
+      "Data from journald may be stored in volatile memory or persisted locally on\n"
+      "the server. Logs in memory will be lost upon a system reboot. By persisting\n"
+      "logs to local disk on the server they are protected from loss."
+    rationale:
+      "Writing log data to disk will provide the ability to forensically reconstruct\n"
+      "events which may have impacted the operations or security of a system even\n"
+      "after a system crash or reboot."
+    remediation:
+      "Edit the /etc/systemd/journald.conf file and add the following line:\n"
+      "```\n"
+      "Storage=persistent\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/systemd/journald.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"Storage=.*\""
+      "        expected_regex: \"Storage=persistent\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "logfile-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on all logfiles are configured"
+    description:
+      "Log files stored in /var/log/ contain logged information from many "
+      "services on the system, or on log hosts others as well."
+    rationale:
+      "It is important to ensure that log files have the correct permissions "
+      "to ensure that sensitive data is archived and protected."
+    remediation:
+      "Run the following commands to set permissions on all existing log files:\n"
+      "```\n"
+      "find /var/log -type f -exec chmod g-wx,o-rwx \"{}\" + -o -type d -exec chmod gw,o-rwx \"{}\" +\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/usr/share/google/security\""
+      "      filename_regex: \".*\\\\.sh\""
+      "      recursive: true"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      # Use a null byte as the delimiter to be able to match multi-line commands.
+      "      delimiter: \"\\0\""
+      "      match_criteria: {"
+      "        filter_regex: \".*sudo find /var/log.*\""
+      "        expected_regex: \".*sudo find /var/log -type f -exec chmod g-wx,o-rwx \\\"{}\\\" \\\\+ -o .* -type d -exec chmod g-w,o-rwx \\\"{}\\\" +.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "logrotate-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure logrotate is configured"
+    description:
+      "The system includes the capability of rotating log files regularly to "
+      "avoid filling up the system with logs or making the logs unmanageably "
+      "large. The file /etc/logrotate.d/syslog is the configuration file used "
+      "to rotate log files created by syslog or rsyslog."
+    rationale:
+      "By keeping the log files smaller and more manageable, a system "
+      "administrator can easily archive these files to another system and "
+      "spend less time looking through inordinately large log files."
+    remediation:
+      "Edit /etc/logrotate.conf and /etc/logrotate.d/* to ensure logs are "
+      "rotated according to site policy.\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/logrotate.conf\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/logrotate.d\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "password-creation-reqs-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure password creation requirements are configured"
+    description:
+      "The pam_passwdqc.so module checks the strength of passwords. It "
+      "performs checks such as making sure a password is not a dictionary "
+      "word, it is a certain length, contains a mix of characters (e.g. "
+      "alphabet, numeric, other) and more based on the following options set "
+      "in the /etc/security/passwdqc.conf:\n"
+      "min=disabled,disabled,disabled,disabled,14 - The password must be 14 "
+      "characters or more and consists of four character classes.\n"
+      "max=40 - The maximum allowed password length is 40.\n"
+      "passphrase=3 - The number of words required for a passphrase is at "
+      "least 3.\n"
+      "match=4 - The length of common substring required to conclude that a "
+      "password is at least partially based on information found in a "
+      "character string is 4.\n"
+      "similar=deny - The password that is similar to the old one is going to "
+      "be denied.\n"
+      "random=47 - The size of randomly-generated passphrases in bits is 47.\n"
+      "enforce=everyone - Warn everyone for weak passwords.\n"
+      "retry=3 - Let the user provide a password 3 times if the user fails to "
+      "provide a sufficiently strong password and enter it twice the first "
+      "time.\n"
+      "For more details, refer to pam_passwdqc module documentation. The "
+      "settings shown above are one possible policy. Alter these values to "
+      "conform to your own organization's password policies.\n"
+    rationale:
+      "Strong passwords protect systems from being hacked through brute force "
+      "methods."
+    remediation:
+      "Edit the file /etc/security/passwdqc.conf and add or modify the "
+      "following lines for password length and complexity to conform to site "
+      "policy:\n"
+      "```\n"
+      "min=disabled,disabled,disabled,disabled,14\n"
+      "max=40\n"
+      "passphrase=3\n"
+      "match=4\n"
+      "similar=deny\n"
+      "random=47\n"
+      "enforce=everyone\n"
+      "retry=3\n"
+      "```\n"
+      "Edit the /etc/pam.d/system-auth files to include the appropriate "
+      "options for pam_passwdqc.so and to conform to site policy:\n"
+      "```\n"
+      "password required pam_passwdqc.so config=/etc/security/passwdqc.conf\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/security/passwdqc.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"min=.*\""
+      "        expected_regex: \"min=disabled,disabled,disabled,disabled,(\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: GREATER_THAN"
+      "          const: 13"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex: \"(system-auth)|(common-password)\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*pam_passwdqc.so.*\""
+      "        expected_regex: \"password\\\\s+required\\\\s+pam_passwdqc.so\\\\s+config=/etc/security/passwdqc.conf\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "default-user-umask-027-or-more-restrictive-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure default user umask is 027 or more restrictive"
+    description:
+      "The default umask determines the permissions of files created by "
+      "users. The user creating the file has the discretion of making their "
+      "files and directories readable by others via the chmod command. Users "
+      "who wish to allow their files and directories to be readable by others "
+      "by default may choose a different default umask by inserting the umask "
+      "command into the standard shell configuration files (.profile, .bashrc"
+      ", etc.) in their home directories."
+    rationale:
+      "Setting a very secure default value for umask ensures that users make "
+      "a conscious choice about their file permissions. A default umask "
+      "setting of 077 causes files and directories created by users to not be "
+      "readable by any other user on the system. A umask of 027 would make "
+      "files and directories readable by users in the same Unix group, while "
+      "a umask of 022 would make files readable by every user on the system."
+    remediation:
+      "Edit the /etc/bash/bashrc, /etc/profile and /etc/profile.d/*.sh files "
+      "(and the appropriate files for any other shell supported on your "
+      "system) and add or edit any umask parameters as follows:\n"
+      "```\n"
+      "umask 027\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/bash/bashrc\"}}"
+      "      files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/profile.d\""
+      "        filename_regex: \".*\\\\.sh\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"umask .*\""
+      "          expected_regex: \"umask (\\\\d+)\""
+      "          group_criteria: {"
+      "            group_index: 1"
+      "            type: NO_LESS_RESTRICTIVE_UMASK"
+      "            const: 027"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/share/google/security\""
+      "        filename_regex: \".*\\\\.sh\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"sed.*umask.*/etc/profile\""
+      "          expected_regex: \"sed -i 's/\\\\^umask \\\\.\\\\*\\\\$/umask 027/' /etc/profile\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"echo.*umask.*/etc/profile.d/\\\\*\""
+      "          expected_regex: \"echo \\\"umask 027\\\" >> /etc/profile.d/\\\\*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"echo.*umask.*/etc/bash/bashrc\""
+      "          expected_regex: \"echo \\\"umask 027\\\" >> /etc/bash/bashrc\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "default-user-shell-timeout-900-or-less-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure default user shell timeout is 900 seconds or less"
+    description:
+      "The default TMOUT determines the shell timeout for users. The TMOUT "
+      "value is measured in seconds."
+    rationale:
+      "Having no timeout value associated with a shell could allow an "
+      "unauthorized user access to another user's shell session (e.g. user "
+      "walks away from their computer and doesn't lock the screen). Setting a "
+      "timeout value at least reduces the risk of this happening."
+    remediation:
+      "Edit the /etc/bash/bashrc and /etc/profile files (and the appropriate "
+      "files for any other shell supported on your system) and add or edit any "
+      "umask parameters as follows:\n"
+      "```\n"
+      "TMOUT=900\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/bash/bashrc\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"TMOUT=.*\""
+      "        expected_regex: \"TMOUT=(\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: LESS_THAN"
+      "          const: 901"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "access-to-su-restricted-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure access to the su command is restricted"
+    description:
+      "The su command allows a user to run a command or shell as another user. The\n"
+      "program has been superseded by sudo , which allows for more granular control\n"
+      "over privileged access. Normally, the su command can be executed by any user.\n"
+      "By uncommenting the pam_wheel.so statement in /etc/pam.d/su , the su command\n"
+      "will only allow users in the wheel group to execute su."
+    rationale:
+      "Restricting the use of su , and using sudo in its place, provides system\n"
+      "administrators better control of the escalation of user privileges to execute\n"
+      "privileged commands. The sudo utility also provides a better logging and audit\n"
+      "mechanism, as it can log each command executed via sudo, whereas su can only\n"
+      "record that a user executed the su program."
+    remediation:
+      "Add the following line to the /etc/pam.d/su file:\n"
+      "```\n"
+      "auth required pam_wheel.so use_uid\n"
+      "```\n"
+      "Create a comma separated list of users in the wheel statement in the "
+      "/etc/group file:\n"
+      "```\n"
+      "wheel:!:10:root,<user list>\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/pam.d/su\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"auth.*\\\\spam_wheel.so\\\\s.*\""
+      "        expected_regex: \"auth\\\\s*required\\\\s*pam_wheel.so\\\\s*use_uid\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/group\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"wheel:.*\""
+      "        expected_regex: \"wheel:.*:.*:root\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "etc-passwd-dash-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on /etc/passwd- are configured"
+    description: "The /etc/passwd- file contains backup user account information."
+    rationale:
+      "It is critical to ensure that the /etc/passwd- file is protected from "
+      "unauthorized access. Although it is protected by default, the file "
+      "permissions could be changed either inadvertently or through malicious "
+      "actions."
+    remediation:
+      "Run the following command to set permissions on /etc/passwd-:\n"
+      "```\n"
+      "# chown root:root /etc/passwd-\n"
+      "# chmod u-x,go-wx /etc/passwd-\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd-\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd-\"}}"
+      "    permission:{"
+      "      clear_bits: 0133"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "root-path-integrity-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure root PATH Integrity"
+    description:
+      "The root user can execute any command on the system and could be fooled "
+      "into executing programs unintentionally if the PATH is not set correctly"
+    rationale:
+      "Including the current working directory (.) or other writable directory "
+      "in root's executable path makes it likely that an attacker can gain "
+      "superuser access by forcing an administrator operating as root to execute "
+      "a Trojan horse program."
+    remediation: "Correct or justify any items discovered by the CIS document's Audit step."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      # Check the env vars of the scanner process's user. This assumes that the
+      # scanner is running as root.
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/environ\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      delimiter: \"\\0\""
+      # No empty dirs.
+      "      match_criteria: {"
+      "        filter_regex: \"PATH=.*\""
+      "        expected_regex: \"PATH=.*::\""
+      "      }"
+      # No trailing ':'.
+      "      match_criteria: {"
+      "        filter_regex: \"PATH=.*\""
+      "        expected_regex: \"PATH=.*:$\""
+      "      }"
+      "    }"
+      "  }"
+      # Directories have restricted permissions.
+      "  file_checks:{"
+      "    files_to_check:{unix_env_var_paths:{"
+      "      var_name: \"PATH\""
+      "      dirs_only: true"
+      "    }}"
+      "    permission:{"
+      "      clear_bits: 0022"
+      "      user: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      # No files among paths.
+      "  file_checks:{"
+      "    files_to_check:{unix_env_var_paths:{"
+      "      var_name: \"PATH\""
+      "      files_only: true"
+      "    }}"
+      "    existence:{should_exist: false}"
+      "  }"
+      # Base dir of /opt/bin and /usr/local/(s)bin are readonly.
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* / / .*- .*\""
+      "        expected_regex: \".* / .*ro*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
