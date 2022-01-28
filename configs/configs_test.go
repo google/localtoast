@@ -19,13 +19,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/encoding/prototext"
-	"google.golang.org/protobuf/testing/protocmp"
 	"bitbucket.org/creachadair/stringset"
-	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	spb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
@@ -45,12 +43,7 @@ func isReducedConfigFile(configBytes []byte) bool {
 
 // Validate behavior across all the configs.
 func TestRequiredAttributes(t *testing.T) {
-	fullNoteIDmap := make(map[string]*cpb.ComplianceNote)
-	cpeVersionMap := make(map[string]*stringset.Set)
-	for filePath, configBytes := range scanConfigs {
-		if isReducedConfigFile(configBytes) {
-			continue
-		}
+	for filePath, configBytes := range scanConfigDefs {
 		config := &apb.ScanConfig{}
 		if err := prototext.Unmarshal(configBytes, config); err != nil {
 			t.Errorf("error reading %s: %v", filePath, err)
@@ -87,41 +80,16 @@ func TestRequiredAttributes(t *testing.T) {
 			if note.GetCisBenchmark().GetSeverity() == spb.Severity_SEVERITY_UNSPECIFIED {
 				t.Errorf("%s GetCisBenchmark().GetSeverity(): got %s, want any specified severity", noteID, note.GetCisBenchmark().GetSeverity())
 			}
-			scanInstructions := &sipb.BenchmarkScanInstruction{}
+			scanInstructions := &sipb.BenchmarkScanInstructionDef{}
 			if err := prototext.Unmarshal(note.GetScanInstructions(), scanInstructions); err != nil {
 				t.Errorf("%s could not parse scan instructions: %v", noteID, err)
 			}
-			// Ensure that each note ID has an identical note, excluding version number, and scan instructions.
-			// Image and instance scanning notes will check for the same thing, so they have mostly the same
-			// information (note ID, description, etc...).
-			// However, image notes have shorter scan instructions because we can't scan for everything that
-			// instance scanning does.
-			if val, ok := fullNoteIDmap[noteID]; ok {
-				if diff := cmp.Diff(val, note, protocmp.Transform(), protocmp.IgnoreFields(&cpb.ComplianceNote{}, "version", "scan_instructions")); diff != "" {
-					t.Errorf("%s checking note uniqueness: got %v, wanted no diff", noteID, diff)
-				}
-			} else {
-				fullNoteIDmap[noteID] = note
-			}
-			for _, noteVer := range note.GetVersion() {
-				if val, ok := cpeVersionMap[noteVer.GetCpeUri()]; ok {
-					val.Add(noteVer.GetVersion())
-				} else {
-					s := stringset.New(noteVer.GetVersion())
-					cpeVersionMap[noteVer.GetCpeUri()] = &s
-				}
-			}
-		}
-	}
-	for cpe, versions := range cpeVersionMap {
-		if versions.Len() > 1 {
-			t.Errorf("CPE %s checking number of versions, got %v, wanted a single version", cpe, versions)
 		}
 	}
 }
 
 func TestFilesHaveSupportedName(t *testing.T) {
-	for filePath := range scanConfigs {
+	for filePath := range reducedScanConfigs {
 		fileName := filepath.Base(filePath)
 		if !configFileNames.Contains(fileName) {
 			t.Errorf("checking file names: got %q, want image_scanning.textproto or instance_scanning.textproto", fileName)
@@ -130,24 +98,34 @@ func TestFilesHaveSupportedName(t *testing.T) {
 }
 
 func TestScanInstructionsHaveDisplayCommandAndNonComplianceReason(t *testing.T) {
-	for filePath, configBytes := range scanConfigs {
-		if isReducedConfigFile(configBytes) {
-			continue
-		}
+	for filePath, configBytes := range scanConfigDefs {
 		config := &apb.ScanConfig{}
 		if err := prototext.Unmarshal(configBytes, config); err != nil {
-			t.Errorf("error reading %s: %v", filePath, err)
+			t.Fatalf("error reading %s: %v", filePath, err)
 		}
 		for _, b := range config.GetBenchmarkConfigs() {
 			noteID := b.GetId()
-			scanInstructions := &sipb.BenchmarkScanInstruction{}
-			if err := prototext.Unmarshal(b.GetComplianceNote().GetScanInstructions(), scanInstructions); err != nil {
+			instructionDef := &ipb.BenchmarkScanInstructionDef{}
+			if err := prototext.Unmarshal(b.GetComplianceNote().GetScanInstructions(), instructionDef); err != nil {
 				t.Errorf("%s could not parse scan instructions: %v", noteID, err)
 			}
-			for _, a := range scanInstructions.GetCheckAlternatives() {
-				for _, f := range a.GetFileChecks() {
-					if len(f.GetFileDisplayCommand()) > 0 && len(f.GetNonComplianceMsg()) == 0 {
-						t.Errorf("check for benchmark %s has a file display command set but no non-compliance message", noteID)
+			var scanInstructions []*ipb.BenchmarkScanInstruction
+			if instructionDef.GetGeneric() != nil {
+				scanInstructions = []*ipb.BenchmarkScanInstruction{instructionDef.GetGeneric()}
+			} else if instructionDef.GetScanTypeSpecific() != nil {
+				scanInstructions = []*ipb.BenchmarkScanInstruction{
+					instructionDef.GetScanTypeSpecific().InstanceScanning,
+					instructionDef.GetScanTypeSpecific().ImageScanning,
+				}
+			} else {
+				t.Fatalf("benchmark %s has invalid instruction def %v", noteID, instructionDef)
+			}
+			for _, i := range scanInstructions {
+				for _, a := range i.GetCheckAlternatives() {
+					for _, f := range a.GetFileChecks() {
+						if len(f.GetFileDisplayCommand()) > 0 && len(f.GetNonComplianceMsg()) == 0 {
+							t.Errorf("check for benchmark %s has a file display command set but no non-compliance message: %v", noteID, f)
+						}
 					}
 				}
 			}
@@ -155,43 +133,9 @@ func TestScanInstructionsHaveDisplayCommandAndNonComplianceReason(t *testing.T) 
 	}
 }
 
-func TestScanInstructionsSameForFileSets(t *testing.T) {
-	for _, fileName := range configFileNames.Elements() {
-		scanInstructionForNoteID := make(map[string]*sipb.BenchmarkScanInstruction)
-		for filePath, configBytes := range scanConfigs {
-			if filepath.Base(filePath) != fileName {
-				continue
-			}
-			if isReducedConfigFile(configBytes) {
-				continue
-			}
-			config := &apb.ScanConfig{}
-			if err := prototext.Unmarshal(configBytes, config); err != nil {
-				t.Errorf("error reading %s: %v", filePath, err)
-			}
-			for _, b := range config.GetBenchmarkConfigs() {
-				noteID := b.GetId()
-				note := b.GetComplianceNote()
-				// Ensure that each note ID for images have identical scan instructions.
-				scanInstructions := &sipb.BenchmarkScanInstruction{}
-				if err := prototext.Unmarshal(note.GetScanInstructions(), scanInstructions); err != nil {
-					t.Errorf("%s could not parse scan instructions: %v", noteID, err)
-				}
-				if val, ok := scanInstructionForNoteID[noteID]; ok {
-					if diff := cmp.Diff(val, scanInstructions, protocmp.Transform()); diff != "" {
-						t.Errorf("%s checking scan instructions unique: got %v, wanted no diff", noteID, diff)
-					}
-				} else {
-					scanInstructionForNoteID[noteID] = scanInstructions
-				}
-			}
-		}
-	}
-}
-
-func TestFallbackNotesHaveExpectedIdFormat(t *testing.T) {
-	for filePath, configBytes := range scanConfigs {
-		if !strings.Contains(filePath, "fallback") {
+func TestFallbackBenchmarkDefsHaveExpectedIdFormat(t *testing.T) {
+	for filePath, configBytes := range scanConfigDefs {
+		if filePath != "fallback.textproto" {
 			continue
 		}
 		if isReducedConfigFile(configBytes) {
@@ -204,7 +148,24 @@ func TestFallbackNotesHaveExpectedIdFormat(t *testing.T) {
 		for _, b := range config.GetBenchmarkConfigs() {
 			noteID := b.GetId()
 			if !strings.HasSuffix(noteID, "-fallback") {
-				t.Errorf("Fallback note ID %q should end with -fallback", noteID)
+				t.Errorf("Fallback benchmark ID %q should end with -fallback", noteID)
+			}
+		}
+	}
+}
+
+func TestFallbackPerOsBenchmarksHaveExpectedIdFormat(t *testing.T) {
+	for filePath, configBytes := range reducedScanConfigs {
+		if !strings.Contains(filePath, "/fallback/") {
+			continue
+		}
+		config := &apb.PerOsBenchmarkConfig{}
+		if err := prototext.Unmarshal(configBytes, config); err != nil {
+			t.Errorf("error reading %s: %v", filePath, err)
+		}
+		for _, id := range config.BenchmarkId {
+			if !strings.HasSuffix(id, "-fallback") {
+				t.Errorf("Fallback benchmark ID %q should end with -fallback", id)
 			}
 		}
 	}
