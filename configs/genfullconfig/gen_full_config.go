@@ -25,9 +25,9 @@ import (
 )
 
 func main() {
-	// Example: configs/cos_93/instance_scanning.textproto,configs/cos_93/vm_image_scanning.textproto,configs/defs/cos.textproto
+	// Example: configs/reduced/cos_93/instance_scanning.textproto,configs/reduced/cos_93/vm_image_scanning.textproto,configs/defs/cos.textproto
 	in := flag.String("in", "", "Comma-separated list of the reduced per-OS configs, followed by a list of the config definition paths")
-	// Example: configs/cos_93_instance_scanning_full.textproto,configs/cos_93_vm_image_scanning_full.textproto
+	// Example: configs/full/cos_93_instance_scanning.textproto,configs/full/cos_93_vm_image_scanning.textproto
 	out := flag.String("out", "", "Comma-separated list of the output paths for the produced full configs")
 	omitDescriptions := flag.Bool("omit-descriptions", false, "Whether to omit the description fields from the generated config files to save space.")
 	flag.Parse()
