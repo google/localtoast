@@ -45,6 +45,8 @@ func ParseFlags() *cli.Flags {
 		"A comma-separated list of file path regexes that should be omitted when traversing the filesystem recursively")
 	showCompliantBenchmarks := flag.Bool("show-compliant-benchmarks", true,
 		"Whether to show compliant benchmarks in the scan results.")
+	maxCisProfileLevel := flag.Int("max-cis-profile-level", 3,
+		"Don't scan for any CIS benchmarks with a higher level than this")
 
 	flag.Parse()
 	flags := &cli.Flags{
@@ -57,6 +59,7 @@ func ParseFlags() *cli.Flags {
 		FilenameOptOutRegexes:   *filenameOptOutRegexes,
 		TraversalOptOutRegexes:  *traversalOptOutRegexes,
 		ShowCompliantBenchmarks: *showCompliantBenchmarks,
+		MaxCisProfileLevel:      *maxCisProfileLevel,
 	}
 	if err := cli.ValidateFlags(flags); err != nil {
 		log.Fatalf("Error parsing CLI args: %v\n", err)
@@ -95,6 +98,7 @@ func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) {
 // ApplyCLIFlagsToConfig applies the given CLI flags to the scan config.
 func ApplyCLIFlagsToConfig(config *apb.ScanConfig, flags *cli.Flags) {
 	config.BenchmarkConfigs = removeOptedOutBenchmarks(config.GetBenchmarkConfigs(), strings.Split(flags.BenchmarkOptOutIDs, ","))
+	config.BenchmarkConfigs = removeHighLevelBenchmarks(config.GetBenchmarkConfigs(), flags.MaxCisProfileLevel)
 	addOptOutRegexes(config, flags.ContentOptOutRegexes, flags.FilenameOptOutRegexes, flags.TraversalOptOutRegexes)
 }
 
@@ -112,6 +116,17 @@ func removeOptedOutBenchmarks(configs []*apb.BenchmarkConfig, optOutBenchmarks [
 			continue
 		}
 		result = append(result, config)
+	}
+	return result
+}
+
+func removeHighLevelBenchmarks(configs []*apb.BenchmarkConfig, maxLevel int) []*apb.BenchmarkConfig {
+	result := make([]*apb.BenchmarkConfig, 0, len(configs))
+	for _, c := range configs {
+		if c.ComplianceNote.GetCisBenchmark() != nil && int(c.ComplianceNote.GetCisBenchmark().ProfileLevel) > maxLevel {
+			continue
+		}
+		result = append(result, c)
 	}
 	return result
 }
