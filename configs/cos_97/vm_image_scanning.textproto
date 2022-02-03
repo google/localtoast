@@ -25,7 +25,7 @@ benchmark_configs: {
       "# rmmod udf\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -509,7 +509,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -687,7 +687,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -830,7 +830,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -922,7 +922,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1009,7 +1009,7 @@ benchmark_configs: {
       "startup script for your distribution. Startup scripts are typically stored in\n"
       "etc/init.d or /etc/systemd"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1377,7 +1377,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1442,7 +1442,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1746,7 +1746,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1789,7 +1789,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1838,7 +1838,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1882,7 +1882,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1965,7 +1965,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2269,7 +2269,7 @@ benchmark_configs: {
       "MaxAuthTries 4\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2649,7 +2649,7 @@ benchmark_configs: {
       "MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2756,7 +2756,7 @@ benchmark_configs: {
       "ClientAliveCountMax 0\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2818,7 +2818,7 @@ benchmark_configs: {
       "LoginGraceTime 60\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2860,7 +2860,7 @@ benchmark_configs: {
       "Banner /etc/issue.net\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2949,7 +2949,7 @@ benchmark_configs: {
       "AllowTcpForwarding no\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2990,7 +2990,7 @@ benchmark_configs: {
       "maxstartups 10:30:60\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3030,7 +3030,7 @@ benchmark_configs: {
       "MaxSessions 4\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3104,7 +3104,7 @@ benchmark_configs: {
       "password required pam_passwdqc.so config=/etc/security/passwdqc.conf\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3165,7 +3165,7 @@ benchmark_configs: {
       "password sufficient pam_unix.so remember=5\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3229,7 +3229,7 @@ benchmark_configs: {
       "password sufficient pam_unix.so sha512\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3278,7 +3278,7 @@ benchmark_configs: {
       "# chage --maxdays 365 <user>\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3341,7 +3341,7 @@ benchmark_configs: {
       "# chage --mindays 7 <user>\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3403,7 +3403,7 @@ benchmark_configs: {
       "# chage --warndays 7 <user>\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3466,7 +3466,7 @@ benchmark_configs: {
       "# chage --inactive 30 <user>\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3577,7 +3577,7 @@ benchmark_configs: {
       "awk -F: '($1!=\"root\" && $1!~/^\\+/ && $3<'\"$(awk '/^\\s*UID_MIN/{print $2}' /etc/login.defs)\"') {print $1}' /etc/passwd | xargs -I '{}' passwd -S '{}' | awk '($2!=\"L\" && $2!=\"LK\") {print $1}' | while read user do usermod -L $user done\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3676,7 +3676,7 @@ benchmark_configs: {
       "umask 027\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3727,7 +3727,7 @@ benchmark_configs: {
       "TMOUT=900\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4034,7 +4034,7 @@ benchmark_configs: {
       "# chmod u-x,go-wx /etc/passwd-\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4079,7 +4079,7 @@ benchmark_configs: {
       "# chmod o-rwx,g-rw /etc/shadow-\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4175,7 +4175,7 @@ benchmark_configs: {
       "# chmod o-rwx,g-rw /etc/gshadow-\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4401,7 +4401,7 @@ benchmark_configs: {
       "the respective user owns the directory. Users without an assigned home "
       "directory should be removed or assigned a home directory as appropriate."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4446,7 +4446,7 @@ benchmark_configs: {
       "report user file permissions and determine the action to be taken in "
       "accordance with site policy"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4501,7 +4501,7 @@ benchmark_configs: {
       "Change the ownership of any home directories that are not owned by the "
       "defined user to the correct user."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4538,7 +4538,7 @@ benchmark_configs: {
       "report user dot file permissions and determine the action to be taken "
       "in accordance with site policy."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4601,7 +4601,7 @@ benchmark_configs: {
       "to report user .forward files and determine the action to be taken in "
       "accordance with site policy."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4652,7 +4652,7 @@ benchmark_configs: {
       "to report user .netrc files and determine the action to be taken in "
       "accordance with site policy."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4701,7 +4701,7 @@ benchmark_configs: {
       "report user .netrc file permissions and determine the action to be "
       "taken in accordance with site policy."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4747,7 +4747,7 @@ benchmark_configs: {
       "report user .rhosts files and determine the action to be taken in "
       "accordance with site policy."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -4794,7 +4794,7 @@ benchmark_configs: {
       "Analyze the output of the Audit step above and perform the appropriate "
       "action to correct any discrepancies found."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:

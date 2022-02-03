@@ -884,7 +884,7 @@ benchmark_configs: {
       "startup script for your distribution. Startup scripts are typically stored in \n"
       "/etc/init.d or /etc/systemd"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1310,7 +1310,7 @@ benchmark_configs: {
       "# sysctl -w net.ipv4.route.flush=1\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2371,7 +2371,7 @@ benchmark_configs: {
       "# chage --warndays 7 <user>\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
