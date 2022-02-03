@@ -26,6 +26,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
+	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	"github.com/google/localtoast/cli"
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/protofilehandler"
@@ -183,6 +184,40 @@ func TestApplyCLIFlagsToConfig(t *testing.T) {
 					ContentOptoutRegexes:   []string{},
 					TraversalOptoutRegexes: []string{"regex1", "regex2"},
 				},
+			},
+		},
+		{
+			desc:  "max profile level",
+			flags: &cli.Flags{MaxCisProfileLevel: 1},
+			config: &apb.ScanConfig{
+				BenchmarkConfigs: []*apb.BenchmarkConfig{
+					&apb.BenchmarkConfig{
+						Id: "id1",
+						ComplianceNote: &cpb.ComplianceNote{
+							ComplianceType: &cpb.ComplianceNote_CisBenchmark_{
+								CisBenchmark: &cpb.ComplianceNote_CisBenchmark{ProfileLevel: 1},
+							},
+						},
+					},
+					&apb.BenchmarkConfig{
+						Id: "id2",
+						ComplianceNote: &cpb.ComplianceNote{
+							ComplianceType: &cpb.ComplianceNote_CisBenchmark_{
+								CisBenchmark: &cpb.ComplianceNote_CisBenchmark{ProfileLevel: 2},
+							},
+						},
+					},
+				},
+			},
+			want: &apb.ScanConfig{
+				BenchmarkConfigs: []*apb.BenchmarkConfig{&apb.BenchmarkConfig{
+					Id: "id1",
+					ComplianceNote: &cpb.ComplianceNote{
+						ComplianceType: &cpb.ComplianceNote_CisBenchmark_{
+							CisBenchmark: &cpb.ComplianceNote_CisBenchmark{ProfileLevel: 1},
+						},
+					},
+				}},
 			},
 		},
 	}

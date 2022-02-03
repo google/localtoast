@@ -31,6 +31,7 @@ type Flags struct {
 	FilenameOptOutRegexes   string
 	TraversalOptOutRegexes  string
 	ShowCompliantBenchmarks bool
+	MaxCisProfileLevel      int
 }
 
 // ValidateFlags validates the passed command line flags.
@@ -58,6 +59,10 @@ func ValidateFlags(flags *Flags) error {
 	}
 	if err := validateRegexArg(flags.TraversalOptOutRegexes, "--traversal-opt-out-regexes"); err != nil {
 		return err
+	}
+
+	if flags.MaxCisProfileLevel < 1 {
+		return errors.New("--max-cis-profile-level must be 1 or higher")
 	}
 
 	return nil
