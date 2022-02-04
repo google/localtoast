@@ -170,3 +170,23 @@ func TestFallbackPerOsBenchmarksHaveExpectedIdFormat(t *testing.T) {
 		}
 	}
 }
+
+func TestProfileLevelOverridesUseExistingIDs(t *testing.T) {
+	for filePath, configBytes := range reducedScanConfigs {
+		config := &apb.PerOsBenchmarkConfig{}
+		if err := prototext.Unmarshal(configBytes, config); err != nil {
+			t.Errorf("error reading %s: %v", filePath, err)
+		}
+		ids := make(map[string]bool)
+		for _, id := range config.BenchmarkId {
+			ids[id] = true
+		}
+		for _, o := range config.ProfileLevelOverride {
+			for _, id := range o.BenchmarkId {
+				if _, ok := ids[id]; !ok {
+					t.Errorf("%s: overridden benchmark ID %q isn't used by the config", filePath, id)
+				}
+			}
+		}
+	}
+}

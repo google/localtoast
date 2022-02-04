@@ -101,4 +101,11 @@ message PerOsBenchmarkConfig {
   // The benchmark IDs that apply to this OS. The referenced benchmarks are
   // defined in separate benchmark definition files.
   repeated string benchmark_id = 2;
+  // Overrides the default profile level for specific benchmarks.
+  repeated ProfileLevelOverride profile_level_override = 3;
+}
+
+message ProfileLevelOverride {
+  int32 level = 1;
+  repeated string benchmark_id = 2;
 }

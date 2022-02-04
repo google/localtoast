@@ -109,7 +109,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -149,7 +149,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -189,7 +189,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -817,7 +817,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -912,7 +912,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1058,7 +1058,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1152,7 +1152,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1241,7 +1241,7 @@ benchmark_configs: {
       "startup script for your distribution. Startup scripts are typically stored in \n"
       "/etc/init.d or /etc/systemd"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1705,7 +1705,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1794,7 +1794,7 @@ benchmark_configs: {
       "# sysctl -w net.ipv4.route.flush=1\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1935,7 +1935,7 @@ benchmark_configs: {
       "# sysctl -w net.ipv4.route.flush=1\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2020,7 +2020,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2057,7 +2057,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2429,7 +2429,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2501,7 +2501,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2562,7 +2562,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2647,7 +2647,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2718,7 +2718,7 @@ benchmark_configs: {
       "password required pam_passwdqc.so config=/etc/security/passwdqc.conf\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2784,7 +2784,7 @@ benchmark_configs: {
       "umask 027\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2863,7 +2863,7 @@ benchmark_configs: {
       "TMOUT=900\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -2966,7 +2966,7 @@ benchmark_configs: {
       "# chmod u-x,go-wx /etc/passwd-\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -3004,7 +3004,7 @@ benchmark_configs: {
       "a Trojan horse program."
     remediation: "Correct or justify any items discovered by the CIS document's Audit step."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: HIGH
     }
     scan_instructions:
