@@ -8,7 +8,12 @@ The scanner can either be used as a standalone binary to scan the local machine 
 ### As a standalone binary:
 
 1. `make`
-2. `./localtoast --config=configs/example.textproto --result=scan-result.textproto`
+2. `sudo ./localtoast --config=configs/example.textproto --result=scan-result.textproto`
+
+
+#### Build and use OS-specific configs:
+1. `make configs`
+2. `sudo ./localtoast --config=configs/full/cos_93/instance_scanning.textproto --result=scan-result.textproto`
 
 ### As a library:
 1. Import `github.com/google/localtoast/scannerlib` into your Go project
