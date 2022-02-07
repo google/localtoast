@@ -4765,8 +4765,8 @@ benchmark_configs: {
       "pose a threat to system security since group permissions are not "
       "properly managed."
     remediation:
-      "Analyze the output of the Audit step above and perform the appropriate "
-      "action to correct any discrepancies found."
+      "Make sure that all groups defined in the /etc/passwd file are also "
+      "present in the /etc/group file."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
