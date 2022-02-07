@@ -144,6 +144,13 @@ func createConfigDefKey(id string, version *cpb.ComplianceVersion) (*configDefKe
 }
 
 func getFullConfig(reduced *apb.PerOsBenchmarkConfig, configDefs configDefMap, scanType scanTypeEnum) (*apb.ScanConfig, error) {
+	levelOverrides := make(map[string]int32)
+	for _, o := range reduced.ProfileLevelOverride {
+		for _, id := range o.BenchmarkId {
+			levelOverrides[id] = o.Level
+		}
+	}
+
 	fullConfigs := make([]*apb.BenchmarkConfig, 0, len(reduced.BenchmarkId))
 	for _, id := range reduced.BenchmarkId {
 		key, err := createConfigDefKey(id, reduced.Version)
@@ -158,6 +165,9 @@ func getFullConfig(reduced *apb.PerOsBenchmarkConfig, configDefs configDefMap, s
 			return nil, err
 		}
 		config.ComplianceNote.Version = []*cpb.ComplianceVersion{reduced.Version}
+		if level, ok := levelOverrides[config.Id]; ok {
+			config.ComplianceNote.GetCisBenchmark().ProfileLevel = level
+		}
 		fullConfigs = append(fullConfigs, config)
 	}
 	return &apb.ScanConfig{BenchmarkConfigs: fullConfigs}, nil

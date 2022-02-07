@@ -22,6 +22,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
+	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	gpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	"github.com/google/localtoast/configs/genfullconfig/genfullconfiglib"
 	"github.com/google/localtoast/protofilehandler"
@@ -69,11 +70,14 @@ func TestTooFewInputPaths(t *testing.T) {
 	}
 }
 
-func createTestScanConfig(id string, versions []*gpb.ComplianceVersion, instructions string) *apb.ScanConfig {
+func createTestScanConfig(id string, versions []*gpb.ComplianceVersion, instructions string, profileLevel int32) *apb.ScanConfig {
 	return &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{&apb.BenchmarkConfig{
 		Id: id,
 		ComplianceNote: &gpb.ComplianceNote{
-			Version:          versions,
+			Version: versions,
+			ComplianceType: &cpb.ComplianceNote_CisBenchmark_{
+				CisBenchmark: &cpb.ComplianceNote_CisBenchmark{ProfileLevel: profileLevel},
+			},
 			ScanInstructions: []byte(instructions),
 		},
 	}}}
@@ -87,7 +91,7 @@ func writeReducedConfigToFile(t *testing.T, path string, id string, version *gpb
 }
 
 func writeConfigDefToFile(t *testing.T, path string, id string, versions []*gpb.ComplianceVersion, instructions string) {
-	def := createTestScanConfig(id, versions, instructions)
+	def := createTestScanConfig(id, versions, instructions, 1)
 	if err := protofilehandler.WriteProtoToFile(path, def); err != nil {
 		t.Errorf("protofilehandler.WriteProtoToFile(%s, %v) returned an error: %v", path, def, err)
 	}
@@ -107,7 +111,7 @@ func TestCreateSingleConfig(t *testing.T) {
 		t.Errorf("protofilehandler.ReadProtoFromFile(%s, %v) returned an error: %v", defaultOutPath, got, err)
 	}
 
-	want := createTestScanConfig("id", []*gpb.ComplianceVersion{version}, "check_alternatives:{}")
+	want := createTestScanConfig("id", []*gpb.ComplianceVersion{version}, "check_alternatives:{}", 1)
 	if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
 		t.Errorf("genfullconfiglib.Generate([%v, %v], [%v], false) returned unexpected diff (-want +got):\n%s",
 			defaultReducedPath, defaultDefPath, defaultOutPath, diff)
@@ -176,7 +180,7 @@ func TestInstructionsDifferPerScanType(t *testing.T) {
 				t.Errorf("protofilehandler.ReadProtoFromFile(%s, %v) returned an error: %v", tc.path, got, err)
 			}
 
-			want := createTestScanConfig("id", []*gpb.ComplianceVersion{version}, tc.expectedInstructions)
+			want := createTestScanConfig("id", []*gpb.ComplianceVersion{version}, tc.expectedInstructions, 1)
 			if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
 				t.Errorf("genfullconfiglib.Generate(, false) returned unexpected diff for %s (-want +got):\n%s", tc.path, diff)
 			}
@@ -230,7 +234,7 @@ func TestSameBenchmarkWithDifferentVersions(t *testing.T) {
 				t.Errorf("protofilehandler.ReadProtoFromFile(%s, %v) returned an error: %v", tc.path, got, err)
 			}
 
-			want := createTestScanConfig("id", []*gpb.ComplianceVersion{tc.expectedVersion}, tc.expectedInstructions)
+			want := createTestScanConfig("id", []*gpb.ComplianceVersion{tc.expectedVersion}, tc.expectedInstructions, 1)
 			if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
 				t.Errorf("genfullconfiglib.Generate(, false) returned unexpected diff for %s (-want +got):\n%s", tc.path, diff)
 			}
@@ -276,5 +280,64 @@ func TestOmitDescriptionFields(t *testing.T) {
 	if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
 		t.Errorf("genfullconfiglib.Generate([%v, %v], [%v], true) returned unexpected diff (-want +got):\n%s",
 			defaultReducedPath, defaultDefPath, defaultOutPath, diff)
+	}
+}
+
+func TestOverrideProfileLevel(t *testing.T) {
+	version := &gpb.ComplianceVersion{CpeUri: "cpe", Version: "1.0.0"}
+	testCases := []struct {
+		description   string
+		id            string
+		level         int32
+		overrideID    string
+		overrideLevel int32
+		wantLevel     int32
+	}{
+		{
+			description:   "override level if ID matches",
+			id:            "id1",
+			level:         1,
+			overrideID:    "id1",
+			overrideLevel: 2,
+			wantLevel:     2,
+		},
+		{
+			description:   "don't override level if ID doesn't match",
+			id:            "id1",
+			level:         1,
+			overrideID:    "id2",
+			overrideLevel: 2,
+			wantLevel:     1,
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			reduced := &apb.PerOsBenchmarkConfig{
+				Version: version, BenchmarkId: []string{tc.id},
+				ProfileLevelOverride: []*apb.ProfileLevelOverride{{Level: tc.overrideLevel, BenchmarkId: []string{tc.overrideID}}},
+			}
+			if err := protofilehandler.WriteProtoToFile(defaultReducedPath, reduced); err != nil {
+				t.Errorf("protofilehandler.WriteProtoToFile(%s, %v) returned an error: %v", defaultReducedPath, reduced, err)
+			}
+			def := createTestScanConfig(tc.id, []*gpb.ComplianceVersion{version}, "generic:{check_alternatives:{}}", 1)
+			if err := protofilehandler.WriteProtoToFile(defaultDefPath, def); err != nil {
+				t.Errorf("protofilehandler.WriteProtoToFile(%s, %v) returned an error: %v", defaultDefPath, def, err)
+			}
+
+			if err := genfullconfiglib.Generate([]string{defaultReducedPath, defaultDefPath}, []string{defaultOutPath}, false); err != nil {
+				t.Errorf("genfullconfiglib.Generate([%v, %v], [%v], false) returned an error: %v", defaultReducedPath, defaultDefPath, defaultOutPath, err)
+			}
+
+			got := &apb.ScanConfig{}
+			if err := protofilehandler.ReadProtoFromFile(defaultOutPath, got); err != nil {
+				t.Errorf("protofilehandler.ReadProtoFromFile(%s, %v) returned an error: %v", defaultOutPath, got, err)
+			}
+
+			want := createTestScanConfig(tc.id, []*gpb.ComplianceVersion{version}, "check_alternatives:{}", tc.wantLevel)
+			if diff := cmp.Diff(want, got, protocmp.Transform()); diff != "" {
+				t.Errorf("genfullconfiglib.Generate([%v, %v], [%v], false) returned unexpected diff (-want +got):\n%s",
+					defaultReducedPath, defaultDefPath, defaultOutPath, diff)
+			}
+		})
 	}
 }
