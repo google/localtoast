@@ -93,6 +93,10 @@ func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) {
 	if err := protofilehandler.WriteProtoToFile(flags.ResultFile, result); err != nil {
 		log.Fatalf("Error writing scan results: %v\n", err)
 	}
+
+	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
+		log.Fatalf("Not all checks completed successfully: %s\n", result.GetStatus().GetFailureReason())
+	}
 }
 
 // ApplyCLIFlagsToConfig applies the given CLI flags to the scan config.
