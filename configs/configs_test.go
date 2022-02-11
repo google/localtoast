@@ -15,6 +15,10 @@
 package configs_test
 
 import (
+	"io/ioutil"
+	"log"
+	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -27,8 +31,42 @@ import (
 	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
+const (
+	configDefPath     = "defs/"
+	reducedConfigPath = "reduced/"
+)
+
 var configFileNames = stringset.New(
 	"vm_image_scanning.textproto", "container_image_scanning.textproto", "instance_scanning.textproto")
+
+var scanConfigDefs, reducedScanConfigs = readConfigFiles()
+
+func readConfigFiles() (map[string][]byte, map[string][]byte) {
+	return readFilesInDir(configDefPath), readFilesInDir(reducedConfigPath)
+}
+
+func readFilesInDir(dirPath string) map[string][]byte {
+	result := make(map[string][]byte)
+	err := filepath.Walk(dirPath,
+		func(filePath string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if path.Ext(filePath) != ".textproto" {
+				return nil
+			}
+			content, err := ioutil.ReadFile(filePath)
+			if err != nil {
+				return err
+			}
+			result[filePath] = content
+			return nil
+		})
+	if err != nil {
+		log.Fatalf("Error reading scan config defs %v\n", err)
+	}
+	return result
+}
 
 // Check if the serialized config uses the new reduced per-OS format.
 // The test will skip these so that the migration to the reduced format can
