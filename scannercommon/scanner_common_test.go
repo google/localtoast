@@ -79,6 +79,7 @@ func TestRunScan(t *testing.T) {
 		check                     *ipb.FileCheck
 		expectedCompliantCount    int
 		expectedNonCompliantCount int
+		expectedExitCode          int
 	}{
 		{
 			description: "compliant scan",
@@ -88,6 +89,7 @@ func TestRunScan(t *testing.T) {
 			},
 			expectedCompliantCount:    1,
 			expectedNonCompliantCount: 0,
+			expectedExitCode:          0,
 		},
 		{
 			description: "non-compliant scan",
@@ -97,6 +99,7 @@ func TestRunScan(t *testing.T) {
 			},
 			expectedCompliantCount:    0,
 			expectedNonCompliantCount: 1,
+			expectedExitCode:          2,
 		},
 	}
 
@@ -111,7 +114,10 @@ func TestRunScan(t *testing.T) {
 				t.Fatalf("Error writing scan config: %v", err)
 			}
 
-			scannercommon.RunScan(flags, provider)
+			exitCode := scannercommon.RunScan(flags, provider)
+			if exitCode != tc.expectedExitCode {
+				t.Errorf("scannercommon.RunScan(%v, provider) returned unexpected exit code, want %d got %d", flags, tc.expectedExitCode, exitCode)
+			}
 
 			result := &apb.ScanResults{}
 			if err := protofilehandler.ReadProtoFromFile(resultPath, result); err != nil {

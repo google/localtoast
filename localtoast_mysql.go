@@ -21,6 +21,7 @@ import (
 	"database/sql"
 	"io"
 	"log"
+	"os"
 	"path"
 
 	"github.com/google/localtoast/localfilereader"
@@ -72,5 +73,5 @@ func main() {
 		chrootPath: flags.ChrootPath,
 		db:         db,
 	}
-	scannercommon.RunScan(flags, provider)
+	os.Exit(scannercommon.RunScan(flags, provider))
 }
