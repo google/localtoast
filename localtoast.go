@@ -20,6 +20,7 @@ import (
 	"context"
 	"errors"
 	"io"
+	"os"
 	"path"
 
 	"github.com/google/localtoast/localfilereader"
@@ -52,5 +53,5 @@ func (localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int, er
 func main() {
 	flags := scannercommon.ParseFlags()
 	provider := &localScanAPIProvider{chrootPath: flags.ChrootPath}
-	scannercommon.RunScan(flags, provider)
+	os.Exit(scannercommon.RunScan(flags, provider))
 }

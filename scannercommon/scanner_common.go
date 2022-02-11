@@ -68,7 +68,8 @@ func ParseFlags() *cli.Flags {
 }
 
 // RunScan executes the scan with the given CLI flags and API provider.
-func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) {
+// Returns the exit code that the main binary should exit with.
+func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) int {
 	log.Printf("Reading scan config from %s\n", flags.ConfigFile)
 	config := &apb.ScanConfig{}
 	if err := protofilehandler.ReadProtoFromFile(flags.ConfigFile, config); err != nil {
@@ -95,8 +96,13 @@ func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) {
 	}
 
 	if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-		log.Fatalf("Not all checks completed successfully: %s\n", result.GetStatus().GetFailureReason())
+		log.Printf("Not all checks completed successfully: %s\n", result.GetStatus().GetFailureReason())
+		return 1
 	}
+	if len(result.GetNonCompliantBenchmarks()) > 0 {
+		return 2
+	}
+	return 0
 }
 
 // ApplyCLIFlagsToConfig applies the given CLI flags to the scan config.
