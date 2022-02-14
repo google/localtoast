@@ -15,6 +15,9 @@ FULL_CONFIGS = $(subst /reduced/,/full/,${REDUCED_CONFIGS})
 localtoast: protos
 	go build localtoast.go
 
+test: protos
+	go test ./...
+
 configs: protos
 	mkdir -p configs/full && cp -rf configs/reduced/* configs/full
 	go build configs/genfullconfig/gen_full_config.go
