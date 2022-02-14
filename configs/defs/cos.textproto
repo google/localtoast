@@ -657,6 +657,40 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "dm-verity-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    title: "Ensure dm-verity is enabled"
+    description:
+      "device-mapper-verity (dm-verity) kernel feature provides transparent "
+      "integrity checking of block devices using a cryptographic digest "
+      "provided by the kernel crypto API."
+    rationale:
+      "The Container-Optimized OS root filesystem is always mounted as "
+      "read-only. Additionally, its checksum is computed at build time and "
+      "verified by the kernel on each boot. This mechanism prevents against "
+      "attackers from \"owning\" the machine through permanent local changes."
+    remediation: "An OS image update that has the dm-verity enabled kernel is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/config.gz\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"CONFIG_DM_VERITY=.*\""
+      "        expected_regex: \"CONFIG_DM_VERITY=y\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
   id: "dm-verity-installed-cos-93"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
@@ -2468,6 +2502,96 @@ benchmark_configs: {
       "      match_criteria: {"
       "        filter_regex: \".*\\\"name\\\": \\\"iptables\\\".*\""
       "        expected_regex: \".*\\\"name\\\": \\\"iptables\\\".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "stackdriver-correct-container"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure correct container image is set for stackdriver logging agent"
+    description:
+      "stackdriver-logging service runs stackdriver container image to export "
+      "logs to Cloud Logging."
+    rationale:
+      "If the logging agent is not set correctly, the logs cannot be exported "
+      "to Cloud Logging."
+    remediation:
+      "Edit the LOGGING_AGENT_DOCKER_IMAGE variable in the "
+      "/etc/stackdriver/env_vars file to set the correct logging agent.\n"
+      "Run the following command to restart stackdriver-logging service:\n"
+      "```\n"
+      "# systemctl restart stackdriver-logging\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/stackdriver/env_vars\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"LOGGING_AGENT_DOCKER_IMAGE=.*\""
+      "        expected_regex: \"LOGGING_AGENT_DOCKER_IMAGE=\\\"gcr.io/stackdriver-agents/stackdriver-logging-agent:.*\\\"\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "stackdriver-logging-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure logging is configured"
+    description:
+      "The /etc/stackdriver/logging.config.d/*.conf files specifies rules "
+      "for logging and which files are to be used to log certain classes of "
+      "messages."
+    rationale:
+      "A great deal of important security-related information is sent via "
+      "stackdriver-logging (e.g., successful and failed su attempts, failed "
+      "login attempts, root login attempts, etc.)."
+    remediation:
+      "Review the contents of the /etc/stackdriver/logging.config.d/*.conf "
+      "files to ensure appropriate logging is set. In addition, run the "
+      "following command and verify that the log files are logging "
+      "information:\n"
+      "```\n"
+      "# ls -l /var/log/\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/stackdriver/logging.config.d\""
+      "      recursive: true"
+      "      filename_regex: \".*\\\\.conf\""
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      # Expect some kind of logging config in the file (i.e. not just comments).
+      "        filter_regex: \"[^#].*\""
+      "        expected_regex: \"[^#].*\""
       "      }"
       "    }"
       "  }"
