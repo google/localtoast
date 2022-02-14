@@ -16,7 +16,6 @@ package localfilereader_test
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -29,38 +28,36 @@ import (
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
-var testDirPath string
-
 const (
 	fileName        = "file"
 	fileContent     = "FILE_CONTENT"
-	filePermission  = 0644
+	filePermission  = 0640
 	dirName         = "dir"
 	fileSymlinkName = "file_symlink"
 	dirSymlinkName  = "dir_symlink"
 )
 
-func TestMain(m *testing.M) {
-	// Create some temporary files before running the tests.
-	testDirPath = os.Getenv("TEST_TMPDIR")
+// Create some temporary files before running the tests. Returns the test directory path.
+func createTestFiles(t *testing.T) string {
+	testDirPath := t.TempDir()
 	if err := ioutil.WriteFile(filepath.Join(testDirPath, fileName), []byte(fileContent), filePermission); err != nil {
-		panic(fmt.Sprintf("Error while creating file %s: %v", filepath.Join(testDirPath, fileName), err))
+		t.Fatalf("error creating file %s: %v", filepath.Join(testDirPath, fileName), err)
 	}
 	if err := os.Mkdir(filepath.Join(testDirPath, dirName), filePermission); err != nil {
-		panic(fmt.Sprintf("Error while creating directory %s: %v", filepath.Join(testDirPath, dirName), err))
+		t.Fatalf("error creating directory %s: %v", filepath.Join(testDirPath, dirName), err)
 	}
 	if err := os.Symlink(filepath.Join(testDirPath, fileName), filepath.Join(testDirPath, fileSymlinkName)); err != nil {
-		panic(fmt.Sprintf("Error while creating symlink %s: %v", filepath.Join(testDirPath, fileSymlinkName), err))
+		t.Fatalf("error creating symlink %s: %v", filepath.Join(testDirPath, fileSymlinkName), err)
 	}
 	if err := os.Symlink(filepath.Join(testDirPath, dirName), filepath.Join(testDirPath, dirSymlinkName)); err != nil {
-		panic(fmt.Sprintf("Error while creating symlink %s: %v", filepath.Join(testDirPath, dirSymlinkName), err))
+		t.Fatalf("error creating symlink %s: %v", filepath.Join(testDirPath, dirSymlinkName), err)
 	}
 
-	exitCode := m.Run()
-	os.Exit(exitCode)
+	return testDirPath
 }
 
 func TestOpenFile(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	testFilePath := filepath.Join(testDirPath, fileName)
 	reader, err := localfilereader.OpenFile(context.Background(), testFilePath)
 	if err != nil {
@@ -76,6 +73,7 @@ func TestOpenFile(t *testing.T) {
 }
 
 func TestOpenPropagatesError(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	nonExistentFilePath := filepath.Join(testDirPath, "non-existent-file")
 	_, err := localfilereader.OpenFile(context.Background(), nonExistentFilePath)
 	if err == nil {
@@ -84,6 +82,7 @@ func TestOpenPropagatesError(t *testing.T) {
 }
 
 func TestFilesInDir(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	files, err := localfilereader.FilesInDir(context.Background(), testDirPath)
 	if err != nil {
 		t.Fatalf("localfilereader.FilesInDir(%s) had unexpected error: %v", testDirPath, err)
@@ -103,6 +102,7 @@ func TestFilesInDir(t *testing.T) {
 }
 
 func TestFilesInDirPropagatesError(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	nonExistentDirPath := filepath.Join(testDirPath, "non-existent-dir")
 	_, err := localfilereader.FilesInDir(context.Background(), nonExistentDirPath)
 	if err == nil {
@@ -111,6 +111,7 @@ func TestFilesInDirPropagatesError(t *testing.T) {
 }
 
 func TestFilePermissionsCorrectPermissionNumbers(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	testFilePath := filepath.Join(testDirPath, fileName)
 	permission, err := localfilereader.FilePermissions(context.Background(), testFilePath)
 	if err != nil {
@@ -123,6 +124,7 @@ func TestFilePermissionsCorrectPermissionNumbers(t *testing.T) {
 }
 
 func TestFilePermissionsCorrectSpecialFlags(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	testFilePath := filepath.Join(testDirPath, fileName)
 	testCases := []struct {
 		flagToAdd       os.FileMode
@@ -146,6 +148,7 @@ func TestFilePermissionsCorrectSpecialFlags(t *testing.T) {
 }
 
 func TestFilePermissionsPropagatesError(t *testing.T) {
+	testDirPath := createTestFiles(t)
 	nonExistentFilePath := filepath.Join(testDirPath, "non-existent-file")
 	_, err := localfilereader.FilePermissions(context.Background(), nonExistentFilePath)
 	if err == nil {

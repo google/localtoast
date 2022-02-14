@@ -16,7 +16,6 @@ package protofilehandler_test
 
 import (
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -27,9 +26,8 @@ import (
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
-var testDirPath = os.Getenv("TEST_TMPDIR")
-
 func TestReadProtoFromFile(t *testing.T) {
+	testDirPath := t.TempDir()
 	var expectedConfig = &apb.ScanConfig{
 		BenchmarkConfigs: []*apb.BenchmarkConfig{
 			&apb.BenchmarkConfig{Id: "test-benchmark"},
@@ -55,6 +53,7 @@ func TestReadProtoFromFile(t *testing.T) {
 }
 
 func TestReadProtoFromFileInvalidData(t *testing.T) {
+	testDirPath := t.TempDir()
 	testCases := []struct {
 		path    string
 		content string
@@ -86,6 +85,7 @@ func TestReadProtoFromFileInvalidData(t *testing.T) {
 }
 
 func TestWriteResultToFile(t *testing.T) {
+	testDirPath := t.TempDir()
 	var result = &apb.ScanResults{ScannerVersion: "1.0.0"}
 	testCases := []struct {
 		path           string
@@ -124,6 +124,7 @@ func TestWriteResultToFile(t *testing.T) {
 }
 
 func TestInvalidProtoFileName(t *testing.T) {
+	testDirPath := t.TempDir()
 	testPaths := []string{
 		"config.invalid-extension",
 		"config.invalid-extension.gz",

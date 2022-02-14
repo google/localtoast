@@ -19,7 +19,6 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
-	"os"
 	"path"
 	"path/filepath"
 	"testing"
@@ -58,7 +57,7 @@ func (testAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) 
 }
 
 func TestRunScan(t *testing.T) {
-	testDirPath = os.Getenv("TEST_TMPDIR")
+	testDirPath = t.TempDir()
 	configPath := filepath.Join(testDirPath, "config.textproto")
 	resultPath := filepath.Join(testDirPath, "result.textproto")
 
