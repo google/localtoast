@@ -2050,9 +2050,11 @@ benchmark_configs: {
       "system. Authorized users can easily get this information by running "
       "the \"uname -a\" command once they have logged in."
     remediation:
-      "Edit the /etc/motd file with the appropriate contents according to "
-      "your site policy, remove any instances of \\m , \\r , \\s , \\v or "
-      "references to the OS platform"
+      "Make sure the /etc/motd file is empty or deleted. Alternatively, "
+      "edit the /etc/motd file with the appropriate contents according "
+      "to your site policy, remove any instances of \\m , \\r , \\s , \\v "
+      "or references to the OS platform and opt the file out from scanning "
+      "to prevent further compliance reports."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
