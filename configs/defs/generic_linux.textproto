@@ -847,7 +847,8 @@ benchmark_configs: {
       "Make sure the /etc/issue file is empty. Alternatively, edit the /etc/issue "
       "file with the appropriate contents according to your site policy, remove "
       "any instances of \\m , \\r , \\s , \\v or references to the OS platform, "
-      "and opt the file out from scanning to prevent further compliance reports."
+      "and (when applicable) opt the file out from scanning to prevent further "
+      "compliance reports."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -896,8 +897,8 @@ benchmark_configs: {
       "Make sure the /etc/issue.net file is empty or deleted. Alternatively, "
       "edit the /etc/issue.net file with the appropriate contents according "
       "to your site policy, remove any instances of \\m , \\r , \\s , \\v "
-      "or references to the OS platform and opt the file out from scanning "
-      "to prevent further compliance reports."
+      "or references to the OS platform and (when applicable) opt the file "
+      "out from scanning to prevent further compliance reports."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
