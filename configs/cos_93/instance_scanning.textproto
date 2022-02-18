@@ -1625,202 +1625,6 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "nis-client-not-installed-cos"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    title: "Ensure NIS Client is not installed"
-    description:
-      "The Network Information Service (NIS), formerly known as Yellow Pages, is a\n"
-      "client-server directory service protocol used to distribute system\n"
-      "configuration files. The NIS client ( ypbind ) was used to bind a machine to\n"
-      "an NIS server and receive the distributed configuration files."
-    rationale:
-      "The NIS service is inherently an insecure system that has been vulnerable to\n"
-      "DOS attacks, buffer overflows and has poor authentication for querying NIS\n"
-      "maps. NIS generally has been replaced by such protocols as Lightweight\n"
-      "Directory Access Protocol (LDAP). It is recommended that the service be removed."
-    remediation:
-      "Uninstall ypbind using the appropriate package manager or manual installation:\n"
-      "```\n"
-      "yum remove ypbind\n"
-      "apt-get remove ypbind\n"
-      "zypper remove ypbind\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".*\\\"name\\\": \\\"ypbind\\\".*\""
-      "        expected_regex: \".*\\\"name\\\": \\\"ypbind\\\".*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "rsh-client-not-installed-cos"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    title: "Ensure rsh client is not installed"
-    description: "The rsh package contains the client commands for the rsh services."
-    rationale:
-      "These legacy clients contain numerous security exposures and have been\n"
-      "replaced with the more secure SSH package. Even if the server is removed, it\n"
-      "is best to ensure the clients are also removed to prevent users from\n"
-      "inadvertently attempting to use these commands and therefore exposing their\n"
-      "credentials. Note that removing the rsh package removes the clients for rsh,\n"
-      "rcp and rlogin."
-    remediation:
-      "Uninstall rsh using the appropriate package manager or manual installation:\n"
-      "```\n"
-      "yum remove rsh\n"
-      "apt-get remove rsh\n"
-      "zypper remove rsh\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".*\\\"name\\\": \\\"rsh\\\".*\""
-      "        expected_regex: \".*\\\"name\\\": \\\"rsh\\\".*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "talk-client-not-installed-cos"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    title: "Ensure talk client is not installed"
-    description:
-      "The talk software makes it possible for users to send and receive messages\n"
-      "across systems through a terminal session. The talk client, which allows\n"
-      "initialization of talk sessions, is installed by default."
-    rationale:
-      "The software presents a security risk as it uses unencrypted protocols for\n"
-      "communication."
-    remediation:
-      "Uninstall talk using the appropriate package manager or manual installation:\n"
-      "```\n"
-      "yum remove talk\n"
-      "apt-get remove talk\n"
-      "zypper remove talk\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".*\\\"name\\\": \\\"talk\\\".*\""
-      "        expected_regex: \".*\\\"name\\\": \\\"talk\\\".*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "telnet-client-not-installed-cos"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    title: "Ensure telnet client is not installed"
-    description:
-      "The telnet package contains the telnet client, which allows users to start\n"
-      "connections to other systems via the telnet protocol."
-    rationale:
-      "The telnet protocol is insecure and unencrypted. The use of an unencrypted\n"
-      "transmission medium could allow an unauthorized user to steal credentials. The\n"
-      "ssh package provides an encrypted session and stronger security and is\n"
-      "included in most Linux distributions."
-    remediation:
-      "Uninstall telnet using the appropriate package manager or manual installation:\n"
-      "```\n"
-      "# yum remove telnet\n"
-      "# apt-get remove telnet\n"
-      "# zypper remove telnet\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".*\\\"name\\\": \\\"telnet\\\".*\""
-      "        expected_regex: \".*\\\"name\\\": \\\"telnet\\\".*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "ldap-client-not-installed-cos"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    title: "Ensure LDAP client is not installed"
-    description:
-      "The Lightweight Directory Access Protocol (LDAP) was introduced as a\n"
-      "replacement for NIS/YP. It is a service that provides a method for looking up\n"
-      "information from a central database."
-    rationale:
-      "If the system will not need to act as an LDAP client, it is recommended that\n"
-      "the software be removed to reduce the potential attack surface."
-    remediation:
-      "Uninstall openldap-clients using the appropriate package manager or manual\n"
-      "installation:\n"
-      "```\n"
-      "# yum remove openldap-clients\n"
-      "# apt-get remove openldap-clients\n"
-      "# zypper remove openldap-clients\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/cos-package-info.json\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".*\\\"name\\\": \\\"openldap-clients\\\".*\""
-      "        expected_regex: \".*\\\"name\\\": \\\"openldap-clients\\\".*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
   id: "packet-redirect-sending-disabled-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
@@ -1849,7 +1653,7 @@ benchmark_configs: {
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
     cis_benchmark: {
-      profile_level: 2
+      profile_level: 1
       severity: LOW
     }
     scan_instructions:
@@ -2528,6 +2332,50 @@ benchmark_configs: {
       "      match_criteria: {"
       "        filter_regex: \"Storage=.*\""
       "        expected_regex: \"Storage=persistent\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "logfile-permissions-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure permissions on all logfiles are configured"
+    description:
+      "Log files stored in /var/log/ contain logged information from many "
+      "services on the system, or on log hosts others as well."
+    rationale:
+      "It is important to ensure that log files have the correct permissions "
+      "to ensure that sensitive data is archived and protected."
+    remediation:
+      "Run the following commands to set permissions on all existing log files:\n"
+      "```\n"
+      "find /var/log -type f -exec chmod g-wx,o-rwx \"{}\" + -o -type d -exec chmod gw,o-rwx \"{}\" +\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/usr/share/google/security\""
+      "      filename_regex: \".*\\\\.sh\""
+      "      recursive: true"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      # Use a null byte as the delimiter to be able to match multi-line commands.
+      "      delimiter: \"\\0\""
+      "      match_criteria: {"
+      "        filter_regex: \".*sudo find /var/log.*\""
+      "        expected_regex: \".*sudo find /var/log -type f -exec chmod g-wx,o-rwx \\\"{}\\\" \\\\+ -o .* -type d -exec chmod g-w,o-rwx \\\"{}\\\" +.*\""
       "      }"
       "    }"
       "  }"
@@ -3501,6 +3349,70 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "ssh-access-limited"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    title: "Ensure SSH access is limited"
+    description:
+      "There are several options available to limit which users and group can "
+      "access the system via SSH. It is recommended that at least one of the "
+      "following options be leveraged:\n"
+      "AllowUsers\n"
+      "The AllowUsers variable gives the system administrator the option of "
+      "allowing specific users to ssh into the system. The list consists of "
+      "space separated user names. Numeric user IDs are not recognized with "
+      "this variable. If a system administrator wants to restrict user access "
+      "further by only allowing the allowed users to log in from a particular "
+      "host, the entry can be specified in the form of user@host.\n"
+      "AllowGroups\n"
+      "The AllowGroups variable gives the system administrator the option of "
+      "allowing specific groups of users to ssh into the system. The list "
+      "consists of space separated group names. Numeric group IDs are not "
+      "recognized with this variable.\n"
+      "DenyUsers\n"
+      "The DenyUsers variable gives the system administrator the option of "
+      "denying specific users to ssh into the system. The list consists of "
+      "space separated user names. Numeric user IDs are not recognized with "
+      "this variable. If a system administrator wants to restrict user "
+      "access further by specifically denying a user's access from a "
+      "particular host, the entry can be specified in the form of user@host.\n"
+      "DenyGroups\n"
+      "The DenyGroups variable gives the system administrator the option of "
+      "denying specific groups of users to ssh into the system. The list "
+      "consists of space separated group names. Numeric group IDs are not "
+      "recognized with this variable."
+    rationale:
+      "Restricting which users can remotely access the system via SSH will "
+      "help ensure that only authorized users access the system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set one or more of the parameter "
+      "as follows:\n"
+      "```\n"
+      "AllowUsers <userlist>\n"
+      "AllowGroups <grouplist>\n"
+      "DenyUsers <userlist>\n"
+      "DenyGroups <grouplist>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"AllowUsers|AllowGroups|DenyUsers|DenyGroups .*\""
+      "        expected_regex: \"AllowUsers|AllowGroups|DenyUsers|DenyGroups .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "ssh-warning-banner-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
@@ -4042,7 +3954,7 @@ benchmark_configs: {
       "# chage --warndays 7 <user>\n"
       "```\n"
     cis_benchmark: {
-      profile_level: 2
+      profile_level: 1
       severity: LOW
     }
     scan_instructions:
