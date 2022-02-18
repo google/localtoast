@@ -2647,6 +2647,71 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "ssh-access-limited"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure SSH access is limited"
+    description:
+      "There are several options available to limit which users and group can "
+      "access the system via SSH. It is recommended that at least one of the "
+      "following options be leveraged:\n"
+      "AllowUsers\n"
+      "The AllowUsers variable gives the system administrator the option of "
+      "allowing specific users to ssh into the system. The list consists of "
+      "space separated user names. Numeric user IDs are not recognized with "
+      "this variable. If a system administrator wants to restrict user access "
+      "further by only allowing the allowed users to log in from a particular "
+      "host, the entry can be specified in the form of user@host.\n"
+      "AllowGroups\n"
+      "The AllowGroups variable gives the system administrator the option of "
+      "allowing specific groups of users to ssh into the system. The list "
+      "consists of space separated group names. Numeric group IDs are not "
+      "recognized with this variable.\n"
+      "DenyUsers\n"
+      "The DenyUsers variable gives the system administrator the option of "
+      "denying specific users to ssh into the system. The list consists of "
+      "space separated user names. Numeric user IDs are not recognized with "
+      "this variable. If a system administrator wants to restrict user "
+      "access further by specifically denying a user's access from a "
+      "particular host, the entry can be specified in the form of user@host.\n"
+      "DenyGroups\n"
+      "The DenyGroups variable gives the system administrator the option of "
+      "denying specific groups of users to ssh into the system. The list "
+      "consists of space separated group names. Numeric group IDs are not "
+      "recognized with this variable."
+    rationale:
+      "Restricting which users can remotely access the system via SSH will "
+      "help ensure that only authorized users access the system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set one or more of the parameter "
+      "as follows:\n"
+      "```\n"
+      "AllowUsers <userlist>\n"
+      "AllowGroups <grouplist>\n"
+      "DenyUsers <userlist>\n"
+      "DenyGroups <grouplist>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"AllowUsers|AllowGroups|DenyUsers|DenyGroups .*\""
+      "        expected_regex: \"AllowUsers|AllowGroups|DenyUsers|DenyGroups .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
   id: "ssh-warning-banner-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
