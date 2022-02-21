@@ -25,7 +25,7 @@ import (
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"bitbucket.org/creachadair/stringset"
-	spb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	spb "github.com/google/localtoast/scannerlib/proto/severity_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"

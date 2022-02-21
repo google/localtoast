@@ -24,14 +24,11 @@ configs: protos
 	./gen_full_config --in=$(REDUCED_CONFIGS),$(CONFIG_DEFS) --out=$(FULL_CONFIGS) --omit-descriptions
 
 protos:
-	rm -rf scannerlib/proto/*_go_proto
-	go install google.golang.org/protobuf/cmd/protoc-gen-go
-	protoc -I=. --go_out=. scannerlib/proto/*.proto
-	mv github.com/google/localtoast/scannerlib/proto/* scannerlib/proto/
-	rm -r github.com
+	./build_protos.sh
 
 clean:
 	rm -rf scannerlib/proto/*_go_proto
+	rm -rf scannerlib/proto/v1
 	rm -f localtoast
 	rm -rf configs/full
 	rm -f gen_full_config
