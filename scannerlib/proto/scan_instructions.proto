@@ -22,8 +22,6 @@ option go_package = "github.com/google/localtoast/scannerlib/proto/scan_instruct
 
 // Describes how the scanner should check for compliance with a given
 // benchmark.
-// TODO(b/200859368): Use this proto in the benchmark configs instead
-// of BenchmarkScanInstruction.
 message BenchmarkScanInstructionDef {
   // Either the same instructions are used for all scan types or there
   // are separate instructions for instance and image scanning.
