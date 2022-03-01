@@ -1,4 +1,4 @@
-version: { cpe_uri: "fallback" version: "1.0.0" }
+version: { cpe_uri: "fallback" version: "2.0.0" }
 benchmark_id: "world-writable-dirs-sticky-fallback"
 benchmark_id: "motd-permissions-fallback"
 benchmark_id: "etc-issue-permissions-fallback"

@@ -1,4 +1,4 @@
-version: { cpe_uri: "fallback" version: "1.0.0" }
+version: { cpe_uri: "fallback" version: "2.0.0" }
 benchmark_id: "cramfs-mounting-disabled-fallback"
 benchmark_id: "freevxfs-mounting-disabled-fallback"
 benchmark_id: "jffs2-mounting-disabled-fallback"
