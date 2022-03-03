@@ -292,23 +292,29 @@ func TestTraverseFilesystemWithInfiniteLoop(t *testing.T) {
 
 type fakeProcessPathReader struct {
 	pidToName map[int]string
+	// If true, tests the race condition when the files become unavailable after
+	// they're listed in the /proc directory.
+	removeFilesAfterQuery bool
 }
 
 func (r fakeProcessPathReader) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
-	notFound := fmt.Errorf("file not found: %q", path)
+	if r.removeFilesAfterQuery {
+		return nil, os.ErrNotExist
+	}
+
 	re := regexp.MustCompile(`^/proc/([0-9]+)/stat$`)
 
 	gs := re.FindStringSubmatch(path)
 	if gs == nil {
-		return nil, notFound
+		return nil, os.ErrNotExist
 	}
 	pid, err := strconv.Atoi(gs[1])
 	if err != nil {
-		return nil, notFound
+		return nil, os.ErrNotExist
 	}
 	name, ok := r.pidToName[pid]
 	if !ok {
-		return nil, notFound
+		return nil, os.ErrNotExist
 	}
 	return ioutil.NopCloser(bytes.NewBufferString(fmt.Sprintf(
 		"%d (%s) I 2 0 0 0 -1 69238880 0 0 0 0 0 0 0 0 0 -20 1 0 250 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 0 0 0 17 3 0 0 0 0 0 0 0 0 0 0 0 0 0",
@@ -445,6 +451,36 @@ func TestProcessPath(t *testing.T) {
 				)
 			}
 		})
+	}
+}
+
+func TestProcessPathRemovedAfterQuerying(t *testing.T) {
+	fileSet := &ipb.FileSet{
+		FilePath: &ipb.FileSet_ProcessPath_{ProcessPath: &ipb.FileSet_ProcessPath{
+			ProcName: "foo",
+		}},
+	}
+	expectedTraversal := []*traversal{}
+	got := make([]*traversal, 0)
+	err := fileset.WalkFiles(
+		context.Background(),
+		fileSet,
+		&fakeProcessPathReader{pidToName: map[int]string{1: "foo"}, removeFilesAfterQuery: true},
+		func(path string, isDir bool) error {
+			got = append(got, &traversal{path, isDir})
+			return nil
+		},
+	)
+	if err != nil {
+		t.Fatalf("fileset.WalkFiles(%v) returned an error: %v", fileSet, err)
+	}
+
+	if diff := cmp.Diff(expectedTraversal, got); diff != "" {
+		t.Errorf(
+			"fileset.WalkFunc(%v) made an unexpected traversal diff (-want +got):\n%s",
+			fileSet,
+			diff,
+		)
 	}
 }
 
