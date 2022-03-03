@@ -232,12 +232,17 @@ func walkProcessPaths(ctx context.Context, procName string, fileName string, fsR
 		dirName := path.Join("/proc", f.GetName())
 		fh, err := fsReader.OpenFile(ctx, path.Join(dirName, "stat"))
 		if err != nil {
+			if errors.Is(err, os.ErrNotExist) {
+				// The file got removed since we queried it, ignore.
+				continue
+			}
 			return fmt.Errorf("unable to read file %s/stat: %v", dirName, err)
 		}
 		defer fh.Close()
 		stat, err := ioutil.ReadAll(fh)
 		if err != nil {
-			return fmt.Errorf("unable to read from file %s/stat: %v", dirName, err)
+			// The file got removed since we queried it, ignore.
+			continue
 		}
 		if procName != findProcName(string(stat)) {
 			continue
