@@ -3892,6 +3892,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
       "The /etc/group- file contains a backup list of all the valid groups defined in\n"
@@ -3980,48 +3982,6 @@ benchmark_configs: {
       "      clear_bits: 0137"
       "      user: {name: \"root\" should_own: true}"
       "      group: {name: \"shadow\" should_own: true}"
-      "    }"
-      "  }"
-      "}}"
-  }
-}
-benchmark_configs: {
-  id: "etc-group-dash-permissions"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
-    title: "Ensure permissions on /etc/group- are configured"
-    description:
-      "The /etc/group- file contains a backup list of all the valid groups defined in\n"
-      "the system."
-    rationale:
-      "It is critical to ensure that the /etc/group- file is protected from\n"
-      "unauthorized access. Although it is protected by default, the file permissions\n"
-      "could be changed either inadvertently or through malicious actions."
-    remediation:
-      "Run the following command to set permissions on /etc/group-:\n"
-      "```\n"
-      "# chown root:root /etc/group-\n"
-      "# chmod u-x,go-wx /etc/group-\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/group-\"}}"
-      "    existence:{should_exist: false}"
-      "  }"
-      "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/group-\"}}"
-      "    permission:{"
-      "      clear_bits: 0133"
-      "      user: {name: \"root\" should_own: true}"
-      "      group: {name: \"root\" should_own: true}"
       "    }"
       "  }"
       "}}"
