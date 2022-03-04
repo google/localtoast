@@ -3624,13 +3624,22 @@ benchmark_configs: {
       "Since the system console has special properties to handle emergency\n"
       "situations, it is important to ensure that the console is in a physically\n"
       "secure location and that unauthorized consoles have not been defined."
-    remediation: "Remove entries for any consoles that are not in a physically secure location."
+    remediation:
+      "Make sure /etc/securetty is empty or doesn't exist. If /etc/securetty is not empty, make "
+      "sure there are no entries for any consoles that are not in a physically secure location, "
+      "then request to be excluded from this scan if applicable."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/securetty\"}}"
+      "    content:{content:\"\"}"
+      "  }"
+      "}"
+      "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/securetty\"}}"
       "    existence:{should_exist:false}"
