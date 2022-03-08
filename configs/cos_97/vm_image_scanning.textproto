@@ -694,7 +694,30 @@ benchmark_configs: {
       "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
-      "    content:{content:\"\"}"
+      # The scan instructions don't support substituting in values of e.g.
+      # "uname -r" so for now we use the hard-coded system values specific to
+      # the COS release.
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*Container-Optimized OS.*\""
+      "        expected_regex: \".*Container-Optimized OS.*\""
+      "      }"
+      # Architectures COS is currently running on.
+      "      match_criteria: {"
+      "        filter_regex: \".*x86_64.*\""
+      "        expected_regex: \".*x86_64.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \".*arm.*\""
+      "        expected_regex: \".*arm.*\""
+      "      }"
+      # Kernel version.
+      "      match_criteria: {"
+      "        filter_regex: \".*[0-9]+\\\\.[0-9]+\\\\.[0-9]+.*\""
+      "        expected_regex: \".*[0-9]+\\\\.[0-9]+\\\\.[0-9]+.*\""
+      "      }"
+      "    }"
       "  }"
       "}"
       "check_alternatives:{"
