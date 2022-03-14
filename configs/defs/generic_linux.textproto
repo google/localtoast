@@ -3696,7 +3696,7 @@ benchmark_configs: {
       "      match_type: ALL_MATCH_ANY_ORDER"
       "      match_criteria: {"
       "        filter_regex: \"wheel:.*\""
-      "        expected_regex: \"wheel:.*:.*:root\""
+      "        expected_regex: \"wheel:.*:.*:(.*,)?root(,|$).*\""
       "      }"
       "    }"
       "  }"
