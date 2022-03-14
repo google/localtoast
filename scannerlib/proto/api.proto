@@ -94,7 +94,6 @@ message PosixPermissions {
 }
 
 // Per-OS benchmark configs are stored in .textproto files using this format.
-// TODO(b/200859368): Use this proto in the configs/ dir instead of ScanConfig.
 message PerOsBenchmarkConfig {
   // The OS and config versions the benchmarks applies to.
   grafeas.v1.ComplianceVersion version = 1;

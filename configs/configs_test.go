@@ -71,17 +71,6 @@ func readFilesInDir(dirPath string) map[string][]byte {
 	return result
 }
 
-// Check if the serialized config uses the new reduced per-OS format.
-// The test will skip these so that the migration to the reduced format can
-// happen in several steps.
-// TODO(b/200859368): Remove the usage of this function and update the tests
-// once all configs have been migrated.
-func isReducedConfigFile(configBytes []byte) bool {
-	config := &apb.PerOsBenchmarkConfig{}
-	err := prototext.Unmarshal(configBytes, config)
-	return err == nil
-}
-
 // Validate behavior across all the configs.
 func TestRequiredAttributes(t *testing.T) {
 	for filePath, configBytes := range scanConfigDefs {
@@ -177,9 +166,6 @@ func TestScanInstructionsHaveDisplayCommandAndNonComplianceReason(t *testing.T) 
 func TestFallbackBenchmarkDefsHaveExpectedIdFormat(t *testing.T) {
 	for filePath, configBytes := range scanConfigDefs {
 		if filePath != "fallback.textproto" {
-			continue
-		}
-		if isReducedConfigFile(configBytes) {
 			continue
 		}
 		config := &apb.ScanConfig{}
