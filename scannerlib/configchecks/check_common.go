@@ -103,7 +103,7 @@ func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api
 	if err != nil {
 		return nil, err
 	}
-	sqlChecks, err := createSQLChecksFromConfig(benchmarks, api)
+	sqlChecks, err := createSQLChecksFromConfig(ctx, benchmarks, api)
 	if err != nil {
 		return nil, err
 	}

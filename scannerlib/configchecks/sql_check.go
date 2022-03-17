@@ -33,6 +33,7 @@ type SQLQuerier interface {
 // MySQLCheck is an an implementation of scanner.Check that executes
 // SQL queries on a MySQL/MariaDB database.
 type MySQLCheck struct {
+	ctx              context.Context
 	benchmarkID      string
 	alternativeID    int
 	checkInstruction *ipb.SQLCheck
@@ -42,8 +43,7 @@ type MySQLCheck struct {
 // Exec executes the SQL checks and returns the compliance status.
 func (c *MySQLCheck) Exec() (ComplianceMap, error) {
 	query := c.checkInstruction.GetQuery()
-	// TODO(b/181930060): add context to the Exec() signature and use it here.
-	rows, err := c.querier.SQLQuery(context.Background(), query)
+	rows, err := c.querier.SQLQuery(c.ctx, query)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (c *MySQLCheck) String() string {
 
 // createSQLChecksFromConfig parses the benchmark config and creates the executable
 // SQL checks that it defines.
-func createSQLChecksFromConfig(benchmarks []*benchmark, sq SQLQuerier) ([]*MySQLCheck, error) {
+func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, sq SQLQuerier) ([]*MySQLCheck, error) {
 	checks := []*MySQLCheck{}
 	for _, b := range benchmarks {
 		for _, alt := range b.alts {
@@ -86,6 +86,7 @@ func createSQLChecksFromConfig(benchmarks []*benchmark, sq SQLQuerier) ([]*MySQL
 					return nil, errors.New("only MySQL/MariaDB database checks are supported")
 				}
 				checks = append(checks, &MySQLCheck{
+					ctx:              ctx,
 					benchmarkID:      b.id,
 					alternativeID:    alt.id,
 					checkInstruction: sqlCheckInstruction,
