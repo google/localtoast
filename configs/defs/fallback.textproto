@@ -8175,6 +8175,16 @@ benchmark_configs: {
       "    files_to_check:{single_file:{path:\"/etc/group\"}}"
       "    existence:{should_exist: false}"
       "  }"
+      "}"
+      # Not applicable if "su" and "sudo" don't exist
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/su\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/su\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/su\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/su\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
       "}}"
   }
 }
