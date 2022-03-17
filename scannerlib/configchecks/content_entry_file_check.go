@@ -34,7 +34,7 @@ type contentEntryFileCheckBatch struct {
 	filesToCheck           *ipb.FileSet
 	fs                     FileSystemReader
 	contentEntryFileChecks []*contentEntryFileCheck
-	delimiter              byte
+	delimiter              []byte
 }
 
 type contentEntryFileCheck struct {
@@ -65,10 +65,6 @@ func newContentEntryFileCheckBatch(ctx context.Context, fileChecks []*fileCheck,
 	if len(delimiter) == 0 {
 		// Split by lines if nothing else is specified.
 		delimiter = []byte{'\n'}
-	}
-	if len(delimiter) > 1 {
-		// TODO(b/181930060): Add support for multi-char delimiters.
-		return nil, fmt.Errorf("invalid delimiter for content entry check: %v", delimiter)
 	}
 
 	contentEntryFileChecks := make([]*contentEntryFileCheck, 0, len(fileChecks))
@@ -113,9 +109,7 @@ func newContentEntryFileCheckBatch(ctx context.Context, fileChecks []*fileCheck,
 		filesToCheck:           filesToCheck,
 		fs:                     fs,
 		contentEntryFileChecks: contentEntryFileChecks,
-		// Delimiters are expected to be single-char for now.
-		// TODO(b/181930060): Add support for multi-char delimiters.
-		delimiter: delimiter[0],
+		delimiter:              delimiter,
 	}, nil
 }
 
@@ -151,8 +145,8 @@ func (c *contentEntryFileCheckBatch) exec() (ComplianceMap, error) {
 				if atEOF && len(data) == 0 {
 					return 0, nil, nil
 				}
-				if i := bytes.IndexByte(data, c.delimiter); i >= 0 {
-					return i + 1, data[0:i], nil
+				if i := bytes.Index(data, c.delimiter); i >= 0 {
+					return i + len(c.delimiter), data[0:i], nil
 				}
 				if atEOF {
 					return len(data), data, nil

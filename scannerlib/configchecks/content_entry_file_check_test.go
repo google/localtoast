@@ -209,6 +209,19 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 			expectedNonCompliantFiles: nil,
 		},
 		{
+			description: "split by multi-byte delimiter",
+			fileContent: "VALUE1=true---VALUE2=true",
+			check: &ipb.ContentEntryCheck{
+				Delimiter: []byte{'-', '-', '-'},
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{{
+					FilterRegex:   "VALUE2=.*",
+					ExpectedRegex: "VALUE2=true",
+				}},
+			},
+			expectedNonCompliantFiles: nil,
+		},
+		{
 			description: "split by other delimiter with trailing",
 			fileContent: "VALUE1=true\t" +
 				"VALUE2=true\t",
@@ -216,8 +229,8 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 				Delimiter: []byte{'\t'},
 				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
 				MatchCriteria: []*ipb.MatchCriterion{{
-					FilterRegex:   "VALUE1=.*",
-					ExpectedRegex: "VALUE1=true",
+					FilterRegex:   "VALUE2=.*",
+					ExpectedRegex: "VALUE2=true",
 				}},
 			},
 			expectedNonCompliantFiles: nil,
