@@ -103,6 +103,9 @@ func createFileCheckBatchesFromConfig(
 	for _, b := range benchmarks {
 		for _, alt := range b.alts {
 			for _, fileCheckInstruction := range alt.proto.GetFileChecks() {
+				if err := validateFileCheckInstruction(fileCheckInstruction); err != nil {
+					return nil, err
+				}
 				options := addFileCheckToBatchMapOptions{
 					fileCheckInstruction,
 					batchMap,
@@ -127,6 +130,13 @@ func createFileCheckBatchesFromConfig(
 		fileCheckBatches = append(fileCheckBatches, batch)
 	}
 	return fileCheckBatches, nil
+}
+
+func validateFileCheckInstruction(instruction *ipb.FileCheck) error {
+	if len(instruction.GetFileDisplayCommand()) > 0 && len(instruction.GetNonComplianceMsg()) == 0 {
+		return fmt.Errorf("check instruction %v has a file display command set but no non-compliance message", instruction)
+	}
+	return nil
 }
 
 type addFileCheckToBatchMapOptions struct {
@@ -511,10 +521,6 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 		// Replace the non-compliance reason and files with custom values if available.
 		if len(nonCompliantFiles) > 0 {
 			if len(fc.checkInstruction.GetFileDisplayCommand()) > 0 {
-				if len(fc.checkInstruction.GetNonComplianceMsg()) == 0 {
-					// TODO(b/181930060): Check for this during config reading, before the scans are run.
-					return nil, fmt.Errorf("check for benchmark %s has a file display command set but no non-compliance message", fc.benchmarkID)
-				}
 				nonCompliantFiles = []*cpb.NonCompliantFile{&cpb.NonCompliantFile{
 					DisplayCommand: fc.checkInstruction.GetFileDisplayCommand(),
 					Reason:         fc.checkInstruction.GetNonComplianceMsg(),

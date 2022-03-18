@@ -363,6 +363,7 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck:       []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:          &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+				NonComplianceMsg:   "custom reason",
 				FileDisplayCommand: "display command",
 			},
 			expectedResult: &apb.ComplianceResult{
@@ -396,9 +397,11 @@ func TestFileDisplayCommandWithoutCustomMessage(t *testing.T) {
 		FileDisplayCommand: "display command",
 	}
 
-	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, newFakeAPI())
-	if _, err := check.Exec(); err == nil {
-		t.Fatalf("check.Exec() didn't return an error")
+	scanInstruction := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{fileCheck})
+	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+
+	if _, err := configchecks.CreateChecksFromConfig(context.Background(), &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{config}}, newFakeAPI()); err == nil {
+		t.Fatalf("configchecks.CreateChecksFromConfig(%v) didn't return an error", config)
 	}
 }
 
