@@ -429,3 +429,64 @@ func TestFileContentEntryCheckOnDirectory(t *testing.T) {
 		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
 	}
 }
+
+func TestFileContentEntryCheckFilesInOptOutConfigRedacted(t *testing.T) {
+	fileContent := "VALUE1=true\n" +
+		"VALUE2=false"
+	check := &ipb.ContentEntryCheck{
+		MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+		MatchCriteria: []*ipb.MatchCriterion{{
+			FilterRegex:   "VALUE1=.*",
+			ExpectedRegex: "VALUE1=false",
+		}},
+	}
+	optOutConfig := &apb.OptOutConfig{
+		ContentOptoutRegexes: []string{".*"},
+	}
+	expectedNonCompliantFiles := []*cpb.NonCompliantFile{
+		&cpb.NonCompliantFile{
+			Path:   testFilePath,
+			Reason: "File contains entry \"[redacted due to opt-out config]\", expected \"(?s)^VALUE1=false$\"",
+		},
+	}
+
+	scanInstruction := testconfigcreator.NewFileScanInstruction(
+		[]*ipb.FileCheck{&ipb.FileCheck{
+			FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
+			CheckType:    &ipb.FileCheck_ContentEntry{ContentEntry: check},
+		}})
+	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+	checks, err := configchecks.CreateChecksFromConfig(
+		context.Background(),
+		&apb.ScanConfig{
+			BenchmarkConfigs: []*apb.BenchmarkConfig{config},
+			OptOutConfig:     optOutConfig,
+		},
+		newFakeAPI(withFileContent(fileContent)),
+	)
+	if err != nil {
+		t.Fatalf("CreateChecksFromConfig([%v]) returned an error: %v", config, err)
+	}
+	if len(checks) != 1 {
+		t.Fatalf("Created %d checks, expected only 1", len(checks))
+	}
+
+	resultMap, err := checks[0].Exec()
+	if err != nil {
+		t.Fatalf("checks[0].Exec() returned an error: %v", err)
+	}
+	result, gotSingleton := singleComplianceResult(resultMap)
+	if !gotSingleton {
+		t.Fatalf("checks[0].Exec() expected to return 1 result, got %d", len(resultMap))
+	}
+
+	want := &apb.ComplianceResult{
+		Id: "id",
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{
+			NonCompliantFiles: expectedNonCompliantFiles,
+		},
+	}
+	if diff := cmp.Diff(want, result, protocmp.Transform()); diff != "" {
+		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+	}
+}

@@ -301,15 +301,14 @@ func createFileCheckBatch(t *testing.T, id string, fileChecks []*ipb.FileCheck, 
 	t.Helper()
 	scanInstruction := testconfigcreator.NewFileScanInstruction(fileChecks)
 	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+	return createFileCheckBatchFromScanConfig(t, id, &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{config}}, api)
+}
 
-	checks, err := configchecks.CreateChecksFromConfig(
-		context.Background(),
-		&apb.ScanConfig{
-			BenchmarkConfigs: []*apb.BenchmarkConfig{config},
-		},
-		api)
+func createFileCheckBatchFromScanConfig(t *testing.T, id string, scanConfig *apb.ScanConfig, api *fakeAPI) configchecks.BenchmarkCheck {
+	t.Helper()
+	checks, err := configchecks.CreateChecksFromConfig(context.Background(), scanConfig, api)
 	if err != nil {
-		t.Fatalf("configchecks.CreateChecksFromConfig([%v]) returned an error: %v", config, err)
+		t.Fatalf("configchecks.CreateChecksFromConfig(%v) returned an error: %v", scanConfig, err)
 	}
 	if len(checks) != 1 {
 		t.Fatalf("Created %d checks, expected only 1", len(checks))
@@ -402,6 +401,104 @@ func TestFileDisplayCommandWithoutCustomMessage(t *testing.T) {
 
 	if _, err := configchecks.CreateChecksFromConfig(context.Background(), &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{config}}, newFakeAPI()); err == nil {
 		t.Fatalf("configchecks.CreateChecksFromConfig(%v) didn't return an error", config)
+	}
+}
+
+func TestFilesInOptOutConfigRedacted(t *testing.T) {
+	testPath := []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)}
+	testCases := []struct {
+		desc           string
+		fileCheck      *ipb.FileCheck
+		optOutConfig   *apb.OptOutConfig
+		expectedResult *apb.ComplianceResult
+	}{
+		{
+			desc: "content not displayed",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: testPath,
+				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
+			},
+			optOutConfig: &apb.OptOutConfig{
+				ContentOptoutRegexes: []string{".*"},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
+							Path:   testFilePath,
+							Reason: "Got content \"[redacted due to opt-out config]\", expected \"content\"",
+						},
+					},
+				},
+			},
+		},
+		{
+			desc: "filename not displayed",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: testPath,
+				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
+			},
+			optOutConfig: &apb.OptOutConfig{
+				FilenameOptoutRegexes: []string{".*"},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
+							Path:   "[redacted due to opt-out config]",
+							Reason: fmt.Sprintf("Got content %q, expected \"content\"", testFileContent),
+						},
+					},
+				},
+			},
+		},
+		{
+			desc: "don't redact if regex doesn't match",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: testPath,
+				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
+			},
+			optOutConfig: &apb.OptOutConfig{
+				ContentOptoutRegexes: []string{"no match"},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{
+						&cpb.NonCompliantFile{
+							Path:   testFilePath,
+							Reason: fmt.Sprintf("Got content %q, expected \"content\"", testFileContent),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			scanInstruction := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{tc.fileCheck})
+			config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+			scanConfig := &apb.ScanConfig{
+				BenchmarkConfigs: []*apb.BenchmarkConfig{config},
+				OptOutConfig:     tc.optOutConfig,
+			}
+			check := createFileCheckBatchFromScanConfig(t, "id", scanConfig, newFakeAPI())
+			resultMap, err := check.Exec()
+			if err != nil {
+				t.Fatalf("check.Exec() returned an error: %v", err)
+			}
+			result, gotSingleton := singleComplianceResult(resultMap)
+			if !gotSingleton {
+				t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+			}
+
+			if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
+				t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+			}
+		})
 	}
 }
 

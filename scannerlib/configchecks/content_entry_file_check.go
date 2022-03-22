@@ -196,13 +196,13 @@ func matchEntryAgainstCriteria(entry string, filePath string, check *contentEntr
 
 		if !satisfiesCriterion && mc.matchType != ipb.ContentEntryCheck_NONE_MATCH {
 			check.fileCheck.addNonCompliantFile(filePath,
-				fmt.Sprintf("File contains entry %q, expected %q", entry, mc))
+				fmt.Sprintf("File contains entry %q, expected %q", check.fileCheck.redactContent(entry, filePath), mc))
 		}
 		if satisfiesCriterion {
 			switch mc.matchType {
 			case ipb.ContentEntryCheck_NONE_MATCH:
 				check.fileCheck.addNonCompliantFile(filePath,
-					fmt.Sprintf("File contains entry %q, didn't expect any entries matching %q", entry, mc))
+					fmt.Sprintf("File contains entry %q, didn't expect any entries matching %q", check.fileCheck.redactContent(entry, filePath), mc))
 			case ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER:
 				// Match was expected
 			case ipb.ContentEntryCheck_ALL_MATCH_STRICT_ORDER:
@@ -231,10 +231,12 @@ func verifyCriterionMatchInStrictOrder(entry string, filePath string, check *con
 
 	if prev != nil && !prev.matched {
 		check.fileCheck.addNonCompliantFile(filePath,
-			fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q before %q was matched", entry, mc, prev))
+			fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q before %q was matched",
+				check.fileCheck.redactContent(entry, filePath), mc, prev))
 	} else if next != nil && next.matched {
 		check.fileCheck.addNonCompliantFile(filePath,
-			fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q after %q was matched", entry, mc, next))
+			fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q after %q was matched",
+				check.fileCheck.redactContent(entry, filePath), mc, next))
 	}
 }
 

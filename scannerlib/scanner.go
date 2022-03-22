@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -62,10 +61,6 @@ func (Scanner) Scan(ctx context.Context, config *apb.ScanConfig, api ScanAPIProv
 
 	checkResults, benchmarkErrors := executeChecks(checks)
 	complianceResults := determineBenchmarkCompliance(checks, checkResults, benchmarkErrors)
-
-	if err := redactOptedOutFiles(complianceResults.nonCompliantBenchmarks, config.GetOptOutConfig()); err != nil {
-		return nil, err
-	}
 
 	benchmarkVersion, err := oldestBenchmarkVersion(config.GetBenchmarkConfigs())
 	if err != nil {
@@ -353,37 +348,4 @@ func isVersionNewer(v1, v2 string) (bool, error) {
 		}
 	}
 	return len(v1Nums) > len(v2Nums), nil
-}
-
-func redactOptedOutFiles(complianceResults []*apb.ComplianceResult, config *apb.OptOutConfig) error {
-	for _, r := range config.GetContentOptoutRegexes() {
-		re, err := regexp.Compile("^" + r + "$")
-		if err != nil {
-			return err
-		}
-		for _, c := range complianceResults {
-			for _, f := range c.GetComplianceOccurrence().GetNonCompliantFiles() {
-				if re.MatchString(f.GetPath()) {
-					// TODO(b/181930060): Redact only the file content instead of the entire text.
-					f.Reason = "[redacted due to opt-out config]"
-				}
-			}
-		}
-	}
-
-	for _, r := range config.GetFilenameOptoutRegexes() {
-		re, err := regexp.Compile("^" + r + "$")
-		if err != nil {
-			return err
-		}
-		for _, c := range complianceResults {
-			for _, f := range c.GetComplianceOccurrence().GetNonCompliantFiles() {
-				if re.MatchString(f.GetPath()) {
-					f.Path = "[redacted due to opt-out config]"
-				}
-			}
-		}
-	}
-
-	return nil
 }

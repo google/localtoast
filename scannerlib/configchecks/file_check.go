@@ -25,6 +25,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"regexp"
 
 	"google.golang.org/protobuf/proto"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
@@ -73,16 +74,38 @@ type fileCheckBatchChecker interface {
 
 // fileCheck is a single file check in the batch.
 type fileCheck struct {
-	benchmarkID       string
-	alternativeID     int
-	checkInstruction  *ipb.FileCheck
-	filesToCheck      *ipb.FileSet
-	nonCompliantFiles []*cpb.NonCompliantFile
-	err               error
+	benchmarkID           string
+	alternativeID         int
+	checkInstruction      *ipb.FileCheck
+	filesToCheck          *ipb.FileSet
+	contentOptoutRegexes  []*regexp.Regexp
+	filenameOptoutRegexes []*regexp.Regexp
+	nonCompliantFiles     []*cpb.NonCompliantFile
+	err                   error
 }
 
 func (fc *fileCheck) addNonCompliantFile(path string, reason string) {
-	fc.nonCompliantFiles = append(fc.nonCompliantFiles, &cpb.NonCompliantFile{Path: path, Reason: reason})
+	fc.nonCompliantFiles = append(fc.nonCompliantFiles, &cpb.NonCompliantFile{Path: fc.redactPath(path), Reason: reason})
+}
+
+// redactContent redacts a given file content if the file path is in the list of opt-out regexes.
+func (fc *fileCheck) redactContent(content, path string) string {
+	for _, re := range fc.contentOptoutRegexes {
+		if re.MatchString(path) {
+			return "[redacted due to opt-out config]"
+		}
+	}
+	return content
+}
+
+// redactPath redacts a given file path if it's in the list of opt-out regexes.
+func (fc *fileCheck) redactPath(path string) string {
+	for _, re := range fc.filenameOptoutRegexes {
+		if re.MatchString(path) {
+			return "[redacted due to opt-out config]"
+		}
+	}
+	return path
 }
 
 // File checks are placed into the same batch if they have these properties in common.
@@ -181,13 +204,23 @@ func addFileCheckToBatchMap(ctx context.Context, options addFileCheckToBatchMapO
 				delimiter:    delimiter,
 				err:          errStr,
 			}
+			contentOptoutRegexes, err := strToRegex(options.optOut.GetContentOptoutRegexes())
+			if err != nil {
+				return err
+			}
+			filenameOptoutRegexes, err := strToRegex(options.optOut.GetFilenameOptoutRegexes())
+			if err != nil {
+				return err
+			}
 			options.batchMap[key] = append(options.batchMap[key],
 				&fileCheck{
-					benchmarkID:      options.benchmarkID,
-					alternativeID:    options.alternativeID,
-					checkInstruction: fc,
-					filesToCheck:     filesToCheck,
-					err:              repeatConfig.Err,
+					benchmarkID:           options.benchmarkID,
+					alternativeID:         options.alternativeID,
+					checkInstruction:      fc,
+					filesToCheck:          filesToCheck,
+					contentOptoutRegexes:  contentOptoutRegexes,
+					filenameOptoutRegexes: filenameOptoutRegexes,
+					err:                   repeatConfig.Err,
 				})
 		}
 	}
@@ -207,6 +240,18 @@ func checkTypeStr(fc *ipb.FileCheck) (string, error) {
 	default:
 		return "", fmt.Errorf("unknown file check type for %v", fc)
 	}
+}
+
+func strToRegex(strs []string) ([]*regexp.Regexp, error) {
+	result := make([]*regexp.Regexp, 0, len(strs))
+	for _, s := range strs {
+		re, err := regexp.Compile("^" + s + "$")
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, re)
+	}
+	return result, nil
 }
 
 // newFileCheckBatch creates a FileCheckBatch from several fileChecks that
@@ -464,7 +509,7 @@ func (c *contentFileCheckBatch) exec() (ComplianceMap, error) {
 				expectedContent := fc.checkInstruction.GetContent().GetContent()
 				if string(content) != expectedContent {
 					fc.addNonCompliantFile(path, fmt.Sprintf("Got content %q, expected %q",
-						string(content), expectedContent))
+						fc.redactContent(string(content), path), expectedContent))
 				}
 			}
 			return nil
