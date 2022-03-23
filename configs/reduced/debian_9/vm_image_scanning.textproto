@@ -1,4 +1,4 @@
-version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
+version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
 benchmark_id: "aslr-enabled"
 benchmark_id: "etc-issue-permissions"
 benchmark_id: "packet-redirect-sending-disabled"

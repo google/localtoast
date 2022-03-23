@@ -1,4 +1,4 @@
-version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
 benchmark_id: "udf-mounting-disabled"
 benchmark_id: "tmp-configured-cos"
 benchmark_id: "var-nodev-cos"

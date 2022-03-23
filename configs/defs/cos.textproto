@@ -1,8 +1,8 @@
 benchmark_configs: {
   id: "tmp-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure /tmp is configured"
     description:
       "The /tmp directory is a world-writable directory used for temporary "
@@ -90,8 +90,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-nodev-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /var partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -142,8 +142,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-nosuid-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nosuid option set on /var partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -194,8 +194,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-noexec-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure noexec option set on /var partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -246,8 +246,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nodev-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -342,8 +342,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nosuid-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nosuid option set on /tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -440,8 +440,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-noexec-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure noexec option set on /tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -538,8 +538,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-nodev-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /home partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -590,8 +590,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nodev-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /dev/shm partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -645,8 +645,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nosuid-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nosuid option set on /dev/shm partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -700,8 +700,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-noexec-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure noexec option set on /dev/shm partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -779,7 +779,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dm-verity-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure dm-verity is enabled"
     description:
       "device-mapper-verity (dm-verity) kernel feature provides transparent "
@@ -813,8 +813,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dm-verity-installed-cos-93"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure dm-verity is enabled"
     description:
       "device-mapper-verity (dm-verity) kernel feature provides transparent "
@@ -852,8 +852,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bootloader-permissions-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on bootloader config are configured"
     description:
       "The grub configuration file contains information on boot settings and "
@@ -888,9 +888,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "auth-for-single-user-required-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure authentication required for single user mode"
     description:
       "Single user mode is used for recovery when the system detects an "
@@ -934,8 +934,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "core-dumps-restricted-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure core dumps are restricted"
     description:
       "A core dump is the memory of an executable program. It is generally "
@@ -1036,8 +1036,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "motd-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure message of the day is configured properly"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -1110,8 +1110,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "local-login-warning-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure local login warning banner is configured properly"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -1163,8 +1163,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "remote-login-warning-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure remote login warning banner is configured properly"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior to "
@@ -1217,8 +1217,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "motd-permissions-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/motd are configured"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -1263,8 +1263,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-permissions-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/issue are configured"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -1310,8 +1310,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-net-permissions-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/issue.net are configured"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior "
@@ -1357,9 +1357,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "chrony-installed-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure time synchronization is in use"
     description:
       "System time should be synchronized between all systems in an environment. This\n"
@@ -1398,7 +1398,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "chrony-configured-cos-89"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure chrony is configured"
     description:
       "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
@@ -1456,8 +1456,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "chrony-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure chrony is configured"
     description:
       "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
@@ -1519,9 +1519,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "x-window-system-not-installed-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure X Window System is not installed"
     description:
       "The X Window System provides a Graphical User Interface (GUI) where users can\n"
@@ -1554,9 +1554,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nfs-rpc-disabled-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure NFS and RPC are not enabled"
     description:
       "The Network File System (NFS) is one of the first and most widely distributed\n"
@@ -1610,9 +1610,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsync-disabled-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure rsync service is not enabled"
     description:
       "The rsyncd service can be used to synchronize files between systems over\n"
@@ -1650,8 +1650,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "packet-redirect-sending-disabled-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure packet redirect sending is disabled"
     description:
       "ICMP Redirects are used to send routing information to other hosts. As a host\n"
@@ -1737,7 +1737,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "source-routed-packets-not-accepted-cos-89"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure source routed packets are not accepted"
     description:
       "In networking, source routing allows a sender to partially or fully specify\n"
@@ -1807,8 +1807,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "source-routed-packets-not-accepted-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure source routed packets are not accepted"
     description:
       "In networking, source routing allows a sender to partially or fully specify\n"
@@ -1886,7 +1886,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "icmp-redirects-not-accepted-cos-89"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure ICMP redirects are not accepted"
     description:
       "ICMP redirect messages are packets that convey routing information and tell\n"
@@ -1923,8 +1923,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "icmp-redirects-not-accepted-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure ICMP redirects are not accepted"
     description:
       "ICMP redirect messages are packets that convey routing information and tell\n"
@@ -1969,8 +1969,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "secure-icmp-redirects-not-accepted-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure secure ICMP redirects are not accepted"
     description:
       "Secure ICMP redirects are the same as ICMP redirects, except they come "
@@ -2008,8 +2008,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "suspicious-packets-logged-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure suspicious packets are logged"
     description:
       "When enabled, this feature logs packets with un-routable source "
@@ -2045,8 +2045,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "broadcast-icmp-requests-ignored-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
       "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to\n"
@@ -2126,8 +2126,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bogus-icmp-responses-ignored-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
       "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from\n"
@@ -2201,8 +2201,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "reverse-path-filtering-enabled-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
       "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1\n"
@@ -2294,8 +2294,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tcp-syn-cookies-enabled-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
       "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally\n"
@@ -2379,8 +2379,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ipv6-router-advertisements-not-accepted-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure IPv6 router advertisements are not accepted"
     description:
       "This setting disables the system's ability to accept IPv6 router "
@@ -2417,9 +2417,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "iptables-installed-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure iptables is installed"
     description:
       "iptables allows configuration of the IPv4 and IPv6 tables in the linux kernel\n"
@@ -2449,8 +2449,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "stackdriver-correct-container"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure correct container image is set for stackdriver logging agent"
     description:
       "stackdriver-logging service runs stackdriver container image to export "
@@ -2490,8 +2490,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "stackdriver-logging-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure logging is configured"
     description:
       "The /etc/stackdriver/logging.config.d/*.conf files specifies rules "
@@ -2539,8 +2539,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-compress-large-log-files-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure journald is configured to compress large log files"
     description:
       "The journald system includes the capability of compressing overly "
@@ -2604,8 +2604,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-write-to-persistent-disk-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure journald is configured to write logfiles to persistent disk"
     description:
       "Data from journald may be stored in volatile memory or persisted locally on\n"
@@ -2645,8 +2645,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logfile-permissions-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on all logfiles are configured"
     description:
       "Log files stored in /var/log/ contain logged information from many "
@@ -2690,8 +2690,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logrotate-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure logrotate is configured"
     description:
       "The system includes the capability of rotating log files regularly to "
@@ -2730,8 +2730,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-creation-reqs-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure password creation requirements are configured"
     description:
       "The pam_passwdqc.so module checks the strength of passwords. It "
@@ -2820,8 +2820,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-user-umask-027-or-more-restrictive-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure default user umask is 027 or more restrictive"
     description:
       "The default umask determines the permissions of files created by "
@@ -2906,8 +2906,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-user-shell-timeout-900-or-less-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure default user shell timeout is 900 seconds or less"
     description:
       "The default TMOUT determines the shell timeout for users. The TMOUT "
@@ -2952,8 +2952,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "access-to-su-restricted-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure access to the su command is restricted"
     description:
       "The su command allows a user to run a command or shell as another user. The\n"
@@ -3012,8 +3012,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-passwd-dash-permissions-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/passwd- are configured"
     description: "The /etc/passwd- file contains backup user account information."
     rationale:
@@ -3053,8 +3053,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-path-integrity-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure root PATH Integrity"
     description:
       "The root user can execute any command on the system and could be fooled "

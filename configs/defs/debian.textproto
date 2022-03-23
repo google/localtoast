@@ -1,7 +1,7 @@
 benchmark_configs: {
   id: "aslr-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure address space layout randomization (ASLR) is enabled"
     description:
       "Address space layout randomization (ASLR) is an exploit mitigation "
@@ -48,7 +48,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure permissions on /etc/issue are configured"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -91,7 +91,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "packet-redirect-sending-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure packet redirect sending is disabled"
     description:
       "ICMP Redirects are used to send routing information to other hosts. As a host\n"
@@ -144,7 +144,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "source-routed-packets-not-accepted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure source routed packets are not accepted"
     description:
       "In networking, source routing allows a sender to partially or fully specify\n"
@@ -207,7 +207,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "broadcast-icmp-requests-ignored"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
       "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to\n"
@@ -259,7 +259,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bogus-icmp-responses-ignored"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
       "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from\n"
@@ -305,7 +305,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "reverse-path-filtering-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
       "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1\n"
@@ -364,7 +364,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tcp-syn-cookies-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
       "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally\n"
@@ -420,7 +420,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-passwd-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
       "The /etc/passwd file contains user account information that is used by many\n"
@@ -459,7 +459,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure permissions on /etc/group are configured"
     description:
       "The /etc/group file contains a list of all the valid groups defined in the\n"
@@ -497,7 +497,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-dash-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
       "The /etc/group- file contains a backup list of all the valid groups defined in\n"
@@ -538,7 +538,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-fields-not-empty"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure password fields are not empty"
     description:
       "An account with an empty password field means that anybody may log in as that\n"
@@ -579,7 +579,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "passwd-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -614,7 +614,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -647,7 +647,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "group-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -682,7 +682,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-is-only-uid-0-account"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure root is the only UID 0 account"
     description: "Any account with UID 0 has superuser privileges on the system."
     rationale:
@@ -715,7 +715,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-uids"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no duplicate UIDs exist"
     description:
       "Although the useradd program will not let you create a duplicate User ID\n"
@@ -756,7 +756,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-gids"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no duplicate GIDs exist"
     description:
       "Although the groupadd program will not let you create a duplicate Group ID\n"
@@ -795,7 +795,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-user-names"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no duplicate user names exist"
     description:
       "Although the useradd program will not let you create a duplicate user name, it\n"
@@ -839,7 +839,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-group-names"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no duplicate group names exist"
     description:
       "Although the groupadd program will not let you create a duplicate group name,\n"
@@ -881,7 +881,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-group-empty"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure shadow group is empty"
     description:
       "The shadow group allows system programs which require access the ability to\n"

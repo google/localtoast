@@ -1,7 +1,7 @@
 benchmark_configs: {
   id: "cramfs-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of cramfs filesystems is disabled"
     description:
       "The cramfs filesystem type is a compressed read-only Linux filesystem "
@@ -90,7 +90,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "freevxfs-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of freevxfs filesystems is disabled"
     description:
       "The freevxfs filesystem type is a free version of the Veritas type "
@@ -179,7 +179,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "jffs2-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of jffs2 filesystems is disabled"
     description:
       "The jffs2 (journaling flash filesystem 2) filesystem type is a "
@@ -267,7 +267,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "hfs-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of hfs filesystems is disabled"
     description:
       "The hfs filesystem type is a hierarchical filesystem that allows you "
@@ -355,7 +355,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "hfsplus-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of hfsplus filesystems is disabled"
     description:
       "The hfsplus filesystem type is a hierarchical filesystem designed to "
@@ -443,7 +443,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "squashfs-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of squashfs filesystems is disabled"
     description:
       "The squashfs filesystem type is a compressed read-only Linux "
@@ -532,7 +532,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "udf-mounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure mounting of udf filesystems is disabled"
     description:
       "The udf filesystem type is the universal disk format used to implement "
@@ -623,7 +623,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nodev-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nodev option set on /tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -691,7 +691,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nosuid-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nosuid option set on /tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -759,7 +759,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-noexec-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure noexec option set on /tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -827,7 +827,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nodev-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nodev option set on /var/tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -884,7 +884,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nosuid-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nosuid option set on /var/tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -941,7 +941,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-noexec-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure noexec option set on /var/tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -998,7 +998,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-nodev-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nodev option set on /home partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -1052,7 +1052,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nodev-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nodev option set on /dev/shm partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -1109,7 +1109,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nosuid-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure nosuid option set on /dev/shm partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -1166,7 +1166,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-noexec-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure noexec option set on /dev/shm partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -1221,7 +1221,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "world-writable-dirs-sticky-fallback"
   compliance_note {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure sticky bit is set on all world-writable directories"
     description:
       "Setting the sticky bit on world writable directories prevents users from "
@@ -1281,7 +1281,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "automounting-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Disable Automounting"
     description:
       "autofs allows automatic mounting of devices, typically including CD/"
@@ -1325,7 +1325,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "usb-storage-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Disable USB Storage"
     description:
       "USB storage provides a means to transfer and store files insuring "
@@ -1417,7 +1417,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "aide-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure AIDE is installed"
     description:
       "AIDE takes a snapshot of filesystem state including modification "
@@ -1485,7 +1485,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "filesystem-integrity-checked-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure filesystem integrity is regularly checked"
     description:
       "Periodic checking of the filesystem integrity is needed to detect "
@@ -1546,7 +1546,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bootloader-config-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on bootloader config are configured"
     description:
       "The grub configuration file contains information on boot settings and "
@@ -1606,7 +1606,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bootloader-password-set-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure bootloader password is set"
     description:
       "Setting the boot loader password will require that anyone rebooting "
@@ -1714,7 +1714,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "auth-for-single-user-required-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure authentication required for single user mode"
     description:
       "Single user mode is used for recovery when the system detects an "
@@ -1759,7 +1759,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "interactive-boot-not-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure interactive boot is not enabled"
     description:
       "Interactive boot allows console users to interactively select which "
@@ -1800,7 +1800,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "core-dumps-restricted-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure core dumps are restricted"
     description:
       "A core dump is the memory of an executable program. It is generally "
@@ -1917,7 +1917,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nx-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure XD/NX support is enabled"
     description:
       "Recent processors in the x86 family support the ability to prevent "
@@ -2021,7 +2021,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "aslr-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure address space layout randomization (ASLR) is enabled"
     description:
       "Address space layout randomization (ASLR) is an exploit mitigation "
@@ -2105,7 +2105,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "prelink-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure prelink is disabled"
     description:
       "prelink is a program that modifies ELF shared libraries and ELF "
@@ -2148,7 +2148,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "motd-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure message of the day is configured properly"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -2197,7 +2197,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "local-login-warning-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure local login warning banner is configured properly"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -2246,7 +2246,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "remote-login-warning-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure remote login warning banner is configured properly"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior to "
@@ -2296,7 +2296,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "motd-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/motd are configured"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -2338,7 +2338,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/issue are configured"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -2381,7 +2381,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-net-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/issue.net are configured"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior "
@@ -2424,7 +2424,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "gdm-login-banner-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure GDM login banner is configured"
     description:
       "GDM is the GNOME Display Manager which handles graphical login for "
@@ -2479,7 +2479,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "chargen-services-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure chargen services are not enabled"
     description:
       "chargen is a network service that responds with 0 to 512 ASCII "
@@ -2550,7 +2550,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "daytime-services-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure daytime services are not enabled"
     description:
       "daytime is a network service that responds with the server's current "
@@ -2620,7 +2620,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "discard-services-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure discard services are not enabled"
     description:
       "discard is a network service that simply discards all data it receives. "
@@ -2690,7 +2690,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "echo-services-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure echo services are not enabled"
     description:
       "echo is a network service that responds to clients with the data sent "
@@ -2760,7 +2760,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "time-services-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure time services are not enabled"
     description:
       "time is a network service that responds with the server's current date "
@@ -2830,7 +2830,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsh-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure rsh server is not enabled"
     description:
       "The Berkeley rsh-server (rsh, rlogin, rexec) package contains legacy "
@@ -2899,7 +2899,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "talk-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure talk server is not enabled"
     description:
       "The talk software makes it possible for users to send and receive "
@@ -2969,7 +2969,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "telnet-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure telnet server is not enabled"
     description:
       "The telnet-server package contains the telnet daemon, which accepts "
@@ -3040,7 +3040,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tftp-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure tftp server is not enabled"
     description:
       "Trivial File Transfer Protocol (TFTP) is a simple file transfer "
@@ -3113,7 +3113,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "xinetd-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure xinetd is not enabled"
     description:
       "The eXtended InterNET Daemon ( xinetd ) is an open source super "
@@ -3158,7 +3158,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "time-synchronization-in-use-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure time synchronization is in use"
     description:
       "System time should be synchronized between all systems in an "
@@ -3274,7 +3274,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ntp-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure ntp is configured"
     description:
       "ntp is a daemon which implements the Network Time Protocol (NTP). It "
@@ -3348,7 +3348,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "chrony-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure chrony is configured"
     description:
       "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
@@ -3450,7 +3450,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "systemd-timesyncd-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure systemd-timesyncd is configured"
     description:
       "systemd-timesyncd is a daemon that has been added for synchronizing "
@@ -3529,7 +3529,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "x-not-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure X Window System is not installed"
     description:
       "The X Window System provides a Graphical User Interface (GUI) where "
@@ -3566,7 +3566,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "avahi-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Avahi Server is not enabled"
     description:
       "Avahi is a free zeroconf implementation, including a system for "
@@ -3609,7 +3609,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cups-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure CUPS is not enabled"
     description:
       "The Common Unix Print System (CUPS) provides the ability to print to "
@@ -3649,7 +3649,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dhcp-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure DHCP Server is not enabled"
     description:
       "The Dynamic Host Configuration Protocol (DHCP) is a service that "
@@ -3687,7 +3687,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ldap-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure LDAP Server is not enabled"
     description:
       "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
@@ -3726,7 +3726,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nfs-rpc-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure NFS and RPC are not enabled"
     description:
       "The Network File System (NFS) is one of the first and most widely distributed\n"
@@ -3777,7 +3777,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dns-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure DNS Server is not enabled"
     description:
       "The Domain Name System (DNS) is a hierarchical naming system that maps "
@@ -3816,7 +3816,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ftp-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure FTP Server is not enabled"
     description:
       "The File Transfer Protocol (FTP) provides networked computers with the "
@@ -3856,7 +3856,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "http-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure HTTP Server is not enabled"
     description: "HTTP or web servers provide the ability to host web site content."
     rationale:
@@ -3892,7 +3892,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "imap-pop3-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure IMAP and POP3 Server is not enabled"
     description: "dovecot is an open source IMAP and POP3 server for Linux based systems."
     rationale:
@@ -3928,7 +3928,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "samba-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Samba Server is not enabled"
     description:
       "The Samba daemon allows system administrators to configure their Linux "
@@ -3970,7 +3970,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "http-proxy-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure HTTP Proxy Server is not enabled"
     description:
       "Squid is a standard proxy server used in many distributions and "
@@ -4007,7 +4007,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "snmp-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SNMP Server is not enabled"
     description:
       "The Simple Network Management Protocol (SNMP) server is used to listen "
@@ -4049,7 +4049,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsync-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure rsync service is not enabled"
     description:
       "The rsyncd service can be used to synchronize files between systems over\n"
@@ -4086,7 +4086,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nis-server-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure NIS Server is not enabled"
     description:
       "The Network Information Service (NIS) (formally known as Yellow Pages) "
@@ -4129,7 +4129,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nis-client-not-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure NIS Client is not installed"
     description:
       "The Network Information Service (NIS), formerly known as Yellow Pages, "
@@ -4170,7 +4170,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsh-client-not-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure rsh client is not installed"
     description: "The rsh package contains the client commands for the rsh services."
     rationale:
@@ -4207,7 +4207,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "talk-client-not-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure talk client is not installed"
     description:
       "The talk software makes it possible for users to send and receive "
@@ -4243,7 +4243,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "telnet-client-not-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure telnet client is not installed"
     description:
       "The telnet package contains the telnet client, which allows users to "
@@ -4280,7 +4280,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ldap-client-not-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure LDAP client is not installed"
     description:
       "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
@@ -4315,7 +4315,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ip-forwarding-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure IP forwarding is disabled"
     description:
       "The net.ipv4.ip_forward and net.ipv6.conf.all.forwarding flags are "
@@ -4410,7 +4410,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "packet-redirect-sending-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure packet redirect sending is disabled"
     description:
       "ICMP Redirects are used to send routing information to other hosts. As a host\n"
@@ -4505,7 +4505,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "source-routed-packets-not-accepted-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure source routed packets are not accepted"
     description:
       "In networking, source routing allows a sender to partially or fully specify\n"
@@ -4612,7 +4612,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "icmp-redirects-not-accepted-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure ICMP redirects are not accepted"
     description:
       "ICMP redirect messages are packets that convey routing information and tell\n"
@@ -4733,7 +4733,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "secure-icmp-redirects-not-accepted-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure secure ICMP redirects are not accepted"
     description:
       "Secure ICMP redirects are the same as ICMP redirects, except they come "
@@ -4829,7 +4829,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "suspicious-packets-logged-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure suspicious packets are logged"
     description:
       "When enabled, this feature logs packets with un-routable source "
@@ -4923,7 +4923,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "broadcast-icmp-requests-ignored-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
       "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to\n"
@@ -5012,7 +5012,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bogus-icmp-responses-ignored-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
       "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from\n"
@@ -5095,7 +5095,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "reverse-path-filtering-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
       "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1\n"
@@ -5196,7 +5196,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tcp-syn-cookies-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
       "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally\n"
@@ -5289,7 +5289,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ipv6-router-advertisements-not-accepted-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure IPv6 router advertisements are not accepted"
     description:
       "This setting disables the system's ability to accept IPv6 router "
@@ -5384,7 +5384,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "hosts-allow-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/hosts.allow are configured"
     description:
       "The /etc/hosts.allow file contains networking information that is used "
@@ -5429,7 +5429,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "hosts-deny-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/hosts.allow are configured"
     description:
       "The /etc/hosts.deny file contains networking information that is used "
@@ -5474,7 +5474,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "iptables-installed-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure iptables is installed"
     description:
       "iptables allows configuration of the IPv4 and IPv6 tables in the linux "
@@ -5531,7 +5531,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-compress-large-log-files-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure journald is configured to compress large log files"
     description:
       "The journald system includes the capability of compressing overly "
@@ -5574,7 +5574,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-write-logfiles-to-persistent-disk-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure journald is configured to write logfiles to persistent disk"
     description:
       "Data from journald may be stored in volatile memory or persisted "
@@ -5618,7 +5618,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logfile-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on all logfiles are configured"
     description:
       "Log files stored in /var/log/ contain logged information from many "
@@ -5660,7 +5660,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logrotate-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure logrotate is configured"
     description:
       "The system includes the capability of rotating log files regularly to "
@@ -5708,7 +5708,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-daemon-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure cron daemon is enabled"
     description: "The cron daemon is used to execute batch jobs on the system."
     rationale:
@@ -5749,7 +5749,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "crontab-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/crontab are configured"
     description:
       "The /etc/crontab file is used by cron to control its own jobs. The "
@@ -5794,7 +5794,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-hourly-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/cron.hourly are configured"
     description:
       "This directory contains system cron jobs that need to run on an hourly "
@@ -5841,7 +5841,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-daily-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/cron.daily are configured"
     description:
       "The /etc/cron.daily directory contains system cron jobs that need to "
@@ -5888,7 +5888,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-weekly-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/cron.weekly are configured"
     description:
       "The /etc/cron.weekly directory contains system cron jobs that need to "
@@ -5935,7 +5935,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-monthly-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/cron.monthly are configured"
     description:
       "The /etc/cron.monthly directory contains system cron jobs that need to "
@@ -5982,7 +5982,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-d-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/cron.d are configured"
     description:
       "The /etc/cron.d directory contains system cron jobs that need to run in "
@@ -6031,7 +6031,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "at-cron-restricted-to-authorized-users-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure at/cron is restricted to authorized users"
     description:
       "Configure /etc/cron.allow and /etc/at.allow to allow specific users to "
@@ -6098,7 +6098,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-config-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/ssh/sshd_config are configured"
     description:
       "The /etc/ssh/sshd_config file contains configuration specifications for sshd.\n"
@@ -6138,7 +6138,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-private-host-key-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on SSH private host key files are configured"
     description:
       "An SSH private key is one of two files used in SSH public key authentication.\n"
@@ -6187,7 +6187,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-public-host-key-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on SSH public host key files are configured"
     description:
       "An SSH public key is one of two files used in SSH public key authentication.\n"
@@ -6232,7 +6232,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-protocol-set-to-2-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH Protocol is set to 2"
     description:
       "Older versions of SSH support two different and incompatible protocols: SSH1\n"
@@ -6272,7 +6272,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-loglevel-appropriate-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH LogLevel is appropriate"
     description:
       "INFO level is the basic level that only records login activity of SSH users.\n"
@@ -6337,7 +6337,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxauthtries-4-or-less-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH MaxAuthTries is set to 4 or less"
     description:
       "The MaxAuthTries parameter specifies the maximum number of "
@@ -6386,7 +6386,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-ignorerhosts-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH IgnoreRhosts is enabled"
     description:
       "The IgnoreRhosts parameter specifies that .rhosts and .shosts files will not\n"
@@ -6440,7 +6440,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-hostbasedauthentication-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH HostbasedAuthentication is disabled"
     description:
       "The HostbasedAuthentication parameter specifies if authentication is allowed\n"
@@ -6497,7 +6497,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-root-login-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH root login is disabled"
     description:
       "The PermitRootLogin parameter specifies if the root user can log in using ssh.\n"
@@ -6540,7 +6540,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-permitemptypasswords-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH PermitEmptyPasswords is disabled"
     description:
       "The PermitEmptyPasswords parameter specifies if the SSH server allows login to\n"
@@ -6594,7 +6594,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-permituserenvironments-disabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH PermitUserEnvironment is disabled"
     description:
       "The PermitUserEnvironment option allows users to present environment options\n"
@@ -6649,7 +6649,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-ciphers-used-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure only strong Ciphers are used"
     description: "This variable limits the ciphers that SSH can use during communication."
     rationale:
@@ -6758,7 +6758,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-mac-algorithms-used-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure only strong MAC algorithms are used"
     description: "This variable limits the types of MAC algorithms that SSH can use during communication."
     rationale:
@@ -6866,7 +6866,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-key-exchange-algos-used-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure only strong Key Exchange algorithms are used"
     description:
       "Key exchange is any method in cryptography by which cryptographic keys are\n"
@@ -6921,7 +6921,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-idle-timeout-interval-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH Idle Timeout Interval is configured"
     description:
       "The two options ClientAliveInterval and ClientAliveCountMax control the "
@@ -7002,7 +7002,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-logingrace-one-minute-or-less-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH LoginGraceTime is set to one minute or less"
     description:
       "The LoginGraceTime parameter specifies the time allowed for successful "
@@ -7064,7 +7064,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-access-limited-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH access is limited"
     description:
       "There are several options available to limit which users and group can "
@@ -7134,7 +7134,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-warning-banner-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH warning banner is configured"
     description:
       "The Banner parameter specifies a file whose contents must be sent to "
@@ -7178,7 +7178,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-pam-enabled-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH PAM is enabled"
     description:
       "UsePAM Enables the Pluggable Authentication Module interface. If set to “yes”\n"
@@ -7224,7 +7224,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxstartups-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH MaxStartups is configured"
     description:
       "The MaxStartups parameter specifies the maximum number of concurrent "
@@ -7267,7 +7267,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxsessions-4-or-less-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure SSH MaxSessions is set to 4 or less"
     description:
       "The MaxSessions parameter specifies the maximum number of open "
@@ -7314,7 +7314,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-creation-reqs-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password creation requirements are configured"
     description:
       "The pam_cracklib.so module checks the strength of passwords. It "
@@ -7396,7 +7396,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "failed-password-lockout-configured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure lockout for failed password attempts is configured"
     description:
       "Lock out users after n unsuccessful consecutive login attempts. The "
@@ -7454,7 +7454,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-reuse-limited-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password reuse is limited"
     description:
       "The /etc/security/opasswd file stores the users' old passwords and can "
@@ -7510,7 +7510,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-hashing-algorithm-sha-512-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password hashing algorithm is SHA-512"
     description:
       "The commands below change password encryption from md5 to sha512 (a "
@@ -7564,7 +7564,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-expiration-365-days-or-less-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password expiration is 365 days or less"
     description:
       "The PASS_MAX_DAYS parameter in /etc/login.defs allows an administrator "
@@ -7638,7 +7638,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "minimum-days-between-password-changes-7-or-more-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure minimum days between password changes is 7 or more"
     description:
       "The PASS_MIN_DAYS parameter in /etc/login.defs allows an administrator "
@@ -7709,7 +7709,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-expiration-warning-days-7-or-more-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password expiration warning days is 7 or more"
     description:
       "The PASS_WARN_AGE parameter in /etc/login.defs allows an administrator to\n"
@@ -7779,7 +7779,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "inactive-password-lock-30-days-or-less-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure inactive password lock is 30 days or less"
     description:
       "User accounts that have been inactive for over a given period of time "
@@ -7849,7 +7849,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "last-password-change-date-in-past-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure all users last password change date is in the past"
     description: "All users should have a password change date in the past."
     rationale:
@@ -7894,7 +7894,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "system-accounts-secured-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure system accounts are secured"
     description:
       "There are a number of accounts provided with most distributions that are used to manage "
@@ -7977,7 +7977,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-group-for-root-account-is-gid-0-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure default group for the root account is GID 0"
     description:
       "The usermod command can be used to specify which group the root user belongs\n"
@@ -8018,7 +8018,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-user-umask-027-or-more-restrictive-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure default user umask is 027 or more restrictive"
     description:
       "The default umask determines the permissions of files created by "
@@ -8083,7 +8083,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-login-restricted-to-system-console-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure root login is restricted to system console"
     description:
       "The file /etc/securetty contains a list of valid terminals that may be logged\n"
@@ -8118,7 +8118,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "access-to-su-restricted-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure access to the su command is restricted"
     description:
       "The su command allows a user to run a command or shell as another user. The\n"
@@ -8191,7 +8191,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-passwd-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
       "The /etc/passwd file contains user account information that is used by many\n"
@@ -8236,7 +8236,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-shadow-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/shadow are configured"
     description:
       "The /etc/shadow file is used to store the information about user accounts that\n"
@@ -8290,7 +8290,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/group are configured"
     description:
       "The /etc/group file contains a list of all the valid groups defined in the\n"
@@ -8334,7 +8334,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-gshadow-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/gshadow are configured"
     description:
       "The /etc/gshadow file is used to store the information about groups that is\n"
@@ -8395,7 +8395,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-passwd-dash-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/passwd- are configured"
     description: "The /etc/passwd- file contains backup user account information."
     rationale:
@@ -8441,7 +8441,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-shadow-dash-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/shadow- are configured"
     description:
       "The /etc/shadow- file is used to store backup information about user "
@@ -8502,7 +8502,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-dash-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
       "The /etc/group- file contains a backup list of all the valid groups defined in\n"
@@ -8543,7 +8543,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-gshadow-dash-permissions-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/gshadow- are configured"
     description:
       "The /etc/gshadow- file is used to store backup information about "
@@ -8604,7 +8604,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-world-writable-files-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no world writable files exist"
     description:
       "Unix-based systems support variable settings to control access to "
@@ -8647,7 +8647,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-unowned-files-or-dirs-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no unowned files or directories exist"
     description:
       "Sometimes when administrators delete users from the password file they "
@@ -8684,7 +8684,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-ungrouped-files-or-dirs-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no ungrouped files or directories exist"
     description:
       "Sometimes when administrators delete users or groups from the system "
@@ -8721,7 +8721,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-suid-execs-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Audit SUID executables"
     description:
       "The owner of a file can set the file's permissions to run with the "
@@ -8766,7 +8766,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-sgid-execs-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Audit SGID executables"
     description:
       "The owner of a file can set the file's permissions to run with the "
@@ -8815,7 +8815,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-fields-not-empty-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password fields are not empty"
     description:
       "An account with an empty password field means that anybody may log in as that\n"
@@ -8862,7 +8862,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "passwd-no-legacy-plus-entries-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -8903,7 +8903,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-no-legacy-plus-entries-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -8942,7 +8942,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "group-no-legacy-plus-entries-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -8983,7 +8983,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-is-only-uid-0-account-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure root is the only UID 0 account"
     description: "Any account with UID 0 has superuser privileges on the system."
     rationale:
@@ -9022,7 +9022,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-path-integrity-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure root PATH Integrity"
     description:
       "The root user can execute any command on the system and could be fooled "
@@ -9089,7 +9089,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-dirs-exist-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure all users' home directories exist"
     description:
       "Users can be defined in /etc/passwd without a home directory or with a "
@@ -9138,7 +9138,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-dirs-750-or-more-restrictive-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure users' home directories permissions are 750 or more restrictive"
     description:
       "While the system administrator can establish secure permissions for "
@@ -9203,7 +9203,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "users-own-home-dirs-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure users own their home directories"
     description:
       "The user home directory is space defined for the particular user to "
@@ -9277,7 +9277,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dot-files-not-group-world-writable-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure users' dot files are not group or world writable"
     description:
       "While the system administrator can establish secure permissions for "
@@ -9345,7 +9345,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-forward-files-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no users have .forward files"
     description:
       "The .forward file specifies an email address to forward the user's "
@@ -9402,7 +9402,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-netrc-files-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no users have .netrc files"
     description:
       "The .netrc file contains data for logging into a remote host for file "
@@ -9459,7 +9459,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "netrc-files-not-group-world-accessible-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure users' .netrc Files are not group or world accessible"
     description:
       "While the system administrator can establish secure permissions for "
@@ -9508,7 +9508,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-rhost-files-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no users have .rhost files"
     description:
       "While no .rhosts files are shipped by default, users can easily "
@@ -9566,7 +9566,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "groups-from-etc-passwd-in-etc-group-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure all groups in /etc/passwd exist in /etc/group"
     description:
       "Over time, system administration errors and changes can lead to groups "
@@ -9616,7 +9616,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-uids-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no duplicate UIDs exist"
     description:
       "Although the useradd program will not let you create a duplicate User ID\n"
@@ -9663,7 +9663,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-gids-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no duplicate GIDs exist"
     description:
       "Although the groupadd program will not let you create a duplicate Group ID\n"
@@ -9708,7 +9708,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-user-names-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no duplicate user names exist"
     description:
       "Although the useradd program will not let you create a duplicate user name, it\n"
@@ -9758,7 +9758,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-group-names-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure no duplicate group names exist"
     description:
       "Although the groupadd program will not let you create a duplicate group name,\n"
@@ -9806,7 +9806,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-group-empty-fallback"
   compliance_note: {
-    version: { cpe_uri: "fallback" version: "2.0.0" }
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure shadow group is empty"
     description:
       "The shadow group allows system programs which require access the ability to\n"

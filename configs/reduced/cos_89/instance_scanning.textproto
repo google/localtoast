@@ -1,4 +1,4 @@
-version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
 benchmark_id: "tmp-configured"
 benchmark_id: "tmp-nodev"
 benchmark_id: "tmp-nosuid"

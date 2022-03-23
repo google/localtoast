@@ -1,8 +1,8 @@
 benchmark_configs: {
   id: "udf-mounting-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure mounting of udf filesystems is disabled"
     description:
       "The udf filesystem type is the universal disk format used to implement "
@@ -81,7 +81,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure /tmp is configured"
     description:
       "The /tmp directory is a world-writable directory used for temporary "
@@ -166,7 +166,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -258,7 +258,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nosuid option set on /tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -350,7 +350,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure noexec option set on /tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -442,7 +442,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /home partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -490,7 +490,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nodev option set on /dev/shm partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -541,7 +541,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure nosuid option set on /dev/shm partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -592,7 +592,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure noexec option set on /dev/shm partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -667,9 +667,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "automounting-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Disable Automounting"
     description:
       "autofs allows automatic mounting of devices, typically including CD/"
@@ -707,9 +707,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nx-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure XD/NX support is enabled"
     description:
       "Recent processors in the x86 family support the ability to prevent "
@@ -797,11 +797,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "aslr-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure address space layout randomization (ASLR) is enabled"
     description:
       "Address space layout randomization (ASLR) is an exploit mitigation "
@@ -873,9 +873,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "apparmor-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SELinux or AppArmor are installed"
     description: "SELinux and AppArmor provide Mandatory Access Controls."
     rationale:
@@ -906,7 +906,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "local-login-warning-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure local login warning banner is configured properly"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -955,7 +955,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "remote-login-warning-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure remote login warning banner is configured properly"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior to "
@@ -1005,9 +1005,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/issue are configured"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -1050,7 +1050,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nfs-rpc-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure NFS and RPC are not enabled"
     description:
       "The Network File System (NFS) is one of the first and most widely distributed\n"
@@ -1101,9 +1101,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "packet-redirect-sending-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure packet redirect sending is disabled"
     description:
       "ICMP Redirects are used to send routing information to other hosts. As a host\n"
@@ -1186,9 +1186,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "source-routed-packets-not-accepted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure source routed packets are not accepted"
     description:
       "In networking, source routing allows a sender to partially or fully specify\n"
@@ -1251,9 +1251,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "broadcast-icmp-requests-ignored"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
       "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to\n"
@@ -1330,9 +1330,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bogus-icmp-responses-ignored"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
       "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from\n"
@@ -1403,9 +1403,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "reverse-path-filtering-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
       "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1\n"
@@ -1494,9 +1494,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tcp-syn-cookies-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
       "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally\n"
@@ -1577,7 +1577,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-write-to-persistent-disk"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure journald is configured to write logfiles to persistent disk"
     description:
       "Data from journald may be stored in volatile memory or persisted locally on\n"
@@ -1614,9 +1614,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-config-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/ssh/sshd_config are configured"
     description:
       "The /etc/ssh/sshd_config file contains configuration specifications for sshd.\n"
@@ -1656,9 +1656,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-private-host-key-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on SSH private host key files are configured"
     description:
       "An SSH private key is one of two files used in SSH public key authentication.\n"
@@ -1701,9 +1701,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-public-host-key-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on SSH public host key files are configured"
     description:
       "An SSH public key is one of two files used in SSH public key authentication.\n"
@@ -1742,9 +1742,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-protocol-set-to-2"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH Protocol is set to 2"
     description:
       "Older versions of SSH support two different and incompatible protocols: SSH1\n"
@@ -1778,9 +1778,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-loglevel-appropriate"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH LogLevel is appropriate"
     description:
       "INFO level is the basic level that only records login activity of SSH users.\n"
@@ -1839,9 +1839,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-x11-forwarding-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH X11 forwarding is disabled"
     description:
       "The X11Forwarding parameter provides the ability to tunnel X11 traffic through\n"
@@ -1892,8 +1892,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxauthtries-4-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH MaxAuthTries is set to 4 or less"
     description:
       "The MaxAuthTries parameter specifies the maximum number of "
@@ -1936,9 +1936,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-ignorerhosts-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH IgnoreRhosts is enabled"
     description:
       "The IgnoreRhosts parameter specifies that .rhosts and .shosts files will not\n"
@@ -1986,9 +1986,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-hostbasedauthentication-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH HostbasedAuthentication is disabled"
     description:
       "The HostbasedAuthentication parameter specifies if authentication is allowed\n"
@@ -2039,9 +2039,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-root-login-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH root login is disabled"
     description:
       "The PermitRootLogin parameter specifies if the root user can log in using ssh.\n"
@@ -2078,9 +2078,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-permitemptypasswords-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH PermitEmptyPasswords is disabled"
     description:
       "The PermitEmptyPasswords parameter specifies if the SSH server allows login to\n"
@@ -2128,9 +2128,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-permituserenvironments-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH PermitUserEnvironment is disabled"
     description:
       "The PermitUserEnvironment option allows users to present environment options\n"
@@ -2179,9 +2179,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-ciphers-used"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure only strong Ciphers are used"
     description: "This variable limits the ciphers that SSH can use during communication."
     rationale:
@@ -2284,8 +2284,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-mac-algorithms-used"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure only strong MAC algorithms are used"
     description: "This variable limits the types of MAC algorithms that SSH can use during communication."
     rationale:
@@ -2409,9 +2409,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-key-exchange-algos-used"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure only strong Key Exchange algorithms are used"
     description:
       "Key exchange is any method in cryptography by which cryptographic keys are\n"
@@ -2460,8 +2460,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-idle-timeout-interval-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH Idle Timeout Interval is configured"
     description:
       "The two options ClientAliveInterval and ClientAliveCountMax control the "
@@ -2572,8 +2572,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-logingrace-one-minute-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH LoginGraceTime is set to one minute or less"
     description:
       "The LoginGraceTime parameter specifies the time allowed for successful "
@@ -2649,8 +2649,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-warning-banner-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH warning banner is configured"
     description:
       "The Banner parameter specifies a file whose contents must be sent to "
@@ -2708,9 +2708,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-pam-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH PAM is enabled"
     description:
       "UsePAM Enables the Pluggable Authentication Module interface. If set to “yes”\n"
@@ -2750,8 +2750,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-allowtcpforwarding-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH AllowTcpForwarding is disabled"
     description:
       "SSH port forwarding is a mechanism in SSH for tunneling application "
@@ -2816,8 +2816,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxstartups-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH MaxStartups is configured"
     description:
       "The MaxStartups parameter specifies the maximum number of concurrent "
@@ -2874,8 +2874,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxsessions-4-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH MaxSessions is set to 4 or less"
     description:
       "The MaxSessions parameter specifies the maximum number of open "
@@ -2936,8 +2936,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-reuse-limited"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure password reuse is limited"
     description:
       "The /etc/security/opasswd file stores the users' old passwords and can "
@@ -3023,8 +3023,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-hashing-algorithm-sha-512"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure password hashing algorithm is SHA-512"
     description:
       "The commands below change password encryption from md5 to sha512 (a "
@@ -3092,8 +3092,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-expiration-365-days-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure password expiration is 365 days or less"
     description:
       "The PASS_MAX_DAYS parameter in /etc/login.defs allows an administrator "
@@ -3197,8 +3197,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "minimum-days-between-password-changes-7-or-more"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure minimum days between password changes is 7 or more"
     description:
       "The PASS_MIN_DAYS parameter in /etc/login.defs allows an administrator "
@@ -3299,9 +3299,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-expiration-warning-days-7-or-more"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure password expiration warning days is 7 or more"
     description:
       "The PASS_WARN_AGE parameter in /etc/login.defs allows an administrator to\n"
@@ -3364,8 +3364,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "inactive-password-lock-30-days-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure inactive password lock is 30 days or less"
     description:
       "User accounts that have been inactive for over a given period of time "
@@ -3465,9 +3465,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "last-password-change-date-in-past"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure all users last password change date is in the past"
     description: "All users should have a password change date in the past."
     rationale:
@@ -3506,8 +3506,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "system-accounts-secured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure system accounts are secured"
     description:
       "There are a number of accounts provided with most distributions that are used to manage "
@@ -3576,9 +3576,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-group-for-root-account-is-gid-0"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure default group for the root account is GID 0"
     description:
       "The usermod command can be used to specify which group the root user belongs\n"
@@ -3613,9 +3613,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-login-restricted-to-system-console"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure root login is restricted to system console"
     description:
       "The file /etc/securetty contains a list of valid terminals that may be logged\n"
@@ -3650,7 +3650,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "access-to-su-restricted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure access to the su command is restricted"
     description:
       "The su command allows a user to run a command or shell as another user. The\n"
@@ -3706,11 +3706,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-passwd-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
       "The /etc/passwd file contains user account information that is used by many\n"
@@ -3749,9 +3749,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-shadow-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/shadow are configured"
     description:
       "The /etc/shadow file is used to store the information about user accounts that\n"
@@ -3799,11 +3799,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/group are configured"
     description:
       "The /etc/group file contains a list of all the valid groups defined in the\n"
@@ -3841,9 +3841,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-gshadow-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/gshadow are configured"
     description:
       "The /etc/gshadow file is used to store the information about groups that is\n"
@@ -3898,11 +3898,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-dash-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
       "The /etc/group- file contains a backup list of all the valid groups defined in\n"
@@ -3943,8 +3943,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-shadow-dash-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/shadow- are configured"
     description:
       "The /etc/shadow- file is used to store backup information about user "
@@ -3999,8 +3999,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-gshadow-dash-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure permissions on /etc/gshadow- are configured"
     description:
       "The /etc/gshadow- file is used to store backup information about "
@@ -4055,11 +4055,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-fields-not-empty"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure password fields are not empty"
     description:
       "An account with an empty password field means that anybody may log in as that\n"
@@ -4100,11 +4100,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "passwd-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4139,11 +4139,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4176,11 +4176,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "group-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4215,11 +4215,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-is-only-uid-0-account"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure root is the only UID 0 account"
     description: "Any account with UID 0 has superuser privileges on the system."
     rationale:
@@ -4252,8 +4252,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-dirs-exist"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure all users' home directories exist"
     description:
       "Users can be defined in /etc/passwd without a home directory or with a "
@@ -4296,8 +4296,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-dirs-750-or-more-restrictive"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure users' home directories permissions are 750 or more restrictive"
     description:
       "While the system administrator can establish secure permissions for "
@@ -4356,8 +4356,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "users-own-home-dirs"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure users own their home directories"
     description:
       "The user home directory is space defined for the particular user to "
@@ -4419,8 +4419,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dot-files-not-group-world-writable"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure users' dot files are not group or world writable"
     description:
       "While the system administrator can establish secure permissions for "
@@ -4482,8 +4482,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-forward-files"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no users have .forward files"
     description:
       "The .forward file specifies an email address to forward the user's "
@@ -4534,8 +4534,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-netrc-files"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no users have .netrc files"
     description:
       "The .netrc file contains data for logging into a remote host for file "
@@ -4586,8 +4586,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "netrc-files-not-group-world-accessible"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure users' .netrc Files are not group or world accessible"
     description:
       "While the system administrator can establish secure permissions for "
@@ -4630,8 +4630,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-rhost-files"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no users have .rhost files"
     description:
       "While no .rhosts files are shipped by default, users can easily "
@@ -4683,8 +4683,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "groups-from-etc-passwd-in-etc-group"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure all groups in /etc/passwd exist in /etc/group"
     description:
       "Over time, system administration errors and changes can lead to groups "
@@ -4728,11 +4728,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-uids"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no duplicate UIDs exist"
     description:
       "Although the useradd program will not let you create a duplicate User ID\n"
@@ -4773,11 +4773,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-gids"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no duplicate GIDs exist"
     description:
       "Although the groupadd program will not let you create a duplicate Group ID\n"
@@ -4816,11 +4816,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-user-names"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no duplicate user names exist"
     description:
       "Although the useradd program will not let you create a duplicate user name, it\n"
@@ -4864,11 +4864,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-group-names"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure no duplicate group names exist"
     description:
       "Although the groupadd program will not let you create a duplicate group name,\n"
@@ -4910,11 +4910,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-group-empty"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure shadow group is empty"
     description:
       "The shadow group allows system programs which require access the ability to\n"
