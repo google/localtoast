@@ -54,6 +54,7 @@ message ScanResults {
   google.protobuf.Timestamp end_time = 2;
   string scanner_version = 3;
   string benchmark_version = 4;
+  string benchmark_document = 8;
   ScanStatus status = 5;
   repeated ComplianceResult compliant_benchmarks = 6;
   repeated ComplianceResult non_compliant_benchmarks = 7;

@@ -71,6 +71,7 @@ func (Scanner) Scan(ctx context.Context, config *apb.ScanConfig, api ScanAPIProv
 	options := newScanResultsOptions{
 		startTime:              scanStartTime,
 		benchmarkVersion:       benchmarkVersion,
+		benchmarkDocument:      getBenchmarkDocument(config.GetBenchmarkConfigs()),
 		compliantBenchmarks:    complianceResults.compliantBenchmarks,
 		nonCompliantBenchmarks: complianceResults.nonCompliantBenchmarks,
 	}
@@ -261,6 +262,7 @@ func deduplicateNonCompliantFiles(compliances []*apb.ComplianceResult) {
 type newScanResultsOptions struct {
 	startTime              time.Time
 	benchmarkVersion       string
+	benchmarkDocument      string
 	compliantBenchmarks    []*apb.ComplianceResult
 	nonCompliantBenchmarks []*apb.ComplianceResult
 	status                 apb.ScanStatus_ScanStatusEnum
@@ -269,10 +271,11 @@ type newScanResultsOptions struct {
 
 func newScanResults(options newScanResultsOptions) *apb.ScanResults {
 	return &apb.ScanResults{
-		StartTime:        timestamppb.New(options.startTime),
-		EndTime:          timestamppb.New(time.Now()),
-		ScannerVersion:   ScannerVersion,
-		BenchmarkVersion: options.benchmarkVersion,
+		StartTime:         timestamppb.New(options.startTime),
+		EndTime:           timestamppb.New(time.Now()),
+		ScannerVersion:    ScannerVersion,
+		BenchmarkVersion:  options.benchmarkVersion,
+		BenchmarkDocument: options.benchmarkDocument,
 		Status: &apb.ScanStatus{
 			Status:        options.status,
 			FailureReason: options.failureReason,
@@ -313,6 +316,18 @@ func oldestBenchmarkVersion(benchmarks []*apb.BenchmarkConfig) (string, error) {
 		}
 	}
 	return oldest, nil
+}
+
+// getBenchmarkDocument returns name of the benchmark document used in the scan.
+// This value is expected to be the same in all benchmarks from the config.
+func getBenchmarkDocument(benchmarks []*apb.BenchmarkConfig) string {
+	if len(benchmarks) == 0 {
+		return ""
+	}
+	if len(benchmarks[0].GetComplianceNote().Version) == 0 {
+		return ""
+	}
+	return benchmarks[0].GetComplianceNote().Version[0].BenchmarkDocument
 }
 
 // isVersionNewer compares version strings that follow a num.num.num... pattern.

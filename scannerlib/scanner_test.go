@@ -219,6 +219,28 @@ func TestFailingScan(t *testing.T) {
 	}
 }
 
+func TestBenchmarkDocumentInScanResults(t *testing.T) {
+	document := "CIS document"
+	check := []*ipb.FileCheck{
+		&ipb.FileCheck{
+			FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath1)},
+			CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: testFileContent1}},
+		},
+	}
+	bc := testconfigcreator.NewBenchmarkConfig(t, "id", testconfigcreator.NewFileScanInstruction(check))
+	bc.GetComplianceNote().Version = []*cpb.ComplianceVersion{{BenchmarkDocument: document}}
+	config := &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{bc}}
+
+	result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+	if err != nil {
+		t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
+	}
+
+	if result.GetBenchmarkDocument() != document {
+		t.Errorf("scannerlib.Scan(%v) expected to return document %q, got %q", config, document, result.GetBenchmarkDocument())
+	}
+}
+
 func TestNonCompliantFileCheckResultsAreAggregated(t *testing.T) {
 	testCases := []struct {
 		desc                           string
