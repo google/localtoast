@@ -17,6 +17,14 @@ The scanner can either be used as a standalone binary to scan the local machine 
 
 See the [scan config](scannerlib/proto/api.proto) and [result](scannerlib/proto/scan_instructions.proto) protos for details on the input+output format.
 
+## Defining custom checks
+To add your own checks to a scan config,
+
+1. Define the check in one of the appropriate [config files](configs/cos_97/instance_scanning.textproto)
+  * [Example](https://github.com/google/localtoast/commit/8aecb12ead5408c26905282ee6b441026ea264f0)
+  * See the [instruction proto](scannerlib/proto/scan_instructions.proto) for details on the instruction syntax
+2. Use the modified config file in your scans, e.g. `sudo ./localtoast --config=configs/cos_97/instance_scanning.textproto --result=scan-result.textproto`
+
 ## Contributing
 Read how to [contribute to Localtoast](CONTRIBUTING.md).
 
