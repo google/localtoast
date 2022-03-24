@@ -2278,6 +2278,394 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "ipv6-default-deny"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure IPv6 default deny firewall policy"
+    description:
+      "A default deny all policy on connections ensures that any unconfigured "
+      "network usage will be rejected."
+    rationale:
+      "With a default accept policy the firewall will accept any packet that is "
+      "not configured to be denied. It is easier to white list acceptable usage "
+      "than to black list unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy:\n"
+      "```\n"
+      "# ip6tables -P INPUT DROP\n"
+      "# ip6tables -P OUTPUT DROP\n"
+      "# ip6tables -P FORWARD DROP\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      # This check assumes that the output of "ip6tables -L -v -n" is in /tmp/ip6tables-output.txt.
+      "    files_to_check:{single_file:{path:\"/tmp/ip6tables-output.txt\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain INPUT .*\""
+      "        expected_regex: \".*Chain INPUT \\\\(policy DROP .*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain FORWARD .*\""
+      "        expected_regex: \".*Chain FORWARD \\\\(policy DROP .*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain OUTPUT .*\""
+      "        expected_regex: \".*Chain OUTPUT \\\\(policy DROP .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      # Skip the scan if no output file has been generated.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/tmp/ip6tables-output.txt\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-loopback-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure IPv6 loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic. Configure all other "
+      "interfaces to deny traffic to the loopback network (::1)."
+    rationale:
+      "Loopback traffic is generated between processes on machine and is typically "
+      "critical to operation of the system. The loopback interface is the only "
+      "place that loopback network (::1) traffic should be seen, all other "
+      "interfaces should ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules:\n"
+      "```\n"
+      "# ip6tables -A INPUT -i lo -j ACCEPT"
+      "# ip6tables -A OUTPUT -o lo -j ACCEPT"
+      "# ip6tables -A INPUT -s ::1 -j DROP"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      # This check assumes that the output of "ip6tables -L -v -n" is in /tmp/ip6tables-output.txt.
+      "    files_to_check:{single_file:{path:\"/tmp/ip6tables-output.txt\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      # Use a null byte as the delimiter to be able to match multiple lines.
+      "      delimiter: \"\\0\""
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain INPUT .*Chain OUTPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain INPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]* +ACCEPT +all +lo +\\\\* +::/0 +::/0( +[^\\\\n]*)?\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]* +DROP +all +\\\\* +\\\\* +::1 +::/0( +[^\\\\n]*)?\\\\n\""
+      "          \".*\""
+      "          \"Chain OUTPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]* +ACCEPT +all +\\\\* +lo +::/0 +::/0( +[^\\\\n]*)?\\\\n\""
+      "          \".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      # Skip the scan if no output file has been generated.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/tmp/ip6tables-output.txt\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-outbound-established-connections-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure IPv6 outbound and established connections are configured"
+    description: "Configure the firewall rules for new outbound, and established IPv6 connections."
+    rationale:
+      "If rules are not in place for new outbound, and established connections all "
+      "packets will be dropped by the default policy preventing network usage."
+    remediation:
+      "Configure iptables in accordance with site policy. The following commands "
+      "will implement a policy to allow all outbound connections and all established "
+      "connections:\n"
+      "```\n"
+      "# ip6tables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT\n"
+      "# ip6tables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT\n"
+      "# ip6tables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT\n"
+      "# ip6tables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT\n"
+      "# ip6tables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT\n"
+      "# ip6tables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      # Check that there are some rules configured for for new outbound, and established connections.
+      "check_alternatives:{"
+      "  file_checks:{"
+      # This check assumes that the output of "ip6tables -L -v -n" is in /tmp/ip6tables-output.txt.
+      "    files_to_check:{single_file:{path:\"/tmp/ip6tables-output.txt\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      delimiter: \"\\0\""
+      # ESTABLISHED is present for INPUT.
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain INPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain INPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]*state [^\\\\n]*ESTABLISHED[^\\\\n]*\\\\n\""
+      "          \".*\""
+      "      }"
+      # ESTABLISHED is present for OUTPUT.
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain OUTPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain OUTPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]*state [^\\\\n]*ESTABLISHED[^\\\\n]*\\\\n\""
+      "          \".*\""
+      "      }"
+      # NEW is present for OUTPUT.
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain OUTPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain OUTPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]*state [^\\\\n]*NEW[^\\\\n]*\\\\n\""
+      "          \".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      # Skip the scan if no output file has been generated.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/tmp/ip6tables-output.txt\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv4-default-deny"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure default deny firewall policy"
+    description:
+      "A default deny all policy on connections ensures that any unconfigured "
+      "network usage will be rejected."
+    rationale:
+      "With a default accept policy the firewall will accept any packet that is "
+      "not configured to be denied. It is easier to white list acceptable usage "
+      "than to black list unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy:\n"
+      "```\n"
+      "# iptables -P INPUT DROP\n"
+      "# iptables -P OUTPUT DROP\n"
+      "# iptables -P FORWARD DROP\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      # This check assumes that the output of "iptables -L -v -n" is in /tmp/iptables-output.txt.
+      "    files_to_check:{single_file:{path:\"/tmp/iptables-output.txt\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain INPUT .*\""
+      "        expected_regex: \".*Chain INPUT \\\\(policy DROP .*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain FORWARD .*\""
+      "        expected_regex: \".*Chain FORWARD \\\\(policy DROP .*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain OUTPUT .*\""
+      "        expected_regex: \".*Chain OUTPUT \\\\(policy DROP .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      # Skip the scan if no output file has been generated.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/tmp/iptables-output.txt\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv4-loopback-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic. Configure all other "
+      "interfaces to deny traffic to the loopback network (127.0.0.0/8)."
+    rationale:
+      "Loopback traffic is generated between processes on machine and is typically "
+      "critical to operation of the system. The loopback interface is the only "
+      "place that loopback network (127.0.0.0/8) traffic should be seen, all other "
+      "interfaces should ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules:\n"
+      "```\n"
+      "# iptables -A INPUT -i lo -j ACCEPT"
+      "# iptables -A OUTPUT -o lo -j ACCEPT"
+      "# iptables -A INPUT -s 127.0.0.0/8 -j DROP"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      # This check assumes that the output of "iptables -L -v -n" is in /tmp/iptables-output.txt.
+      "    files_to_check:{single_file:{path:\"/tmp/iptables-output.txt\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      # Use a null byte as the delimiter to be able to match multiple lines.
+      "      delimiter: \"\\0\""
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain INPUT .*Chain OUTPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain INPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]* +ACCEPT +all +-- +lo +\\\\* +0\\\\.0\\\\.0\\\\.0/0 +0\\\\.0\\\\.0\\\\.0/0( +[^\\\\n]*)?\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]* +DROP +all +-- +\\\\* +\\\\* +127\\\\.0\\\\.0\\\\.0/8 +0\\\\.0\\\\.0\\\\.0/0( +[^\\\\n]*)?\\\\n\""
+      "          \".*\""
+      "          \"Chain OUTPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]* +ACCEPT +all +-- +\\\\* +lo +0\\\\.0\\\\.0\\\\.0/0 +0\\\\.0\\\\.0\\\\.0/0( +[^\\\\n]*)?\\\\n\""
+      "          \".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      # Skip the scan if no output file has been generated.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/tmp/iptables-output.txt\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv4-outbound-established-connections-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
+    title: "Ensure outbound and established connections are configured"
+    description: "Configure the firewall rules for new outbound, and established connections."
+    rationale:
+      "If rules are not in place for new outbound, and established connections all "
+      "packets will be dropped by the default policy preventing network usage."
+    remediation:
+      "Configure iptables in accordance with site policy. The following commands "
+      "will implement a policy to allow all outbound connections and all established "
+      "connections:\n"
+      "```\n"
+      "# iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT\n"
+      "# iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT\n"
+      "# iptables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT\n"
+      "# iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT\n"
+      "# iptables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT\n"
+      "# iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      # Check that there are some rules configured for for new outbound, and established connections.
+      "check_alternatives:{"
+      "  file_checks:{"
+      # This check assumes that the output of "iptables -L -v -n" is in /tmp/iptables-output.txt.
+      "    files_to_check:{single_file:{path:\"/tmp/iptables-output.txt\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      delimiter: \"\\0\""
+      # ESTABLISHED is present for INPUT.
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain INPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain INPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]*state [^\\\\n]*ESTABLISHED[^\\\\n]*\\\\n\""
+      "          \".*\""
+      "      }"
+      # ESTABLISHED is present for OUTPUT.
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain OUTPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain OUTPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]*state [^\\\\n]*ESTABLISHED[^\\\\n]*\\\\n\""
+      "          \".*\""
+      "      }"
+      # NEW is present for OUTPUT.
+      "      match_criteria: {"
+      "        filter_regex: \".*Chain OUTPUT.*\""
+      "        expected_regex:"
+      "          \".*Chain OUTPUT [^\\\\n]*\\\\n\""
+      "          \" *pkts +bytes +target +prot +opt +in +out +source +destination *\\\\n\""
+      "          \"( *[0-9][^\\\\n]*\\\\n)*\""  # Other one-line rules
+      "          \" *[0-9][^\\\\n]*state [^\\\\n]*NEW[^\\\\n]*\\\\n\""
+      "          \".*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      # Skip the scan if no output file has been generated.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/tmp/iptables-output.txt\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "journald-compress-large-log-files-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" }
