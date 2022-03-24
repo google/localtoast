@@ -127,23 +127,26 @@ func TestFilePermissionsCorrectSpecialFlags(t *testing.T) {
 	testDirPath := createTestFiles(t)
 	testFilePath := filepath.Join(testDirPath, fileName)
 	testCases := []struct {
+		desc            string
 		flagToAdd       os.FileMode
 		expectedSetFlag int32
 	}{
-		{flagToAdd: os.ModeSetuid, expectedSetFlag: localfilereader.SetuidFlag},
-		{flagToAdd: os.ModeSetgid, expectedSetFlag: localfilereader.SetgidFlag},
-		{flagToAdd: os.ModeSticky, expectedSetFlag: localfilereader.StickyFlag},
+		{desc: "setuid", flagToAdd: os.ModeSetuid, expectedSetFlag: localfilereader.SetuidFlag},
+		{desc: "setgid", flagToAdd: os.ModeSetgid, expectedSetFlag: localfilereader.SetgidFlag},
+		{desc: "sticky", flagToAdd: os.ModeSticky, expectedSetFlag: localfilereader.StickyFlag},
 	}
 	for _, tc := range testCases {
-		os.Chmod(testFilePath, os.FileMode(filePermission)|tc.flagToAdd)
-		permission, err := localfilereader.FilePermissions(context.Background(), testFilePath)
-		if err != nil {
-			t.Fatalf("localfilereader.FilePermissions(%s) had unexpected error: %v", testFilePath, err)
-		}
-		if permission.GetPermissionNum()&tc.expectedSetFlag == 0 {
-			t.Fatalf("localfilereader.FilePermissions(%s) returned %o, expected %o flag to be set",
-				testFilePath, permission.GetPermissionNum(), tc.expectedSetFlag)
-		}
+		t.Run(tc.desc, func(t *testing.T) {
+			os.Chmod(testFilePath, os.FileMode(filePermission)|tc.flagToAdd)
+			permission, err := localfilereader.FilePermissions(context.Background(), testFilePath)
+			if err != nil {
+				t.Fatalf("localfilereader.FilePermissions(%s) had unexpected error: %v", testFilePath, err)
+			}
+			if permission.GetPermissionNum()&tc.expectedSetFlag == 0 {
+				t.Fatalf("localfilereader.FilePermissions(%s) returned %o, expected %o flag to be set",
+					testFilePath, permission.GetPermissionNum(), tc.expectedSetFlag)
+			}
+		})
 	}
 }
 

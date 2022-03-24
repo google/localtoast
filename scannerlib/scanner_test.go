@@ -792,23 +792,25 @@ func TestOldestBenchmarkVersionInScanResult(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		config := &apb.ScanConfig{
-			BenchmarkConfigs: benchmarkConfigsWithVersions(t, tc.versions),
-		}
+		t.Run(tc.desc, func(t *testing.T) {
+			config := &apb.ScanConfig{
+				BenchmarkConfigs: benchmarkConfigsWithVersions(t, tc.versions),
+			}
 
-		result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
+			result, err := scannerlib.Scanner{}.Scan(context.Background(), config, fakeAPIProvider{})
 
-		if err != nil {
-			t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
-		}
-		if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
-			t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
-				config, result.GetStatus().GetStatus())
-		}
+			if err != nil {
+				t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
+			}
+			if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
+				t.Fatalf("scannerlib.Scan(%v) returned unsuccessful scan status: %v",
+					config, result.GetStatus().GetStatus())
+			}
 
-		if result.GetBenchmarkVersion() != tc.expectedVersion {
-			t.Errorf("%v: scannerlib.Scan(%v) returned benchmark version %s, expected %s",
-				tc.desc, config, result.GetBenchmarkVersion(), tc.expectedVersion)
-		}
+			if result.GetBenchmarkVersion() != tc.expectedVersion {
+				t.Errorf("scannerlib.Scan(%v) returned benchmark version %s, expected %s",
+					config, result.GetBenchmarkVersion(), tc.expectedVersion)
+			}
+		})
 	}
 }

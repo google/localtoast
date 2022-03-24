@@ -99,13 +99,13 @@ func TestSameChecksOnDifferentAlternativesGroupedTogether(t *testing.T) {
 }
 
 func TestDifferentChecksGroupedSeparately(t *testing.T) {
-	type fileCheckPair struct {
+	testCases := []struct {
+		desc       string
 		fileCheck1 *ipb.FileCheck
 		fileCheck2 *ipb.FileCheck
-	}
-	pairsToTest := []*fileCheckPair{
-		// Same check types but different files to check.
-		&fileCheckPair{
+	}{
+		{
+			desc: "Same check types, different files to check",
 			fileCheck1: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path1")},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -115,8 +115,8 @@ func TestDifferentChecksGroupedSeparately(t *testing.T) {
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
 			},
 		},
-		// Same files to check but different check types.
-		&fileCheckPair{
+		{
+			desc: "Same files to check, different check types",
 			fileCheck1: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -126,15 +126,15 @@ func TestDifferentChecksGroupedSeparately(t *testing.T) {
 				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
 			},
 		},
-		// Same files and check types but different delimiters.
-		&fileCheckPair{
-			&ipb.FileCheck{
+		{
+			desc: "different delimiters",
+			fileCheck1: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
 				CheckType: &ipb.FileCheck_ContentEntry{ContentEntry: &ipb.ContentEntryCheck{
 					Delimiter: []byte{'\n'},
 				}},
 			},
-			&ipb.FileCheck{
+			fileCheck2: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
 				CheckType: &ipb.FileCheck_ContentEntry{ContentEntry: &ipb.ContentEntryCheck{
 					Delimiter: []byte{';'},
@@ -143,32 +143,30 @@ func TestDifferentChecksGroupedSeparately(t *testing.T) {
 		},
 	}
 
-	for _, pair := range pairsToTest {
-		scanInstruction1 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{pair.fileCheck1})
-		scanInstruction2 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{pair.fileCheck2})
-		config1 := testconfigcreator.NewBenchmarkConfig(t, "id1", scanInstruction1)
-		config2 := testconfigcreator.NewBenchmarkConfig(t, "id2", scanInstruction2)
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			scanInstruction1 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{tc.fileCheck1})
+			scanInstruction2 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{tc.fileCheck2})
+			config1 := testconfigcreator.NewBenchmarkConfig(t, "id1", scanInstruction1)
+			config2 := testconfigcreator.NewBenchmarkConfig(t, "id2", scanInstruction2)
 
-		checks, err := configchecks.CreateChecksFromConfig(
-			context.Background(),
-			&apb.ScanConfig{
-				BenchmarkConfigs: []*apb.BenchmarkConfig{config1, config2},
-			},
-			newFakeAPI())
-		if err != nil {
-			t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) returned an error: %v", config1, config2, err)
-		}
-		if len(checks) != 2 {
-			t.Errorf("configchecks.CreateChecksFromConfig([%v %v]) expected to create 2 checks,got %d", config1, config2, len(checks))
-		}
+			checks, err := configchecks.CreateChecksFromConfig(
+				context.Background(),
+				&apb.ScanConfig{
+					BenchmarkConfigs: []*apb.BenchmarkConfig{config1, config2},
+				},
+				newFakeAPI())
+			if err != nil {
+				t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) returned an error: %v", config1, config2, err)
+			}
+			if len(checks) != 2 {
+				t.Errorf("configchecks.CreateChecksFromConfig([%v %v]) expected to create 2 checks,got %d", config1, config2, len(checks))
+			}
+		})
 	}
 }
 
 func TestIdsDeduplicated(t *testing.T) {
-	type fileCheckPair struct {
-		fileCheck1 *ipb.FileCheck
-		fileCheck2 *ipb.FileCheck
-	}
 	fileCheck1 := &ipb.FileCheck{
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path1")},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -318,10 +316,12 @@ func createFileCheckBatchFromScanConfig(t *testing.T, id string, scanConfig *apb
 
 func TestFileCustomNonComplianceMessage(t *testing.T) {
 	testCases := []struct {
+		desc           string
 		fileCheck      *ipb.FileCheck
 		expectedResult *apb.ComplianceResult
 	}{
 		{
+			desc: "Custom message",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck:     []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:        &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
@@ -340,6 +340,7 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 			},
 		},
 		{
+			desc: "Custom message + command",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck:       []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:          &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
@@ -359,6 +360,7 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 			},
 		},
 		{
+			desc: "Compliant check",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck:       []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:          &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -373,19 +375,21 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
-		resultMap, err := check.Exec()
-		if err != nil {
-			t.Fatalf("check.Exec() returned an error: %v", err)
-		}
-		result, gotSingleton := singleComplianceResult(resultMap)
-		if !gotSingleton {
-			t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
-		}
+		t.Run(tc.desc, func(t *testing.T) {
+			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
+			resultMap, err := check.Exec()
+			if err != nil {
+				t.Fatalf("check.Exec() returned an error: %v", err)
+			}
+			result, gotSingleton := singleComplianceResult(resultMap)
+			if !gotSingleton {
+				t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+			}
 
-		if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
-			t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
-		}
+			if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
+				t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+			}
+		})
 	}
 }
 
@@ -544,10 +548,12 @@ func TestResultsForDifferentAlternativesAggregatedSeparately(t *testing.T) {
 
 func TestFileExistenceCheckComplianceResults(t *testing.T) {
 	testCases := []struct {
+		desc           string
 		fileCheck      *ipb.FileCheck
 		expectedResult *apb.ComplianceResult
 	}{
 		{
+			desc: "File exists and should",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -558,6 +564,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 		},
 		{
+			desc: "File doesn't exist and shouldn't",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(nonExistentFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
@@ -568,6 +575,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 		},
 		{
+			desc: "File doesn't exist but should",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(nonExistentFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -585,6 +593,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 		},
 		{
+			desc: "File in directory doesn't exist but it should",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{&ipb.FileSet{
 					FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{
@@ -614,6 +623,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 			},
 		},
 		{
+			desc: "File exists but it shouldn't",
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
@@ -633,19 +643,21 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
-		resultMap, err := check.Exec()
-		if err != nil {
-			t.Fatalf("check.Exec() returned an error: %v", err)
-		}
-		result, gotSingleton := singleComplianceResult(resultMap)
-		if !gotSingleton {
-			t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
-		}
+		t.Run(tc.desc, func(t *testing.T) {
+			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
+			resultMap, err := check.Exec()
+			if err != nil {
+				t.Fatalf("check.Exec() returned an error: %v", err)
+			}
+			result, gotSingleton := singleComplianceResult(resultMap)
+			if !gotSingleton {
+				t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+			}
 
-		if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
-			t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
-		}
+			if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
+				t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+			}
+		})
 	}
 }
 
