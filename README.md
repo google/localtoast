@@ -13,7 +13,7 @@ The scanner can either be used as a standalone binary to scan the local machine 
 
 #### Build and use OS-specific configs:
 1. `make configs`
-2. `sudo ./localtoast --config=configs/full/cos_93/instance_scanning.textproto --result=scan-result.textproto`
+2. `sudo ./localtoast --config=configs/full/cos_97/instance_scanning.textproto --result=scan-result.textproto`
 
 ### As a library:
 1. Import `github.com/google/localtoast/scannerlib` into your Go project
@@ -21,6 +21,17 @@ The scanner can either be used as a standalone binary to scan the local machine 
 3. Call `scannerlib.Scanner{}.Scan()` with the appropriate config and the implementation
 
 See the [scan config](scannerlib/proto/api.proto) and [result](scannerlib/proto/scan_instructions.proto) protos for details on the input+output format.
+
+## Defining custom checks
+To add your own checks to a scan config,
+
+1. Define the check in one of the [definition files](configs/defs/cos.textproto)
+  * [Example](https://github.com/google/localtoast/commit/9c39a52cef30f7ad773b74a38ac9ffa7c4998ca3#diff-1350df51e73d56ca08a90aa7fc47a3032a41d85a7fe5a8b8707387000f43c0be)
+  * See the [instruction proto](scannerlib/proto/scan_instructions.proto) for details on the instruction syntax
+2. Add a reference to the check in [the scan config](configs/reduced/cos_97/instance_scanning.textproto) you want to extend
+  * [Example](https://github.com/google/localtoast/commit/9c39a52cef30f7ad773b74a38ac9ffa7c4998ca3#diff-094e7befebe2acf9321eb3406fbb81af2880344086fe40dc97c3d4d915fe0e6e)
+3. Re-build the config file with `make configs`
+4. Use the re-generated config file in your scans, e.g. `sudo ./localtoast --config=configs/full/cos_97/instance_scanning.textproto --result=scan-result.textproto`
 
 ## Contributing
 Read how to [contribute to Localtoast](CONTRIBUTING.md).
