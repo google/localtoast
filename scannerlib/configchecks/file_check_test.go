@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -31,6 +32,7 @@ import (
 	"github.com/google/localtoast/scannerlib/fileset"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
+	"github.com/google/localtoast/scannerlib"
 	"github.com/google/localtoast/scannerlib/testconfigcreator"
 )
 
@@ -295,14 +297,14 @@ func TestCheckCreation(t *testing.T) {
 	}
 }
 
-func createFileCheckBatch(t *testing.T, id string, fileChecks []*ipb.FileCheck, api *fakeAPI) configchecks.BenchmarkCheck {
+func createFileCheckBatch(t *testing.T, id string, fileChecks []*ipb.FileCheck, api scannerlib.ScanAPIProvider) configchecks.BenchmarkCheck {
 	t.Helper()
 	scanInstruction := testconfigcreator.NewFileScanInstruction(fileChecks)
 	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
 	return createFileCheckBatchFromScanConfig(t, id, &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{config}}, api)
 }
 
-func createFileCheckBatchFromScanConfig(t *testing.T, id string, scanConfig *apb.ScanConfig, api *fakeAPI) configchecks.BenchmarkCheck {
+func createFileCheckBatchFromScanConfig(t *testing.T, id string, scanConfig *apb.ScanConfig, api scannerlib.ScanAPIProvider) configchecks.BenchmarkCheck {
 	t.Helper()
 	checks, err := configchecks.CreateChecksFromConfig(context.Background(), scanConfig, api)
 	if err != nil {
@@ -1276,5 +1278,54 @@ func TestRepeatConfigCreationFails(t *testing.T) {
 	}
 	if diff := cmp.Diff(want, result, protocmp.Transform()); diff != "" {
 		t.Errorf("checks[0].Exec() returned unexpected diff (-want +got):\n%s", diff)
+	}
+}
+
+// A fake ScanAPIProvider implementation that returns a lot of files that are owned by root.
+type manyFilesAPI struct{}
+
+func (r *manyFilesAPI) OpenFile(ctx context.Context, filePath string) (io.ReadCloser, error) {
+	return nil, errors.New("not implemented")
+}
+
+func (manyFilesAPI) FilesInDir(ctx context.Context, filePath string) ([]*apb.DirContent, error) {
+	files := make([]*apb.DirContent, 0, 20)
+	for i := 0; i < 20; i++ {
+		files = append(files, &apb.DirContent{Name: fmt.Sprintf("file%d", i), IsDir: false})
+	}
+	return files, nil
+}
+
+func (manyFilesAPI) FilePermissions(ctx context.Context, filePath string) (*apb.PosixPermissions, error) {
+	return &apb.PosixPermissions{User: "root"}, nil
+}
+
+func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (int, error) {
+	return 0, errors.New("not implemented")
+}
+
+func TestLongCheckResultsPruned(t *testing.T) {
+	// Set up a check that returns many non-compliant files.
+	fileCheck := &ipb.FileCheck{
+		FilesToCheck: []*ipb.FileSet{&ipb.FileSet{
+			FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{DirPath: "/"}},
+		}},
+		CheckType: &ipb.FileCheck_Permission{Permission: &ipb.PermissionCheck{
+			User: &ipb.PermissionCheck_OwnerCheck{Name: "root", ShouldOwn: false},
+		}},
+	}
+	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, &manyFilesAPI{})
+
+	resultMap, err := check.Exec()
+	if err != nil {
+		t.Fatalf("check.Exec() returned an error: %v", err)
+	}
+	result, gotSingleton := singleComplianceResult(resultMap)
+	if !gotSingleton {
+		t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+	}
+	count := len(result.GetComplianceOccurrence().GetNonCompliantFiles())
+	if count != configchecks.MaxNonCompliantFiles {
+		t.Errorf("want %d non-compliant files, check.Exec() returned %d:\n%s", configchecks.MaxNonCompliantFiles, count, result)
 	}
 }

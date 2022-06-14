@@ -35,6 +35,9 @@ import (
 	"github.com/google/localtoast/scannerlib/repeatconfig"
 )
 
+// MaxNonCompliantFiles is the maximum number of non-compliant files to be displayed for a single finding.
+const MaxNonCompliantFiles = 10
+
 // FileSystemReader is an interface that gives the checkers read access to the
 // filesystem of the scanned machine.
 type FileSystemReader interface {
@@ -563,6 +566,10 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 	for _, fc := range fileChecks {
 		nonCompliantFiles := fc.nonCompliantFiles
 
+		// Report only the first N non-compliant files.
+		if len(nonCompliantFiles) > MaxNonCompliantFiles {
+			nonCompliantFiles = nonCompliantFiles[:MaxNonCompliantFiles]
+		}
 		// Replace the non-compliance reason and files with custom values if available.
 		if len(nonCompliantFiles) > 0 {
 			if len(fc.checkInstruction.GetFileDisplayCommand()) > 0 {
