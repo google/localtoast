@@ -26,6 +26,7 @@ import (
 	"sort"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/localtoast/scannerlib/fileset"
@@ -78,7 +79,7 @@ func TestSingleFile(t *testing.T) {
 		FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: expectedPath}},
 	}
 
-	err := fileset.WalkFiles(context.Background(), fileSet, &fakeDirectoryReader{}, func(walkedPath string, isDir bool) error {
+	err := fileset.WalkFiles(context.Background(), fileSet, &fakeDirectoryReader{}, time.Time{}, func(walkedPath string, isDir bool) error {
 		if expectedPath != walkedPath {
 			t.Errorf("fileset.WalkFiles(%v) expected to walk on path %s, got %s",
 				fileSet, expectedPath, walkedPath)
@@ -252,7 +253,7 @@ func TestFilesInDir(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
 			gotTraversal := []*traversal{}
-			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, func(walkedPath string, isDir bool) error {
+			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, time.Time{}, func(walkedPath string, isDir bool) error {
 				gotTraversal = append(gotTraversal, &traversal{Path: walkedPath, IsDir: isDir})
 				return nil
 			})
@@ -284,7 +285,7 @@ func TestTraverseFilesystemWithInfiniteLoop(t *testing.T) {
 		DirPath:   "/",
 		Recursive: true,
 	}}}
-	err := fileset.WalkFiles(context.Background(), files, &infiniteLoopFSReader{}, func(walkedPath string, isDir bool) error { return nil })
+	err := fileset.WalkFiles(context.Background(), files, &infiniteLoopFSReader{}, time.Time{}, func(walkedPath string, isDir bool) error { return nil })
 	if err == nil {
 		t.Fatalf("fileset.WalkFiles(%v) didn't return an error", files)
 	}
@@ -434,6 +435,7 @@ func TestProcessPath(t *testing.T) {
 				context.Background(),
 				tc.fileSet,
 				&fakeProcessPathReader{pidToName: tc.pidToName},
+				time.Time{},
 				func(path string, isDir bool) error {
 					got = append(got, &traversal{path, isDir})
 					return nil
@@ -466,6 +468,7 @@ func TestProcessPathRemovedAfterQuerying(t *testing.T) {
 		context.Background(),
 		fileSet,
 		&fakeProcessPathReader{pidToName: map[int]string{1: "foo"}, removeFilesAfterQuery: true},
+		time.Time{},
 		func(path string, isDir bool) error {
 			got = append(got, &traversal{path, isDir})
 			return nil
@@ -545,6 +548,7 @@ func TestUnixEnvVarPaths(t *testing.T) {
 				context.Background(),
 				tc.fileSet,
 				&fakeDirectoryReader{},
+				time.Time{},
 				func(path string, isDir bool) error {
 					got = append(got, &traversal{path, isDir})
 					return nil
@@ -561,6 +565,47 @@ func TestUnixEnvVarPaths(t *testing.T) {
 				if diff := cmp.Diff(tc.expectedTraversal, got); diff != "" {
 					t.Errorf("fileset.WalkFiles(%v) made an unexpected traversal diff (-want +got):\n%s", tc.fileSet, diff)
 				}
+			}
+		})
+	}
+}
+
+func TestTimeout(t *testing.T) {
+	testCases := []struct {
+		description string
+		fileSet     *ipb.FileSet
+	}{
+		{
+			description: "single file",
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/path/to/file"}},
+			},
+		},
+		{
+			description: "files in directory",
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{
+					DirPath:   "/root",
+					Recursive: true,
+				}},
+			},
+		},
+		{
+			description: "env var paths",
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_UnixEnvVarPaths_{UnixEnvVarPaths: &ipb.FileSet_UnixEnvVarPaths{
+					VarName: "PATH",
+				}},
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			timeout := time.Now().Add(-1 * time.Second)
+			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, timeout, func(walkedPath string, isDir bool) error { return nil })
+			if err == nil {
+				t.Fatalf("fileset.WalkFiles(%v) didn't return an error, expected one", tc.fileSet)
 			}
 		})
 	}

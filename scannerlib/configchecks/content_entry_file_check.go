@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"time"
 
 	"github.com/google/localtoast/scannerlib/fileset"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -32,6 +33,7 @@ type contentEntryFileCheckBatch struct {
 	ctx                    context.Context
 	fileChecks             []*fileCheck
 	filesToCheck           *ipb.FileSet
+	timeout                time.Time
 	fs                     FileSystemReader
 	contentEntryFileChecks []*contentEntryFileCheck
 	delimiter              []byte
@@ -57,7 +59,12 @@ func (m *matchCriterion) String() string {
 	return m.expectedRegex.String()
 }
 
-func newContentEntryFileCheckBatch(ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, fs FileSystemReader) (*contentEntryFileCheckBatch, error) {
+func newContentEntryFileCheckBatch(
+	ctx context.Context,
+	fileChecks []*fileCheck,
+	filesToCheck *ipb.FileSet,
+	timeout time.Time,
+	fs FileSystemReader) (*contentEntryFileCheckBatch, error) {
 	if len(fileChecks) == 0 {
 		return nil, errors.New("attempted to create content entry check batch without any file checks")
 	}
@@ -107,6 +114,7 @@ func newContentEntryFileCheckBatch(ctx context.Context, fileChecks []*fileCheck,
 		ctx:                    ctx,
 		fileChecks:             fileChecks,
 		filesToCheck:           filesToCheck,
+		timeout:                timeout,
 		fs:                     fs,
 		contentEntryFileChecks: contentEntryFileChecks,
 		delimiter:              delimiter,
@@ -114,7 +122,7 @@ func newContentEntryFileCheckBatch(ctx context.Context, fileChecks []*fileCheck,
 }
 
 func (c *contentEntryFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
 		func(path string, isDir bool) error {
 			if isDir {
 				return nil

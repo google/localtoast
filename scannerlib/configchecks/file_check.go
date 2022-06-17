@@ -26,6 +26,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"time"
 
 	"google.golang.org/protobuf/proto"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
@@ -123,7 +124,7 @@ type fileCheckBatchMap map[fileCheckBatchCommonProps][]*fileCheck
 // createFileCheckBatchesFromConfig parses the benchmark config and creates the
 // file check batches defined by it.
 func createFileCheckBatchesFromConfig(
-	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, fs FileSystemReader) ([]*FileCheckBatch, error) {
+	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, timeout time.Time, fs FileSystemReader) ([]*FileCheckBatch, error) {
 	batchMap := make(fileCheckBatchMap)
 
 	for _, b := range benchmarks {
@@ -149,7 +150,7 @@ func createFileCheckBatchesFromConfig(
 
 	fileCheckBatches := make([]*FileCheckBatch, 0, len(batchMap))
 	for _, fileChecks := range batchMap {
-		batch, err := newFileCheckBatch(ctx, fileChecks, fileChecks[0].filesToCheck, fs)
+		batch, err := newFileCheckBatch(ctx, fileChecks, fileChecks[0].filesToCheck, timeout, fs)
 		if err != nil {
 			return nil, err
 		}
@@ -260,7 +261,7 @@ func strToRegex(strs []string) ([]*regexp.Regexp, error) {
 // newFileCheckBatch creates a FileCheckBatch from several fileChecks that
 // perform the same type of checks on the same files.
 func newFileCheckBatch(
-	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, fs FileSystemReader) (*FileCheckBatch, error) {
+	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, timeout time.Time, fs FileSystemReader) (*FileCheckBatch, error) {
 	// De-duplicate the benchmark IDs.
 	benchmarkIDMap := make(map[string]bool)
 	for _, fc := range fileChecks {
@@ -281,13 +282,13 @@ func newFileCheckBatch(
 	if fileChecks[0].err != nil { // The checks couldn't properly be created because of an error.
 		checker, err = newErroredFileCheckBatch(fileChecks, fileChecks[0].err)
 	} else if fileChecks[0].checkInstruction.GetExistence() != nil {
-		checker, err = newExistenceFileCheckBatch(ctx, fileChecks, filesToCheck, fs)
+		checker, err = newExistenceFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
 	} else if fileChecks[0].checkInstruction.GetPermission() != nil {
-		checker, err = newPermissionFileCheckBatch(ctx, fileChecks, filesToCheck, fs)
+		checker, err = newPermissionFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
 	} else if fileChecks[0].checkInstruction.GetContent() != nil {
-		checker, err = newContentFileCheckBatch(ctx, fileChecks, filesToCheck, fs)
+		checker, err = newContentFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
 	} else if fileChecks[0].checkInstruction.GetContentEntry() != nil {
-		checker, err = newContentEntryFileCheckBatch(ctx, fileChecks, filesToCheck, fs)
+		checker, err = newContentEntryFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
 	} else {
 		return nil, fmt.Errorf("Received FileCheck with unexpected type: %v",
 			fileChecks[0].checkInstruction)
@@ -304,6 +305,7 @@ type existenceFileCheckBatch struct {
 	ctx          context.Context
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
+	timeout      time.Time
 	fs           FileSystemReader
 	foundFile    string
 }
@@ -312,18 +314,20 @@ func newExistenceFileCheckBatch(
 	ctx context.Context,
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
+	timeout time.Time,
 	fs FileSystemReader) (*existenceFileCheckBatch, error) {
 	return &existenceFileCheckBatch{
 		ctx:          ctx,
 		fileChecks:   fileChecks,
 		filesToCheck: filesToCheck,
+		timeout:      timeout,
 		fs:           fs,
 		foundFile:    "",
 	}, nil
 }
 
 func (c *existenceFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
 		func(path string, isDir bool) error {
 			exists, err := fileExists(c.ctx, path, c.fs)
 			if err != nil {
@@ -360,6 +364,7 @@ type permissionFileCheckBatch struct {
 	ctx          context.Context
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
+	timeout      time.Time
 	fs           FileSystemReader
 }
 
@@ -367,17 +372,19 @@ func newPermissionFileCheckBatch(
 	ctx context.Context,
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
+	timeout time.Time,
 	fs FileSystemReader) (*permissionFileCheckBatch, error) {
 	return &permissionFileCheckBatch{
 		ctx:          ctx,
 		fileChecks:   fileChecks,
 		filesToCheck: filesToCheck,
+		timeout:      timeout,
 		fs:           fs,
 	}, nil
 }
 
 func (c *permissionFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
 		func(path string, isDir bool) error {
 			perms, err := c.fs.FilePermissions(c.ctx, path)
 			if err != nil {
@@ -471,20 +478,27 @@ type contentFileCheckBatch struct {
 	ctx          context.Context
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
+	timeout      time.Time
 	fs           FileSystemReader
 }
 
-func newContentFileCheckBatch(ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, fs FileSystemReader) (*contentFileCheckBatch, error) {
+func newContentFileCheckBatch(
+	ctx context.Context,
+	fileChecks []*fileCheck,
+	filesToCheck *ipb.FileSet,
+	timeout time.Time,
+	fs FileSystemReader) (*contentFileCheckBatch, error) {
 	return &contentFileCheckBatch{
 		ctx:          ctx,
 		fileChecks:   fileChecks,
 		filesToCheck: filesToCheck,
+		timeout:      timeout,
 		fs:           fs,
 	}, nil
 }
 
 func (c *contentFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
 		func(path string, isDir bool) error {
 			exists, err := fileExists(c.ctx, path, c.fs)
 			if err != nil {

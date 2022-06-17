@@ -21,6 +21,7 @@ import (
 	"log"
 	"strings"
 
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	"github.com/google/localtoast/cli"
 	"github.com/google/localtoast/protofilehandler"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
@@ -47,6 +48,10 @@ func ParseFlags() *cli.Flags {
 		"Whether to show compliant benchmarks in the scan results.")
 	maxCisProfileLevel := flag.Int("max-cis-profile-level", 3,
 		"Don't scan for any CIS benchmarks with a higher level than this")
+	scanTimeout := flag.Duration("scan-timeout", 0,
+		"Abort the whole scan after this much time")
+	benchmarkCheckTimeout := flag.Duration("benchmark-check-timeout", 0,
+		"Abort scanning a single benchmark after this much time")
 
 	flag.Parse()
 	flags := &cli.Flags{
@@ -60,6 +65,8 @@ func ParseFlags() *cli.Flags {
 		TraversalOptOutRegexes:  *traversalOptOutRegexes,
 		ShowCompliantBenchmarks: *showCompliantBenchmarks,
 		MaxCisProfileLevel:      *maxCisProfileLevel,
+		ScanTimeout:             *scanTimeout,
+		BenchmarkCheckTimeout:   *benchmarkCheckTimeout,
 	}
 	if err := cli.ValidateFlags(flags); err != nil {
 		log.Fatalf("Error parsing CLI args: %v\n", err)
@@ -110,6 +117,12 @@ func ApplyCLIFlagsToConfig(config *apb.ScanConfig, flags *cli.Flags) {
 	config.BenchmarkConfigs = removeOptedOutBenchmarks(config.GetBenchmarkConfigs(), strings.Split(flags.BenchmarkOptOutIDs, ","))
 	config.BenchmarkConfigs = removeHighLevelBenchmarks(config.GetBenchmarkConfigs(), flags.MaxCisProfileLevel)
 	addOptOutRegexes(config, flags.ContentOptOutRegexes, flags.FilenameOptOutRegexes, flags.TraversalOptOutRegexes)
+	if flags.ScanTimeout > 0 {
+		config.ScanTimeout = durationpb.New(flags.ScanTimeout)
+	}
+	if flags.BenchmarkCheckTimeout > 0 {
+		config.BenchmarkCheckTimeout = durationpb.New(flags.BenchmarkCheckTimeout)
+	}
 }
 
 func removeOptedOutBenchmarks(configs []*apb.BenchmarkConfig, optOutBenchmarks []string) []*apb.BenchmarkConfig {

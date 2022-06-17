@@ -18,6 +18,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"time"
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
@@ -99,11 +100,16 @@ func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api
 		prevAlternativeID = alts[len(alts)-1].id
 	}
 
-	fileCheckBatches, err := createFileCheckBatchesFromConfig(ctx, benchmarks, scanConfig.GetOptOutConfig(), api)
+	scanTimeout := time.Time{}
+	if scanConfig.GetScanTimeout().AsDuration() > 0 {
+		scanTimeout = time.Now().Add(scanConfig.GetScanTimeout().AsDuration())
+	}
+
+	fileCheckBatches, err := createFileCheckBatchesFromConfig(ctx, benchmarks, scanConfig.GetOptOutConfig(), scanTimeout, api)
 	if err != nil {
 		return nil, err
 	}
-	sqlChecks, err := createSQLChecksFromConfig(ctx, benchmarks, api)
+	sqlChecks, err := createSQLChecksFromConfig(ctx, benchmarks, scanTimeout, api)
 	if err != nil {
 		return nil, err
 	}

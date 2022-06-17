@@ -28,6 +28,7 @@ import (
 	"regexp"
 	"runtime/debug"
 	"strings"
+	"time"
 
 	"google.golang.org/protobuf/encoding/prototext"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
@@ -72,7 +73,10 @@ func ApplyOptOutConfig(fileSet *ipb.FileSet, config *apb.OptOutConfig) {
 type WalkFunc func(path string, isDir bool) error
 
 // WalkFiles calls walkFunc for each file described by the provided FileSet.
-func WalkFiles(ctx context.Context, fileSet *ipb.FileSet, fsReader filesystemReader, walkFunc WalkFunc) error {
+func WalkFiles(ctx context.Context, fileSet *ipb.FileSet, fsReader filesystemReader, timeout time.Time, walkFunc WalkFunc) error {
+	if err := checkTimeout(timeout); err != nil {
+		return err
+	}
 	switch {
 	case fileSet.GetSingleFile() != nil:
 		return walkFunc(fileSet.GetSingleFile().GetPath(), false)
@@ -103,13 +107,14 @@ func WalkFiles(ctx context.Context, fileSet *ipb.FileSet, fsReader filesystemRea
 			skipSymlinks:      f.GetSkipSymlinks(),
 			filenameRegex:     filenameRegex,
 			optOutPathRegexes: optOutPathRegexes,
+			timeout:           timeout,
 			fsReader:          fsReader,
 			walkFunc:          walkFunc,
 		})
 	case fileSet.GetProcessPath() != nil:
-		return walkProcessPaths(ctx, fileSet.GetProcessPath().GetProcName(), fileSet.GetProcessPath().GetFileName(), fsReader, walkFunc)
+		return walkProcessPaths(ctx, fileSet.GetProcessPath().GetProcName(), fileSet.GetProcessPath().GetFileName(), timeout, fsReader, walkFunc)
 	case fileSet.GetUnixEnvVarPaths() != nil:
-		return walkVarPaths(ctx, fileSet.GetUnixEnvVarPaths(), fsReader, walkFunc)
+		return walkVarPaths(ctx, fileSet.GetUnixEnvVarPaths(), timeout, fsReader, walkFunc)
 	default:
 		return fmt.Errorf("Unknown FilePath type %v", fileSet.GetFilePath())
 	}
@@ -148,6 +153,7 @@ type walkFilesInDirOptions struct {
 	filenameRegex     *regexp.Regexp
 	optOutPathRegexes []*regexp.Regexp
 	fsReader          filesystemReader
+	timeout           time.Time
 	walkFunc          WalkFunc
 }
 
@@ -183,6 +189,9 @@ func walkFilesInDir(opts *walkFilesInDirOptions) error {
 				walkCounter = 0
 				debug.FreeOSMemory()
 			}
+			if err := checkTimeout(opts.timeout); err != nil {
+				return err
+			}
 		}
 		if opts.recursive && c.GetIsDir() {
 			if err := walkFilesInDir(&walkFilesInDirOptions{
@@ -195,6 +204,7 @@ func walkFilesInDir(opts *walkFilesInDirOptions) error {
 				skipSymlinks:      opts.skipSymlinks,
 				filenameRegex:     opts.filenameRegex,
 				optOutPathRegexes: opts.optOutPathRegexes,
+				timeout:           opts.timeout,
 				fsReader:          opts.fsReader,
 				walkFunc:          opts.walkFunc,
 			}); err != nil {
@@ -219,7 +229,7 @@ func pathInOptOutList(dirPath string, optOutPathRegexes []*regexp.Regexp) bool {
 //
 // Please note means that all those folders in /proc/ are traversed every time this function
 // is called. This is fine as long as there are not many checks using the ProcessPath option.
-func walkProcessPaths(ctx context.Context, procName string, fileName string, fsReader filesystemReader, walkFunc WalkFunc) error {
+func walkProcessPaths(ctx context.Context, procName string, fileName string, timeout time.Time, fsReader filesystemReader, walkFunc WalkFunc) error {
 	procDir, err := fsReader.FilesInDir(ctx, "/proc/")
 	if err != nil {
 		return fmt.Errorf("unable to enumerate /proc/: %v", err)
@@ -257,13 +267,17 @@ func walkProcessPaths(ctx context.Context, procName string, fileName string, fsR
 				return err
 			}
 		}
+
+		if err := checkTimeout(timeout); err != nil {
+			return err
+		}
 	}
 	return nil
 }
 
 // walkVarPaths calls the walkFunc on all paths stored inside a UNIX environment
 // variable such as $PATH. The paths are assumed to be separated by ':'s.
-func walkVarPaths(ctx context.Context, evp *ipb.FileSet_UnixEnvVarPaths, fsReader filesystemReader, walkFunc WalkFunc) error {
+func walkVarPaths(ctx context.Context, evp *ipb.FileSet_UnixEnvVarPaths, timeout time.Time, fsReader filesystemReader, walkFunc WalkFunc) error {
 	envVar, err := readEnvVar(ctx, evp.GetVarName(), fsReader)
 	if err != nil {
 		return err
@@ -285,6 +299,10 @@ func walkVarPaths(ctx context.Context, evp *ipb.FileSet_UnixEnvVarPaths, fsReade
 		}
 
 		if err := walkFunc(path, isDir); err != nil {
+			return err
+		}
+
+		if err := checkTimeout(timeout); err != nil {
 			return err
 		}
 	}
@@ -335,4 +353,11 @@ func findProcName(stat string) string {
 		return ""
 	}
 	return stat[start+1 : end]
+}
+
+func checkTimeout(timeout time.Time) error {
+	if timeout.IsZero() || time.Now().Before(timeout) {
+		return nil
+	}
+	return errors.New("scan timed out")
 }

@@ -18,6 +18,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
@@ -77,7 +78,8 @@ func (c *MySQLCheck) String() string {
 
 // createSQLChecksFromConfig parses the benchmark config and creates the executable
 // SQL checks that it defines.
-func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, sq SQLQuerier) ([]*MySQLCheck, error) {
+func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, scanTimeout time.Time, sq SQLQuerier) ([]*MySQLCheck, error) {
+	// TODO(b/235991635): Use scanTimeout.
 	checks := []*MySQLCheck{}
 	for _, b := range benchmarks {
 		for _, alt := range b.alts {

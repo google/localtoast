@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 )
 
 // Flags contains a field for all the cli flags that can be set.
@@ -32,6 +33,8 @@ type Flags struct {
 	TraversalOptOutRegexes  string
 	ShowCompliantBenchmarks bool
 	MaxCisProfileLevel      int
+	ScanTimeout             time.Duration
+	BenchmarkCheckTimeout   time.Duration
 }
 
 // ValidateFlags validates the passed command line flags.
