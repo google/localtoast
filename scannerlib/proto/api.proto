@@ -25,9 +25,9 @@ import "proto/v1/compliance.proto";
 option go_package = "github.com/google/localtoast/scannerlib/proto/api_go_proto";
 
 message ScanConfig {
-  // The maximum amount of time the scan and individual benchmark checks can run
-  // for.
+  // The maximum amount of time the entire scan can run for.
   google.protobuf.Duration scan_timeout = 1;
+  // The maximum amout of time each individual benchmark check can run for.
   google.protobuf.Duration benchmark_check_timeout = 2;
   // A list of files to opt out of being displayed in the scan results.
   OptOutConfig opt_out_config = 3;

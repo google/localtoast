@@ -26,7 +26,6 @@ import (
 	"os"
 	"path"
 	"regexp"
-	"time"
 
 	"google.golang.org/protobuf/proto"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
@@ -124,7 +123,7 @@ type fileCheckBatchMap map[fileCheckBatchCommonProps][]*fileCheck
 // createFileCheckBatchesFromConfig parses the benchmark config and creates the
 // file check batches defined by it.
 func createFileCheckBatchesFromConfig(
-	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, timeout time.Time, fs FileSystemReader) ([]*FileCheckBatch, error) {
+	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, timeout *timeoutOptions, fs FileSystemReader) ([]*FileCheckBatch, error) {
 	batchMap := make(fileCheckBatchMap)
 
 	for _, b := range benchmarks {
@@ -261,7 +260,7 @@ func strToRegex(strs []string) ([]*regexp.Regexp, error) {
 // newFileCheckBatch creates a FileCheckBatch from several fileChecks that
 // perform the same type of checks on the same files.
 func newFileCheckBatch(
-	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, timeout time.Time, fs FileSystemReader) (*FileCheckBatch, error) {
+	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, timeout *timeoutOptions, fs FileSystemReader) (*FileCheckBatch, error) {
 	// De-duplicate the benchmark IDs.
 	benchmarkIDMap := make(map[string]bool)
 	for _, fc := range fileChecks {
@@ -305,7 +304,7 @@ type existenceFileCheckBatch struct {
 	ctx          context.Context
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
-	timeout      time.Time
+	timeout      *timeoutOptions
 	fs           FileSystemReader
 	foundFile    string
 }
@@ -314,7 +313,7 @@ func newExistenceFileCheckBatch(
 	ctx context.Context,
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
-	timeout time.Time,
+	timeout *timeoutOptions,
 	fs FileSystemReader) (*existenceFileCheckBatch, error) {
 	return &existenceFileCheckBatch{
 		ctx:          ctx,
@@ -327,7 +326,7 @@ func newExistenceFileCheckBatch(
 }
 
 func (c *existenceFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool) error {
 			exists, err := fileExists(c.ctx, path, c.fs)
 			if err != nil {
@@ -364,7 +363,7 @@ type permissionFileCheckBatch struct {
 	ctx          context.Context
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
-	timeout      time.Time
+	timeout      *timeoutOptions
 	fs           FileSystemReader
 }
 
@@ -372,7 +371,7 @@ func newPermissionFileCheckBatch(
 	ctx context.Context,
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
-	timeout time.Time,
+	timeout *timeoutOptions,
 	fs FileSystemReader) (*permissionFileCheckBatch, error) {
 	return &permissionFileCheckBatch{
 		ctx:          ctx,
@@ -384,7 +383,7 @@ func newPermissionFileCheckBatch(
 }
 
 func (c *permissionFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool) error {
 			perms, err := c.fs.FilePermissions(c.ctx, path)
 			if err != nil {
@@ -478,7 +477,7 @@ type contentFileCheckBatch struct {
 	ctx          context.Context
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
-	timeout      time.Time
+	timeout      *timeoutOptions
 	fs           FileSystemReader
 }
 
@@ -486,7 +485,7 @@ func newContentFileCheckBatch(
 	ctx context.Context,
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
-	timeout time.Time,
+	timeout *timeoutOptions,
 	fs FileSystemReader) (*contentFileCheckBatch, error) {
 	return &contentFileCheckBatch{
 		ctx:          ctx,
@@ -498,7 +497,7 @@ func newContentFileCheckBatch(
 }
 
 func (c *contentFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool) error {
 			exists, err := fileExists(c.ctx, path, c.fs)
 			if err != nil {

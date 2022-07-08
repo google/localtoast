@@ -25,6 +25,7 @@ import (
 	"sort"
 	"testing"
 
+	dpb "google.golang.org/protobuf/types/known/durationpb"
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
@@ -1327,5 +1328,96 @@ func TestLongCheckResultsPruned(t *testing.T) {
 	count := len(result.GetComplianceOccurrence().GetNonCompliantFiles())
 	if count != configchecks.MaxNonCompliantFiles {
 		t.Errorf("want %d non-compliant files, check.Exec() returned %d:\n%s", configchecks.MaxNonCompliantFiles, count, result)
+	}
+}
+
+func TestTimeout(t *testing.T) {
+	smallTimeout := &dpb.Duration{Nanos: 1}
+	bigTimeout := &dpb.Duration{Seconds: 60 * 60}
+	zeroTimeout := &dpb.Duration{}
+	testCases := []struct {
+		description           string
+		scanTimeout           *dpb.Duration
+		benchmarkCheckTimeout *dpb.Duration
+		expectTimeout         bool
+	}{
+		{
+			description:           "Both timeouts small should timeout",
+			scanTimeout:           smallTimeout,
+			benchmarkCheckTimeout: smallTimeout,
+			expectTimeout:         true,
+		},
+		{
+			description:           "Scan timeout small should timeout",
+			scanTimeout:           smallTimeout,
+			benchmarkCheckTimeout: bigTimeout,
+			expectTimeout:         true,
+		},
+		{
+			description:           "Benchmark timeout small should timeout",
+			scanTimeout:           bigTimeout,
+			benchmarkCheckTimeout: smallTimeout,
+			expectTimeout:         true,
+		},
+		{
+			description:           "Both timeouts big shouldn't timeout",
+			scanTimeout:           bigTimeout,
+			benchmarkCheckTimeout: bigTimeout,
+			expectTimeout:         false,
+		},
+		{
+			description:           "Scan timeout at 0 should be ignored",
+			scanTimeout:           zeroTimeout,
+			benchmarkCheckTimeout: bigTimeout,
+			expectTimeout:         false,
+		},
+		{
+			description:           "Benchmark timeout at 0 should be ignored",
+			scanTimeout:           bigTimeout,
+			benchmarkCheckTimeout: zeroTimeout,
+			expectTimeout:         false,
+		},
+		{
+			description:           "Both timeouts at zero should be ignored",
+			scanTimeout:           zeroTimeout,
+			benchmarkCheckTimeout: zeroTimeout,
+			expectTimeout:         false,
+		},
+	}
+
+	benchmarkConfigs := []*apb.BenchmarkConfig{
+		testconfigcreator.NewBenchmarkConfig(t, "id", testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{
+			&ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
+			},
+		})),
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			config := &apb.ScanConfig{
+				BenchmarkConfigs:      benchmarkConfigs,
+				ScanTimeout:           tc.scanTimeout,
+				BenchmarkCheckTimeout: tc.benchmarkCheckTimeout,
+			}
+			checks, err := configchecks.CreateChecksFromConfig(context.Background(), config, newFakeAPI(withFileContent("content")))
+			if err != nil {
+				t.Fatalf("configchecks.CreateChecksFromConfig([%v]) returned an error: %v", config, err)
+			}
+			_, err = checks[0].Exec()
+			if err != nil && err.Error() != "scan timed out" {
+				t.Fatalf("check.Exec() with {ScanTimeout: %v, BenchmarkCheckTimeout: %v} returned an unexpected error: %v",
+					tc.scanTimeout.AsDuration(), tc.benchmarkCheckTimeout.AsDuration(), err)
+			}
+			if tc.expectTimeout && err == nil {
+				t.Fatalf("check.Exec() with {ScanTimeout: %v, BenchmarkCheckTimeout: %v} was expected to timeout but didn't",
+					tc.scanTimeout.AsDuration(), tc.benchmarkCheckTimeout.AsDuration())
+			}
+			if !tc.expectTimeout && err != nil {
+				t.Fatalf("check.Exec() with {ScanTimeout: %v, BenchmarkCheckTimeout: %v} was expected to succeed but timed out",
+					tc.scanTimeout.AsDuration(), tc.benchmarkCheckTimeout.AsDuration())
+			}
+		})
 	}
 }

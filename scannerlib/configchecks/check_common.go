@@ -62,6 +62,25 @@ type checkAlternative struct {
 	proto *ipb.CheckAlternative
 }
 
+// timeoutOptions is used by each individual benchmark check to calculate its timeout.
+type timeoutOptions struct {
+	globalTimeout          time.Time
+	benchmarkCheckDuration time.Duration
+}
+
+// benchmarkCheckTimeoutNow calculates the timeout of a benchmark if it was to start now.
+// Returns the minimum between globalTimeout and time.Now() + benchmarkCheckDuration.
+func (t *timeoutOptions) benchmarkCheckTimeoutNow() time.Time {
+	if t.benchmarkCheckDuration == 0 {
+		return t.globalTimeout
+	}
+	benchmarkTimeout := time.Now().Add(t.benchmarkCheckDuration)
+	if t.globalTimeout.IsZero() || benchmarkTimeout.Before(t.globalTimeout) {
+		return benchmarkTimeout
+	}
+	return t.globalTimeout
+}
+
 // parseCheckAlternatives deserializes the check alternatives from the benchmark config.
 func parseCheckAlternatives(config *apb.BenchmarkConfig, prevAlternativeID int) ([]*checkAlternative, error) {
 	serialized := config.GetComplianceNote().GetScanInstructions()
@@ -100,16 +119,20 @@ func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api
 		prevAlternativeID = alts[len(alts)-1].id
 	}
 
-	scanTimeout := time.Time{}
+	globalTimeout := time.Time{}
 	if scanConfig.GetScanTimeout().AsDuration() > 0 {
-		scanTimeout = time.Now().Add(scanConfig.GetScanTimeout().AsDuration())
+		globalTimeout = time.Now().Add(scanConfig.GetScanTimeout().AsDuration())
+	}
+	timeout := &timeoutOptions{
+		globalTimeout:          globalTimeout,
+		benchmarkCheckDuration: scanConfig.GetBenchmarkCheckTimeout().AsDuration(),
 	}
 
-	fileCheckBatches, err := createFileCheckBatchesFromConfig(ctx, benchmarks, scanConfig.GetOptOutConfig(), scanTimeout, api)
+	fileCheckBatches, err := createFileCheckBatchesFromConfig(ctx, benchmarks, scanConfig.GetOptOutConfig(), timeout, api)
 	if err != nil {
 		return nil, err
 	}
-	sqlChecks, err := createSQLChecksFromConfig(ctx, benchmarks, scanTimeout, api)
+	sqlChecks, err := createSQLChecksFromConfig(ctx, benchmarks, timeout, api)
 	if err != nil {
 		return nil, err
 	}

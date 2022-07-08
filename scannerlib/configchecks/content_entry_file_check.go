@@ -21,7 +21,6 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
-	"time"
 
 	"github.com/google/localtoast/scannerlib/fileset"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -33,7 +32,7 @@ type contentEntryFileCheckBatch struct {
 	ctx                    context.Context
 	fileChecks             []*fileCheck
 	filesToCheck           *ipb.FileSet
-	timeout                time.Time
+	timeout                *timeoutOptions
 	fs                     FileSystemReader
 	contentEntryFileChecks []*contentEntryFileCheck
 	delimiter              []byte
@@ -63,7 +62,7 @@ func newContentEntryFileCheckBatch(
 	ctx context.Context,
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
-	timeout time.Time,
+	timeout *timeoutOptions,
 	fs FileSystemReader) (*contentEntryFileCheckBatch, error) {
 	if len(fileChecks) == 0 {
 		return nil, errors.New("attempted to create content entry check batch without any file checks")
@@ -122,7 +121,7 @@ func newContentEntryFileCheckBatch(
 }
 
 func (c *contentEntryFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout,
+	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool) error {
 			if isDir {
 				return nil
