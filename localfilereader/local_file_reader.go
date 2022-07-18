@@ -35,6 +35,53 @@ const (
 	StickyFlag = 01000
 )
 
+var (
+	userIDLookup = newCachedIDLookup(func(id int) (string, error) {
+		usr, err := user.LookupId(strconv.Itoa(id))
+		if err != nil {
+			return "", err
+		}
+		return usr.Username, nil
+	})
+	groupIDLookup = newCachedIDLookup(func(id int) (string, error) {
+		grp, err := user.LookupGroupId(strconv.Itoa(id))
+		if err != nil {
+			return "", err
+		}
+		return grp.Name, nil
+	})
+)
+
+type cachedIDLookup struct {
+	lookupFunc func(int) (string, error)
+	valueCache map[int]string
+	errorCache map[int]error
+}
+
+func (l *cachedIDLookup) Lookup(id int) (string, error) {
+	if val, ok := l.valueCache[id]; ok {
+		return val, nil
+	}
+	if err, ok := l.errorCache[id]; ok {
+		return "", err
+	}
+	val, err := l.lookupFunc(id)
+	if err == nil {
+		l.valueCache[id] = val
+	} else {
+		l.errorCache[id] = err
+	}
+	return val, err
+}
+
+func newCachedIDLookup(lookupFunc func(int) (string, error)) cachedIDLookup {
+	return cachedIDLookup{
+		lookupFunc: lookupFunc,
+		valueCache: make(map[int]string),
+		errorCache: make(map[int]error),
+	}
+}
+
 // OpenFile opens the specified file for reading.
 func OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 	file, err := os.Open(path)
@@ -73,9 +120,7 @@ func FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, e
 	uid := int(sys.(*syscall.Stat_t).Uid)
 	gid := int(sys.(*syscall.Stat_t).Gid)
 
-	var username string
-	var usr *user.User
-	usr, err = user.LookupId(strconv.Itoa(uid))
+	username, err := userIDLookup.Lookup(uid)
 	if err != nil {
 		// "unknown userid" means the file is unowned (uid not found
 		// in /etc/group, possibly because the user got deleted). Leave
@@ -83,13 +128,9 @@ func FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, e
 		if !strings.Contains(err.Error(), "unknown userid") {
 			return nil, err
 		}
-	} else {
-		username = usr.Username
 	}
 
-	var groupname string
-	var grp *user.Group
-	grp, err = user.LookupGroupId(strconv.Itoa(gid))
+	groupname, err := groupIDLookup.Lookup(gid)
 	if err != nil {
 		// "unknown groupid" means the file is ungrouped (gid not found
 		// in /etc/group, possibly because the group got deleted). Leave
@@ -97,8 +138,6 @@ func FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, e
 		if !strings.Contains(err.Error(), "unknown groupid") {
 			return nil, err
 		}
-	} else {
-		groupname = grp.Name
 	}
 
 	perms := int32(fi.Mode().Perm())

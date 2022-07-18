@@ -18,7 +18,9 @@ import (
 	"context"
 	"io/ioutil"
 	"os"
+	"os/user"
 	"path/filepath"
+	"strconv"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -156,5 +158,43 @@ func TestFilePermissionsPropagatesError(t *testing.T) {
 	_, err := localfilereader.FilePermissions(context.Background(), nonExistentFilePath)
 	if err == nil {
 		t.Errorf("localfilereader.FilesInDir(%s) didn't return an error", nonExistentFilePath)
+	}
+}
+
+func TestFileOwnerCurrentUser(t *testing.T) {
+	testDirPath := createTestFiles(t)
+	testFilePath := filepath.Join(testDirPath, fileName)
+	perm, err := localfilereader.FilePermissions(context.Background(), testFilePath)
+	if err != nil {
+		t.Fatalf("localfilereader.FilePermissions(%s) had unexpected error: %v", testFilePath, err)
+	}
+	currUser, err := user.Current()
+	if err != nil {
+		t.Fatalf("user.Current() had unexpected error: %v", err)
+	}
+	if strconv.Itoa(int(perm.Uid)) != currUser.Uid {
+		t.Fatalf("localfilereader.FilePermissions(%s) returned Uid %v, expected %v",
+			testFilePath, perm.Uid, currUser.Uid)
+	}
+	if perm.User != currUser.Username {
+		t.Fatalf("localfilereader.FilePermissions(%s) returned User %v, expected %v",
+			testFilePath, perm.User, currUser.Username)
+	}
+}
+
+func TestFilePermissionsDontChange(t *testing.T) {
+	testDirPath := createTestFiles(t)
+	testFilePath := filepath.Join(testDirPath, fileName)
+	perm1, err := localfilereader.FilePermissions(context.Background(), testFilePath)
+	if err != nil {
+		t.Fatalf("localfilereader.FilePermissions(%s) had unexpected error: %v", testFilePath, err)
+	}
+	perm2, err := localfilereader.FilePermissions(context.Background(), testFilePath)
+	if err != nil {
+		t.Fatalf("localfilereader.FilePermissions(%s) had unexpected error: %v", testFilePath, err)
+	}
+	if diff := cmp.Diff(perm1, perm2, protocmp.Transform()); diff != "" {
+		t.Fatalf("Second call to localfilereader.FilePermissions(%s) returned %v, expected %v",
+			testFilePath, perm2, perm1)
 	}
 }
