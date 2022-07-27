@@ -22,6 +22,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime/debug"
 
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/scannercommon"
@@ -51,6 +52,11 @@ func (localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int, er
 }
 
 func main() {
+	// Change GCPercent to lower the peak memory usage.
+	// Make sure we are not overwriting a custom value. We only want to change the default.
+	if os.Getenv("GOGC") == "" {
+		debug.SetGCPercent(1)
+	}
 	flags := scannercommon.ParseFlags()
 	provider := &localScanAPIProvider{chrootPath: flags.ChrootPath}
 	os.Exit(scannercommon.RunScan(flags, provider))

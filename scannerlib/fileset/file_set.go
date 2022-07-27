@@ -26,7 +26,6 @@ import (
 	"os"
 	"path"
 	"regexp"
-	"runtime/debug"
 	"strings"
 	"time"
 
@@ -40,7 +39,6 @@ const maxTraversalDepth = 100
 var (
 	procDirMatcher     = regexp.MustCompile(`^\d+$`)
 	procEnvironMatcher = regexp.MustCompile("^(.*)=(.*)$")
-	walkCounter        = 0
 )
 
 type filesystemReader interface {
@@ -183,11 +181,6 @@ func walkFilesInDir(opts *walkFilesInDirOptions) error {
 		if !skipDirectory && !skipFile && !skipSymlink && matchesRegex {
 			if err := opts.walkFunc(contentPath, c.GetIsDir()); err != nil {
 				return err
-			}
-			walkCounter++
-			if walkCounter > 100 {
-				walkCounter = 0
-				debug.FreeOSMemory()
 			}
 			if err := checkTimeout(opts.timeout); err != nil {
 				return err
