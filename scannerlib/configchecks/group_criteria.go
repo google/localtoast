@@ -31,15 +31,15 @@ var (
 )
 
 type groupCriteria struct {
-	re       *regexp.Regexp
+	regex    string
 	criteria []groupCriterion
 }
 
-func newGroupCriteria(re *regexp.Regexp, gcs []*ipb.GroupCriterion, matchType ipb.ContentEntryCheck_MatchType) (*groupCriteria, error) {
+func newGroupCriteria(regex string, numSubexp int, gcs []*ipb.GroupCriterion, matchType ipb.ContentEntryCheck_MatchType) (*groupCriteria, error) {
 	criteria := make([]groupCriterion, 0, len(gcs))
 	for _, gc := range gcs {
 		i := int(gc.GetGroupIndex())
-		if i <= 0 || i > re.NumSubexp() {
+		if i <= 0 || i > numSubexp {
 			return nil, fmt.Errorf("group criteria index %d out of bounds", i)
 		}
 
@@ -70,7 +70,7 @@ func newGroupCriteria(re *regexp.Regexp, gcs []*ipb.GroupCriterion, matchType ip
 	}
 
 	return &groupCriteria{
-		re:       re,
+		regex:    regex,
 		criteria: criteria,
 	}, nil
 }
@@ -83,7 +83,7 @@ func (gc *groupCriteria) check(entry string) bool {
 	if len(gc.criteria) == 0 {
 		return true
 	}
-	groups := gc.re.FindStringSubmatch(entry)
+	groups := compiledRegex(gc.regex).FindStringSubmatch(entry)
 	for _, c := range gc.criteria {
 		g := groups[c.index]
 		if !c.matcher.match(g) {

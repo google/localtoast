@@ -26,6 +26,10 @@ import (
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
+var (
+	regexCache = make(map[string]*regexp.Regexp)
+)
+
 // contentEntryFileCheckBatch performs a series of checks about whether files have specific
 // entries in their content.
 type contentEntryFileCheckBatch struct {
@@ -45,8 +49,8 @@ type contentEntryFileCheck struct {
 
 type matchCriterion struct {
 	matchType     ipb.ContentEntryCheck_MatchType
-	filterRegex   *regexp.Regexp
-	expectedRegex *regexp.Regexp
+	filterRegex   string
+	expectedRegex string
 	groupCriteria *groupCriteria
 	matched       bool
 }
@@ -55,7 +59,22 @@ func (m *matchCriterion) String() string {
 	if gcStr := m.groupCriteria.String(); gcStr != "" {
 		return fmt.Sprintf("%s with group criteria %s", m.expectedRegex, gcStr)
 	}
-	return m.expectedRegex.String()
+	return m.expectedRegex
+}
+
+// compiledRegex returns the (potentially cached) compiled regex pattern.
+// It assumes that the regex can be successfully compiled without errors.
+func compiledRegex(pattern string) *regexp.Regexp {
+	if re, ok := regexCache[pattern]; ok {
+		return re
+	}
+	re := regexp.MustCompile(pattern)
+	regexCache[pattern] = re
+	return re
+}
+
+func clearRegexCache() {
+	regexCache = make(map[string]*regexp.Regexp)
 }
 
 func newContentEntryFileCheckBatch(
@@ -79,16 +98,19 @@ func newContentEntryFileCheckBatch(
 		matchCriteria := make([]*matchCriterion, 0, len(matchCriteriaProtos))
 		for _, mc := range matchCriteriaProtos {
 			mode := "(?s)" // '.' matches '\n' too
-			filterRegex, err := regexp.Compile(mode + "^" + mc.GetFilterRegex() + "$")
-			if err != nil {
+			filterRegex := mode + "^" + mc.GetFilterRegex() + "$"
+			expectedRegex := mode + "^" + mc.GetExpectedRegex() + "$"
+			// Check regexes for errors.
+			if _, err := regexp.Compile(filterRegex); err != nil {
 				return nil, err
 			}
-			expectedRegex, err := regexp.Compile(mode + "^" + mc.GetExpectedRegex() + "$")
+			compiledExpectedRegex, err := regexp.Compile(expectedRegex)
 			if err != nil {
 				return nil, err
 			}
 			groupCriteria, err := newGroupCriteria(
 				expectedRegex,
+				compiledExpectedRegex.NumSubexp(),
 				mc.GetGroupCriteria(),
 				fc.checkInstruction.GetContentEntry().GetMatchType(),
 			)
@@ -121,6 +143,9 @@ func newContentEntryFileCheckBatch(
 }
 
 func (c *contentEntryFileCheckBatch) exec() (ComplianceMap, error) {
+	// Clear the regex cache after execution to keep the memory usage low.
+	// The next check will likely use different regexes anyway.
+	defer clearRegexCache()
 	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool) error {
 			if isDir {
@@ -194,12 +219,12 @@ func (c *contentEntryFileCheckBatch) exec() (ComplianceMap, error) {
 
 func matchEntryAgainstCriteria(entry string, filePath string, check *contentEntryFileCheck) error {
 	for i, mc := range check.matchCriteria {
-		if !mc.filterRegex.MatchString(entry) {
+		if !compiledRegex(mc.filterRegex).MatchString(entry) {
 			continue
 		}
 
 		mc.matched = true
-		satisfiesCriterion := mc.expectedRegex.MatchString(entry) && mc.groupCriteria.check(entry)
+		satisfiesCriterion := compiledRegex(mc.expectedRegex).MatchString(entry) && mc.groupCriteria.check(entry)
 
 		if !satisfiesCriterion && mc.matchType != ipb.ContentEntryCheck_NONE_MATCH {
 			check.fileCheck.addNonCompliantFile(filePath,
