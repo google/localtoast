@@ -34,16 +34,23 @@ type localScanAPIProvider struct {
 	chrootPath string
 }
 
+func (a *localScanAPIProvider) fullPath(entryPath string) string {
+	if a.chrootPath == "" {
+		return entryPath
+	}
+	return path.Join(a.chrootPath, entryPath)
+}
+
 func (a *localScanAPIProvider) OpenFile(ctx context.Context, filePath string) (io.ReadCloser, error) {
-	return localfilereader.OpenFile(ctx, path.Join(a.chrootPath, filePath))
+	return localfilereader.OpenFile(ctx, a.fullPath(filePath))
 }
 
 func (a *localScanAPIProvider) FilesInDir(ctx context.Context, dirPath string) ([]*apb.DirContent, error) {
-	return localfilereader.FilesInDir(ctx, path.Join(a.chrootPath, dirPath))
+	return localfilereader.FilesInDir(ctx, a.fullPath(dirPath))
 }
 
 func (a *localScanAPIProvider) FilePermissions(ctx context.Context, filePath string) (*apb.PosixPermissions, error) {
-	return localfilereader.FilePermissions(ctx, path.Join(a.chrootPath, filePath))
+	return localfilereader.FilePermissions(ctx, a.fullPath(filePath))
 }
 
 func (localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) {
