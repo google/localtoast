@@ -18,7 +18,6 @@ package localfilereader
 import (
 	"context"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/user"
 	"strconv"
@@ -93,17 +92,17 @@ func OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 
 // FilesInDir lists the contents of the specified directory.
 func FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
 	contents := make([]*apb.DirContent, 0, len(files))
 	for _, f := range files {
-		if f.Mode().IsDir() || f.Mode().IsRegular() || f.Mode()&os.ModeSymlink == os.ModeSymlink {
+		if f.IsDir() || f.Type().IsRegular() || f.Type()&os.ModeSymlink == os.ModeSymlink {
 			contents = append(contents, &apb.DirContent{
 				Name:      f.Name(),
-				IsDir:     f.Mode().IsDir(),
-				IsSymlink: f.Mode()&os.ModeSymlink == os.ModeSymlink,
+				IsDir:     f.IsDir(),
+				IsSymlink: f.Type()&os.ModeSymlink == os.ModeSymlink,
 			})
 		}
 	}
