@@ -1,3 +1,6 @@
+# Checks exclusive to COS. These are either completely new checks or versions of
+# the generic Linux checks with COS-specific modifications added.
+
 benchmark_configs: {
   id: "tmp-configured-cos"
   compliance_note: {

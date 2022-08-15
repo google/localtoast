@@ -1,3 +1,6 @@
+# Checks that are reused in the benchmark documents of several Linux
+# distributions (e.g. COS, Debian).
+
 benchmark_configs: {
   id: "udf-mounting-disabled"
   compliance_note: {

@@ -1,3 +1,10 @@
+# Fallback checks used for scanning unknown operating systems or containers.
+# If the OS to be scanned couldn't be determined or there's no specific
+# benchmark config for it, checks from this config are used instead. The checks
+# here are based on the CIS Distribution Independent Linux document but are
+# generalized to also be applicable to containers without a filesystem (e.g. a
+# check is marked non-applicable if the file/directory it scans doesn't exist).
+
 benchmark_configs: {
   id: "cramfs-mounting-disabled-fallback"
   compliance_note: {
