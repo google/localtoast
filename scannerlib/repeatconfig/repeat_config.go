@@ -19,13 +19,13 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"io"
 	"path"
 	"regexp"
 	"strconv"
 	"strings"
 
 	"google.golang.org/protobuf/proto"
+	"github.com/google/localtoast/scanapi"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
@@ -47,11 +47,6 @@ var (
 	uidMinRe = regexp.MustCompile("^UID_MIN\\s+(\\d+)$")
 )
 
-// FileReader is an interface for reading the contents of a file.
-type FileReader interface {
-	OpenFile(ctx context.Context, path string) (io.ReadCloser, error)
-}
-
 // RepeatConfig is a single repeat config that specifies what tokens to replace
 // in the files/instructions in this iteration of the check.
 type RepeatConfig struct {
@@ -67,7 +62,7 @@ type TokenReplacement struct {
 
 // CreateRepeatConfigs creates a list of configs with the appropriate token
 // substitutions based on the supplied repeat config enum.
-func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, f FileReader) ([]*RepeatConfig, error) {
+func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, fs scanapi.Filesystem) ([]*RepeatConfig, error) {
 	var rc []*RepeatConfig
 	var err error
 	switch repeatOptions.GetType() {
@@ -75,20 +70,20 @@ func CreateRepeatConfigs(ctx context.Context, repeatOptions *ipb.RepeatConfig, f
 		rc, err = []*RepeatConfig{&RepeatConfig{}}, nil
 	case ipb.RepeatConfig_FOR_EACH_USER:
 		rc, err = createRepeatConfigForEachUser(ctx, userRepeatConfigOptions{
-			fileReader: f, loginOnly: false, systemOnly: false,
+			fileReader: fs, loginOnly: false, systemOnly: false,
 		})
 	case ipb.RepeatConfig_FOR_EACH_USER_WITH_LOGIN:
 		rc, err = createRepeatConfigForEachUser(ctx, userRepeatConfigOptions{
-			fileReader: f, loginOnly: true, systemOnly: false,
+			fileReader: fs, loginOnly: true, systemOnly: false,
 		})
 	case ipb.RepeatConfig_FOR_EACH_SYSTEM_USER_WITH_LOGIN:
 		rc, err = createRepeatConfigForEachUser(ctx, userRepeatConfigOptions{
-			fileReader: f, loginOnly: true, systemOnly: true,
+			fileReader: fs, loginOnly: true, systemOnly: true,
 		})
 	case ipb.RepeatConfig_FOR_EACH_OPEN_IPV4_PORT:
-		rc, err = createRepeatConfigForEachOpenTCPPort(ctx, f, false)
+		rc, err = createRepeatConfigForEachOpenTCPPort(ctx, fs, false)
 	case ipb.RepeatConfig_FOR_EACH_OPEN_IPV6_PORT:
-		rc, err = createRepeatConfigForEachOpenTCPPort(ctx, f, true)
+		rc, err = createRepeatConfigForEachOpenTCPPort(ctx, fs, true)
 	default:
 		return nil, fmt.Errorf("unknown repeat option type %s", repeatOptions)
 	}
@@ -103,7 +98,7 @@ func repeatConfigWithError(err error) []*RepeatConfig {
 }
 
 type userRepeatConfigOptions struct {
-	fileReader FileReader
+	fileReader scanapi.Filesystem
 	loginOnly  bool
 	systemOnly bool
 }
@@ -186,7 +181,7 @@ func createRepeatConfigForEachUser(ctx context.Context, opt userRepeatConfigOpti
 	return result, nil
 }
 
-func readUIDMin(ctx context.Context, f FileReader) (int, error) {
+func readUIDMin(ctx context.Context, f scanapi.Filesystem) (int, error) {
 	r, err := f.OpenFile(ctx, "/etc/login.defs")
 	if err != nil {
 		return 0, err
@@ -217,7 +212,7 @@ func readUIDMin(ctx context.Context, f FileReader) (int, error) {
 
 // createRepeatConfigForEachPort creates repeat configs that have the currently
 // open TCP ports as the substitution.
-func createRepeatConfigForEachOpenTCPPort(ctx context.Context, f FileReader, isIpv6 bool) ([]*RepeatConfig, error) {
+func createRepeatConfigForEachOpenTCPPort(ctx context.Context, f scanapi.Filesystem, isIpv6 bool) ([]*RepeatConfig, error) {
 	tcpFile := "/proc/net/tcp"
 	if isIpv6 {
 		tcpFile = "/proc/net/tcp6"

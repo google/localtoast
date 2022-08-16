@@ -19,13 +19,14 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
 // apiErrorWrapper is a wrapper around the scanner's scan API that makes the error
 // messages more verbose.
 type apiErrorWrapper struct {
-	api ScanAPIProvider
+	api scanapi.ScanAPI
 }
 
 func (w *apiErrorWrapper) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {

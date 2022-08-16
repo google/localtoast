@@ -20,15 +20,10 @@ import (
 	"fmt"
 
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
-
-// SQLQuerier is an interface that supports SQL queries to a target
-// SQL database.
-type SQLQuerier interface {
-	SQLQuery(ctx context.Context, query string) (int, error)
-}
 
 // MySQLCheck is an an implementation of scanner.Check that executes
 // SQL queries on a MySQL/MariaDB database.
@@ -37,7 +32,7 @@ type MySQLCheck struct {
 	benchmarkID      string
 	alternativeID    int
 	checkInstruction *ipb.SQLCheck
-	querier          SQLQuerier
+	querier          scanapi.SQLQuerier
 }
 
 // Exec executes the SQL checks and returns the compliance status.
@@ -77,7 +72,7 @@ func (c *MySQLCheck) String() string {
 
 // createSQLChecksFromConfig parses the benchmark config and creates the executable
 // SQL checks that it defines.
-func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, timeout *timeoutOptions, sq SQLQuerier) ([]*MySQLCheck, error) {
+func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, timeout *timeoutOptions, sq scanapi.SQLQuerier) ([]*MySQLCheck, error) {
 	// TODO(b/235991635): Use timeout.
 	checks := []*MySQLCheck{}
 	for _, b := range benchmarks {

@@ -16,8 +16,8 @@ The scanner can either be used as a standalone binary to scan the local machine 
 2. `sudo ./localtoast --config=configs/full/cos_97/instance_scanning.textproto --result=scan-result.textproto`
 
 ### As a library:
-1. Import `github.com/google/localtoast/scannerlib` into your Go project
-2. Write a custom implementation for the `ScanAPIProvider` interface
+1. Import `github.com/google/localtoast/scannerlib` and `github.com/google/localtoast/scanapi` into your Go project
+2. Write a custom implementation for the `scanapi.ScanAPI` interface
 3. Call `scannerlib.Scanner{}.Scan()` with the appropriate config and the implementation
 
 See the [scan config](scannerlib/proto/api.proto) and [result](scannerlib/proto/scan_instructions.proto) protos for details on the input+output format.

@@ -29,6 +29,7 @@ import (
 
 	"google.golang.org/protobuf/proto"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/fileset"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -37,14 +38,6 @@ import (
 
 // MaxNonCompliantFiles is the maximum number of non-compliant files to be displayed for a single finding.
 const MaxNonCompliantFiles = 10
-
-// FileSystemReader is an interface that gives the checkers read access to the
-// filesystem of the scanned machine.
-type FileSystemReader interface {
-	OpenFile(ctx context.Context, path string) (io.ReadCloser, error)
-	FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error)
-	FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error)
-}
 
 // FileCheckBatch is an implementation of scanner.Check that performs various
 // combined file checks on a set of files. By batching the checks together, we
@@ -123,7 +116,7 @@ type fileCheckBatchMap map[fileCheckBatchCommonProps][]*fileCheck
 // createFileCheckBatchesFromConfig parses the benchmark config and creates the
 // file check batches defined by it.
 func createFileCheckBatchesFromConfig(
-	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, timeout *timeoutOptions, fs FileSystemReader) ([]*FileCheckBatch, error) {
+	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, timeout *timeoutOptions, fs scanapi.Filesystem) ([]*FileCheckBatch, error) {
 	batchMap := make(fileCheckBatchMap)
 
 	for _, b := range benchmarks {
@@ -168,7 +161,7 @@ func validateFileCheckInstruction(instruction *ipb.FileCheck) error {
 type addFileCheckToBatchMapOptions struct {
 	fc            *ipb.FileCheck
 	batchMap      fileCheckBatchMap
-	fs            FileSystemReader
+	fs            scanapi.Filesystem
 	optOut        *apb.OptOutConfig
 	benchmarkID   string
 	alternativeID int
@@ -260,7 +253,7 @@ func strToRegex(strs []string) ([]*regexp.Regexp, error) {
 // newFileCheckBatch creates a FileCheckBatch from several fileChecks that
 // perform the same type of checks on the same files.
 func newFileCheckBatch(
-	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, timeout *timeoutOptions, fs FileSystemReader) (*FileCheckBatch, error) {
+	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, timeout *timeoutOptions, fs scanapi.Filesystem) (*FileCheckBatch, error) {
 	// De-duplicate the benchmark IDs.
 	benchmarkIDMap := make(map[string]bool)
 	for _, fc := range fileChecks {
@@ -305,7 +298,7 @@ type existenceFileCheckBatch struct {
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
 	timeout      *timeoutOptions
-	fs           FileSystemReader
+	fs           scanapi.Filesystem
 	foundFile    string
 }
 
@@ -314,7 +307,7 @@ func newExistenceFileCheckBatch(
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
 	timeout *timeoutOptions,
-	fs FileSystemReader) (*existenceFileCheckBatch, error) {
+	fs scanapi.Filesystem) (*existenceFileCheckBatch, error) {
 	return &existenceFileCheckBatch{
 		ctx:          ctx,
 		fileChecks:   fileChecks,
@@ -364,7 +357,7 @@ type permissionFileCheckBatch struct {
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
 	timeout      *timeoutOptions
-	fs           FileSystemReader
+	fs           scanapi.Filesystem
 }
 
 func newPermissionFileCheckBatch(
@@ -372,7 +365,7 @@ func newPermissionFileCheckBatch(
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
 	timeout *timeoutOptions,
-	fs FileSystemReader) (*permissionFileCheckBatch, error) {
+	fs scanapi.Filesystem) (*permissionFileCheckBatch, error) {
 	return &permissionFileCheckBatch{
 		ctx:          ctx,
 		fileChecks:   fileChecks,
@@ -478,7 +471,7 @@ type contentFileCheckBatch struct {
 	fileChecks   []*fileCheck
 	filesToCheck *ipb.FileSet
 	timeout      *timeoutOptions
-	fs           FileSystemReader
+	fs           scanapi.Filesystem
 }
 
 func newContentFileCheckBatch(
@@ -486,7 +479,7 @@ func newContentFileCheckBatch(
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
 	timeout *timeoutOptions,
-	fs FileSystemReader) (*contentFileCheckBatch, error) {
+	fs scanapi.Filesystem) (*contentFileCheckBatch, error) {
 	return &contentFileCheckBatch{
 		ctx:          ctx,
 		fileChecks:   fileChecks,
@@ -616,7 +609,7 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 // openFileForReading opens the specified path and returns a ReadCloser.
 // If the file is a gzip file, the returned ReadCloser reads the unzipped
 // contents of the file.
-func openFileForReading(ctx context.Context, filePath string, fs FileSystemReader) (io.ReadCloser, error) {
+func openFileForReading(ctx context.Context, filePath string, fs scanapi.Filesystem) (io.ReadCloser, error) {
 	reader, err := fs.OpenFile(ctx, filePath)
 	if err != nil {
 		return nil, err
@@ -653,7 +646,7 @@ func (r *gzipReadCloser) Read(p []byte) (n int, err error) {
 	return r.gzipReader.Read(p)
 }
 
-func fileExists(ctx context.Context, path string, fs FileSystemReader) (bool, error) {
+func fileExists(ctx context.Context, path string, fs scanapi.Filesystem) (bool, error) {
 	f, err := fs.OpenFile(ctx, path)
 	switch {
 	case err == nil:

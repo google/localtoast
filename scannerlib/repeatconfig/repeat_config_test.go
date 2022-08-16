@@ -25,6 +25,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/testing/protocmp"
+	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 	"github.com/google/localtoast/scannerlib/repeatconfig"
 )
@@ -42,6 +43,14 @@ func (f *fakeFileReader) OpenFile(ctx context.Context, path string) (io.ReadClos
 		return ioutil.NopCloser(bytes.NewReader([]byte(f.loginDefsContent))), nil
 	}
 	return nil, errors.New("file not found")
+}
+
+func (fakeFileReader) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
+	return nil, errors.New("Not implemented")
+}
+
+func (fakeFileReader) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
+	return nil, errors.New("Not implemented")
 }
 
 func configHasError(config []*repeatconfig.RepeatConfig) bool {

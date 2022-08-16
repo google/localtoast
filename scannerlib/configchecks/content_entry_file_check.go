@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/fileset"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
@@ -37,7 +38,7 @@ type contentEntryFileCheckBatch struct {
 	fileChecks             []*fileCheck
 	filesToCheck           *ipb.FileSet
 	timeout                *timeoutOptions
-	fs                     FileSystemReader
+	fs                     scanapi.Filesystem
 	contentEntryFileChecks []*contentEntryFileCheck
 	delimiter              []byte
 }
@@ -82,7 +83,7 @@ func newContentEntryFileCheckBatch(
 	fileChecks []*fileCheck,
 	filesToCheck *ipb.FileSet,
 	timeout *timeoutOptions,
-	fs FileSystemReader) (*contentEntryFileCheckBatch, error) {
+	fs scanapi.Filesystem) (*contentEntryFileCheckBatch, error) {
 	if len(fileChecks) == 0 {
 		return nil, errors.New("attempted to create content entry check batch without any file checks")
 	}

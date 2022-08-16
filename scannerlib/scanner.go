@@ -19,7 +19,6 @@ package scannerlib
 import (
 	"context"
 	"fmt"
-	"io"
 	"os"
 	"sort"
 	"strconv"
@@ -27,29 +26,19 @@ import (
 	"time"
 
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/configchecks"
 
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
-// ScanAPIProvider is an interface that gives read access to the filesystem of
-// the machine to scan and can execute SQL queries on a single database.
-type ScanAPIProvider interface {
-	// Expected to return an os.IsNotExist error if the file doesn't exist.
-	OpenFile(ctx context.Context, path string) (io.ReadCloser, error)
-	FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error)
-	FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error)
-	// SQLQuery returns the number of result rows.
-	SQLQuery(ctx context.Context, query string) (int, error)
-}
-
 // Scanner is the main entry point of the scanner.
 type Scanner struct{}
 
 // Scan executes the scan for benchmark compliance using the provided scan
 // config and API for accessing the scanned machine.
-func (Scanner) Scan(ctx context.Context, config *apb.ScanConfig, api ScanAPIProvider) (*apb.ScanResults, error) {
+func (Scanner) Scan(ctx context.Context, config *apb.ScanConfig, api scanapi.ScanAPI) (*apb.ScanResults, error) {
 	if err := validateBenchmarkConfigs(config.GetBenchmarkConfigs()); err != nil {
 		return nil, err
 	}

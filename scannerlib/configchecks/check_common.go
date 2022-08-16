@@ -17,11 +17,11 @@ package configchecks
 import (
 	"context"
 	"fmt"
-	"io"
 	"time"
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
@@ -34,15 +34,6 @@ type BenchmarkCheck interface {
 	// BenchmarkIDs returns the IDs of the benchmarks associated with this check.
 	BenchmarkIDs() []string
 	String() string
-}
-
-// scanAPIProvider is an interface that gives read access to the filesystem of
-// the machine to scan and can execute SQL queries on a single database.
-type scanAPIProvider interface {
-	OpenFile(ctx context.Context, path string) (io.ReadCloser, error)
-	FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error)
-	FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error)
-	SQLQuery(ctx context.Context, query string) (int, error)
 }
 
 // ComplianceMap is returned by the checks to aggregate the results of benchmark configchecks.
@@ -107,7 +98,7 @@ func parseCheckAlternatives(config *apb.BenchmarkConfig, prevAlternativeID int) 
 }
 
 // CreateChecksFromConfig parses the scan config and creates the benchmark checks defined by it.
-func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api scanAPIProvider) ([]BenchmarkCheck, error) {
+func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api scanapi.ScanAPI) ([]BenchmarkCheck, error) {
 	prevAlternativeID := 0
 	benchmarks := make([]*benchmark, 0, len(scanConfig.GetBenchmarkConfigs()))
 	for _, b := range scanConfig.GetBenchmarkConfigs() {

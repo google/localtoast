@@ -29,11 +29,11 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/testing/protocmp"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/configchecks"
 	"github.com/google/localtoast/scannerlib/fileset"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
-	"github.com/google/localtoast/scannerlib"
 	"github.com/google/localtoast/scannerlib/testconfigcreator"
 )
 
@@ -298,14 +298,14 @@ func TestCheckCreation(t *testing.T) {
 	}
 }
 
-func createFileCheckBatch(t *testing.T, id string, fileChecks []*ipb.FileCheck, api scannerlib.ScanAPIProvider) configchecks.BenchmarkCheck {
+func createFileCheckBatch(t *testing.T, id string, fileChecks []*ipb.FileCheck, api scanapi.ScanAPI) configchecks.BenchmarkCheck {
 	t.Helper()
 	scanInstruction := testconfigcreator.NewFileScanInstruction(fileChecks)
 	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
 	return createFileCheckBatchFromScanConfig(t, id, &apb.ScanConfig{BenchmarkConfigs: []*apb.BenchmarkConfig{config}}, api)
 }
 
-func createFileCheckBatchFromScanConfig(t *testing.T, id string, scanConfig *apb.ScanConfig, api scannerlib.ScanAPIProvider) configchecks.BenchmarkCheck {
+func createFileCheckBatchFromScanConfig(t *testing.T, id string, scanConfig *apb.ScanConfig, api scanapi.ScanAPI) configchecks.BenchmarkCheck {
 	t.Helper()
 	checks, err := configchecks.CreateChecksFromConfig(context.Background(), scanConfig, api)
 	if err != nil {

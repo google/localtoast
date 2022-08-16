@@ -24,6 +24,7 @@ import (
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	"github.com/google/localtoast/cli"
 	"github.com/google/localtoast/protofilehandler"
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	"github.com/google/localtoast/scannerlib"
 )
@@ -76,7 +77,7 @@ func ParseFlags() *cli.Flags {
 
 // RunScan executes the scan with the given CLI flags and API provider.
 // Returns the exit code that the main binary should exit with.
-func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) int {
+func RunScan(flags *cli.Flags, api scanapi.ScanAPI) int {
 	log.Printf("Reading scan config from %s\n", flags.ConfigFile)
 	config := &apb.ScanConfig{}
 	if err := protofilehandler.ReadProtoFromFile(flags.ConfigFile, config); err != nil {
@@ -86,7 +87,7 @@ func RunScan(flags *cli.Flags, provider scannerlib.ScanAPIProvider) int {
 
 	log.Printf("Running scan of %d benchmarks\n", len(config.GetBenchmarkConfigs()))
 	scanner := scannerlib.Scanner{}
-	result, err := scanner.Scan(context.Background(), config, provider)
+	result, err := scanner.Scan(context.Background(), config, api)
 	if err != nil {
 		log.Fatalf("Error while scanning: %v\n", err)
 	}

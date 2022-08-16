@@ -41,6 +41,10 @@ const (
 
 type fakeDirectoryReader struct{}
 
+func (fakeDirectoryReader) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
+	return nil, errors.New("Not implemented")
+}
+
 func (fakeDirectoryReader) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 	switch path {
 	case procEnvironPath:
@@ -274,6 +278,10 @@ func (infiniteLoopFSReader) OpenFile(ctx context.Context, path string) (io.ReadC
 	return nil, errors.New("Not implemented")
 }
 
+func (infiniteLoopFSReader) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
+	return nil, errors.New("Not implemented")
+}
+
 func (infiniteLoopFSReader) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
 	return []*apb.DirContent{
 		&apb.DirContent{Name: "dir", IsDir: true},
@@ -296,6 +304,10 @@ type fakeProcessPathReader struct {
 	// If true, tests the race condition when the files become unavailable after
 	// they're listed in the /proc directory.
 	removeFilesAfterQuery bool
+}
+
+func (fakeProcessPathReader) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
+	return nil, errors.New("Not implemented")
 }
 
 func (r fakeProcessPathReader) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
