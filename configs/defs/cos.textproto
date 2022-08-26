@@ -2522,6 +2522,19 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
+      "}"
+      # ARM images use fluent-bit instead of fluentd for logging.
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/share/fluent-bit/fluent-bit.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#].*\""
+      "        expected_regex: \"[^#].*\""
+      "      }"
+      "    }"
+      "  }"
       "}}"
   }
 }
