@@ -1,3 +1,9 @@
+1.1.5:
+* Add numerous runtime / memory usage optimizations
+* Fix smaller TODOs
+* Add scan timeout support
+* Display more information about failed recursive checks
+
 1.1.4:
 * Miscellaneous benchmark fixes
 * Remove the Basel-related build files
