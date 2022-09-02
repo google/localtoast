@@ -26,6 +26,7 @@ import (
 	"path"
 	"time"
 
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/configchecks"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
@@ -93,13 +94,13 @@ func (r *fakeAPI) OpenFile(ctx context.Context, filePath string) (io.ReadCloser,
 	}
 }
 
-func (fakeAPI) FilesInDir(ctx context.Context, filePath string) ([]*apb.DirContent, error) {
+func (fakeAPI) OpenDir(ctx context.Context, filePath string) (scanapi.DirReader, error) {
 	switch filePath {
 	case testDirPath:
-		return []*apb.DirContent{
+		return scanapi.SliceToDirReader([]*apb.DirContent{
 			{Name: path.Base(emptyTestFilePath), IsDir: false},
 			{Name: path.Base(testFilePath), IsDir: false},
-		}, nil
+		}), nil
 	case nonExistentFilePath:
 		return nil, os.ErrNotExist
 	default:

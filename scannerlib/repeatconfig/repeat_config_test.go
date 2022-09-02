@@ -25,6 +25,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/testing/protocmp"
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 	"github.com/google/localtoast/scannerlib/repeatconfig"
@@ -49,7 +50,7 @@ func (fakeFileReader) FilePermissions(ctx context.Context, path string) (*apb.Po
 	return nil, errors.New("Not implemented")
 }
 
-func (fakeFileReader) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
+func (fakeFileReader) OpenDir(ctx context.Context, path string) (scanapi.DirReader, error) {
 	return nil, errors.New("Not implemented")
 }
 

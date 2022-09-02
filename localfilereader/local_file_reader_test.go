@@ -27,6 +27,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"google.golang.org/protobuf/testing/protocmp"
 	"github.com/google/localtoast/localfilereader"
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
@@ -83,11 +84,15 @@ func TestOpenPropagatesError(t *testing.T) {
 	}
 }
 
-func TestFilesInDir(t *testing.T) {
+func TestOpenDir(t *testing.T) {
 	testDirPath := createTestFiles(t)
-	files, err := localfilereader.FilesInDir(context.Background(), testDirPath)
+	d, err := localfilereader.OpenDir(context.Background(), testDirPath)
 	if err != nil {
-		t.Fatalf("localfilereader.FilesInDir(%s) had unexpected error: %v", testDirPath, err)
+		t.Fatalf("localfilereader.OpenDir(%s) had unexpected error: %v", testDirPath, err)
+	}
+	files, err := scanapi.DirReaderToSlice(d)
+	if err != nil {
+		t.Fatalf("scanapi.DirReaderToSlice had unexpected error: %v", err)
 	}
 	expected := []*apb.DirContent{
 		&apb.DirContent{Name: fileName, IsDir: false, IsSymlink: false},
@@ -99,16 +104,66 @@ func TestFilesInDir(t *testing.T) {
 		return c1.String() < c2.String()
 	})
 	if diff := cmp.Diff(expected, files, protocmp.Transform(), sortProtosOpt); diff != "" {
-		t.Errorf("localfilereader.FilesInDir(%s) returned unexpected diff (-want +got):\n%s", testDirPath, diff)
+		t.Errorf("localfilereader.OpenDir(%s) returned unexpected diff (-want +got):\n%s", testDirPath, diff)
 	}
 }
 
-func TestFilesInDirPropagatesError(t *testing.T) {
+func TestOpenDirPropagatesError(t *testing.T) {
 	testDirPath := createTestFiles(t)
 	nonExistentDirPath := filepath.Join(testDirPath, "non-existent-dir")
-	_, err := localfilereader.FilesInDir(context.Background(), nonExistentDirPath)
+	d, err := localfilereader.OpenDir(context.Background(), nonExistentDirPath)
 	if err == nil {
-		t.Errorf("localfilereader.FilesInDir(%s) didn't return an error", nonExistentDirPath)
+		d.Close()
+		t.Errorf("localfilereader.OpenDir(%s) err got: %v, want: error", nonExistentDirPath, err)
+	}
+}
+
+func TestOpenDirErrNextAfterRemove(t *testing.T) {
+	testDirPath := createTestFiles(t)
+	dirPath := filepath.Join(testDirPath, dirName)
+	d, err := localfilereader.OpenDir(context.Background(), dirPath)
+	if err != nil {
+		t.Fatalf("localfilereader.OpenDir(%s) had unexpected error: %v", dirPath, err)
+	}
+	defer d.Close()
+	if err = os.Remove(dirPath); err != nil {
+		t.Fatalf("os.Remove(%s) had unexpected error: %v", dirPath, err)
+	}
+
+	if got := d.Next(); !got {
+		t.Fatalf("DirReader.Next() got: %v, want: true", got)
+	}
+	if _, err := d.Entry(); err == nil {
+		t.Errorf("DirReader.Entry() err got: %v, want: error", err)
+	}
+}
+
+func TestOpenDirErrEntryBeforeNext(t *testing.T) {
+	testDirPath := createTestFiles(t)
+	dirPath := filepath.Join(testDirPath, dirName)
+	d, err := localfilereader.OpenDir(context.Background(), dirPath)
+	if err != nil {
+		t.Fatalf("localfilereader.OpenDir(%s) had unexpected error: %v", dirPath, err)
+	}
+	defer d.Close()
+	if _, err := d.Entry(); err == nil {
+		t.Errorf("DirReader.Entry() err got: %v, want: error", err)
+	}
+}
+
+func TestOpenDirErrAfterClose(t *testing.T) {
+	testDirPath := createTestFiles(t)
+	dirPath := filepath.Join(testDirPath, dirName)
+	d, err := localfilereader.OpenDir(context.Background(), dirPath)
+	if err != nil {
+		t.Fatalf("localfilereader.OpenDir(%s) had unexpected error: %v", dirPath, err)
+	}
+	d.Close()
+	if got := d.Next(); !got {
+		t.Fatalf("DirReader.Next() got: %v, want: true", got)
+	}
+	if _, err := d.Entry(); err == nil {
+		t.Errorf("DirReader.Entry() err got: %v, want: error", err)
 	}
 }
 
@@ -157,7 +212,7 @@ func TestFilePermissionsPropagatesError(t *testing.T) {
 	nonExistentFilePath := filepath.Join(testDirPath, "non-existent-file")
 	_, err := localfilereader.FilePermissions(context.Background(), nonExistentFilePath)
 	if err == nil {
-		t.Errorf("localfilereader.FilesInDir(%s) didn't return an error", nonExistentFilePath)
+		t.Errorf("localfilereader.FilePermissions(%s) didn't return an error", nonExistentFilePath)
 	}
 }
 

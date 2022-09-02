@@ -37,10 +37,10 @@ func (w *apiErrorWrapper) OpenFile(ctx context.Context, path string) (io.ReadClo
 	return rc, err
 }
 
-func (w *apiErrorWrapper) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
-	d, err := w.api.FilesInDir(ctx, path)
+func (w *apiErrorWrapper) OpenDir(ctx context.Context, path string) (scanapi.DirReader, error) {
+	d, err := w.api.OpenDir(ctx, path)
 	if err != nil {
-		err = fmt.Errorf("api.FilesInDir(%q): %w", path, err)
+		err = fmt.Errorf("api.OpenDir(%q): %w", path, err)
 	}
 	return d, err
 }

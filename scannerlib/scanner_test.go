@@ -28,6 +28,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 	"github.com/google/localtoast/scannerlib"
@@ -54,7 +55,7 @@ func (fakeAPIProvider) OpenFile(ctx context.Context, path string) (io.ReadCloser
 	}
 	return nil, errors.New("File not found")
 }
-func (fakeAPIProvider) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
+func (fakeAPIProvider) OpenDir(ctx context.Context, path string) (scanapi.DirReader, error) {
 	return nil, errors.New("not implemented")
 }
 func (fakeAPIProvider) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {

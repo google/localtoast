@@ -29,6 +29,7 @@ import (
 	"github.com/google/localtoast/cli"
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/protofilehandler"
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannercommon"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -44,8 +45,8 @@ func (testAPIProvider) OpenFile(ctx context.Context, filePath string) (io.ReadCl
 	return localfilereader.OpenFile(ctx, path.Join(testDirPath, filePath))
 }
 
-func (testAPIProvider) FilesInDir(ctx context.Context, dirPath string) ([]*apb.DirContent, error) {
-	return localfilereader.FilesInDir(ctx, path.Join(testDirPath, dirPath))
+func (testAPIProvider) OpenDir(ctx context.Context, dirPath string) (scanapi.DirReader, error) {
+	return localfilereader.OpenDir(ctx, path.Join(testDirPath, dirPath))
 }
 
 func (testAPIProvider) FilePermissions(ctx context.Context, filePath string) (*apb.PosixPermissions, error) {

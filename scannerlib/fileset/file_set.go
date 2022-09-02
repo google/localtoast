@@ -155,7 +155,7 @@ func walkFilesInDir(opts *walkFilesInDirOptions) error {
 		return fmt.Errorf("exceeded max traversal depth while traversing %s", opts.dirPath)
 	}
 	dirPath := path.Clean(opts.dirPath)
-	dirContents, err := opts.fs.FilesInDir(opts.ctx, dirPath)
+	d, err := opts.fs.OpenDir(opts.ctx, dirPath)
 	if err != nil {
 		// If the directory doesn't exist the checks are marked as non-compliant
 		// instead of failing.
@@ -164,7 +164,12 @@ func walkFilesInDir(opts *walkFilesInDirOptions) error {
 		}
 		return err
 	}
-	for _, c := range dirContents {
+	defer d.Close()
+	for d.Next() {
+		c, err := d.Entry()
+		if err != nil {
+			return err
+		}
 		contentPath := path.Join(dirPath, c.GetName())
 		if pathInOptOutList(contentPath, opts.optOutPathRegexes) {
 			continue
@@ -218,12 +223,17 @@ func pathInOptOutList(dirPath string, optOutPathRegexes []*regexp.Regexp) bool {
 // Please note means that all those folders in /proc/ are traversed every time this function
 // is called. This is fine as long as there are not many checks using the ProcessPath option.
 func walkProcessPaths(ctx context.Context, procName string, fileName string, timeout time.Time, fs scanapi.Filesystem, walkFunc WalkFunc) error {
-	procDir, err := fs.FilesInDir(ctx, "/proc/")
+	d, err := fs.OpenDir(ctx, "/proc/")
 	if err != nil {
 		return fmt.Errorf("unable to enumerate /proc/: %v", err)
 	}
+	defer d.Close()
 
-	for _, f := range procDir {
+	for d.Next() {
+		f, err := d.Entry()
+		if err != nil {
+			return err
+		}
 		if !f.GetIsDir() || !procDirMatcher.MatchString(f.GetName()) {
 			continue
 		}
@@ -273,10 +283,12 @@ func walkVarPaths(ctx context.Context, evp *ipb.FileSet_UnixEnvVarPaths, timeout
 
 	for _, path := range strings.Split(envVar, ":") {
 		isDir := true
-		if _, err := fs.FilesInDir(ctx, path); err != nil {
+		if d, err := fs.OpenDir(ctx, path); err != nil {
 			// If the error happens because of other reasons, the FileChecks
 			// will catch it later.
 			isDir = false
+		} else {
+			d.Close()
 		}
 
 		if isDir && evp.GetFilesOnly() {

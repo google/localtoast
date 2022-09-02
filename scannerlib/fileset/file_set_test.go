@@ -29,6 +29,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/fileset"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -54,7 +55,7 @@ func (fakeDirectoryReader) OpenFile(ctx context.Context, path string) (io.ReadCl
 	}
 }
 
-func (fakeDirectoryReader) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
+func (fakeDirectoryReader) OpenDir(ctx context.Context, path string) (scanapi.DirReader, error) {
 	// Fake dir structure:
 	// root---file1.txt
 	//  \ \ \-file2.gif
@@ -62,16 +63,16 @@ func (fakeDirectoryReader) FilesInDir(ctx context.Context, path string) ([]*apb.
 	//    \---subdir--file3.txt
 	switch path {
 	case "/root":
-		return []*apb.DirContent{
+		return scanapi.SliceToDirReader([]*apb.DirContent{
 			&apb.DirContent{Name: "file1.txt", IsDir: false},
 			&apb.DirContent{Name: "file2.gif", IsDir: false},
 			&apb.DirContent{Name: "symlink", IsDir: false, IsSymlink: true},
 			&apb.DirContent{Name: "subdir", IsDir: true},
-		}, nil
+		}), nil
 	case "/root/subdir":
-		return []*apb.DirContent{
+		return scanapi.SliceToDirReader([]*apb.DirContent{
 			&apb.DirContent{Name: "file3.txt", IsDir: false},
-		}, nil
+		}), nil
 	default:
 		return nil, os.ErrNotExist
 	}
@@ -282,10 +283,10 @@ func (infiniteLoopFSReader) FilePermissions(ctx context.Context, path string) (*
 	return nil, errors.New("Not implemented")
 }
 
-func (infiniteLoopFSReader) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
-	return []*apb.DirContent{
+func (infiniteLoopFSReader) OpenDir(ctx context.Context, path string) (scanapi.DirReader, error) {
+	return scanapi.SliceToDirReader([]*apb.DirContent{
 		&apb.DirContent{Name: "dir", IsDir: true},
-	}, nil
+	}), nil
 }
 
 func TestTraverseFilesystemWithInfiniteLoop(t *testing.T) {
@@ -336,9 +337,9 @@ func (r fakeProcessPathReader) OpenFile(ctx context.Context, path string) (io.Re
 	))), nil
 }
 
-func (r fakeProcessPathReader) FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
+func (r fakeProcessPathReader) OpenDir(ctx context.Context, path string) (scanapi.DirReader, error) {
 	if path != "/proc/" {
-		return []*apb.DirContent{}, nil
+		return scanapi.SliceToDirReader([]*apb.DirContent{}), nil
 	}
 	paths := []*apb.DirContent{
 		&apb.DirContent{
@@ -362,7 +363,7 @@ func (r fakeProcessPathReader) FilesInDir(ctx context.Context, path string) ([]*
 			IsDir: true,
 		})
 	}
-	return paths, nil
+	return scanapi.SliceToDirReader(paths), nil
 }
 
 func TestProcessPath(t *testing.T) {

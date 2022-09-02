@@ -25,6 +25,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 )
 
@@ -91,25 +92,6 @@ func OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 	return file, nil
 }
 
-// FilesInDir lists the contents of the specified directory.
-func FilesInDir(ctx context.Context, path string) ([]*apb.DirContent, error) {
-	files, err := os.ReadDir(path)
-	if err != nil {
-		return nil, err
-	}
-	contents := make([]*apb.DirContent, 0, len(files))
-	for _, f := range files {
-		if f.IsDir() || f.Type().IsRegular() || f.Type()&fs.ModeSymlink == fs.ModeSymlink {
-			contents = append(contents, &apb.DirContent{
-				Name:      f.Name(),
-				IsDir:     f.IsDir(),
-				IsSymlink: f.Type()&fs.ModeSymlink == fs.ModeSymlink,
-			})
-		}
-	}
-	return contents, nil
-}
-
 // FilePermissions returns unix permission-related data for the specified file or directory.
 func FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
 	fi, err := os.Lstat(path)
@@ -159,4 +141,51 @@ func FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, e
 		Gid:           int32(gid),
 		Group:         groupname,
 	}, nil
+}
+
+// OpenDir opens the specified directory to list its content.
+func OpenDir(ctx context.Context, dirPath string) (scanapi.DirReader, error) {
+	f, err := os.Open(dirPath)
+	if err != nil {
+		return nil, err
+	}
+	return &localDirReader{file: f, currErr: scanapi.ErrEntryBeforeNext}, nil
+}
+
+type localDirReader struct {
+	file      *os.File
+	currEntry *apb.DirContent
+	currErr   error
+}
+
+func (d *localDirReader) nextEntry() (*apb.DirContent, error) {
+	// Read the next entry until the EOF is reached, there was an error,
+	// or a valid entry is found (either a dir, a regular file or a symlink).
+	for {
+		entries, err := d.file.ReadDir(1)
+		if err != nil {
+			return nil, err
+		}
+		e := entries[0]
+		if e.IsDir() || e.Type().IsRegular() || e.Type()&fs.ModeSymlink == fs.ModeSymlink {
+			return &apb.DirContent{
+				Name:      e.Name(),
+				IsDir:     e.IsDir(),
+				IsSymlink: e.Type()&fs.ModeSymlink == fs.ModeSymlink,
+			}, nil
+		}
+	}
+}
+
+func (d *localDirReader) Next() bool {
+	d.currEntry, d.currErr = d.nextEntry()
+	return d.currErr != io.EOF
+}
+
+func (d *localDirReader) Entry() (*apb.DirContent, error) {
+	return d.currEntry, d.currErr
+}
+
+func (d *localDirReader) Close() error {
+	return d.file.Close()
 }

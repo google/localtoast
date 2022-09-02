@@ -1289,12 +1289,12 @@ func (r *manyFilesAPI) OpenFile(ctx context.Context, filePath string) (io.ReadCl
 	return nil, errors.New("not implemented")
 }
 
-func (manyFilesAPI) FilesInDir(ctx context.Context, filePath string) ([]*apb.DirContent, error) {
+func (manyFilesAPI) OpenDir(ctx context.Context, filePath string) (scanapi.DirReader, error) {
 	files := make([]*apb.DirContent, 0, 20)
 	for i := 0; i < 20; i++ {
 		files = append(files, &apb.DirContent{Name: fmt.Sprintf("file%d", i), IsDir: false})
 	}
-	return files, nil
+	return scanapi.SliceToDirReader(files), nil
 }
 
 func (manyFilesAPI) FilePermissions(ctx context.Context, filePath string) (*apb.PosixPermissions, error) {
