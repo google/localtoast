@@ -15,9 +15,9 @@
 package configs_test
 
 import (
-	"io/ioutil"
+	"embed"
+	"io/fs"
 	"log"
-	"os"
 	"path"
 	"path/filepath"
 	"strings"
@@ -34,10 +34,11 @@ import (
 	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
-const (
-	configDefPath     = "defs/"
-	reducedConfigPath = "reduced/"
-)
+//go:embed defs/*
+var defEfs embed.FS
+
+//go:embed reduced/*/*
+var configEfs embed.FS
 
 var configFileNames = stringset.New(
 	"vm_image_scanning.textproto", "container_image_scanning.textproto", "instance_scanning.textproto")
@@ -45,28 +46,27 @@ var configFileNames = stringset.New(
 var scanConfigDefs, reducedScanConfigs = readConfigFiles()
 
 func readConfigFiles() (map[string][]byte, map[string][]byte) {
-	return readFilesInDir(configDefPath), readFilesInDir(reducedConfigPath)
+	return readFilesInDir(defEfs), readFilesInDir(configEfs)
 }
 
-func readFilesInDir(dirPath string) map[string][]byte {
+func readFilesInDir(efs embed.FS) map[string][]byte {
 	result := make(map[string][]byte)
-	err := filepath.Walk(dirPath,
-		func(filePath string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			if path.Ext(filePath) != ".textproto" {
-				return nil
-			}
-			content, err := ioutil.ReadFile(filePath)
-			if err != nil {
-				return err
-			}
-			result[filePath] = content
+	err := fs.WalkDir(efs, ".", func(filePath string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if path.Ext(filePath) != ".textproto" {
 			return nil
-		})
+		}
+		content, err := efs.ReadFile(filePath)
+		if err != nil {
+			return err
+		}
+		result[filePath] = content
+		return nil
+	})
 	if err != nil {
-		log.Fatalf("Error reading scan config defs %v\n", err)
+		log.Fatalf("Error reading scan config: %v\n", err)
 	}
 	return result
 }
