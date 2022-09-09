@@ -3,7 +3,7 @@ rm -rf scannerlib/proto/*_go_proto
 
 # Install and prepare Grafeas.
 if [ ! -e scannerlib/proto/v1 ]; then
-  wget https://github.com/grafeas/grafeas/archive/0163b5bb2ff5afbf059ddf472fb4d128faae85e3.tar.gz
+  wget --no-verbose https://github.com/grafeas/grafeas/archive/0163b5bb2ff5afbf059ddf472fb4d128faae85e3.tar.gz
   tar -xf 0163b5bb2ff5afbf059ddf472fb4d128faae85e3.tar.gz
   mv grafeas-0163b5bb2ff5afbf059ddf472fb4d128faae85e3/proto/v1 scannerlib/proto
   rm -r *0163b5bb2ff5afbf059ddf472fb4d128faae85e3*
