@@ -2477,30 +2477,33 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "stackdriver-logging-configured"
+  id: "logging-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure logging is configured"
     description:
-      "The /etc/stackdriver/logging.config.d/*.conf files specifies rules "
+      "For AMD, the /etc/stackdriver/logging.config.d/*.conf files specifies rules "
       "for logging and which files are to be used to log certain classes of "
-      "messages."
+      "messages. ARM uses /usr/share/fluent-bit/fluent-bit.conf for the same"
+      "purpose."
     rationale:
       "A great deal of important security-related information is sent via "
-      "stackdriver-logging (e.g., successful and failed su attempts, failed "
+      "logging (e.g., successful and failed su attempts, failed "
       "login attempts, root login attempts, etc.)."
     remediation:
-      "Review the contents of the /etc/stackdriver/logging.config.d/*.conf "
-      "files to ensure appropriate logging is set. In addition, run the "
-      "following command and verify that the log files are logging "
-      "information:\n"
+      "Review the contents of the /etc/stackdriver/logging.config.d/*.conf for AMD"
+      "and /usr/share/fluent-bit/fluent-bit.conf for ARM to ensure appropriate"
+      "logging is set. In addition, run the following command and verify that"
+      "the log files are logging information:\n"
       "```\n"
       "# ls -l /var/log/\n"
       "```\n"
       "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
       "cannot be used to make these changes persistent across reboots. The "
-      "steps mentioned above needs to be performed after every boot."
+      "steps mentioned above need to be performed after every boot for AMD. This"
+      "is not the case for ARM as the logging agent is in /usr/share/ which"
+      "isn't stateless so changes will be persistent across reboots."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
