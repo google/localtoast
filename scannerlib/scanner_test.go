@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -49,9 +48,9 @@ type fakeAPIProvider struct{}
 
 func (fakeAPIProvider) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 	if path == testFilePath1 {
-		return ioutil.NopCloser(bytes.NewReader([]byte(testFileContent1))), nil
+		return io.NopCloser(bytes.NewReader([]byte(testFileContent1))), nil
 	} else if path == testFilePath2 {
-		return ioutil.NopCloser(bytes.NewReader([]byte(testFileContent2))), nil
+		return io.NopCloser(bytes.NewReader([]byte(testFileContent2))), nil
 	}
 	return nil, errors.New("File not found")
 }

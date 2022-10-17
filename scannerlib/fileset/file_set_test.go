@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"regexp"
 	"sort"
@@ -49,7 +48,7 @@ func (fakeDirectoryReader) FilePermissions(ctx context.Context, path string) (*a
 func (fakeDirectoryReader) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 	switch path {
 	case procEnvironPath:
-		return ioutil.NopCloser(bytes.NewReader([]byte(procEnvironContent))), nil
+		return io.NopCloser(bytes.NewReader([]byte(procEnvironContent))), nil
 	default:
 		return nil, os.ErrNotExist
 	}
@@ -330,7 +329,7 @@ func (r fakeProcessPathReader) OpenFile(ctx context.Context, path string) (io.Re
 	if !ok {
 		return nil, os.ErrNotExist
 	}
-	return ioutil.NopCloser(bytes.NewBufferString(fmt.Sprintf(
+	return io.NopCloser(bytes.NewBufferString(fmt.Sprintf(
 		"%d (%s) I 2 0 0 0 -1 69238880 0 0 0 0 0 0 0 0 0 -20 1 0 250 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 0 0 0 17 3 0 0 0 0 0 0 0 0 0 0 0 0 0",
 		pid,
 		name,

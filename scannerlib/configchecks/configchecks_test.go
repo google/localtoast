@@ -21,7 +21,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"time"
@@ -84,13 +83,13 @@ func (r *fakeAPI) OpenFile(ctx context.Context, filePath string) (io.ReadCloser,
 	}
 	switch filePath {
 	case emptyTestFilePath:
-		return ioutil.NopCloser(bytes.NewReader([]byte{})), nil
+		return io.NopCloser(bytes.NewReader([]byte{})), nil
 	case unreadableFilePath:
 		return nil, errors.New("io error")
 	case nonExistentFilePath:
 		return nil, os.ErrNotExist
 	default:
-		return ioutil.NopCloser(bytes.NewReader([]byte(r.fileContent))), nil
+		return io.NopCloser(bytes.NewReader([]byte(r.fileContent))), nil
 	}
 }
 

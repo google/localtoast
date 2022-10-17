@@ -19,7 +19,6 @@ import (
 	"context"
 	"errors"
 	"io"
-	"io/ioutil"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -38,10 +37,10 @@ type fakeFileReader struct {
 
 func (f *fakeFileReader) OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
 	if path == "/etc/passwd" || path == "/proc/net/tcp" || path == "/proc/net/tcp6" {
-		return ioutil.NopCloser(bytes.NewReader([]byte(f.content))), nil
+		return io.NopCloser(bytes.NewReader([]byte(f.content))), nil
 	}
 	if path == "/etc/login.defs" {
-		return ioutil.NopCloser(bytes.NewReader([]byte(f.loginDefsContent))), nil
+		return io.NopCloser(bytes.NewReader([]byte(f.loginDefsContent))), nil
 	}
 	return nil, errors.New("file not found")
 }
