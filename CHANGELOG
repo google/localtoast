@@ -1,5 +1,6 @@
 1.1.5:
 * Add numerous runtime / memory usage optimizations
+* Fix race condition caused by opening files multiple times
 * Fix smaller TODOs
 * Add scan timeout support
 * Display more information about failed recursive checks
