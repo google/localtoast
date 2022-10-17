@@ -211,7 +211,7 @@ func TestFailingScan(t *testing.T) {
 	expectedFailureReason := fmt.Sprintf(
 		"Compliance state of the following benchmarks couldn't be determined: [id]\n"+
 			"The following errors were encountered while running the checks:\n"+
-			"[content check on single_file:{path:%q}]: api.OpenFile(%q): File not found\n",
+			"[file check on single_file:{path:%q}]: api.OpenFile(%q): File not found\n",
 		nonExistentPath, nonExistentPath)
 
 	if diff := cmp.Diff(expectedFailureReason, result.GetStatus().GetFailureReason(),

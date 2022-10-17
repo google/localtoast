@@ -43,13 +43,26 @@ const MaxNonCompliantFiles = 10
 // combined file checks on a set of files. By batching the checks together, we
 // can avoid opening and reading the files multiple times.
 type FileCheckBatch struct {
-	checker      fileCheckBatchChecker
+	fileChecks   []*fileCheck
+	fileCheckers *fileCheckers
+	ctx          context.Context
+	filesToCheck *ipb.FileSet
+	timeout      *timeoutOptions
+	fs           scanapi.Filesystem
 	benchmarkIDs []string
 }
 
-// Exec executes the file checks defined by the FileCheckBatch.
+// Exec executes the file checks batched by the FileCheckBatch.
 func (b *FileCheckBatch) Exec() (ComplianceMap, error) {
-	return b.checker.exec()
+	err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
+		func(path string, isDir bool) error {
+			return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, b.fs)
+		})
+	if err != nil {
+		return nil, err
+	}
+	b.fileCheckers.execChecksAfterFileTraversal(b.filesToCheck)
+	return aggregateComplianceResults(b.fileChecks)
 }
 
 // BenchmarkIDs returns the IDs of the benchmarks associated with this check.
@@ -58,14 +71,7 @@ func (b *FileCheckBatch) BenchmarkIDs() []string {
 }
 
 func (b *FileCheckBatch) String() string {
-	return b.checker.String()
-}
-
-// fileCheckBatchChecker is an interface used by FileCheckBatch to perform a
-// specific type of batched file checks on a set of files.
-type fileCheckBatchChecker interface {
-	exec() (ComplianceMap, error)
-	String() string
+	return fmt.Sprintf("[file check on %s]", fileset.FileSetToString(b.filesToCheck))
 }
 
 // fileCheck is a single file check in the batch.
@@ -107,9 +113,6 @@ func (fc *fileCheck) redactPath(path string) string {
 // File checks are placed into the same batch if they have these properties in common.
 type fileCheckBatchCommonProps struct {
 	filesToCheck string // The set of files to check.
-	checkType    string // The type of file check to perform.
-	delimiter    string // For ContentEntryChecks, the delimiter of the entries.
-	err          string // Any error that occurred during check creation.
 }
 type fileCheckBatchMap map[fileCheckBatchCommonProps][]*fileCheck
 
@@ -182,23 +185,8 @@ func addFileCheckToBatchMap(ctx context.Context, options addFileCheckToBatchMapO
 			if err != nil {
 				return err
 			}
-			delimiter := ""
-			if fc.GetContentEntry() != nil {
-				delimiter = string(fc.GetContentEntry().GetDelimiter())
-			}
-			checkType, err := checkTypeStr(fc)
-			if err != nil {
-				return err
-			}
-			errStr := ""
-			if repeatConfig.Err != nil {
-				errStr = repeatConfig.Err.Error()
-			}
 			key := fileCheckBatchCommonProps{
 				filesToCheck: string(fileSetAsBytes),
-				checkType:    checkType,
-				delimiter:    delimiter,
-				err:          errStr,
 			}
 			contentOptoutRegexes, err := strToRegex(options.optOut.GetContentOptoutRegexes())
 			if err != nil {
@@ -223,19 +211,94 @@ func addFileCheckToBatchMap(ctx context.Context, options addFileCheckToBatchMapO
 	return nil
 }
 
-func checkTypeStr(fc *ipb.FileCheck) (string, error) {
-	switch {
-	case fc.GetExistence() != nil:
-		return "EXISTENCE", nil
-	case fc.GetPermission() != nil:
-		return "PERMISSION", nil
-	case fc.GetContent() != nil:
-		return "CONTENT", nil
-	case fc.GetContentEntry() != nil:
-		return "CONTENT_ENTRY", nil
-	default:
-		return "", fmt.Errorf("unknown file check type for %v", fc)
+type fileCheckers struct {
+	existenceFileCheckers    []*existenceFileChecker
+	permissionFileCheckers   []*permissionFileChecker
+	contentFileCheckers      []*contentFileChecker
+	contentEntryFileCheckers []*contentEntryFileChecker
+}
+
+func newFileCheckers(fileChecks []*fileCheck) (*fileCheckers, error) {
+	result := &fileCheckers{}
+	for _, fc := range fileChecks {
+		if fc.err != nil { // The check couldn't properly be created because of an error.
+			continue
+		}
+		if fc.checkInstruction.GetExistence() != nil {
+			result.existenceFileCheckers = append(result.existenceFileCheckers, newExistenceFileChecker(fc))
+		} else if fc.checkInstruction.GetPermission() != nil {
+			result.permissionFileCheckers = append(result.permissionFileCheckers, &permissionFileChecker{fc: fc})
+		} else if fc.checkInstruction.GetContent() != nil {
+			result.contentFileCheckers = append(result.contentFileCheckers, &contentFileChecker{fc: fc})
+		} else if fc.checkInstruction.GetContentEntry() != nil {
+			checker, err := newContentEntryFileChecker(fc)
+			if err != nil {
+				return nil, err
+			}
+			result.contentEntryFileCheckers = append(result.contentEntryFileCheckers, checker)
+		} else {
+			return nil, fmt.Errorf("Received FileCheck with unexpected type: %v", fc.checkInstruction)
+		}
 	}
+
+	// Check for invalid configurations.
+	if len(result.contentEntryFileCheckers) > 0 {
+		if len(result.contentFileCheckers) > 0 {
+			return nil, fmt.Errorf("file %v has both content and content entry file checks", fileChecks[0].filesToCheck)
+		}
+		delimiter := result.contentEntryFileCheckers[0].delimiter
+		for _, checker := range result.contentEntryFileCheckers {
+			if string(delimiter) != string(checker.delimiter) {
+				return nil, fmt.Errorf("file %v has content entry checks with different delimiters: %s %v",
+					fileChecks[0].filesToCheck, delimiter, checker.fc.checkInstruction)
+			}
+		}
+	}
+	return result, nil
+}
+
+func (c *fileCheckers) execChecksOnFile(ctx context.Context, path string, isDir bool, fs scanapi.Filesystem) error {
+	f, openError := c.openFileForCheckExec(ctx, path, fs)
+	if f != nil {
+		defer f.Close()
+	}
+
+	for _, checker := range c.existenceFileCheckers {
+		if err := checker.exec(path, openError); err != nil {
+			return err
+		}
+	}
+	for _, checker := range c.permissionFileCheckers {
+		if err := checker.exec(ctx, path, fs, openError); err != nil {
+			return err
+		}
+	}
+	if err := c.execContentChecksOnFile(path, openError, f); err != nil {
+		return err
+	}
+	if err := c.execContentEntryChecksOnFile(path, openError, f); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *fileCheckers) execChecksAfterFileTraversal(filesToCheck *ipb.FileSet) {
+	for _, checker := range c.existenceFileCheckers {
+		checker.execAfterFileTraversal()
+	}
+	c.execContentEntryChecksAfterFileTraversal(filesToCheck)
+}
+
+func (c *fileCheckers) openFileForCheckExec(ctx context.Context, path string, fs scanapi.Filesystem) (io.ReadCloser, error) {
+	if len(c.contentFileCheckers) == 0 && len(c.contentEntryFileCheckers) == 0 {
+		// We won't read the file, we only care about whether it could successfully be opened.
+		f, openError := fs.OpenFile(ctx, path)
+		if f != nil {
+			f.Close()
+		}
+		return nil, openError
+	}
+	return openFileForReading(ctx, path, fs)
 }
 
 func strToRegex(strs []string) ([]*regexp.Regexp, error) {
@@ -250,8 +313,7 @@ func strToRegex(strs []string) ([]*regexp.Regexp, error) {
 	return result, nil
 }
 
-// newFileCheckBatch creates a FileCheckBatch from several fileChecks that
-// perform the same type of checks on the same files.
+// newFileCheckBatch creates a FileCheckBatch from fileChecks that perform checks on the same files.
 func newFileCheckBatch(
 	ctx context.Context, fileChecks []*fileCheck, filesToCheck *ipb.FileSet, timeout *timeoutOptions, fs scanapi.Filesystem) (*FileCheckBatch, error) {
 	// De-duplicate the benchmark IDs.
@@ -264,305 +326,173 @@ func newFileCheckBatch(
 		benchmarkIDs = append(benchmarkIDs, id)
 	}
 
-	// Create the file check implementation corresponding to the message type.
-	var checker fileCheckBatchChecker
-	var err error
-	if len(fileChecks) == 0 {
-		return nil, errors.New("Attempted to create a batch without any file checks")
-	}
-
-	if fileChecks[0].err != nil { // The checks couldn't properly be created because of an error.
-		checker, err = newErroredFileCheckBatch(fileChecks, fileChecks[0].err)
-	} else if fileChecks[0].checkInstruction.GetExistence() != nil {
-		checker, err = newExistenceFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
-	} else if fileChecks[0].checkInstruction.GetPermission() != nil {
-		checker, err = newPermissionFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
-	} else if fileChecks[0].checkInstruction.GetContent() != nil {
-		checker, err = newContentFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
-	} else if fileChecks[0].checkInstruction.GetContentEntry() != nil {
-		checker, err = newContentEntryFileCheckBatch(ctx, fileChecks, filesToCheck, timeout, fs)
-	} else {
-		return nil, fmt.Errorf("Received FileCheck with unexpected type: %v",
-			fileChecks[0].checkInstruction)
-	}
+	fileCheckers, err := newFileCheckers(fileChecks)
 	if err != nil {
 		return nil, err
 	}
 
-	return &FileCheckBatch{checker: checker, benchmarkIDs: benchmarkIDs}, nil
-}
-
-// existenceFileCheckBatch performs a series of checks about whether files exist or not.
-type existenceFileCheckBatch struct {
-	ctx          context.Context
-	fileChecks   []*fileCheck
-	filesToCheck *ipb.FileSet
-	timeout      *timeoutOptions
-	fs           scanapi.Filesystem
-	foundFile    string
-}
-
-func newExistenceFileCheckBatch(
-	ctx context.Context,
-	fileChecks []*fileCheck,
-	filesToCheck *ipb.FileSet,
-	timeout *timeoutOptions,
-	fs scanapi.Filesystem) (*existenceFileCheckBatch, error) {
-	return &existenceFileCheckBatch{
-		ctx:          ctx,
+	return &FileCheckBatch{
 		fileChecks:   fileChecks,
+		fileCheckers: fileCheckers,
+		ctx:          ctx,
 		filesToCheck: filesToCheck,
 		timeout:      timeout,
 		fs:           fs,
-		foundFile:    "",
+		benchmarkIDs: benchmarkIDs,
 	}, nil
 }
 
-func (c *existenceFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
-		func(path string, isDir bool) error {
-			exists, err := fileExists(c.ctx, path, c.fs)
-			if err != nil {
-				return err
-			}
-			if exists {
-				c.foundFile = path
-			}
-			return nil
-		})
-	if err != nil {
-		return nil, err
-	}
+// existenceFileChecker performs checks about whether files exist or not.
+type existenceFileChecker struct {
+	fc        *fileCheck
+	foundFile string
+}
 
-	for _, fc := range c.fileChecks {
-		se := fc.checkInstruction.GetExistence().GetShouldExist()
-		switch {
-		case c.foundFile == "" && se:
-			fc.addNonCompliantFile(fileset.FileSetToString(c.filesToCheck), "File doesn't exist but it should")
-		case c.foundFile != "" && !se:
-			fc.addNonCompliantFile(c.foundFile, "File exists but it shouldn't")
+func newExistenceFileChecker(fc *fileCheck) *existenceFileChecker {
+	return &existenceFileChecker{fc: fc, foundFile: ""}
+}
+
+func (c *existenceFileChecker) exec(path string, openError error) error {
+	exists, err := fileExists(openError)
+	if err != nil {
+		return err
+	}
+	if exists {
+		c.foundFile = path
+	}
+	return nil
+}
+
+func (c *existenceFileChecker) execAfterFileTraversal() {
+	se := c.fc.checkInstruction.GetExistence().GetShouldExist()
+	switch {
+	case c.foundFile == "" && se:
+		c.fc.addNonCompliantFile(fileset.FileSetToString(c.fc.filesToCheck), "File doesn't exist but it should")
+	case c.foundFile != "" && !se:
+		c.fc.addNonCompliantFile(c.foundFile, "File exists but it shouldn't")
+	}
+}
+
+// permissionFileChecker performs a checks on the permissions of files.
+type permissionFileChecker struct {
+	fc *fileCheck
+}
+
+func (c *permissionFileChecker) exec(ctx context.Context, path string, fs scanapi.Filesystem, openError error) error {
+	perms, err := fs.FilePermissions(ctx, path)
+	if err != nil {
+		// Return a non-compliance instead of an error if if the file doesn't exist.
+		if exists, err := fileExists(openError); err == nil && !exists {
+			c.fc.addNonCompliantFile(path, "File doesn't exist")
+			return nil
+		}
+		return err
+	}
+	pc := c.fc.checkInstruction.GetPermission()
+	wantSetBits := pc.GetSetBits() > 0
+	wantClearBits := pc.GetClearBits() > 0
+	if wantSetBits || wantClearBits {
+		correctBitsSet := perms.GetPermissionNum()&pc.GetSetBits() == pc.GetSetBits()
+		correctBitsClear := (^perms.GetPermissionNum())&pc.GetClearBits() == pc.GetClearBits()
+		var matches bool
+		if wantSetBits && wantClearBits {
+			switch pc.GetBitsShouldMatch() {
+			case ipb.PermissionCheck_BOTH_SET_AND_CLEAR:
+				matches = correctBitsSet && correctBitsClear
+			case ipb.PermissionCheck_EITHER_SET_OR_CLEAR:
+				matches = correctBitsSet || correctBitsClear
+			default:
+				return fmt.Errorf("invalid BitMatchCriterion enum value: %v", pc.GetBitsShouldMatch())
+			}
+		} else if wantSetBits {
+			matches = correctBitsSet
+		} else { // wantClearBits
+			matches = correctBitsClear
+		}
+		if !matches {
+			reason := fmt.Sprintf("File permission is %04o, expected ", perms.GetPermissionNum())
+			if wantSetBits {
+				reason += fmt.Sprintf("the following bits to be set: %04o", pc.GetSetBits())
+			}
+			if wantSetBits && wantClearBits {
+				if pc.GetBitsShouldMatch() == ipb.PermissionCheck_BOTH_SET_AND_CLEAR {
+					reason += " and "
+				} else { // EITHER_SET_OR_CLEAR
+					reason += " or "
+				}
+			}
+			if wantClearBits {
+				reason += fmt.Sprintf("the following bits to be clear: %04o", pc.GetClearBits())
+			}
+			c.fc.addNonCompliantFile(path, reason)
 		}
 	}
 
-	return aggregateComplianceResults(c.fileChecks)
-}
-
-func (c *existenceFileCheckBatch) String() string {
-	return fmt.Sprintf("[existence check on %s]", fileset.FileSetToString(c.filesToCheck))
-}
-
-// permissionFileCheckBatch performs a series of checks about the permissions of files.
-type permissionFileCheckBatch struct {
-	ctx          context.Context
-	fileChecks   []*fileCheck
-	filesToCheck *ipb.FileSet
-	timeout      *timeoutOptions
-	fs           scanapi.Filesystem
-}
-
-func newPermissionFileCheckBatch(
-	ctx context.Context,
-	fileChecks []*fileCheck,
-	filesToCheck *ipb.FileSet,
-	timeout *timeoutOptions,
-	fs scanapi.Filesystem) (*permissionFileCheckBatch, error) {
-	return &permissionFileCheckBatch{
-		ctx:          ctx,
-		fileChecks:   fileChecks,
-		filesToCheck: filesToCheck,
-		timeout:      timeout,
-		fs:           fs,
-	}, nil
-}
-
-func (c *permissionFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
-		func(path string, isDir bool) error {
-			perms, err := c.fs.FilePermissions(c.ctx, path)
-			if err != nil {
-				// Return a non-compliance instead of an error if if the file doesn't exist.
-				if exists, err := fileExists(c.ctx, path, c.fs); err == nil && !exists {
-					for _, fc := range c.fileChecks {
-						fc.addNonCompliantFile(path, "File doesn't exist")
-					}
-					return nil
-				}
-				return err
-			}
-			for _, fc := range c.fileChecks {
-				pc := fc.checkInstruction.GetPermission()
-				wantSetBits := pc.GetSetBits() > 0
-				wantClearBits := pc.GetClearBits() > 0
-				if wantSetBits || wantClearBits {
-					correctBitsSet := perms.GetPermissionNum()&pc.GetSetBits() == pc.GetSetBits()
-					correctBitsClear := (^perms.GetPermissionNum())&pc.GetClearBits() == pc.GetClearBits()
-					var matches bool
-					if wantSetBits && wantClearBits {
-						switch pc.GetBitsShouldMatch() {
-						case ipb.PermissionCheck_BOTH_SET_AND_CLEAR:
-							matches = correctBitsSet && correctBitsClear
-						case ipb.PermissionCheck_EITHER_SET_OR_CLEAR:
-							matches = correctBitsSet || correctBitsClear
-						default:
-							return fmt.Errorf("invalid BitMatchCriterion enum value: %v", pc.GetBitsShouldMatch())
-						}
-					} else if wantSetBits {
-						matches = correctBitsSet
-					} else { // wantClearBits
-						matches = correctBitsClear
-					}
-					if !matches {
-						reason := fmt.Sprintf("File permission is %04o, expected ", perms.GetPermissionNum())
-						if wantSetBits {
-							reason += fmt.Sprintf("the following bits to be set: %04o", pc.GetSetBits())
-						}
-						if wantSetBits && wantClearBits {
-							if pc.GetBitsShouldMatch() == ipb.PermissionCheck_BOTH_SET_AND_CLEAR {
-								reason += " and "
-							} else { // EITHER_SET_OR_CLEAR
-								reason += " or "
-							}
-						}
-						if wantClearBits {
-							reason += fmt.Sprintf("the following bits to be clear: %04o", pc.GetClearBits())
-						}
-						fc.addNonCompliantFile(path, reason)
-					}
-				}
-
-				if pc.GetUser() != nil {
-					if pc.GetUser().GetShouldOwn() && perms.GetUser() != pc.GetUser().GetName() {
-						fc.addNonCompliantFile(
-							path, fmt.Sprintf("Owner is %s, expected it to be %s",
-								perms.GetUser(), pc.GetUser().GetName()))
-					} else if !pc.GetUser().GetShouldOwn() && perms.GetUser() == pc.GetUser().GetName() {
-						fc.addNonCompliantFile(
-							path, fmt.Sprintf("Owner is %s, expected it to be a different user", perms.GetUser()))
-					}
-				}
-
-				if pc.GetGroup() != nil {
-					if pc.GetGroup().GetShouldOwn() && perms.GetGroup() != pc.GetGroup().GetName() {
-						fc.addNonCompliantFile(
-							path, fmt.Sprintf("Group is %s, expected it to be %s",
-								perms.GetGroup(), pc.GetGroup().GetName()))
-					} else if !pc.GetGroup().GetShouldOwn() && perms.GetGroup() == pc.GetGroup().GetName() {
-						fc.addNonCompliantFile(
-							path, fmt.Sprintf("Group is %s, expected it to be a different group", perms.GetGroup()))
-					}
-				}
-			}
-			return nil
-		})
-	if err != nil {
-		return nil, err
-	}
-
-	return aggregateComplianceResults(c.fileChecks)
-}
-
-func (c *permissionFileCheckBatch) String() string {
-	return fmt.Sprintf("[permission check on %s]", fileset.FileSetToString(c.filesToCheck))
-}
-
-// contentFileCheckBatch performs a series of checks about the full content of files.
-type contentFileCheckBatch struct {
-	ctx          context.Context
-	fileChecks   []*fileCheck
-	filesToCheck *ipb.FileSet
-	timeout      *timeoutOptions
-	fs           scanapi.Filesystem
-}
-
-func newContentFileCheckBatch(
-	ctx context.Context,
-	fileChecks []*fileCheck,
-	filesToCheck *ipb.FileSet,
-	timeout *timeoutOptions,
-	fs scanapi.Filesystem) (*contentFileCheckBatch, error) {
-	return &contentFileCheckBatch{
-		ctx:          ctx,
-		fileChecks:   fileChecks,
-		filesToCheck: filesToCheck,
-		timeout:      timeout,
-		fs:           fs,
-	}, nil
-}
-
-func (c *contentFileCheckBatch) exec() (ComplianceMap, error) {
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
-		func(path string, isDir bool) error {
-			exists, err := fileExists(c.ctx, path, c.fs)
-			if err != nil {
-				return err
-			}
-			if !exists {
-				for _, fc := range c.fileChecks {
-					fc.addNonCompliantFile(path, "File doesn't exist")
-				}
-				return nil
-			}
-
-			f, err := openFileForReading(c.ctx, path, c.fs)
-			if err != nil {
-				return err
-			}
-			var content []byte
-			content, err = ioutil.ReadAll(f)
-			if err != nil {
-				return err
-			}
-			defer f.Close()
-
-			for _, fc := range c.fileChecks {
-				expectedContent := fc.checkInstruction.GetContent().GetContent()
-				if string(content) != expectedContent {
-					fc.addNonCompliantFile(path, fmt.Sprintf("Got content %q, expected %q",
-						fc.redactContent(string(content), path), expectedContent))
-				}
-			}
-			return nil
-		})
-	if err != nil {
-		return nil, err
-	}
-
-	return aggregateComplianceResults(c.fileChecks)
-}
-
-func (c *contentFileCheckBatch) String() string {
-	return fmt.Sprintf("[content check on %s]", fileset.FileSetToString(c.filesToCheck))
-}
-
-// erroredFileCheckBatch always returns non-compliant results with the specified error message.
-type erroredFileCheckBatch struct {
-	fileChecks   []*fileCheck
-	filesToCheck *ipb.FileSet
-	err          error
-}
-
-func newErroredFileCheckBatch(fileChecks []*fileCheck, err error) (*erroredFileCheckBatch, error) {
-	return &erroredFileCheckBatch{
-		fileChecks: fileChecks,
-		err:        err,
-	}, nil
-}
-
-func (e *erroredFileCheckBatch) exec() (ComplianceMap, error) {
-	result := make(ComplianceMap)
-	for _, fc := range e.fileChecks {
-		result[fc.alternativeID] = &apb.ComplianceResult{
-			Id: fc.benchmarkID,
-			ComplianceOccurrence: &cpb.ComplianceOccurrence{
-				NonComplianceReason: e.err.Error(),
-			},
+	if pc.GetUser() != nil {
+		if pc.GetUser().GetShouldOwn() && perms.GetUser() != pc.GetUser().GetName() {
+			c.fc.addNonCompliantFile(
+				path, fmt.Sprintf("Owner is %s, expected it to be %s",
+					perms.GetUser(), pc.GetUser().GetName()))
+		} else if !pc.GetUser().GetShouldOwn() && perms.GetUser() == pc.GetUser().GetName() {
+			c.fc.addNonCompliantFile(
+				path, fmt.Sprintf("Owner is %s, expected it to be a different user", perms.GetUser()))
 		}
 	}
-	return result, nil
+
+	if pc.GetGroup() != nil {
+		if pc.GetGroup().GetShouldOwn() && perms.GetGroup() != pc.GetGroup().GetName() {
+			c.fc.addNonCompliantFile(
+				path, fmt.Sprintf("Group is %s, expected it to be %s",
+					perms.GetGroup(), pc.GetGroup().GetName()))
+		} else if !pc.GetGroup().GetShouldOwn() && perms.GetGroup() == pc.GetGroup().GetName() {
+			c.fc.addNonCompliantFile(
+				path, fmt.Sprintf("Group is %s, expected it to be a different group", perms.GetGroup()))
+		}
+	}
+
+	return nil
 }
 
-func (erroredFileCheckBatch) String() string {
-	return fmt.Sprintf("[errored check]")
+// contentFileChecker performs checks on the full content of files.
+type contentFileChecker struct {
+	fc *fileCheck
+}
+
+func (c *fileCheckers) execContentChecksOnFile(path string, openError error, f io.ReadCloser) error {
+	if len(c.contentFileCheckers) == 0 {
+		return nil
+	}
+	exists, err := fileExists(openError)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		for _, checker := range c.contentFileCheckers {
+			checker.fc.addNonCompliantFile(path, "File doesn't exist")
+		}
+		return nil
+	}
+
+	content, err := ioutil.ReadAll(f)
+	if err != nil {
+		return err
+	}
+
+	for _, checker := range c.contentFileCheckers {
+		if err := checker.exec(path, content); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (c *contentFileChecker) exec(path string, content []byte) error {
+	expectedContent := c.fc.checkInstruction.GetContent().GetContent()
+	if string(content) != expectedContent {
+		c.fc.addNonCompliantFile(path, fmt.Sprintf("Got content %q, expected %q",
+			c.fc.redactContent(string(content), path), expectedContent))
+	}
+	return nil
 }
 
 // aggregateComplianceResults merges the non-compliant files of the
@@ -593,12 +523,18 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 		if prev, ok := result[fc.alternativeID]; ok {
 			prev.GetComplianceOccurrence().NonCompliantFiles =
 				append(prev.GetComplianceOccurrence().NonCompliantFiles, nonCompliantFiles...)
+			if fc.err != nil {
+				prev.GetComplianceOccurrence().NonComplianceReason = fc.err.Error()
+			}
 		} else {
 			result[fc.alternativeID] = &apb.ComplianceResult{
 				Id: fc.benchmarkID,
 				ComplianceOccurrence: &cpb.ComplianceOccurrence{
 					NonCompliantFiles: nonCompliantFiles,
 				},
+			}
+			if fc.err != nil {
+				result[fc.alternativeID].GetComplianceOccurrence().NonComplianceReason = fc.err.Error()
 			}
 		}
 	}
@@ -646,11 +582,9 @@ func (r *gzipReadCloser) Read(p []byte) (n int, err error) {
 	return r.gzipReader.Read(p)
 }
 
-func fileExists(ctx context.Context, path string, fs scanapi.Filesystem) (bool, error) {
-	f, err := fs.OpenFile(ctx, path)
+func fileExists(err error) (bool, error) {
 	switch {
 	case err == nil:
-		f.Close()
 		return true, nil
 	case errors.Is(err, os.ErrNotExist):
 		return false, nil

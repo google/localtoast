@@ -17,12 +17,10 @@ package configchecks
 import (
 	"bufio"
 	"bytes"
-	"context"
-	"errors"
 	"fmt"
+	"io"
 	"regexp"
 
-	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/fileset"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
@@ -31,20 +29,10 @@ var (
 	regexCache = make(map[string]*regexp.Regexp)
 )
 
-// contentEntryFileCheckBatch performs a series of checks about whether files have specific
-// entries in their content.
-type contentEntryFileCheckBatch struct {
-	ctx                    context.Context
-	fileChecks             []*fileCheck
-	filesToCheck           *ipb.FileSet
-	timeout                *timeoutOptions
-	fs                     scanapi.Filesystem
-	contentEntryFileChecks []*contentEntryFileCheck
-	delimiter              []byte
-}
-
-type contentEntryFileCheck struct {
-	fileCheck     *fileCheck
+// contentEntryFileChecker performs checks about whether files have specific entries in their content.
+type contentEntryFileChecker struct {
+	fc            *fileCheck
+	delimiter     []byte
 	matchCriteria []*matchCriterion
 }
 
@@ -78,148 +66,119 @@ func clearRegexCache() {
 	regexCache = make(map[string]*regexp.Regexp)
 }
 
-func newContentEntryFileCheckBatch(
-	ctx context.Context,
-	fileChecks []*fileCheck,
-	filesToCheck *ipb.FileSet,
-	timeout *timeoutOptions,
-	fs scanapi.Filesystem) (*contentEntryFileCheckBatch, error) {
-	if len(fileChecks) == 0 {
-		return nil, errors.New("attempted to create content entry check batch without any file checks")
-	}
-	delimiter := fileChecks[0].checkInstruction.GetContentEntry().GetDelimiter()
+func newContentEntryFileChecker(fc *fileCheck) (*contentEntryFileChecker, error) {
+	delimiter := fc.checkInstruction.GetContentEntry().GetDelimiter()
 	if len(delimiter) == 0 {
 		// Split by lines if nothing else is specified.
 		delimiter = []byte{'\n'}
 	}
 
-	contentEntryFileChecks := make([]*contentEntryFileCheck, 0, len(fileChecks))
-	for _, fc := range fileChecks {
-		matchCriteriaProtos := fc.checkInstruction.GetContentEntry().GetMatchCriteria()
-		matchCriteria := make([]*matchCriterion, 0, len(matchCriteriaProtos))
-		for _, mc := range matchCriteriaProtos {
-			mode := "(?s)" // '.' matches '\n' too
-			filterRegex := mode + "^" + mc.GetFilterRegex() + "$"
-			expectedRegex := mode + "^" + mc.GetExpectedRegex() + "$"
-			// Check regexes for errors.
-			if _, err := regexp.Compile(filterRegex); err != nil {
-				return nil, err
-			}
-			compiledExpectedRegex, err := regexp.Compile(expectedRegex)
-			if err != nil {
-				return nil, err
-			}
-			groupCriteria, err := newGroupCriteria(
-				expectedRegex,
-				compiledExpectedRegex.NumSubexp(),
-				mc.GetGroupCriteria(),
-				fc.checkInstruction.GetContentEntry().GetMatchType(),
-			)
-			if err != nil {
-				return nil, err
-			}
-			matchCriteria = append(matchCriteria, &matchCriterion{
-				matchType:     fc.checkInstruction.GetContentEntry().GetMatchType(),
-				filterRegex:   filterRegex,
-				expectedRegex: expectedRegex,
-				groupCriteria: groupCriteria,
-				matched:       false,
-			})
+	matchCriteriaProtos := fc.checkInstruction.GetContentEntry().GetMatchCriteria()
+	matchCriteria := make([]*matchCriterion, 0, len(matchCriteriaProtos))
+	for _, mc := range matchCriteriaProtos {
+		mode := "(?s)" // '.' matches '\n' too
+		filterRegex := mode + "^" + mc.GetFilterRegex() + "$"
+		expectedRegex := mode + "^" + mc.GetExpectedRegex() + "$"
+		// Check regexes for errors.
+		if _, err := regexp.Compile(filterRegex); err != nil {
+			return nil, err
 		}
-		contentEntryFileChecks = append(contentEntryFileChecks, &contentEntryFileCheck{
-			fileCheck:     fc,
-			matchCriteria: matchCriteria,
+		compiledExpectedRegex, err := regexp.Compile(expectedRegex)
+		if err != nil {
+			return nil, err
+		}
+		groupCriteria, err := newGroupCriteria(
+			expectedRegex,
+			compiledExpectedRegex.NumSubexp(),
+			mc.GetGroupCriteria(),
+			fc.checkInstruction.GetContentEntry().GetMatchType(),
+		)
+		if err != nil {
+			return nil, err
+		}
+		matchCriteria = append(matchCriteria, &matchCriterion{
+			matchType:     fc.checkInstruction.GetContentEntry().GetMatchType(),
+			filterRegex:   filterRegex,
+			expectedRegex: expectedRegex,
+			groupCriteria: groupCriteria,
+			matched:       false,
 		})
 	}
-
-	return &contentEntryFileCheckBatch{
-		ctx:                    ctx,
-		fileChecks:             fileChecks,
-		filesToCheck:           filesToCheck,
-		timeout:                timeout,
-		fs:                     fs,
-		contentEntryFileChecks: contentEntryFileChecks,
-		delimiter:              delimiter,
+	return &contentEntryFileChecker{
+		fc:            fc,
+		delimiter:     delimiter,
+		matchCriteria: matchCriteria,
 	}, nil
 }
 
-func (c *contentEntryFileCheckBatch) exec() (ComplianceMap, error) {
-	// Clear the regex cache after execution to keep the memory usage low.
-	// The next check will likely use different regexes anyway.
-	defer clearRegexCache()
-	err := fileset.WalkFiles(c.ctx, c.filesToCheck, c.fs, c.timeout.benchmarkCheckTimeoutNow(),
-		func(path string, isDir bool) error {
-			if isDir {
-				return nil
-			}
-
-			exists, err := fileExists(c.ctx, path, c.fs)
-			if err != nil {
-				return err
-			}
-			if !exists {
-				for _, fc := range c.fileChecks {
-					if fc.checkInstruction.GetContentEntry().GetMatchType() != ipb.ContentEntryCheck_NONE_MATCH {
-						fc.addNonCompliantFile(path, "File doesn't exist")
-					}
-				}
-				return nil
-			}
-
-			f, err := openFileForReading(c.ctx, path, c.fs)
-			if err != nil {
-				return err
-			}
-			defer f.Close()
-
-			scanner := bufio.NewScanner(f)
-			// Define a split function that splits the entries based on the delimiter char.
-			scanner.Split(func(data []byte, atEOF bool) (advance int, token []byte, err error) {
-				if atEOF && len(data) == 0 {
-					return 0, nil, nil
-				}
-				if i := bytes.Index(data, c.delimiter); i >= 0 {
-					return i + len(c.delimiter), data[0:i], nil
-				}
-				if atEOF {
-					return len(data), data, nil
-				}
-				return 0, nil, nil
-			})
-
-			for scanner.Scan() {
-				if scanner.Err() != nil {
-					return scanner.Err()
-				}
-				entry := scanner.Text()
-				for _, fc := range c.contentEntryFileChecks {
-					if err := matchEntryAgainstCriteria(entry, path, fc); err != nil {
-						return err
-					}
-				}
-			}
-			return nil
-		})
-	if err != nil {
-		return nil, err
+func (c *fileCheckers) execContentEntryChecksOnFile(path string, openError error, f io.ReadCloser) error {
+	if len(c.contentEntryFileCheckers) == 0 {
+		return nil
 	}
 
-	// Check for any remaining unmatched criteria
-	for _, fc := range c.contentEntryFileChecks {
-		for _, mc := range fc.matchCriteria {
+	exists, err := fileExists(openError)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		for _, checker := range c.contentEntryFileCheckers {
+			if checker.fc.checkInstruction.GetContentEntry().GetMatchType() != ipb.ContentEntryCheck_NONE_MATCH {
+				checker.fc.addNonCompliantFile(path, "File doesn't exist")
+			}
+		}
+		return nil
+	}
+
+	scanner := bufio.NewScanner(f)
+	// Define a split function that splits the entries based on the delimiter char.
+	delimiter := c.contentEntryFileCheckers[0].delimiter
+	scanner.Split(func(data []byte, atEOF bool) (advance int, token []byte, err error) {
+		if atEOF && len(data) == 0 {
+			return 0, nil, nil
+		}
+		if i := bytes.Index(data, delimiter); i >= 0 {
+			return i + len(delimiter), data[0:i], nil
+		}
+		if atEOF {
+			return len(data), data, nil
+		}
+		return 0, nil, nil
+	})
+
+	// Run all checks on each entry.
+	for scanner.Scan() {
+		if scanner.Err() != nil {
+			return scanner.Err()
+		}
+		entry := scanner.Text()
+		for _, checker := range c.contentEntryFileCheckers {
+			if err := matchEntryAgainstCriteria(entry, path, checker.fc, checker.matchCriteria); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (c *fileCheckers) execContentEntryChecksAfterFileTraversal(filesToCheck *ipb.FileSet) {
+	// Check for any remaining unmatched criteria.
+	for _, checker := range c.contentEntryFileCheckers {
+		for _, mc := range checker.matchCriteria {
 			if !mc.matched && mc.matchType != ipb.ContentEntryCheck_NONE_MATCH {
-				fc.fileCheck.addNonCompliantFile(
-					fileset.FileSetToString(c.filesToCheck),
+				checker.fc.addNonCompliantFile(
+					fileset.FileSetToString(filesToCheck),
 					fmt.Sprintf("No entry matching %q found among files", mc.filterRegex))
 			}
 		}
 	}
+	// Clear the regex cache after execution to keep the memory usage low.
+	// The next check will likely use different regexes anyway.
+	defer clearRegexCache()
 
-	return aggregateComplianceResults(c.fileChecks)
 }
 
-func matchEntryAgainstCriteria(entry string, filePath string, check *contentEntryFileCheck) error {
-	for i, mc := range check.matchCriteria {
+func matchEntryAgainstCriteria(entry string, filePath string, fc *fileCheck, matchCriteria []*matchCriterion) error {
+	for i, mc := range matchCriteria {
 		if !compiledRegex(mc.filterRegex).MatchString(entry) {
 			continue
 		}
@@ -228,18 +187,16 @@ func matchEntryAgainstCriteria(entry string, filePath string, check *contentEntr
 		satisfiesCriterion := compiledRegex(mc.expectedRegex).MatchString(entry) && mc.groupCriteria.check(entry)
 
 		if !satisfiesCriterion && mc.matchType != ipb.ContentEntryCheck_NONE_MATCH {
-			check.fileCheck.addNonCompliantFile(filePath,
-				fmt.Sprintf("File contains entry %q, expected %q", check.fileCheck.redactContent(entry, filePath), mc))
+			fc.addNonCompliantFile(filePath, fmt.Sprintf("File contains entry %q, expected %q", fc.redactContent(entry, filePath), mc))
 		}
 		if satisfiesCriterion {
 			switch mc.matchType {
 			case ipb.ContentEntryCheck_NONE_MATCH:
-				check.fileCheck.addNonCompliantFile(filePath,
-					fmt.Sprintf("File contains entry %q, didn't expect any entries matching %q", check.fileCheck.redactContent(entry, filePath), mc))
+				fc.addNonCompliantFile(filePath, fmt.Sprintf("File contains entry %q, didn't expect any entries matching %q", fc.redactContent(entry, filePath), mc))
 			case ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER:
 				// Match was expected
 			case ipb.ContentEntryCheck_ALL_MATCH_STRICT_ORDER:
-				verifyCriterionMatchInStrictOrder(entry, filePath, check, i)
+				verifyCriterionMatchInStrictOrder(entry, filePath, fc, matchCriteria, i)
 			default:
 				return fmt.Errorf("unexpected match type %s", mc.matchType)
 			}
@@ -248,31 +205,23 @@ func matchEntryAgainstCriteria(entry string, filePath string, check *contentEntr
 	return nil
 }
 
-func verifyCriterionMatchInStrictOrder(entry string, filePath string, check *contentEntryFileCheck, criterionPos int) {
-	if len(check.fileCheck.nonCompliantFiles) > 0 {
+func verifyCriterionMatchInStrictOrder(entry string, filePath string, fc *fileCheck, matchCriteria []*matchCriterion, criterionPos int) {
+	if len(fc.nonCompliantFiles) > 0 {
 		// Avoid duplicate non-compliance messages about out-of-order matches.
 		return
 	}
-	mc := check.matchCriteria[criterionPos]
+	mc := matchCriteria[criterionPos]
 	var prev, next *matchCriterion
 	if criterionPos > 0 {
-		prev = check.matchCriteria[criterionPos-1]
+		prev = matchCriteria[criterionPos-1]
 	}
-	if criterionPos < len(check.matchCriteria)-1 {
-		next = check.matchCriteria[criterionPos+1]
+	if criterionPos < len(matchCriteria)-1 {
+		next = matchCriteria[criterionPos+1]
 	}
 
 	if prev != nil && !prev.matched {
-		check.fileCheck.addNonCompliantFile(filePath,
-			fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q before %q was matched",
-				check.fileCheck.redactContent(entry, filePath), mc, prev))
+		fc.addNonCompliantFile(filePath, fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q before %q was matched", fc.redactContent(entry, filePath), mc, prev))
 	} else if next != nil && next.matched {
-		check.fileCheck.addNonCompliantFile(filePath,
-			fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q after %q was matched",
-				check.fileCheck.redactContent(entry, filePath), mc, next))
+		fc.addNonCompliantFile(filePath, fmt.Sprintf("Criteria expected to match in order but file entry %q, matched %q after %q was matched", fc.redactContent(entry, filePath), mc, next))
 	}
-}
-
-func (c *contentEntryFileCheckBatch) String() string {
-	return fmt.Sprintf("[content entry check on %s]", fileset.FileSetToString(c.filesToCheck))
 }

@@ -37,35 +37,63 @@ import (
 	"github.com/google/localtoast/scannerlib/testconfigcreator"
 )
 
-func TestChecksOfSameTypeOnSameFileGroupedTogether(t *testing.T) {
-	scanInstruction := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{
-		&ipb.FileCheck{
-			FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
-			CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+func TestChecksOnSameFileGroupedTogether(t *testing.T) {
+	testCases := []struct {
+		desc       string
+		fileCheck1 *ipb.FileCheck
+		fileCheck2 *ipb.FileCheck
+	}{
+		{
+			desc: "Same check types",
+			fileCheck1: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+			},
+			fileCheck2: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+			},
 		},
-	})
-	config1 := testconfigcreator.NewBenchmarkConfig(t, "id1", scanInstruction)
-	config2 := testconfigcreator.NewBenchmarkConfig(t, "id2", scanInstruction)
-
-	checks, err := configchecks.CreateChecksFromConfig(
-		context.Background(),
-		&apb.ScanConfig{
-			BenchmarkConfigs: []*apb.BenchmarkConfig{config1, config2},
+		{
+			desc: "Different check types",
+			fileCheck1: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+			},
+			fileCheck2: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
+			},
 		},
-		&fakeAPI{fileContent: testFileContent},
-	)
-	if err != nil {
-		t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) returned an error: %v", config1, config2, err)
-	}
-	if len(checks) != 1 {
-		t.Fatalf("Expected 1 check to be created, got %d", len(checks))
 	}
 
-	expectedIDs := []string{"id1", "id2"}
-	actualIDs := checks[0].BenchmarkIDs()
-	sort.Strings(actualIDs)
-	if diff := cmp.Diff(expectedIDs, actualIDs); diff != "" {
-		t.Errorf("%v.BenchmarkIDs() returned unexpected diff (-want +got):\n%s", checks[0], diff)
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			scanInstruction1 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{tc.fileCheck1})
+			scanInstruction2 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{tc.fileCheck2})
+			config1 := testconfigcreator.NewBenchmarkConfig(t, "id1", scanInstruction1)
+			config2 := testconfigcreator.NewBenchmarkConfig(t, "id2", scanInstruction2)
+			checks, err := configchecks.CreateChecksFromConfig(
+				context.Background(),
+				&apb.ScanConfig{
+					BenchmarkConfigs: []*apb.BenchmarkConfig{config1, config2},
+				},
+				&fakeAPI{fileContent: testFileContent},
+			)
+			if err != nil {
+				t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) returned an error: %v", config1, config2, err)
+			}
+			if len(checks) != 1 {
+				t.Fatalf("Expected 1 check to be created, got %d", len(checks))
+			}
+
+			expectedIDs := []string{"id1", "id2"}
+			actualIDs := checks[0].BenchmarkIDs()
+			sort.Strings(actualIDs)
+			if diff := cmp.Diff(expectedIDs, actualIDs); diff != "" {
+				t.Errorf("%v.BenchmarkIDs() returned unexpected diff (-want +got):\n%s", checks[0], diff)
+			}
+		})
 	}
 }
 
@@ -101,36 +129,43 @@ func TestSameChecksOnDifferentAlternativesGroupedTogether(t *testing.T) {
 	}
 }
 
-func TestDifferentChecksGroupedSeparately(t *testing.T) {
+func TestChecksOnDifferentFilesGroupedSeparately(t *testing.T) {
+	fileCheck1 := &ipb.FileCheck{
+		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path1")},
+		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+	}
+	fileCheck2 := &ipb.FileCheck{
+		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path2")},
+		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+	}
+
+	scanInstruction1 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{fileCheck1})
+	scanInstruction2 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{fileCheck2})
+	config1 := testconfigcreator.NewBenchmarkConfig(t, "id1", scanInstruction1)
+	config2 := testconfigcreator.NewBenchmarkConfig(t, "id2", scanInstruction2)
+
+	checks, err := configchecks.CreateChecksFromConfig(
+		context.Background(),
+		&apb.ScanConfig{
+			BenchmarkConfigs: []*apb.BenchmarkConfig{config1, config2},
+		},
+		newFakeAPI())
+	if err != nil {
+		t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) returned an error: %v", config1, config2, err)
+	}
+	if len(checks) != 2 {
+		t.Errorf("configchecks.CreateChecksFromConfig([%v %v]) expected to create 2 checks,got %d", config1, config2, len(checks))
+	}
+}
+
+func TestInvalidCheckCombination(t *testing.T) {
 	testCases := []struct {
 		desc       string
 		fileCheck1 *ipb.FileCheck
 		fileCheck2 *ipb.FileCheck
 	}{
 		{
-			desc: "Same check types, different files to check",
-			fileCheck1: &ipb.FileCheck{
-				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path1")},
-				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
-			},
-			fileCheck2: &ipb.FileCheck{
-				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path2")},
-				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
-			},
-		},
-		{
-			desc: "Same files to check, different check types",
-			fileCheck1: &ipb.FileCheck{
-				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
-				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
-			},
-			fileCheck2: &ipb.FileCheck{
-				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
-				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
-			},
-		},
-		{
-			desc: "different delimiters",
+			desc: "Different delimiters",
 			fileCheck1: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
 				CheckType: &ipb.FileCheck_ContentEntry{ContentEntry: &ipb.ContentEntryCheck{
@@ -144,6 +179,19 @@ func TestDifferentChecksGroupedSeparately(t *testing.T) {
 				}},
 			},
 		},
+		{
+			desc: "Both content and content entry checks present",
+			fileCheck1: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "content"}},
+			},
+			fileCheck2: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("/path")},
+				CheckType: &ipb.FileCheck_ContentEntry{ContentEntry: &ipb.ContentEntryCheck{
+					Delimiter: []byte{'\n'},
+				}},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
@@ -152,18 +200,15 @@ func TestDifferentChecksGroupedSeparately(t *testing.T) {
 			scanInstruction2 := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{tc.fileCheck2})
 			config1 := testconfigcreator.NewBenchmarkConfig(t, "id1", scanInstruction1)
 			config2 := testconfigcreator.NewBenchmarkConfig(t, "id2", scanInstruction2)
-
-			checks, err := configchecks.CreateChecksFromConfig(
+			_, err := configchecks.CreateChecksFromConfig(
 				context.Background(),
 				&apb.ScanConfig{
 					BenchmarkConfigs: []*apb.BenchmarkConfig{config1, config2},
 				},
-				newFakeAPI())
-			if err != nil {
-				t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) returned an error: %v", config1, config2, err)
-			}
-			if len(checks) != 2 {
-				t.Errorf("configchecks.CreateChecksFromConfig([%v %v]) expected to create 2 checks,got %d", config1, config2, len(checks))
+				&fakeAPI{fileContent: testFileContent},
+			)
+			if err == nil {
+				t.Fatalf("configchecks.CreateChecksFromConfig([%v %v]) didn't return an error", config1, config2)
 			}
 		})
 	}
