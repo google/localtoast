@@ -85,11 +85,7 @@ func newCachedIDLookup(lookupFunc func(int) (string, error)) cachedIDLookup {
 
 // OpenFile opens the specified file for reading.
 func OpenFile(ctx context.Context, path string) (io.ReadCloser, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	return file, nil
+	return os.Open(path)
 }
 
 // FilePermissions returns unix permission-related data for the specified file or directory.
