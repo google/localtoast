@@ -8411,7 +8411,7 @@ benchmark_configs: {
       "Run the following command to set permissions on /etc/passwd-:\n"
       "```\n"
       "# chown root:root /etc/passwd-\n"
-      "# chmod u-x,go-rwx /etc/passwd-\n"
+      "# chmod u-x,go-wx /etc/passwd-\n"
       "```\n"
     cis_benchmark: {
       profile_level: 1
@@ -8428,7 +8428,7 @@ benchmark_configs: {
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/passwd-\"}}"
       "    permission:{"
-      "      clear_bits: 0177"
+      "      clear_bits: 0133"
       "      user: {name: \"root\" should_own: true}"
       "      group: {name: \"root\" should_own: true}"
       "    }"
