@@ -7,8 +7,9 @@ The scanner can either be used as a standalone binary to scan the local machine 
 
 ### As a standalone binary:
 
-1. `make`
-2. `sudo ./localtoast --config=configs/example.textproto --result=scan-result.textproto`
+1. Install the [build deps](#build-dependencies)
+2. `make`
+3. `sudo ./localtoast --config=configs/example.textproto --result=scan-result.textproto`
 
 
 #### Build and use OS-specific configs:
@@ -32,6 +33,12 @@ To add your own checks to a scan config,
   * [Example](https://github.com/google/localtoast/commit/9c39a52cef30f7ad773b74a38ac9ffa7c4998ca3#diff-094e7befebe2acf9321eb3406fbb81af2880344086fe40dc97c3d4d915fe0e6e)
 3. Re-build the config file with `make configs`
 4. Use the re-generated config file in your scans, e.g. `sudo ./localtoast --config=configs/full/cos_97/instance_scanning.textproto --result=scan-result.textproto`
+
+## Build dependencies
+To build Localtoast, you'll need to have the following installed:
+* `go`: Follow https://go.dev/doc/install
+* `protoc`: Install the appropriate package, e.g. `apt install protobuf-compiler`
+* `protoc-gen-go`: Run `go install google.golang.org/protobuf/cmd/protoc-gen-go`
 
 ## Contributing
 Read how to [contribute to Localtoast](CONTRIBUTING.md).
