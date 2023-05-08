@@ -84,3 +84,102 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "cassandra-authentication"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Ensure that authentication is enabled for Cassandra databases"
+    description:
+      "Authentication is pluggable in Cassandra and is configured using the authenticator setting "
+      "in cassandra.yaml. Cassandra ships with two options included in the default distribution, "
+      "AllowAllAuthenticator and PasswordAuthenticator. The default, "
+      "AllowAllAuthenticator, performs no authentication checks and therefore requires no "
+      "credentials. It is used to disable authentication completely. The second option, "
+      "PasswordAuthenticator, stores encrypted credentials in a system table. This can be used "
+      "to enable simple username/password authentication. "
+    rationale:
+      "Authentication is a necessary condition of Cassandra’s permissions subsystem, so if "
+      "authentication is disabled then so are permissions. Failure to authenticate clients, users, "
+      "and/or servers can allow unauthorized access to the Cassandra database and can prevent "
+      "tracing actions back to their sources. The authentication mechanism should be "
+      "implemented before anyone accesses the Cassandra server. "
+    remediation:
+      "To enable the authentication mechanism: "
+      "1. Stop the Cassandra database. "
+      "2. Modify cassandra.yaml file to modify/add entry for authenticator: set it to "
+      "PasswordAuthenticator "
+      "3. Start the Cassandra database. "
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+    "check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"authenticator: .*\""
+    "        expected_regex: \"authenticator: AllowAllAuthenticator\""
+    "      }"
+    "    }"
+    "    non_compliance_msg: \"Cassandra is configured without password authentication\""
+    "  }"
+    "}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-authorization"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Ensure that authorization is enabled for Cassandra databases"
+    description:
+      "Authorization is pluggable in Cassandra and is configured using the authorizer setting in "
+      "cassandra.yaml. Cassandra ships with two options included in the default distribution, "
+      "AllowAllAuthenticator and CassandraAuthorizer. The default, AllowAllAuthenticator "
+      "performs no checking which grants all permissions to all roles. The second option, "
+      "CassandraAuthorizer, implements full permissions management functionality and stores "
+      "its data in Cassandra system tables."
+    rationale:
+      "Authorizing roles is an important step towards ensuring only authorized access to the "
+      "Cassandra database tables is permitted. It also provides the requisite means of "
+      "implementing least privilege best practices. The authorization mechanism should be "
+      "implemented before anyone accesses the Cassandra database."
+    remediation:
+      "To enable the authorization mechanism: "
+      "1. Stop the Cassandra database. "
+      "2. Modify cassandra.yaml file to modify/add entry for authorization: set it to CassandraAuthorizer "
+      "3. Start the Cassandra database."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+    "check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"authorizer: .*\""
+    "        expected_regex: \"authorizer: AllowAllAuthorizer\""
+    "      }"
+    "    }"
+    "    non_compliance_msg: \"Cassandra is configured without proper authorization\""
+    "  }"
+    "}"
+  }
+}
