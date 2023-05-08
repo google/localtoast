@@ -222,3 +222,57 @@ benchmark_configs: {
     "}"
   }
 }
+
+benchmark_configs: {
+  id: "cassandra-logginglevel"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Ensure that Cassandra only listens for network connections on authorized interfaces"
+    description:
+      "Apache Cassandra uses Logback for logging functionality. While this can be set using "
+      "nodetool setlogginglevel changes made using this method will be reverted to the level "
+      "specified in the logback.xml file the next time the process restarts."
+    rationale:
+      "If logging is not enabled, issues may go undiscovered, and compromises and other "
+      "incidents may occur without being quickly detected. It may also not be possible to provide "
+      "evidence of compliance with security laws, regulations, and other requirements."
+    remediation:
+      "Enable the Cassandra Logging setting it's logging level to INFO."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+    "check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra logback.xml configuration file does not exist\""
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \".*?<level>.*?</level>.*?\""
+    "        expected_regex: \".*?<level>OFF</level>.*?\""
+    "      }"
+    "    }"
+    "    non_compliance_msg: \"Cassandra has logging disabled\""
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \".*?level=\\\".*?\\\".*?\""
+    "        expected_regex: \".*?level=\\\"OFF\\\".*?\""
+    "      }"
+    "    }"
+    "    non_compliance_msg: \"Cassandra has logging disabled\""
+    "  }"
+    "}"
+  }
+}
