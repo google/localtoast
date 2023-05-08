@@ -1,0 +1,46 @@
+benchmark_configs: {
+  id: "cassandra-usergroup"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Ensure a separate user and group exist for Cassandra"
+    description:
+      "Checks whether the Cassandra User and Group exists on the linux system"
+    rationale:
+      "All processes need to run as a user with least privilege. "
+      "This mitigates the potential impact of malware to the system."
+    remediation:
+      "Create a group for cassandra (if it does not already exist): "
+      "```sudo groupadd cassandra```"
+      "Create a user which is only used for running Cassandra and its related processes. "
+      "```sudo useradd -m -d /home/cassandra -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra```"
+      "Replacing <USERID_NUMBER> with a number not already used on the server."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"(^|\\n)cassandra:.*\""
+      "        expected_regex: \"(^|\\n)cassandra:.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/group\"}}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"(^|\\n)cassandra:.*\""
+      "        expected_regex: \"(^|\\n)cassandra:.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
