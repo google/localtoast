@@ -276,3 +276,46 @@ benchmark_configs: {
     "}"
   }
 }
+
+benchmark_configs: {
+  id: "cassandra-networkinterfaces"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Ensure that Cassandra only listens for network connections on authorized interfaces"
+    description:
+      "When listen_address is blank and listen_interface is commented out, this will be set "
+      "automatically by InetAddress.getLocalHost(). Presuming the node is configured "
+      "correctly, e.g. hostname, name resolution, etc., this will configure the node to use the "
+      "address associated with the hostname. The listen_address must not be set to 0.0.0.0."
+    rationale:
+      "Setting the address or interface to bind to will tell other Cassandra nodes to which address "
+      "or interface to connect. This must be changed from the default in order for multiple nodes "
+      "to be able to communicate."
+    remediation:
+      "Set the listen_address or listen_interface, not both, in the cassandra.yaml to an"
+      "authorized address or interface."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+    "check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"listen_address:.*\""
+    "        expected_regex: \"listen_address:[\\\\s]*0\\\\.0\\\\.0\\\\.0\""
+    "      }"
+    "    }"
+    "    non_compliance_msg: \"Cassandra is configured to listen on all interfaces (0.0.0.0)\""
+    "  }"
+    "}"
+  }
+}
