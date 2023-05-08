@@ -319,3 +319,44 @@ benchmark_configs: {
     "}"
   }
 }
+
+# The following rule require the implementation of the ProcessPath cli_arg_regex argument
+benchmark_configs: {
+  id: "cassandra-runasroot"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Ensure the Cassandra service is run as a non-root user"
+    description:
+      "Though Cassandra database may be run as root, it should run as another non-root user"
+    rationale:
+      "One of the best ways to reduce your exposure to attack is to create a unique, unprivileged "
+      "user and group for the server application. A best practice is to follow is ensuring processes "
+      "run with a user with least privilege."
+    remediation:
+      "Create a group for cassandra (if it does not already exist): "
+      "```sudo groupadd cassandra```"
+      "Create a user which is only used for running Cassandra and its related processes. "
+      "```sudo useradd -m -d <DIRECTORY_WHERE_CASSANDRA_INSTALLED> -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra```"
+      "Replacing <DIRECTORY_WHERE_CASSANDRA_INSTALLED> with the full path of where Cassandra binaries are installed. "
+      "Replacing <USERID_NUMBER> with a number not already used on the server. "
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "        process_path:{"
+      "          proc_name:\"java\""
+      "          file_name:\"cmdline\""
+      "          cli_arg_regex:\".*org\\\\.apache\\\\.cassandra\\\\.service\\\\.CassandraDaemon.*\""
+      "        }"
+      "      }"
+      "      permission:{"
+      "        user: {name: \"root\" should_own: false}"
+      "      }"
+      "    }"
+      "}"
+  }
+}
