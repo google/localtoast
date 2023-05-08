@@ -183,3 +183,42 @@ benchmark_configs: {
     "}"
   }
 }
+
+benchmark_configs: {
+  id: "cassandra-internodeencryption"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    title: "Inter-node Encryption"
+    description:
+      "Cassandra offers the option to encrypt data in transit between nodes on the cluster. By "
+      "default, inter-node encryption is turned off. "
+    rationale:
+      "Data being transferred on the wire should be encrypted to avoid network snooping, whether legitimate or not."
+    remediation:
+      "The inter-node encryption should be implemented before anyone accesses the Cassandra server."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+    "check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"\\\\s*internode_encryption:.*\""
+    "        expected_regex: \"\\\\s*internode_encryption:\\\\s*none\""
+    "      }"
+    "    }"
+    "    non_compliance_msg: \"Cassandra does not encrypt internode communication\""
+    "  }"
+    "}"
+  }
+}
