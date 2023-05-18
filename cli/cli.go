@@ -27,6 +27,7 @@ type Flags struct {
 	ResultFile              string
 	ChrootPath              string
 	Database                string
+	Cassandra               string
 	BenchmarkOptOutIDs      string
 	ContentOptOutRegexes    string
 	FilenameOptOutRegexes   string

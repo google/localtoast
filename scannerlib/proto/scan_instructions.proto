@@ -256,6 +256,8 @@ message SQLCheck {
   enum SQLDatabase {
     DB_UNSPECIFIED = 0;
     DB_MYSQL = 1;
+    DB_CASSANDRA = 2;
+    DB_ELASTICSEARCH = 3;
   }
 
   SQLDatabase target_database = 1;

@@ -1,0 +1,29 @@
+benchmark_configs: {
+    id: "cassandra-default-superuser"
+    compliance_note: {
+        version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+      title: "Ensure the cassandra and superuser roles are separate"
+      description:
+        "The default installation of cassandra includes a superuser role named cassandra. This "
+        "necessitates the creation of a separate role to be the superuser role."
+      rationale:
+        "Superuser permissions allow for the creation, deletion, and permission management of "
+        "other users. Considering the Cassandra role is well known it should not be a superuser or "
+        "one which is used for any administrative tasks."
+      remediation:
+        "Create a new super user and remove the super-user role to cassandra"
+      cis_benchmark: {
+        profile_level: 1
+        severity: HIGH
+      }
+      scan_instructions:
+        "check_alternatives:{"
+        "  sql_checks:{"
+        "    target_database: DB_CASSANDRA"
+        "    query: \"SELECT role FROM system_auth.roles WHERE is_superuser = True AND role = 'cassandra' ALLOW FILTERING;\""
+        "    expect_results: false"
+        "  }"
+        "}"
+    }
+  }
+  

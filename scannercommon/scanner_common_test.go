@@ -57,6 +57,10 @@ func (testAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) 
 	return 0, errors.New("not implemented")
 }
 
+func (testAPIProvider) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	return ipb.SQLCheck_DB_UNSPECIFIED, errors.New("not implemented")
+}
+
 func TestRunScan(t *testing.T) {
 	testDirPath = t.TempDir()
 	configPath := filepath.Join(testDirPath, "config.textproto")

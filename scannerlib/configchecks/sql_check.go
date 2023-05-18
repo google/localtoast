@@ -25,9 +25,9 @@ import (
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
-// MySQLCheck is an an implementation of scanner.Check that executes
-// SQL queries on a MySQL/MariaDB database.
-type MySQLCheck struct {
+// SQLCheck is an an implementation of scanner.
+// It runs queries on the database specified by the check.
+type SQLCheck struct {
 	ctx              context.Context
 	benchmarkID      string
 	alternativeID    int
@@ -36,7 +36,7 @@ type MySQLCheck struct {
 }
 
 // Exec executes the SQL checks and returns the compliance status.
-func (c *MySQLCheck) Exec() (ComplianceMap, error) {
+func (c *SQLCheck) Exec() (ComplianceMap, error) {
 	query := c.checkInstruction.GetQuery()
 	rows, err := c.querier.SQLQuery(c.ctx, query)
 	if err != nil {
@@ -61,27 +61,31 @@ func (c *MySQLCheck) Exec() (ComplianceMap, error) {
 }
 
 // BenchmarkIDs returns the IDs of the benchmarks associated with this check.
-func (c *MySQLCheck) BenchmarkIDs() []string {
-	// We don't do batching for MySQL checks, so we will always have exactly one ID.
+func (c *SQLCheck) BenchmarkIDs() []string {
+	// We don't do batching for SQL checks, so we will always have exactly one ID.
 	return []string{c.benchmarkID}
 }
 
-func (c *MySQLCheck) String() string {
-	return fmt.Sprintf("[MySQL check with id %q]", c.benchmarkID)
+func (c *SQLCheck) String() string {
+	return fmt.Sprintf("[SQL check with id %q]", c.benchmarkID)
 }
 
 // createSQLChecksFromConfig parses the benchmark config and creates the executable
 // SQL checks that it defines.
-func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, timeout *timeoutOptions, sq scanapi.SQLQuerier) ([]*MySQLCheck, error) {
+func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, timeout *timeoutOptions, sq scanapi.SQLQuerier) ([]*SQLCheck, error) {
 	// TODO(b/235991635): Use timeout.
-	checks := []*MySQLCheck{}
+	checks := []*SQLCheck{}
 	for _, b := range benchmarks {
 		for _, alt := range b.alts {
 			for _, sqlCheckInstruction := range alt.proto.GetSqlChecks() {
-				if sqlCheckInstruction.GetTargetDatabase() != ipb.SQLCheck_DB_MYSQL {
-					return nil, errors.New("only MySQL/MariaDB database checks are supported")
+				dbtype, err := sq.SupportedDatabase()
+				if err != nil {
+					return nil, err
 				}
-				checks = append(checks, &MySQLCheck{
+				if dbtype != sqlCheckInstruction.GetTargetDatabase() {
+					return nil, errors.New("sql check does not match the connected database type")
+				}
+				checks = append(checks, &SQLCheck{
 					ctx:              ctx,
 					benchmarkID:      b.id,
 					alternativeID:    alt.id,

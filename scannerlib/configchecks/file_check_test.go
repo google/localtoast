@@ -1350,6 +1350,10 @@ func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (int, error) {
 	return 0, errors.New("not implemented")
 }
 
+func (manyFilesAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	return 0, errors.New("not implemented")
+}
+
 func TestLongCheckResultsPruned(t *testing.T) {
 	// Set up a check that returns many non-compliant files.
 	fileCheck := &ipb.FileCheck{

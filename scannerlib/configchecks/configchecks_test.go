@@ -28,6 +28,7 @@ import (
 	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/configchecks"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 const (
@@ -133,6 +134,10 @@ func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, error) {
 	default:
 		return 0, fmt.Errorf("the query %q is not supported by fakeAPI", query)
 	}
+}
+
+func (fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	return ipb.SQLCheck_DB_MYSQL, nil
 }
 
 func singleComplianceResult(m configchecks.ComplianceMap) (result *apb.ComplianceResult, gotSingleton bool) {
