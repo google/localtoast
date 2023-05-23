@@ -7,7 +7,7 @@
 benchmark_configs: {
   id: "cassandra-auditing"
   compliance_note: {
-    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
     title: "Ensure that auditing is enabled"
     description:
       "Audit logging in Cassandra logs every incoming CQL command request, Authentication "
@@ -17,10 +17,17 @@ benchmark_configs: {
     rationale:
       "Unauthorized attempts to create, drop or alter users or data should be a concern."
     remediation:
-      "Enable the Cassandra Auditing feature. Note that on the Open Source version this feature is available only starting from version 4."
+      "Enable the Cassandra Auditing feature. Note that on the Open Source version this feature is available only starting from version 4.\n"
+      "Open the dse.yaml file in a text editor\n"
+      "In the audit_logging_options section, set enabled to true.\n"
+      "```# Audit logging options\n"
+      "audit_logging_options:\n"
+      "enabled: true```\n"
+      "You must also define where you want logging to go, add either of the following lines:\n"
+      "Set the logger option to either CassandraAuditWriter, which logs to a table, or SLF4JAuditWriter, which logs to the SLF4J logger."
     cis_benchmark: {
       profile_level: 1
-      severity: HIGH
+      severity: LOW
     }
     scan_instructions:
     "check_alternatives:{"
@@ -40,7 +47,6 @@ benchmark_configs: {
     "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
     "      }"
     "    }"
-    "    non_compliance_msg: \"Cassandra has auditing disabled\""
     "  }"
     "}"
   }
@@ -49,7 +55,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cassandra-clientencryption"
   compliance_note: {
-    version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
     title: "Client Encryption"
     description:
       "Cassandra offers the option to encrypt data in transit between the client and nodes on the "
@@ -58,10 +64,18 @@ benchmark_configs: {
       "Data in transit between the client and node on the cluster should be encrypted to avoid "
       "network snooping, whether legitimate or not. "
     remediation:
-      "The client encryption should be implemented before anyone accesses the Cassandra server."
+      "The client encryption should be implemented before anyone accesses the Cassandra server.\n"
+      "To enable the client encryption mechanism:\n"
+      "1. Stop the Cassandra database.\n"
+      "2. If not done so already, build out your keystore and truststore.\n"
+      "3. Modify cassandra.yaml file to modify/add entries under `client_encryption_options`:\n"
+      "```set enabled: true\n"
+      "set optional: false```\n"
+      "This will force all connections to be encrypted between client and node on the cluster.\n"
+      "4. Start the Cassandra database."
     cis_benchmark: {
       profile_level: 1
-      severity: HIGH
+      severity: LOW
     }
     scan_instructions:
     "check_alternatives:{"
@@ -81,7 +95,6 @@ benchmark_configs: {
       "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*client_encryption_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
       "      }"
       "    }"
-      "    non_compliance_msg: \"Cassandra does not encrypt communication between clients and nodes\""
       "  }"
       "}"
   }
