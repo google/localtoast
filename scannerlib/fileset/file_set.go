@@ -262,7 +262,7 @@ func walkProcessPaths(ctx context.Context, procName string, fileName string, cli
 			// Compile regex
 			compiledCliArgRegex, err := regexp.Compile("^" + cliArgRegex + "$");
 			if err != nil {
-				return fmt.Errorf("unable to compile cli arg regex \"%s\":\n%v", cliArgRegex, err)
+				return fmt.Errorf("unable to compile cli arg regex %q:\n%v", cliArgRegex, err)
 			}
 
 			// Open cmdline file and get content
