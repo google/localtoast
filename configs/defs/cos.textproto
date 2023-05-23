@@ -3072,7 +3072,7 @@ benchmark_configs: {
     remediation: "Correct or justify any items discovered by the CIS document's Audit step."
     cis_benchmark: {
       profile_level: 2
-      severity: HIGH
+      severity: LOW
     }
     scan_instructions:
       "generic:{check_alternatives:{"

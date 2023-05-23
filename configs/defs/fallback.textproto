@@ -1248,7 +1248,7 @@ benchmark_configs: {
       "re-running the file display command.\n"
     cis_benchmark: {
       profile_level: 1
-      severity: HIGH
+      severity: LOW
     }
     scan_instructions:
       "scan_type_specific:{instance_scanning:{"
@@ -9285,7 +9285,7 @@ benchmark_configs: {
     remediation: "Correct or justify any items discovered by the CIS document's Audit step."
     cis_benchmark: {
       profile_level: 1
-      severity: HIGH
+      severity: LOW
     }
     scan_instructions:
       #Check the env vars of the scanner process's user. This assumes that the
