@@ -25,7 +25,7 @@ import (
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
-// SQLCheck is an an implementation of scanner.
+// SQLCheck is an implementation of configchecks.BenchmarkCheck
 // It runs queries on the database specified by the check.
 type SQLCheck struct {
 	ctx              context.Context

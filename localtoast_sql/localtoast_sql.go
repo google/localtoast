@@ -71,7 +71,7 @@ func (a *localScanAPIProvider) FilePermissions(ctx context.Context, filePath str
 
 func (a *localScanAPIProvider) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	if a.dbtype == ipb.SQLCheck_DB_UNSPECIFIED {
-		return a.dbtype, errors.New("no database specified.")
+		return a.dbtype, errors.New("no database specified")
 	}
 	return a.dbtype, nil
 }
@@ -87,7 +87,7 @@ func (a *localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int,
 	if dbtype == ipb.SQLCheck_DB_CASSANDRA {
 		return cqlquerier.Query(ctx, a.cqldb, query)
 	}
-	return 0, errors.New("no database specified. Please provide one using --database or --cassandra flag")
+	return 0, errors.New("no database specified. Please provide one using --mysql-database or --cassandra-database flags")
 }
 
 func main() {
@@ -99,17 +99,17 @@ func main() {
 
 	dbtype := ipb.SQLCheck_DB_UNSPECIFIED
 
-	if flags.Database != "" {
+	if flags.MySQLDatabase != "" {
 		// We assume that the database is MySQL-compatible.
-		sqldb, err = sql.Open("mysql", flags.Database)
+		sqldb, err = sql.Open("mysql", flags.MySQLDatabase)
 		if err != nil {
 			log.Fatalf("Error connecting to the database: %v\n", err)
 		}
 		defer sqldb.Close()
 
 		dbtype = ipb.SQLCheck_DB_MYSQL
-	} else if flags.Cassandra != "" {
-		cluster := gocql.NewCluster(flags.Cassandra)
+	} else if flags.CassandraDatabase != "" {
+		cluster := gocql.NewCluster(flags.CassandraDatabase)
 
 		// connect to the cluster
 		cqldb, err = cluster.CreateSession()

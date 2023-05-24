@@ -36,8 +36,8 @@ func ParseFlags() *cli.Flags {
 	chrootPath := flag.String("chroot", "",
 		"A path that will be prefixed to the paths of the files to be checked. "+
 			"To be used when scanning a container/VM whose filesystem mounted to a disk")
-	database := flag.String("database", "", "The ODBC data source name of the SQL database connection")
-	cassandra := flag.String("cassandra", "", "The Cassandra database connection string")
+	MySQLDatabase := flag.String("mysql-database", "", "The ODBC data source name of the MySQL database connection")
+	CassandraDatabase := flag.String("cassandra-database", "", "The Cassandra database connection string")
 	benchmarkOptOutIDs := flag.String("benchmark-opt-out-ids", "",
 		"A comma-separated list of benchmark IDs to exclude from scanning")
 	contentOptOutRegexes := flag.String("content-opt-out-regexes", "",
@@ -60,8 +60,8 @@ func ParseFlags() *cli.Flags {
 		ConfigFile:              *configFile,
 		ResultFile:              *resultFile,
 		ChrootPath:              *chrootPath,
-		Database:                *database,
-		Cassandra:               *cassandra,
+		MySQLDatabase:           *MySQLDatabase,
+		CassandraDatabase:       *CassandraDatabase,
 		BenchmarkOptOutIDs:      *benchmarkOptOutIDs,
 		ContentOptOutRegexes:    *contentOptOutRegexes,
 		FilenameOptOutRegexes:   *filenameOptOutRegexes,

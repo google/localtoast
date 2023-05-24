@@ -1,7 +1,7 @@
 benchmark_configs: {
     id: "cassandra-default-superuser"
     compliance_note: {
-        version: { version: "1.0.0" benchmark_document: "CIS Apache Cassandra" }
+        version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
       title: "Ensure the cassandra and superuser roles are separate"
       description:
         "The default installation of cassandra includes a superuser role named cassandra. This "
@@ -14,7 +14,7 @@ benchmark_configs: {
         "Create a new super user and remove the super-user role to cassandra"
       cis_benchmark: {
         profile_level: 1
-        severity: HIGH
+        severity: LOW
       }
       scan_instructions:
         "check_alternatives:{"
