@@ -38,6 +38,8 @@ func ParseFlags() *cli.Flags {
 			"To be used when scanning a container/VM whose filesystem mounted to a disk")
 	mySQLDatabase := flag.String("mysql-database", "", "The ODBC data source name of the MySQL database connection")
 	cassandraDatabase := flag.String("cassandra-database", "", "The Cassandra database connection string")
+	elasticSearchDatabase := flag.String("elasticsearch-database", "", "The ElasticSearch database connection string")
+	elasticSearchSkipVerify := flag.Bool("elasticsearch-skip-verify", false, "Whether to skip TLS verification on ElasticSearch connection.")
 	benchmarkOptOutIDs := flag.String("benchmark-opt-out-ids", "",
 		"A comma-separated list of benchmark IDs to exclude from scanning")
 	contentOptOutRegexes := flag.String("content-opt-out-regexes", "",
@@ -62,6 +64,8 @@ func ParseFlags() *cli.Flags {
 		ChrootPath:              *chrootPath,
 		MySQLDatabase:           *mySQLDatabase,
 		CassandraDatabase:       *cassandraDatabase,
+		ElasticSearchDatabase:   *elasticSearchDatabase,
+		ElasticSearchSkipVerify: *elasticSearchSkipVerify,
 		BenchmarkOptOutIDs:      *benchmarkOptOutIDs,
 		ContentOptOutRegexes:    *contentOptOutRegexes,
 		FilenameOptOutRegexes:   *filenameOptOutRegexes,

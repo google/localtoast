@@ -49,6 +49,8 @@ type Filesystem interface {
 type SQLQuerier interface {
 	// SQLQuery executes SQL queries to a target SQL database and returns the number of result rows.
 	SQLQuery(ctx context.Context, query string) (int, error)
+	// SQLQueryWithResponse execute Query and returns the Response as string
+	SQLQueryWithResponse(ctx context.Context, query string) (string, error)
 	// Returns the supported database type
 	SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error)
 }

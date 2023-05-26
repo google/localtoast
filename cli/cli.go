@@ -28,6 +28,8 @@ type Flags struct {
 	ChrootPath              string
 	MySQLDatabase           string
 	CassandraDatabase       string
+	ElasticSearchDatabase   string
+	ElasticSearchSkipVerify bool
 	BenchmarkOptOutIDs      string
 	ContentOptOutRegexes    string
 	FilenameOptOutRegexes   string
@@ -55,7 +57,10 @@ func ValidateFlags(flags *Flags) error {
 		}
 	}
 
-	if len(flags.MySQLDatabase) > 0 && len(flags.CassandraDatabase) > 0 {
+	// Checks that only one database flag is specified
+	if len(flags.MySQLDatabase) > 0 && (len(flags.CassandraDatabase) > 0 || len(flags.ElasticSearchDatabase) > 0) {
+		return errors.New("cannot specify multiple databases")
+	} else if len(flags.CassandraDatabase) > 0 && len(flags.ElasticSearchDatabase) > 0 {
 		return errors.New("cannot specify multiple databases")
 	}
 

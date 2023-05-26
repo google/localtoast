@@ -144,8 +144,12 @@ func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, error) {
 	}
 }
 
-func (r *fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
-	return r.supportedDB, nil
+func (fakeAPI) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	return "", errors.New("not implemented")
+}
+
+func (fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	return ipb.SQLCheck_DB_MYSQL, nil
 }
 
 func singleComplianceResult(m configchecks.ComplianceMap) (result *apb.ComplianceResult, gotSingleton bool) {

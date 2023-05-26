@@ -1350,6 +1350,10 @@ func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (int, error) {
 	return 0, errors.New("not implemented")
 }
 
+func (manyFilesAPI) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	return "", errors.New("not implemented")
+}
+
 func (manyFilesAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	return 0, errors.New("not implemented")
 }

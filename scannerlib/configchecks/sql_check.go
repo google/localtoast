@@ -18,10 +18,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
 
-	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
@@ -38,16 +39,44 @@ type SQLCheck struct {
 // Exec executes the SQL checks and returns the compliance status.
 func (c *SQLCheck) Exec() (ComplianceMap, error) {
 	query := c.checkInstruction.GetQuery()
-	rows, err := c.querier.SQLQuery(c.ctx, query)
-	if err != nil {
-		return nil, err
-	}
+
 	var reason string
-	if rows > 0 && !c.checkInstruction.GetExpectResults() {
-		reason = fmt.Sprintf("Expected no results for query %q, but got %d rows.", query, rows)
-	} else if rows == 0 && c.checkInstruction.GetExpectResults() {
-		reason = fmt.Sprintf("Expected results for query %q, but got none.", query)
+	if c.checkInstruction.TargetDatabase == ipb.SQLCheck_DB_MYSQL || c.checkInstruction.TargetDatabase == ipb.SQLCheck_DB_CASSANDRA {
+		// Check number of returned rows for MySQL and Cassandra
+		rows, err := c.querier.SQLQuery(c.ctx, query)
+		if err != nil {
+			return nil, err
+		}
+		if rows > 0 && !c.checkInstruction.GetExpectResults() {
+			reason = fmt.Sprintf("Expected no results for query %q, but got %d rows.", query, rows)
+		} else if rows == 0 && c.checkInstruction.GetExpectResults() {
+			reason = fmt.Sprintf("Expected results for query %q, but got none.", query)
+		}
+	} else if c.checkInstruction.TargetDatabase == ipb.SQLCheck_DB_ELASTICSEARCH {
+		// Perform regex match on result string for ElasticSearch
+		if c.checkInstruction.GetFilterRegex() == "" {
+			return nil, errors.New("no regex provided for ElasticSearch database SQLCheck")
+		}
+		filterRegex, err := regexp.Compile("^" + c.checkInstruction.FilterRegex + "$")
+		if err != nil {
+			return nil, err
+		}
+		// Execute ElasticSearch query
+		res, err := c.querier.SQLQueryWithResponse(c.ctx, query)
+		if err != nil {
+			return nil, err
+		}
+		// Check if regex obtains results and compare with expected result
+		if !filterRegex.MatchString(res) && c.checkInstruction.GetExpectResults() {
+			reason = fmt.Sprintf("ElasticSearch response %q does not match the Filter Regex %q and it should.", res, c.checkInstruction.FilterRegex)
+		} else if filterRegex.MatchString(res) && !c.checkInstruction.GetExpectResults() {
+			reason = fmt.Sprintf("ElasticSearch response %q matches the Filter Regex %q and it should not.", res, c.checkInstruction.FilterRegex)
+		}
+	} else {
+		// Return error for unsupported database
+		return nil, errors.New("unsupported database for SQLCheck")
 	}
+
 	if reason != "" && c.checkInstruction.GetNonComplianceMsg() != "" {
 		reason = c.checkInstruction.GetNonComplianceMsg()
 	}
