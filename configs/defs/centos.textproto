@@ -203,36 +203,6 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "package-manager-repos-configured"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
-    title: "Ensure package manager repositories are configured"
-    description:
-      "Systems need to have package manager repositories configured to ensure they receive the"
-      "latest patches and updates."
-    rationale:
-      "If a system's package repositories are misconfigured important patches may not be"
-      "identified or a rogue repository could introduce compromised software."
-    remediation:
-      "Configure your package manager repositories according to site policy."
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      " check_alternatives:{"
-      "  file_checks:{"
-      "    non_compliance_msg: \"This benchmark cannot be automated."
-      "Run the following command to verify repositories are configured correctly:"
-      "yum repolist"
-      "\""
-      "  }"
-      " }"
-      "}"
-  }
-}
-benchmark_configs: {
   id: "gpgcheck-activated"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
