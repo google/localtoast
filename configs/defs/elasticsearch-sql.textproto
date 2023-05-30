@@ -1,0 +1,30 @@
+benchmark_configs: {
+  id: "elasticsearch-default-superuser"
+  compliance_note: {
+    version: { version: "1.0.0" benchmark_document: "" }
+    title: "Ensure the elasticsearch and superuser roles are separate"
+    description:
+      "The default installation of ElasticSearch includes a superuser role named elastic. This "
+      "necessitates the creation of a separate role to be the superuser role."
+    rationale:
+      "Superuser permissions allow for the creation, deletion, and permission management of "
+      "other users. Considering the elastic user is well known it should not be a superuser or "
+      "one which is used for any administrative tasks."
+    remediation:
+      "Create a new super user and remove the superuser role to elastic"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_ELASTICSEARCH"
+      "    query: \"/_security/user/elastic\""
+      "    filter_regex: \".*?superuser.*\""
+      "    expect_results: false"
+      "  }"
+      "}}"
+  }
+}
+  
