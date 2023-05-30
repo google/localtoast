@@ -105,7 +105,7 @@ func WalkFiles(ctx context.Context, fileSet *ipb.FileSet, fs scanapi.Filesystem,
 			walkFunc:          walkFunc,
 		})
 	case fileSet.GetProcessPath() != nil:
-		return walkProcessPaths(ctx, fileSet.GetProcessPath().GetProcName(), fileSet.GetProcessPath().GetFileName(), timeout, fs, walkFunc)
+		return walkProcessPaths(ctx, fileSet.GetProcessPath().GetProcName(), fileSet.GetProcessPath().GetFileName(), fileSet.GetProcessPath().GetCliArgRegex(), timeout, fs, walkFunc)
 	case fileSet.GetUnixEnvVarPaths() != nil:
 		return walkVarPaths(ctx, fileSet.GetUnixEnvVarPaths(), timeout, fs, walkFunc)
 	default:
@@ -222,7 +222,7 @@ func pathInOptOutList(dirPath string, optOutPathRegexes []*regexp.Regexp) bool {
 //
 // Please note means that all those folders in /proc/ are traversed every time this function
 // is called. This is fine as long as there are not many checks using the ProcessPath option.
-func walkProcessPaths(ctx context.Context, procName string, fileName string, timeout time.Time, fs scanapi.Filesystem, walkFunc WalkFunc) error {
+func walkProcessPaths(ctx context.Context, procName string, fileName string, cliArgRegex string, timeout time.Time, fs scanapi.Filesystem, walkFunc WalkFunc) error {
 	d, err := fs.OpenDir(ctx, "/proc/")
 	if err != nil {
 		return fmt.Errorf("unable to enumerate /proc/: %v", err)
@@ -255,6 +255,38 @@ func walkProcessPaths(ctx context.Context, procName string, fileName string, tim
 		if procName != findProcName(string(stat)) {
 			continue
 		}
+
+		// If the optional argument "cli_arg_regex" is specified,
+		// run the relative regexp on the process cmdline content
+		if cliArgRegex != "" {
+			// Compile regex
+			compiledCliArgRegex, err := regexp.Compile("^" + cliArgRegex + "$");
+			if err != nil {
+				return fmt.Errorf("unable to compile cli arg regex %q:\n%v", cliArgRegex, err)
+			}
+
+			// Open cmdline file and get content
+			fh, err := fs.OpenFile(ctx, path.Join(dirName, "cmdline"))
+			if err != nil {
+				if errors.Is(err, os.ErrNotExist) {
+					// The file got removed since we queried it, ignore.
+					continue
+				}
+				return fmt.Errorf("unable to read file %s/cmdline: %v", dirName, err)
+			}
+			defer fh.Close()
+			cmdline, err := ioutil.ReadAll(fh)
+			if err != nil {
+				// The file got removed since we queried it, ignore.
+				continue
+			}
+
+			// Skip this process if regex does not match cmdline
+			if !compiledCliArgRegex.MatchString(string(cmdline)) {
+				continue
+			}
+		}
+
 		if fileName == "" {
 			// No filename was specified, check the directory itself.
 			if err := walkFunc(dirName, true); err != nil {
