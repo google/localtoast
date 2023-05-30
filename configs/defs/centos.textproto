@@ -1,0 +1,566 @@
+benchmark_configs: {
+  id: "shm-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure /dev/shm is configured"
+    description:
+      "/dev/shm is a traditional shared memory concept. One program will create a memory"
+      "portion, which other processes (if permitted) can access. Mounting tmpts at /dev/shm is"
+      "handled automatically by systemd."
+    rationale:
+      "Any user can upload and execute files inside the /dev/shm similar to the /tmp partition."
+      "Configuring /dev/shm allows an administrator to set the noexec option on the mount,"
+      "making /dev/shm useless for an attacker to install executable code. It would also prevent an"
+      "attacker from establishing a hardlink to a system setuid program and wait for it to be"
+      "updated. Once the program was updated, the hardlink would be broken and the attacker"
+      "would have his own copy of the program. If the program happened to have a security"
+      "vulnerability, the attacker could continue to exploit the known flaw."
+    remediation:
+      "Edit /etc/stab and add or edit the following line:"
+      "tmpfs /dev/shm tmpfs defaults,noexec,nodev,nosuid,seclabel 0 0"
+      "Run the following command to remount /dev/shm:"
+      "# mount -o remount,noexec,nodev,nosuid /dev/shm"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .*\""
+      "          expected_regex: \".* /dev/shm .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/fstab\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .*\""
+      "          expected_regex: \".* /dev/shm .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "removable-media-partitions-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure removable media partitions include noexec option"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    rationale:
+      "Setting this option on a file system prevents users from executing programs from the"
+      "removable media. This deters users from being able to introduce potentially malicious"
+      "software on the system."
+    remediation:
+      "Edit the /etc/stab file and add noexec to the fourth field (mounting options) of all"
+      "removable media partitions. Look for entries that have mount points that contain words"
+      "such as floppy or cdrom. See the fstab (5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/sys/devices/\""
+      "        recursive: true"
+      "        opt_out_path_regexes: \"/sys/devices/system/memory\""
+      "        opt_out_path_regexes: \"/sys/devices/virtual\""
+      "        filename_regex: \"removable\""
+      "       }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*[0-9a-z]+\\\\s*\""
+      "          expected_regex: \"\\\\s*1\\\\s*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"A removable device was found make sure that its partition does not include the noexec option\""
+      "      file_display_command: \""
+      "      #!/usr/bin/bash"
+      "      for rmpo in $(lsblk -o RM,MOUNTPOINT | awk -F \\\" \\\" '/1/ {print $2}'); do"
+      "      findmnt -n \\\"$rmpo\\\" | grep -Ev \\\"\\\\bnoexec\\\\b\\\""
+      "      done"
+      "      \""
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "removable-media-partitions-nodev"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nodev option set on removable media partitions"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    rationale:
+      "Removable media containing character and block special devices could be used to"
+      "circumvent security controls by allowing non-root users to access sensitive device files"
+      "such as /dev/kmem or the raw disk partitions."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) of all"
+      "removable media partitions. Look for entries that have mount points that contain words"
+      "such as floppy or cdrom. See the fstab (5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/sys/devices/\""
+      "        recursive: true"
+      "        opt_out_path_regexes: \"/sys/devices/system/memory\""
+      "        opt_out_path_regexes: \"/sys/devices/virtual\""
+      "        filename_regex: \"removable\""
+      "       }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*[0-9a-z]+\\\\s*\""
+      "          expected_regex: \"\\\\s*1\\\\s*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"A removable device was found make sure that its partition does not include the nodev option\""
+      "      file_display_command: \""
+      "      #!/usr/bin/bash"
+      "      for rmpo in $(lsblk -o RM,MOUNTPOINT | awk -F \\\" \\\" '/1/ {print $2}'); do"
+      "      findmnt -n \\\"$rmpo\\\" | grep -Ev \\\"\\\\bnodev\\\\b\\\""
+      "      done"
+      "      \""
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "removable-media-partitions-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nosuid option set on removable media partitions"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain setuid files."
+    rationale:
+      "Setting this option on a file system prevents users from introducing privileged programs"
+      "onto the system and allowing non-root users to execute them."
+    remediation:
+      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) of all"
+      "removable media partitions. Look for entries that have mount points that contain words"
+      "such as floppy or cdrom. See the fstab (5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/sys/devices/\""
+      "        recursive: true"
+      "        opt_out_path_regexes: \"/sys/devices/system/memory\""
+      "        opt_out_path_regexes: \"/sys/devices/virtual\""
+      "        filename_regex: \"removable\""
+      "       }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*[0-9a-z]+\\\\s*\""
+      "          expected_regex: \"\\\\s*1\\\\s*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"A removable device was found make sure that its partition does not include the nodev option\""
+      "      file_display_command: \""
+      "      #!/usr/bin/bash"
+      "      for rmpo in $(lsblk -o RM,MOUNTPOINT | awk -F \\\" \\\" '/1/ {print $2}'); do"
+      "      findmnt -n \\\"$rmpo\\\" | grep -Ev \\\"\\\\bnodev\\\\b\\\""
+      "      done"
+      "      \""
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "gpg-keys-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure GPG keys are configured"
+    description:
+      "Most packages managers implement GPG key signing to verify package integrity during"
+      "installation."
+    rationale:
+      "It is important to ensure that updates are obtained from a valid source to protect against"
+      "spoofing that could lead to the inadvertent installation of malware on the system."
+    remediation:
+      "Update your package manager GPG keys in accordance with site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "  file_checks:{"
+      "    non_compliance_msg: \"This benchmark cannot be automated."
+      "Verify GPG keys are configured correctly for your package manager. Depending on the"
+      "package management in use one of the following command groups may provide the needed"
+      "information:"
+      "rpm -q gpg-pubkey --qf '%{name}-%{version}-%{release} --> %{summary}\\\\n'"
+      "\""
+      "  }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "package-manager-repos-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure package manager repositories are configured"
+    description:
+      "Systems need to have package manager repositories configured to ensure they receive the"
+      "latest patches and updates."
+    rationale:
+      "If a system's package repositories are misconfigured important patches may not be"
+      "identified or a rogue repository could introduce compromised software."
+    remediation:
+      "Configure your package manager repositories according to site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "  file_checks:{"
+      "    non_compliance_msg: \"This benchmark cannot be automated."
+      "Run the following command to verify repositories are configured correctly:"
+      "yum repolist"
+      "\""
+      "  }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "gpgcheck-activated"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure gpgcheck is globally activated"
+    description:
+      "The gpgcheck option, found in the main section of the /etc/yum. conf and individual"
+      "/etc/yum/repos.d/*.repo files determines if an RPM package's signature is checked prior"
+      "to its installation."
+    rationale:
+      "It is important to ensure that an RPM's package signature is always checked prior to"
+      "installation to ensure that the software is obtained from a trusted source."
+    remediation:
+      "Edit /etc/yum.conf and set 'gpgcheck=1' in the [main] section."
+      "Edit any failing files in /etc/yum.repos.d/*.repo and set all instances of gpgcheck to 1."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/yum.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*gpgcheck=[0-9]+$\""
+      "          expected_regex: \"^\\\\s*gpgcheck=1$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SELinux is installed"
+    description:
+      "SELinux provides Mandatory Access Control."
+    rationale:
+      "Without a Mandatory Access Control system installed only the default Discretionary Access"
+      "Control system will be available."
+    remediation:
+      "Run the following command to install SELinux:"
+      "# yum install libselinux"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-not-disabled-in-bootloader"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SELinux is not disabled in bootloader configuration"
+    description:
+      "Configure SELINUX to be enabled at boot time and verify that it has not been overwritten"
+      "by the grub boot parameters."
+      "Note: This recommendation is designed around the grub 2 bootloader, if LILO or another"
+      "bootloader is in use in your environment enact equivalent settings."
+    rationale:
+      "SELinux must be enabled at boot time in your grub configuration to ensure that the"
+      "controls it provides are not overridden."
+    remediation:
+      "Edit /etc/default/grub and remove all instances of selinux=0 and enforcing=0 from all"
+      "CMDLINE_LINUX parameters:"
+      "GRUB_CMDLINE_LINUX="
+      "GRUB_CMDLINE_LINUX DEFAULT=\"quiet\""
+      "Run the following command to update the grub2 configuration:"
+      "# grub2-mkconfig -o /boot/grub2/grub.cfg"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/default/grub\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*selinux=[0-9]+.*\""
+      "          expected_regex: \".*selinux=0.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \".*enforcing=[0-9]+.*\""
+      "          expected_regex: \".*enforcing=0.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-policy-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SELinux policy is configured"
+    description:
+      "Configure SELinux to meet or exceed the default targeted policy, which constrains daemons"
+      "and system software only."
+      "Note: If your organization requires stricter policies, ensure that they are set in the"
+      "/etc/selinux/config file."
+    rationale:
+      "Security configuration requirements vary from site to site. Some sites may mandate a"
+      "policy that is stricter than the default policy, which is perfectly acceptable. This item is"
+      "intended to ensure that at least the default recommendations are met."
+    remediation:
+      "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter:"
+      "SELINUXTYPE=targeted"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*SELINUXTYPE=[0-9a-zA-Z]+.*\""
+      "          expected_regex: \".*SELINUXTYPE=(targeted|m1s).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-mode-enforcing-or-permissive"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure the SELinux mode is enforcing or permissive"
+    description:
+      "SELinux can run in one of three modes: disabled, permissive, or enforcing:"
+      "Enforcing - Is the default, and recommended, mode of operation; in enforcing mode"
+      "SELinux operates normally, enforcing the loaded security policy on the entire"
+      "system."
+      "Permissive - The system acts as if SELinux is enforcing the loaded security policy,"
+      "including labeling objects and emitting access denial entries in the logs, but it does"
+      "not actually deny any operations. While not recommended for production systems,"
+      "permissive mode can be helpful for SELinux policy development."
+      "Disabled - Is strongly discouraged; not only does the system avoid enforcing the"
+      "SELinux policy, it also avoids labeling any persistent objects such as files, making it"
+      "difficult to enable SELinux in the future"
+      "Note: you can set individual domains to permissive mode while the system runs in enforcing"
+      "mode. For example, to make the httpd_t domain permissive:"
+      "# semanage permissive -a httpd_t"
+    rationale:
+      "Running SELinux in disabled mode is strongly discouraged; not only does the system avoid"
+      "enforcing the SELinux policy, it also avoids labeling any persistent objects such as files,"
+      "making it difficult to enable SELinux in the future."
+    remediation:
+      "Run one of the following commands to set SELinux's running mode:"
+      "To set SELinux mode to Enforcing:"
+      "# setenforce 1"
+      "To set SELinux mode to Permissive:"
+      "# setenforce 0"
+      "Edit the /etc/selinux/config file to set the SELINUX parameter:"
+      "For Enforcing mode:"
+      "SELINUX=enforcing"
+      "For Permissive mode:"
+      "SELINUX=permissive"
+      "References:"
+      "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/sect-security-enhanced_linux-introduction-selinux_modes"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*SELINUX=[a-zA-Z0-9]+.*\""
+      "          expected_regex: \".*SELINUX=(enforcing|permissive).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "no-unconfined-services"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure no unconfined services exist"
+    description:
+      "Unconfined processes run in unconfined domains"
+      "Note: Occasionally certain daemons such as backup or centralized management software may"
+      "require running unconfined. Any such software should be carefully analyzed and documented"
+      "before such an exception is made."
+    rationale:
+      "For unconfined processes, SELinux policy rules are applied, but policy rules exist that allow"
+      "processes running in unconfined domains almost all access. Processes running in"
+      "unconfined domains fall back to using DAC rules exclusively. If an unconfined process is"
+      "compromised, SELinux does not prevent an attacker from gaining access to system"
+      "resources and data, but of course, DAC rules are still used. SELinux is a security"
+      "enhancement on top of DAC rules - it does not replace them"
+    remediation:
+      "Investigate any unconfined processes found during the audit action. They may need to have"
+      "an existing security context assigned to them or a policy built for them."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "       files_in_dir:{"
+      "        dir_path:\"/proc\""
+      "        recursive: true"
+      "        filename_regex: \"current\""
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc/[a-z].*\""
+      "      }}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*unconfined_service_t.*\""
+      "          expected_regex: \".*unconfined_service_t.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "setroubleshoot-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SETroubleshoot is not installed"
+    description:
+      "The SETroubleshoot service notifies desktop users of SELinux denials through a user-"
+      "friendly interface. The service provides important information around configuration errors,"
+      "unauthorized intrusions, and other potential errors."
+    rationale:
+      "The SETroubleshoot service is an unnecessary daemon to have running on a server,"
+      "especially if X Windows is disabled."
+    remediation:
+      "Run the following command to Uninstall setroubleshoot:"
+      "# yum remove setroubleshoot"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/setroubleshoot\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
