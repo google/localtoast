@@ -231,6 +231,10 @@ message FileSet {
     // Example: `environ` refers to the /proc/[0-9]+/environ file.
     // If left empty, the check will use the /proc/[0-9]+/ directory itself.
     string file_name = 2;
+    // (Optional) A regex for the CLI args of the process. When set, processes
+    // will only be matched if their /proc/[0-9]+/cmdline file contains the
+    // specified regex.
+    string cli_arg_regex = 3;
   }
 
   // Paths listed in a Unix environment variable of a user running the scanner,
