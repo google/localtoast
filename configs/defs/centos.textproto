@@ -861,6 +861,8 @@ benchmark_configs: {
       "    file_checks:{"
       "      files_to_check:{"
       "      single_file:{path:\"/proc/self/net/tcp6\"}"
+      "      }"
+      "      files_to_check:{"
       "      single_file:{path:\"/proc/self/net/tcp\"}"
       "      }"
       "      content_entry:{"
