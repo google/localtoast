@@ -1,0 +1,733 @@
+benchmark_configs: {
+    id: "elasticsearch-xpack"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure XPack Security Module is enabled"
+      description:
+        "This check verifies whether the XPack security module is enabled in Elasticsearch."
+        "XPack security provides various features such as authentication, role-based access control, and transport layer encryption to "
+        "secure the Elasticsearch cluster. By enabling XPack security, you enhance the overall security posture of your Elasticsearch deployment."
+      rationale:
+        "Enabling the XPack security module is crucial for protecting sensitive data and preventing unauthorized access to your Elasticsearch cluster. "
+        "Without proper security measures in place, your cluster may be vulnerable to unauthorized access, data breaches, or other security incidents. "
+        "By enabling XPack security, you establish a strong foundation for securing your Elasticsearch environment and ensure that only authenticated "
+        "and authorized users have access to the cluster."
+      remediation:
+        "To remediate this issue, follow these steps:"
+        "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation."
+        "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms."
+        "2. Search for the `xpack.security.enabled` setting in the configuration file."
+        "3. If the setting is present and set to `false`, modify the value to `true`."
+        "4. If the setting is not present, add the following line to the configuration file:"
+        "      xpack.security.enabled: true"
+        "5. Save the configuration file."
+        "6. Restart the Elasticsearch service for the changes to take effect."
+        "After performing these steps, XPack security will be enabled in Elasticsearch, providing authentication, access control, and other security features. Remember to configure appropriate user accounts, roles, and permissions within Elasticsearch to ensure secure access to the cluster."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch/config/elasticsearch.yml
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \"xpack\\\\.security\\\\.enabled:.*\""
+        "        expected_regex: \"xpack\\\\.security\\\\.enabled:\\\\s+true\""
+        "      }"
+        "    }"
+        "    non_compliance_msg: \"ElasticSearch has XPack Security disabled\""
+        "  }"
+        "}"
+    
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \"xpack\\\\.security\\\\.enabled:.*\""
+        "        expected_regex: \"xpack\\\\.security\\\\.enabled:\\\\s+true\""
+        "      }"
+        "    }"
+        "    non_compliance_msg: \"ElasticSearch has XPack Security disabled\""
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-homefolder-owner"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch Configuration Files has Correct Owner"
+      description:
+        "This check verifies that each file in the Elasticsearch home folder is owned by the user \"elasticsearch\". "
+        "The Elasticsearch home folder contains critical configuration files, data directories, "
+        "and other essential components of the Elasticsearch deployment."
+      rationale:
+        "Assigning the correct ownership to the Elasticsearch home folder is crucial for security and operational reasons. "
+        "By ensuring that the files and directories are owned by the designated user, such as \"elasticsearch\", you minimize "
+        "the risk of unauthorized access, modification, or tampering. Correct ownership helps to maintain the integrity "
+        "and confidentiality of the Elasticsearch installation."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Identify the Elasticsearch home folder location in your environment.\n"
+        "2. Run the following command to change the owner of the Elasticsearch home folder and its contents to \"elasticsearch\":\n"
+        "```chown -R elasticsearch:elasticsearch <ES_HOME>```\n"
+        "   Replace <ES_HOME> with the actual path to the Elasticsearch home folder.\n"
+        "3. Verify that the ownership has been changed successfully by running the following command:\n"
+        "```ls -l <ES_HOME>```\n"
+        "   The command should display \"elasticsearch elasticsearch\" as the owner and group for all files and directories within the Elasticsearch home folder.\n"      
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{files_in_dir:{"
+        "      dir_path:\"/usr/share/elasticsearch\""
+        "      recursive: true"
+        "      files_only: true"
+        "    }}"
+        "    permission:{ user: {name: \"elasticsearch\" should_own: true} }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{files_in_dir:{"
+        "      dir_path:\"/etc/elasticsearch\""
+        "      recursive: true"
+        "      files_only: true"
+        "    }}"
+        "    permission:{ user: {name: \"elasticsearch\" should_own: true} }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-configuration-permissions"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch Configuration has Correct Permissions"
+      description:
+        "This check verifies that the Elasticsearch configuration file has the correct permissions. "
+        "The configuration file contains sensitive information, including connection details, "
+        "security settings, and other important parameters, and it is crucial to "
+        "protect it from unauthorized access and modifications."
+      rationale:
+        "Setting the correct permissions for the Elasticsearch configuration file is essential for "
+        "maintaining the security and integrity of the Elasticsearch deployment. By ensuring that "
+        "the file has the correct permissions set, it is possible to restrict access to authorized "
+        "users or processes only. This prevents unauthorized users from viewing or modifying critical "
+        "configuration settings, reducing the risk of misconfigurations or security breaches."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Identify the location of the Elasticsearch configuration file in your environment.\n"
+        "2. Run the following command to set the correct permissions for the configuration file:\n"
+        "      chmod 640 <Path_to_Config_File>\n"
+        "   Replace <Path_to_Config_File> with the actual path to the Elasticsearch configuration file.\n"
+        "3. Verify that the permissions have been set correctly by running the following command:\n"
+        "      ls -l <Path_to_Config_File>\n"
+        "   The command should display the permissions as `-rw-r-----` for the Elasticsearch configuration file."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch/config/elasticsearch.yml
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    permission:{"
+        "      bits_should_match: BOTH_SET_AND_CLEAR"
+        "      set_bits: 0640"
+        "      clear_bits: 0113"
+        "    }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    permission:{"
+          "      bits_should_match: BOTH_SET_AND_CLEAR"
+          "      set_bits: 0640"
+          "      clear_bits: 0113"
+          "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-usergroup"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure a separate user and group exist for ElasticSearch"
+      description:
+        "This check verifies that a dedicated user and group are created specifically for running Elasticsearch. "
+        "Running Elasticsearch under a separate user and group helps enhance the security and isolation of the Elasticsearch process."
+      rationale:
+        "Running Elasticsearch with a dedicated user and group provides several security benefits. "
+        "It isolates the Elasticsearch process from other system resources, restricts privileges "
+        "to only what is necessary for Elasticsearch operations, and reduces the risk of unauthorized "
+        "access or unintended modifications to Elasticsearch files and directories. "
+        "Additionally, it enables better auditing and monitoring by associating Elasticsearch activities with a specific user and group."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Identify the appropriate user and group names for running Elasticsearch.\n"
+        "   - Consider using a descriptive name, such as \"elasticsearch\" or \"esuser\".\n"
+        "2. Create a new user and group using the following commands:\n"
+        "      sudo adduser --system --no-create-home --group <Elasticsearch_User>\n"
+        "   Replace <Elasticsearch_User> with the desired user name for running Elasticsearch.\n"
+        "3. Assign ownership of the Elasticsearch files and directories to the newly created user and group:\n"
+        "      sudo chown -R <Elasticsearch_User>:<Elasticsearch_Group> <Elasticsearch_Home>\n"
+        "4. Update the Elasticsearch service configuration to run Elasticsearch using the newly created user and group.\n"
+        "5. Restart the Elasticsearch service for the changes to take effect."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+        "    content_entry: {"
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \"(^|\\n)elasticsearch:.*\""
+        "        expected_regex: \"(^|\\n)elasticsearch:.*\""
+        "      }"
+        "    }"
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/group\"}}"
+        "    content_entry: {"
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \"(^|\\n)elasticsearch:.*\""
+        "        expected_regex: \"(^|\\n)elasticsearch:.*\""
+        "      }"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-runasroot"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch is running with a non-root user"
+      description:
+        "This check verifies that Elasticsearch is running with a dedicated non-root user account. "
+        "Running Elasticsearch with a non-root user account enhances security by reducing the potential impact of security vulnerabilities."
+      rationale:
+        "Running Elasticsearch with a non-root user account provides several security benefits. "
+        "By running the Elasticsearch process under a dedicated non-root user, it is possible to "
+        "limit the privileges and access rights of the Elasticsearch process to only what is necessary. "
+        "This reduces the potential damage that can be caused by an attacker compromising the Elasticsearch process "
+        " and helps enforce the principle of least privilege, mitigating the impact of security vulnerabilities."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Update the Elasticsearch service configuration to run as the newly created non-root user.\n"
+        "   - Modify the relevant configuration file (such as systemd service configuration or init.d script) to "
+        "specify the user under which Elasticsearch should run.\n"
+        "2. Restart the Elasticsearch service for the changes to take effect."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        "generic{check_alternatives:{"
+        "    file_checks:{"
+        "      files_to_check:{"
+        "        process_path:{"
+        "          proc_name:\"java\""
+        "          file_name:\"cmdline\""
+        "          cli_arg_regex:\".*org\\\\.elasticsearch\\\\.server.*\""
+        "        }"
+        "      }"
+        "      permission:{"
+        "        user: {name: \"root\" should_own: false}"
+        "      }"
+        "    }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-logs-permissions"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch Logs has Correct Permissions"
+      description:
+        "This check verifies that the Elasticsearch log files have the permissions set to 600. "
+        "The log files contain sensitive information, including error messages, stack traces, "
+        "and other diagnostic details, and it is crucial to protect them from unauthorized access."
+      rationale:
+        "Setting the correct permissions for Elasticsearch log files is important for maintaining "
+        "the security and confidentiality of log data. By ensuring that the log files have permissions "
+        "set to 600, you restrict access to only the owner of the files. This prevents unauthorized "
+        "users from viewing or tampering with the log files, protecting sensitive information and "
+        "maintaining the integrity of the logging system."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Identify the location of the Elasticsearch log files in your environment.\n"
+        "   - The log files are typically located in the Elasticsearch home folder or the `logs` subdirectory.\n"
+        "2. Run the following command to set the correct permissions for the log files:\n"
+        "      chmod 600 <Path_to_Log_Files>\n"
+        "3. Verify that the permissions have been set correctly by running the following command:\n"
+        "      ls -l <Path_to_Log_Files>\n"
+        "   The command should display the permissions as `-rw-------` for the Elasticsearch log files."  
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{files_in_dir:{"
+        "      dir_path:\"/usr/share/elasticsearch/logs\""
+        "      recursive: true"
+        "      files_only: true"
+        "    }}"
+        "    permission:{"
+        "      bits_should_match: BOTH_SET_AND_CLEAR"
+        "      set_bits: 0600"
+        "      clear_bits: 0177"
+        "    }"
+        "  }"
+        "}"
+
+        # /etc/elasticsearch
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{files_in_dir:{"
+        "      dir_path:\"/etc/elasticsearch/logs\""
+        "      recursive: true"
+        "      files_only: true"
+        "    }}"
+        "    permission:{"
+        "      bits_should_match: BOTH_SET_AND_CLEAR"
+        "      set_bits: 0600"
+        "      clear_bits: 0177"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-networkinterfaces"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch does not listen on all network interfaces"
+      description:
+        "This check verifies that Elasticsearch is not configured to listen on all network interfaces. "
+        "Restricting Elasticsearch to specific network interfaces helps minimize the attack surface "
+        "and reduce the risk of unauthorized access from external networks."
+      rationale:
+        "Limiting Elasticsearch to listen on specific network interfaces is an important security practice. "
+        "By binding Elasticsearch to only trusted network interfaces, you reduce the exposure of Elasticsearch "
+        "to potential attacks from untrusted networks. This helps protect sensitive data, prevent unauthorized "
+        "access, and minimize the impact of security vulnerabilities."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Open the Elasticsearch configuration file `elasticsearch.yml`.\n"
+        "   - The file is typically located in the Elasticsearch home folder or the `config` subdirectory.\n"
+        "2. Search for the `network.host` setting in the configuration file.\n"
+        "3. Uncomment the line if present and set it to the specific network interface or IP address you want Elasticsearch to listen on.\n"
+        "   - Example: `network.host: 192.168.1.100`\n"
+        "4. If the `network.host` setting is not present, add the following line to the configuration file:\n"
+        "      network.host: <Interface_or_IP>\n"
+        "5. Save the configuration file.\n"
+        "6. Restart the Elasticsearch service for the changes to take effect.\n"
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      match_type: NONE_MATCH"
+        "      match_criteria: {"
+        "        filter_regex: \"network.host:.*\""
+        "        expected_regex: \"network.host:[\\\\s]*0\\\\.0\\\\.0\\\\.0\""
+        "      }"
+        "    }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      match_type: NONE_MATCH"
+        "      match_criteria: {"
+        "        filter_regex: \"network.host:.*\""
+        "        expected_regex: \"network.host:[\\\\s]*0\\\\.0\\\\.0\\\\.0\""
+        "      }"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+
+  # Some rules need a workaround because the configuration value is not on the same line of the key.
+# Therefore, a workaround is needed. Using the \0 delimiter does not seem to execute the regex on all file content
+#
+# The approach used in the following rules set the file content split delimiter to "true" and checks with a regexp
+# if the required configuration value is enabled or not. The regexp was thoroughly tested to avoid false positives.
+
+benchmark_configs: {
+    id: "elasticsearch-http-ssl"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure encrypted communication with clients"
+      description:
+        "This check verifies whether the X-Pack security module is configured to enable encrypted communication with clients in Elasticsearch. "
+        "Enabling encryption ensures that client-server communication is protected and data transmitted over the network remains confidential and secure."
+      rationale:
+        "Encrypting communication between clients and Elasticsearch is essential to prevent unauthorized access, eavesdropping, and tampering of sensitive data. "
+        "Without encryption, data transmitted over the network can be intercepted and potentially compromised. "
+        "Enabling SSL/TLS encryption provides a secure communication channel, protecting sensitive information from unauthorized disclosure."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation.\n"
+        "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms.\n"
+        "2. Search for the `xpack.security.http.ssl.enabled` setting in the configuration file.\n"
+        "3. If the setting is present and set to `false`, modify the value to `true`.\n"
+        "4. If the setting is not present, add the following line to the configuration file:\n"
+        "      xpack.security.http.ssl.enabled: true\n"
+        "5. Configure the necessary SSL/TLS certificate and private key settings to enable encrypted communication.\n"
+        "   - Refer to the Elasticsearch documentation for details on configuring SSL/TLS certificates.\n"
+        "6. Save the configuration file.\n"
+        "7. Restart the Elasticsearch service for the changes to take effect."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch/config/elasticsearch.yml
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-transport-ssl"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure encrypted communication with nodes"
+      description:
+        "This check verifies whether the X-Pack security module is configured to enable encrypted communication between Elasticsearch nodes. "
+        "Enabling encryption ensures that communication between nodes is protected and data transmitted over the network remains confidential and secure."
+      rationale:
+        "Encrypting communication between Elasticsearch nodes is crucial to prevent unauthorized access, eavesdropping, "
+        "and tampering of sensitive data. Without encryption, data transmitted between nodes could be "
+        "intercepted and potentially compromised. Enabling SSL/TLS encryption establishes a secure "
+        "communication channel, safeguarding data integrity and confidentiality within the Elasticsearch cluster."
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation.\n"
+        "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms.\n"
+        "2. Search for the `xpack.security.transport.ssl.enabled` setting in the configuration file.\n"
+        "3. If the setting is present and set to `false`, modify the value to `true`.\n"
+        "4. If the setting is not present, add the following line to the configuration file:\n"
+        "      xpack.security.transport.ssl.enabled: true\n"
+        "5. Configure the necessary SSL/TLS certificate and private key settings to enable encrypted communication between nodes.\n"
+        "   - Refer to the Elasticsearch documentation for details on configuring SSL/TLS certificates.\n"
+        "6. Save the configuration file.\n"
+        "7. Restart the Elasticsearch service for the changes to take effect."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch/config/elasticsearch.yml
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.transport\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.transport\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.transport\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.transport\\\\.ssl(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-auditing"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch has auditing enabled"
+      description:
+        "This check verifies whether the X-Pack security module is configured to enable auditing in Elasticsearch. "
+        "Enabling auditing allows for the recording and analysis of security-related events and activities within "
+        "the Elasticsearch cluster, providing valuable insights for monitoring and compliance purposes."
+      rationale:
+        "Enabling auditing in Elasticsearch is important for maintaining visibility into security events "
+        "and monitoring the activities within the cluster. Auditing allows you to track and analyze "
+        "actions such as user authentication, index and document access, cluster modifications, and more. "
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation.\n"
+        "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms.\n"
+        "2. Search for the `xpack.security.audit.enabled` setting in the configuration file.\n"
+        "3. If the setting is present and set to `false`, modify the value to `true`.\n"
+        "4. If the setting is not present, add the following line to the configuration file:\n"
+        "      xpack.security.audit.enabled: true\n"
+        "5. Configure additional auditing settings as needed, such as audit logging destination, retention policies, or specific event types to be audited.\n"
+        "   - Refer to the Elasticsearch documentation for details on configuring auditing settings.\n"
+        "6. Save the configuration file.\n"
+        "7. Restart the Elasticsearch service for the changes to take effect."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch/config/elasticsearch.yml
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.audit(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.audit(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.audit(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.audit(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
+  benchmark_configs: {
+    id: "elasticsearch-httpfilter"
+    compliance_note: {
+      version: { version: "1.0.0" benchmark_document: "" }
+      title: "Ensure ElasticSearch has http filter enabled"
+      description:
+        "This check verifies that the HTTP filter is enabled in Elasticsearch. "
+        "Enabling the HTTP filter allows for additional security measures and control over HTTP requests made to Elasticsearch."
+      rationale:
+        "Enabling the HTTP filter in Elasticsearch provides an extra layer of security and "
+        "control for HTTP requests. The HTTP filter allows you to apply specific security "
+        "policies, authentication mechanisms, or request filtering rules to incoming HTTP requests. "
+      remediation:
+        "To remediate this issue, follow these steps:\n"
+        "1. Open the Elasticsearch configuration file (`elasticsearch.yml`) for editing.\n"
+        "   - The file is typically located in the Elasticsearch home folder or the `config` subdirectory.\n"
+        "2. Search for the `xpack.security.http.filter.enabled` setting in the configuration file.\n"
+        "3. If the setting is present and set to `false`, change it to `true` to enable the HTTP filter.\n"
+        "   - Example: `xpack.security.http.filter.enabled: true`\n"
+        "4. If the setting is not present, add the following line to the configuration file:\n"
+        "      xpack.security.http.filter.enabled: true\n"
+        "5. Save the configuration file.\n"
+        "6. Restart the Elasticsearch service for the changes to take effect."
+      cis_benchmark: {
+        profile_level: 1
+        severity: LOW
+      }
+      scan_instructions:
+        # /usr/share/elasticsearch/config/elasticsearch.yml
+        "generic{check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.filter(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.filter(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}"
+  
+        # /etc/elasticsearch/elasticsearch.yml
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    existence:{should_exist: true}"
+        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
+        "  }"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+        "    content_entry: {"
+        "      delimiter: \"true\""
+        "      match_type: ALL_MATCH_ANY_ORDER"
+        "      match_criteria: {"
+        "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.filter(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.filter(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
+        "      }"
+        "    }"
+        "  }"
+        "}}"
+    }
+  }
+  
