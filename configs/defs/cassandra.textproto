@@ -1,0 +1,477 @@
+benchmark_configs: {
+  id: "cassandra-usergroup"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure a separate user and group exist for Cassandra"
+    description:
+      "Checks whether the Cassandra User and Group exists on the linux system"
+    rationale:
+      "All processes need to run as a user with least privilege. "
+      "This mitigates the potential impact of malware to the system."
+    remediation:
+      "Create a group for cassandra (if it does not already exist): \n"
+      "```sudo groupadd cassandra```\n"
+      "Create a user which is only used for running Cassandra and its related processes.\n"
+      "```sudo useradd -m -d /home/cassandra -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra```\n"
+      "Replacing <USERID_NUMBER> with a number not already used on the server."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"(^|\\n)cassandra:.*\""
+      "        expected_regex: \"(^|\\n)cassandra:.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/group\"}}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"(^|\\n)cassandra:.*\""
+      "        expected_regex: \"(^|\\n)cassandra:.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-clocksync"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure clocks are synchronized on all nodes"
+    description:
+      "Checks whether the clocks on all nodes is in sync"
+      "In particular, this checks the existence of a time synchronization daemon such as ntp, chronyd or systemd-timesyn"
+    rationale:
+      "Cassandra decides which data is most current between all of "
+      "the nodes in the cluster based on timestamps. It is paramount "
+      "to ensure all clocks are in-sync, otherwise the most current "
+      "data may not be returned or worse, marked for deletion."
+    remediation:
+      "Install and start the time protocol on every node in the Cassandra cluster."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"ntp\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"systemd-timesyn\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-authentication"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure that authentication is enabled for Cassandra databases"
+    description:
+      "Authentication is pluggable in Cassandra and is configured using the authenticator setting "
+      "in cassandra.yaml. Cassandra ships with two options included in the default distribution, "
+      "AllowAllAuthenticator and PasswordAuthenticator. The default, "
+      "AllowAllAuthenticator, performs no authentication checks and therefore requires no "
+      "credentials. It is used to disable authentication completely. The second option, "
+      "PasswordAuthenticator, stores encrypted credentials in a system table. This can be used "
+      "to enable simple username/password authentication. "
+    rationale:
+      "Authentication is a necessary condition of Cassandra’s permissions subsystem, so if "
+      "authentication is disabled then so are permissions. Failure to authenticate clients, users, "
+      "and/or servers can allow unauthorized access to the Cassandra database and can prevent "
+      "tracing actions back to their sources. The authentication mechanism should be "
+      "implemented before anyone accesses the Cassandra server. "
+    remediation:
+      "To enable the authentication mechanism:\n"
+      "1. Stop the Cassandra database.\n"
+      "2. Modify cassandra.yaml file to modify/add entry for authenticator: set it to PasswordAuthenticator\n"
+      "3. Start the Cassandra database."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"authenticator: .*\""
+    "        expected_regex: \"authenticator: AllowAllAuthenticator\""
+    "      }"
+    "    }"
+    "  }"
+    "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-authorization"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure that authorization is enabled for Cassandra databases"
+    description:
+      "Authorization is pluggable in Cassandra and is configured using the authorizer setting in "
+      "cassandra.yaml. Cassandra ships with two options included in the default distribution, "
+      "AllowAllAuthenticator and CassandraAuthorizer. The default, AllowAllAuthenticator "
+      "performs no checking which grants all permissions to all roles. The second option, "
+      "CassandraAuthorizer, implements full permissions management functionality and stores "
+      "its data in Cassandra system tables."
+    rationale:
+      "Authorizing roles is an important step towards ensuring only authorized access to the "
+      "Cassandra database tables is permitted. It also provides the requisite means of "
+      "implementing least privilege best practices. The authorization mechanism should be "
+      "implemented before anyone accesses the Cassandra database."
+    remediation:
+      "To enable the authorization mechanism:\n"
+      "1. Stop the Cassandra database.\n"
+      "2. Modify cassandra.yaml file to modify/add entry for authorization: set it to CassandraAuthorizer\n"
+      "3. Start the Cassandra database."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"authorizer: .*\""
+    "        expected_regex: \"authorizer: AllowAllAuthorizer\""
+    "      }"
+    "    }"
+    "  }"
+    "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-internodeencryption"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Inter-node Encryption"
+    description:
+      "Cassandra offers the option to encrypt data in transit between nodes on the cluster. By "
+      "default, inter-node encryption is turned off. "
+    rationale:
+      "Data being transferred on the wire should be encrypted to avoid network snooping, whether legitimate or not."
+    remediation:
+      "The inter-node encryption should be implemented before anyone accesses the Cassandra server.\n"
+      "To enable the inter-node encryption mechanism:\n"
+      "1. Stop the Cassandra database.\n"
+      "2. If not done so already, build out your keystore and truststore.\n"
+      "3. Modify cassandra.yaml file to modify/add entry for internode_encryption: set it to all\n"
+      "4. Start the Cassandra database."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"\\\\s*internode_encryption:.*\""
+    "        expected_regex: \"\\\\s*internode_encryption:\\\\s*none\""
+    "      }"
+    "    }"
+    "  }"
+    "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-logginglevel"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure that logging is enabled."
+    description:
+      "Apache Cassandra uses Logback for logging functionality. While this can be set using "
+      "nodetool setlogginglevel changes made using this method will be reverted to the level "
+      "specified in the logback.xml file the next time the process restarts."
+    rationale:
+      "If logging is not enabled, issues may go undiscovered, and compromises and other "
+      "incidents may occur without being quickly detected. It may also not be possible to provide "
+      "evidence of compliance with security laws, regulations, and other requirements."
+    remediation:
+      "To remediate this setting:\n"
+      "1. Edit the logback-test.xml if present; otherwise, edit the logback.xml\n"
+      "```<configuration scan=\"true\">\n"
+      "  <appender name=\"STDOUT\" class=\"ch.qos.logback.core.ConsoleAppender\">\n"
+      "    <filter class=\"ch.qos.logback.classic.filter.ThresholdFilter\">\n"
+      "      <level>INFO</level>\n"
+      "    </filter>\n"
+      "    <encoder>\n"
+      "      <pattern>%-5level [%thread] %date{ISO8601} %F:%L - %msg%n</pattern>\n"
+      "    </encoder>\n"
+      "  </appender>\n"
+      "  <root level=\"INFO\">\n"
+      "    <appender-ref ref=\"STDOUT\" />\n"
+      "  </root>\n"
+      "  <logger name=\"org.cisecurity.workbench\" level=\"WARN\"/>\n"
+      "</configuration>```\n"
+      "2. Restart the Apache Cassandra"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra logback.xml configuration file does not exist\""
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \".*?<level>.*?</level>.*?\""
+    "        expected_regex: \".*?<level>OFF</level>.*?\""
+    "      }"
+    "    }"
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \".*?level=\\\".*?\\\".*?\""
+    "        expected_regex: \".*?level=\\\"OFF\\\".*?\""
+    "      }"
+    "    }"
+    "  }"
+    "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-networkinterfaces"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure that Cassandra only listens for network connections on authorized interfaces"
+    description:
+      "When listen_address is blank and listen_interface is commented out, this will be set "
+      "automatically by InetAddress.getLocalHost(). Presuming the node is configured "
+      "correctly, e.g. hostname, name resolution, etc., this will configure the node to use the "
+      "address associated with the hostname. The listen_address must not be set to 0.0.0.0."
+    rationale:
+      "Setting the address or interface to bind to will tell other Cassandra nodes to which address "
+      "or interface to connect. This must be changed from the default in order for multiple nodes "
+      "to be able to communicate."
+    remediation:
+      "Set the listen_address or listen_interface, not both, in the cassandra.yaml to an"
+      "authorized address or interface."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      match_type: NONE_MATCH"
+    "      match_criteria: {"
+    "        filter_regex: \"listen_address:.*\""
+    "        expected_regex: \"listen_address:[\\\\s]*0\\\\.0\\\\.0\\\\.0\""
+    "      }"
+    "    }"
+    "  }"
+    "}}"
+  }
+}
+
+# The following rule require the implementation of the ProcessPath cli_arg_regex argument
+benchmark_configs: {
+  id: "cassandra-runasroot"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure the Cassandra service is run as a non-root user"
+    description:
+      "Though Cassandra database may be run as root, it should run as another non-root user"
+    rationale:
+      "One of the best ways to reduce your exposure to attack is to create a unique, unprivileged "
+      "user and group for the server application. A best practice is to follow is ensuring processes "
+      "run with a user with least privilege."
+    remediation:
+      "Create a group for cassandra (if it does not already exist):\n"
+      "```sudo groupadd cassandra```\n"
+      "Create a user which is only used for running Cassandra and its related processes.\n"
+      "```sudo useradd -m -d <DIRECTORY_WHERE_CASSANDRA_INSTALLED> -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra```\n"
+      "Replacing <DIRECTORY_WHERE_CASSANDRA_INSTALLED> with the full path of where Cassandra binaries are installed.\n"
+      "Replacing <USERID_NUMBER> with a number not already used on the server."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "        process_path:{"
+      "          proc_name:\"java\""
+      "          file_name:\"cmdline\""
+      "          cli_arg_regex:\".*org\\\\.apache\\\\.cassandra\\\\.service\\\\.CassandraDaemon.*\""
+      "        }"
+      "      }"
+      "      permission:{"
+      "        user: {name: \"root\" should_own: false}"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+# Some rules need a workaround because the configuration value is not on the same line of the key.
+#
+# The approach used in the following rules set the file content split delimiter to "true" and checks with a regexp
+# if the required configuration value is enabled or not. The regexp was thoroughly tested to avoid false positives.
+
+benchmark_configs: {
+  id: "cassandra-auditing"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Ensure that auditing is enabled"
+    description:
+      "Audit logging in Cassandra logs every incoming CQL command request, Authentication "
+      "(successful as well as unsuccessful login) to C* node. Currently, there are two "
+      "implementations provided, the custom logger can be implemented and injected with the "
+      "class name as a parameter in cassandra.yaml."
+    rationale:
+      "Unauthorized attempts to create, drop or alter users or data should be a concern."
+    remediation:
+      "Enable the Cassandra Auditing feature. Note that on the Open Source version this feature is available only starting from version 4.\n"
+      "Open the dse.yaml file in a text editor\n"
+      "In the audit_logging_options section, set enabled to true.\n"
+      "```# Audit logging options\n"
+      "audit_logging_options:\n"
+      "enabled: true```\n"
+      "You must also define where you want logging to go, add either of the following lines:\n"
+      "Set the logger option to either CassandraAuditWriter, which logs to a table, or SLF4JAuditWriter, which logs to the SLF4J logger."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    content_entry: {"
+    "      delimiter: \"true\""
+    "      match_type: ALL_MATCH_ANY_ORDER"
+    "      match_criteria: {"
+    "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
+    "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
+    "      }"
+    "    }"
+    "  }"
+    "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "cassandra-clientencryption"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+    title: "Client Encryption"
+    description:
+      "Cassandra offers the option to encrypt data in transit between the client and nodes on the "
+      "cluster. By default client encryption is turned off."
+    rationale:
+      "Data in transit between the client and node on the cluster should be encrypted to avoid "
+      "network snooping, whether legitimate or not. "
+    remediation:
+      "The client encryption should be implemented before anyone accesses the Cassandra server.\n"
+      "To enable the client encryption mechanism:\n"
+      "1. Stop the Cassandra database.\n"
+      "2. If not done so already, build out your keystore and truststore.\n"
+      "3. Modify cassandra.yaml file to modify/add entries under `client_encryption_options`:\n"
+      "```set enabled: true\n"
+      "set optional: false```\n"
+      "This will force all connections to be encrypted between client and node on the cluster.\n"
+      "4. Start the Cassandra database."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+    "  file_checks:{"
+    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+    "    existence:{should_exist: true}"
+    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+    "  }"
+
+    "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*client_encryption_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
+      "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*client_encryption_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
