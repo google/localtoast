@@ -625,7 +625,7 @@ benchmark_configs: {
       "Notes:"
       "o Ifagraphical login is not required, it should be removed to reduce the attack surface"
       "of the system."
-      "« Ifadifferent GUI login service is in use and required on the system, consult your"
+      "If a different GUI login service is in use and required on the system, consult your"
       "documentation to disable displaying the last logged on user"
     remediation:
       "Edit or create the file /etc/dconf/profile/gdmand add the following:"
@@ -1378,7 +1378,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure ip6tables rules are saved"
     description:
-      "The iptables-services package includes the /etc/sysconfig/ipétables file. The"
+      "The iptables-services package includes the /etc/sysconfig/ip6tables file. The"
       "ip6tables rules in this file will be loaded by the ip6tables.service during boot, or when"
       "itis started or re-loaded."
     rationale:
@@ -1578,7 +1578,6 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and add one of the following"
       "lines:"
-      "Newer syntax:"
       "<files to sent to the remote log server> action (type=\"omfwd\" target=\"<FQDN or"
       "ip of loghost>\" port=\"<port number>\" protocol=\"tcp\""
       "<number of re-tries>\""
@@ -1589,10 +1588,6 @@ benchmark_configs: {
       "*.* action (type=\"omfwd\" target=\"192.168.2.100\" port=\"514\" protocol=\"tcp\""
       "action.resumeRetryCount=\"100\""
       "queue. type=\"LinkedList\" queue.size=\"1000\")"
-      "Older syntax:"
-      "*.* @E<FQDN or ip of loghost>"
-      "Example:"
-      "*.* @@192.168.2.100"
       "Run the following command to reload the rsys1og configuration:"
       "# systemctl restart rsyslog"
       "References:"
@@ -1929,7 +1924,7 @@ benchmark_configs: {
     remediation:
       "If any accounts in the /etc/passwd file do not have a single x in the password field, run the"
       "following command to set these accounts to use shadowed passwords:"
-      "‘# sed -e"
+      "# sed -e"
       "'s/\"\\ ([a-2zA-20-9 ]*\\):[\":]1*:/\\1:x:/' -i /etc/passwd"
       "Investigate to determine if the account is logged in and what it is being used for, to"
       "determine if it needs to be forced off."
