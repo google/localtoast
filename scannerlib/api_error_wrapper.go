@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 // apiErrorWrapper is a wrapper around the scanner's scan API that makes the error
@@ -57,6 +58,14 @@ func (w *apiErrorWrapper) SQLQuery(ctx context.Context, query string) (int, erro
 	l, err := w.api.SQLQuery(ctx, query)
 	if err != nil {
 		err = fmt.Errorf("api.SQLQuery(%q): %w", query, err)
+	}
+	return l, err
+}
+
+func (w *apiErrorWrapper) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	l, err := w.api.SupportedDatabase()
+	if err != nil {
+		err = fmt.Errorf("api.SupportedDatabase(): %w", err)
 	}
 	return l, err
 }

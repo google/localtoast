@@ -26,7 +26,8 @@ type Flags struct {
 	ConfigFile              string
 	ResultFile              string
 	ChrootPath              string
-	Database                string
+	MySQLDatabase           string
+	CassandraDatabase       string
 	BenchmarkOptOutIDs      string
 	ContentOptOutRegexes    string
 	FilenameOptOutRegexes   string
@@ -52,6 +53,10 @@ func ValidateFlags(flags *Flags) error {
 				return errors.New("invalid --benchmark-opt-out-ids: ID cannot be left empty")
 			}
 		}
+	}
+
+	if len(flags.MySQLDatabase) > 0 && len(flags.CassandraDatabase) > 0 {
+		return errors.New("cannot specify multiple databases")
 	}
 
 	if err := validateRegexArg(flags.ContentOptOutRegexes, "--content-opt-out-regexes"); err != nil {

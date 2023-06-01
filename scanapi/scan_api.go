@@ -22,6 +22,7 @@ import (
 	"io"
 
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 var (
@@ -48,6 +49,8 @@ type Filesystem interface {
 type SQLQuerier interface {
 	// SQLQuery executes SQL queries to a target SQL database and returns the number of result rows.
 	SQLQuery(ctx context.Context, query string) (int, error)
+	// Returns the supported database type
+	SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error)
 }
 
 // ScanAPI is an interface that gives read access to the filesystem of
