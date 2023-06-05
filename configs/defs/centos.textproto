@@ -1838,7 +1838,7 @@ benchmark_configs: {
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
       "          filter_regex: \"^\\\\s*Defaults\\\\s+([^#]\\\\S+,\\\\s*)?use_pty\b\""
-      "          expected_regex: \"Defaults use_pty\""
+      "          expected_regex: \"^\\\\s*Defaults\\\\s+([^#]\\\\S+,\\\\s*)?use_pty\""
       "        }"
       "      }"
       "    }"
