@@ -260,7 +260,7 @@ func walkProcessPaths(ctx context.Context, procName string, fileName string, cli
 		// run the relative regexp on the process cmdline content
 		if cliArgRegex != "" {
 			// Compile regex
-			compiledCliArgRegex, err := regexp.Compile("^" + cliArgRegex + "$");
+			compiledCliArgRegex, err := regexp.Compile("^" + cliArgRegex + "$")
 			if err != nil {
 				return fmt.Errorf("unable to compile cli arg regex %q:\n%v", cliArgRegex, err)
 			}

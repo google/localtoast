@@ -24,6 +24,7 @@ import (
 	"regexp"
 	"sort"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -300,7 +301,8 @@ func TestTraverseFilesystemWithInfiniteLoop(t *testing.T) {
 }
 
 type fakeProcessPathReader struct {
-	pidToName map[int]string
+	pidToName    map[int]string
+	pidToCLIArgs map[int]string
 	// If true, tests the race condition when the files become unavailable after
 	// they're listed in the /proc directory.
 	removeFilesAfterQuery bool
@@ -315,7 +317,12 @@ func (r fakeProcessPathReader) OpenFile(ctx context.Context, path string) (io.Re
 		return nil, os.ErrNotExist
 	}
 
-	re := regexp.MustCompile(`^/proc/([0-9]+)/stat$`)
+	var re *regexp.Regexp
+	if strings.HasSuffix(path, "cmdline") {
+		re = regexp.MustCompile(`^/proc/([0-9]+)/cmdline`)
+	} else {
+		re = regexp.MustCompile(`^/proc/([0-9]+)/stat$`)
+	}
 
 	gs := re.FindStringSubmatch(path)
 	if gs == nil {
@@ -325,6 +332,11 @@ func (r fakeProcessPathReader) OpenFile(ctx context.Context, path string) (io.Re
 	if err != nil {
 		return nil, os.ErrNotExist
 	}
+
+	if strings.HasSuffix(path, "cmdline") {
+		return io.NopCloser(bytes.NewBufferString(r.pidToCLIArgs[pid])), nil
+	}
+
 	name, ok := r.pidToName[pid]
 	if !ok {
 		return nil, os.ErrNotExist
@@ -369,6 +381,7 @@ func TestProcessPath(t *testing.T) {
 	testCases := []struct {
 		name              string
 		pidToName         map[int]string
+		pidToCLIArgs      map[int]string
 		fileSet           *ipb.FileSet
 		expectedTraversal []*traversal
 	}{
@@ -438,6 +451,26 @@ func TestProcessPath(t *testing.T) {
 				{Path: "/proc/1337/environ", IsDir: false},
 			},
 		},
+		{
+			name: "CLI args are set",
+			pidToName: map[int]string{
+				1: "foo",
+				2: "foo",
+			},
+			pidToCLIArgs: map[int]string{
+				1: "env vars 1",
+				2: "env vars 2",
+			},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_ProcessPath_{ProcessPath: &ipb.FileSet_ProcessPath{
+					ProcName:    "foo",
+					CliArgRegex: ".* 2",
+				}},
+			},
+			expectedTraversal: []*traversal{
+				{Path: "/proc/2", IsDir: true},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
@@ -446,7 +479,7 @@ func TestProcessPath(t *testing.T) {
 			err := fileset.WalkFiles(
 				context.Background(),
 				tc.fileSet,
-				&fakeProcessPathReader{pidToName: tc.pidToName},
+				&fakeProcessPathReader{pidToName: tc.pidToName, pidToCLIArgs: tc.pidToCLIArgs},
 				time.Time{},
 				func(path string, isDir bool) error {
 					got = append(got, &traversal{path, isDir})
