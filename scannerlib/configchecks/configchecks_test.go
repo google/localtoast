@@ -51,6 +51,7 @@ var (
 type fakeAPI struct {
 	fileContent  string
 	openFileFunc func(ctx context.Context, filePath string) (io.ReadCloser, error)
+	supportedDB  ipb.SQLCheck_SQLDatabase
 }
 
 type fakeAPIOpt func(r *fakeAPI)
@@ -67,10 +68,17 @@ func withOpenFileFunc(f func(ctx context.Context, filePath string) (io.ReadClose
 	}
 }
 
+func withSupportedDatabase(db ipb.SQLCheck_SQLDatabase) fakeAPIOpt {
+	return func(r *fakeAPI) {
+		r.supportedDB = db
+	}
+}
+
 func newFakeAPI(opts ...fakeAPIOpt) *fakeAPI {
 	r := &fakeAPI{
 		fileContent:  testFileContent,
 		openFileFunc: nil,
+		supportedDB:  ipb.SQLCheck_DB_MYSQL,
 	}
 	for _, opt := range opts {
 		opt(r)
@@ -136,8 +144,8 @@ func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, error) {
 	}
 }
 
-func (fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
-	return ipb.SQLCheck_DB_MYSQL, nil
+func (r *fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	return r.supportedDB, nil
 }
 
 func singleComplianceResult(m configchecks.ComplianceMap) (result *apb.ComplianceResult, gotSingleton bool) {
