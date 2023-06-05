@@ -16,9 +16,9 @@ benchmark_configs: {
       "would have his own copy of the program. If the program happened to have a security"
       "vulnerability, the attacker could continue to exploit the known flaw."
     remediation:
-      "Edit /etc/stab and add or edit the following line:"
-      "tmpfs /dev/shm tmpfs defaults,noexec,nodev,nosuid,seclabel 0 0"
-      "Run the following command to remount /dev/shm:"
+      "Edit /etc/stab and add or edit the following line:\n"
+      "tmpfs /dev/shm tmpfs defaults,noexec,nodev,nosuid,seclabel 0 0\n"
+      "Run the following command to remount /dev/shm:\n"
       "# mount -o remount,noexec,nodev,nosuid /dev/shm"
     cis_benchmark: {
       profile_level: 1
@@ -215,7 +215,7 @@ benchmark_configs: {
       "It is important to ensure that an RPM's package signature is always checked prior to"
       "installation to ensure that the software is obtained from a trusted source."
     remediation:
-      "Edit /etc/yum.conf and set 'gpgcheck=1' in the [main] section."
+      "Edit /etc/yum.conf and set 'gpgcheck=1' in the [main] section.\n"
       "Edit any failing files in /etc/yum.repos.d/*.repo and set all instances of gpgcheck to 1."
     cis_benchmark: {
       profile_level: 1
@@ -249,7 +249,7 @@ benchmark_configs: {
       "Without a Mandatory Access Control system installed only the default Discretionary Access"
       "Control system will be available."
     remediation:
-      "Run the following command to install SELinux:"
+      "Run the following command to install SELinux:\n"
       "# yum install libselinux"
     cis_benchmark: {
       profile_level: 1
@@ -296,11 +296,11 @@ benchmark_configs: {
       "SELinux must be enabled at boot time in your grub configuration to ensure that the"
       "controls it provides are not overridden."
     remediation:
-      "Edit /etc/default/grub and remove all instances of selinux=0 and enforcing=0 from all"
-      "CMDLINE_LINUX parameters:"
-      "GRUB_CMDLINE_LINUX="
-      "GRUB_CMDLINE_LINUX DEFAULT=\"quiet\""
-      "Run the following command to update the grub2 configuration:"
+      "Edit /etc/default/grub and remove all instances of selinux=0 and enforcing=0 from all\n"
+      "CMDLINE_LINUX parameters:\n"
+      "GRUB_CMDLINE_LINUX=\n"
+      "GRUB_CMDLINE_LINUX DEFAULT=\"quiet\"\n"
+      "Run the following command to update the grub2 configuration:\n"
       "# grub2-mkconfig -o /boot/grub2/grub.cfg"
     cis_benchmark: {
       profile_level: 1
@@ -342,7 +342,7 @@ benchmark_configs: {
       "policy that is stricter than the default policy, which is perfectly acceptable. This item is"
       "intended to ensure that at least the default recommendations are met."
     remediation:
-      "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter:"
+      "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter:\n"
       "SELINUXTYPE=targeted"
     cis_benchmark: {
       profile_level: 1
@@ -390,17 +390,17 @@ benchmark_configs: {
       "enforcing the SELinux policy, it also avoids labeling any persistent objects such as files,"
       "making it difficult to enable SELinux in the future."
     remediation:
-      "Run one of the following commands to set SELinux's running mode:"
-      "To set SELinux mode to Enforcing:"
-      "# setenforce 1"
-      "To set SELinux mode to Permissive:"
-      "# setenforce 0"
-      "Edit the /etc/selinux/config file to set the SELINUX parameter:"
-      "For Enforcing mode:"
-      "SELINUX=enforcing"
-      "For Permissive mode:"
-      "SELINUX=permissive"
-      "References:"
+      "Run one of the following commands to set SELinux's running mode:\n"
+      "To set SELinux mode to Enforcing:\n"
+      "# setenforce 1\n"
+      "To set SELinux mode to Permissive:\n"
+      "# setenforce 0\n"
+      "Edit the /etc/selinux/config file to set the SELINUX parameter:\n"
+      "For Enforcing mode:\n"
+      "SELINUX=enforcing\n"
+      "For Permissive mode:\n"
+      "SELINUX=permissive\n"
+      "References:\n"
       "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/sect-security-enhanced_linux-introduction-selinux_modes"
     cis_benchmark: {
       profile_level: 1
@@ -484,7 +484,7 @@ benchmark_configs: {
       "The SETroubleshoot service is an unnecessary daemon to have running on a server,"
       "especially if X Windows is disabled."
     remediation:
-      "Run the following command to Uninstall setroubleshoot:"
+      "Run the following command to Uninstall setroubleshoot:\n"
       "# yum remove setroubleshoot"
     cis_benchmark: {
       profile_level: 1
@@ -514,7 +514,7 @@ benchmark_configs: {
       "Since this service is not used very often, remove it to reduce the amount of potentially"
       "vulnerable code running on the system."
     remediation:
-      "Run the following command to uninstall mcstrans:"
+      "Run the following command to uninstall mcstrans:\n"
       "# yum remove mcstrans"
     cis_benchmark: {
       profile_level: 1
@@ -543,21 +543,21 @@ benchmark_configs: {
     rationale:
       "Warning messages inform users who are attempting to login to the system of their legal"
       "status regarding the system and must include the name of the organization that owns the"
-      "system and any monitoring policies that are in place."
+      "system and any monitoring policies that are in place.\n"
       "Note: If a graphical login is not required, it should be removed to reduce the attack surface"
       "of the system."
     remediation:
-      "Edit or create the file /etc/dconf/profile/gdmand add the following:"
-      "user-db:user"
-      "system-db:gdm"
-      "file-db:/usr/share/gdm/greeter-dconf-defaults"
-      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically"
-      "/etc/dconf/db/gdm.d/01-banner-message)"
-      "[org/gnome/login-screen]"
-      "banner-message-enable=true"
-      "banner-message-text=\"'<banner message>'"
-      "Example Banner Text: 'Authorized users only. All activity may be monitored and reported.'"
-      "Run the following command to update the system databases:"
+      "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "/etc/dconf/db/gdm.d/01-banner-message)\n"
+      "[org/gnome/login-screen]\n"
+      "banner-message-enable=true\n"
+      "banner-message-text=\"'<banner message>'\n"
+      "Example Banner Text: 'Authorized users only. All activity may be monitored and reported.'\n"
+      "Run the following command to update the system databases:\n"
       "# dconf update"
     cis_benchmark: {
       profile_level: 1
@@ -618,26 +618,26 @@ benchmark_configs: {
       "systems."
     rationale:
       "Displaying the last logged in user eliminates half of the Userid/Password equation that an"
-      "unauthorized person would need to log on."
+      "unauthorized person would need to log on.\n"
       "Warning messages inform users who are attempting to login to the system of their legal"
       "status regarding the system and must include the name of the organization that owns the"
-      "system and any monitoring policies that are in place."
+      "system and any monitoring policies that are in place.\n"
       "Notes:"
       "If a graphical login is not required, it should be removed to reduce the attack surface"
-      "of the system."
+      "of the system.\n"
       "If a different GUI login service is in use and required on the system, consult your"
       "documentation to disable displaying the last logged on user"
     remediation:
-      "Edit or create the file /etc/dconf/profile/gdmand add the following:"
-      "user-db:user"
-      "system-db:gdm"
-      "file-db:/usr/share/gdm/greeter-dconf-defaults"
-      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically"
-      "/etc/dconf/db/gdm.d/00-1ogin-screen)"
-      "[org/gnome/login-screen]"
-      "# Do not show the user list"
-      "disable-user-list=true"
-      "Run the following command to update the system databases:"
+      "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "/etc/dconf/db/gdm.d/00-1ogin-screen)\n"
+      "[org/gnome/login-screen]\n"
+      "# Do not show the user list\n"
+      "disable-user-list=true\n"
+      "Run the following command to update the system databases:\n"
       "# dconf update"
     cis_benchmark: {
       profile_level: 1
@@ -693,20 +693,20 @@ benchmark_configs: {
       "X Display Manager Control Protocol (XDMCP) is designed to provide authenticated access"
       "to display management services for remote displays"
     rationale:
-      "XDMCP is inherently insecure."
+      "XDMCP is inherently insecure.\n"
       "XDMCP is not a ciphered protocol. This may allow an attacker to capture keystrokes"
-      "entered by a user"
+      "entered by a user.\n"
       "XDMCP is vulnerable to man-in-the-middle attacks. This may allow an attacker to"
       "steal the credentials of legitimate users by impersonating the XDMCP server."
     remediation:
-      "Edit the file /etc/gdm/custom.conf and remove the line"
-      "Enable=true"
-      "Default Value:"
-      "false "
-      "# This is denoted by no Enabled= entry in the file /etc/gdm/custom.conf in the"
-      "# [xdmcp] section"
-      "# References:"
-      "# 1. https://help.gnome.org/admin/gdm/2.32/configuration.html.en"
+      "Edit the file /etc/gdm/custom.conf and remove the line\n"
+      "Enable=true\n"
+      "Default Value:\n"
+      "false \n"
+      "# This is denoted by no Enabled= entry in the file /etc/gdm/custom.conf in the\n"
+      "# [xdmcp] section\n"
+      "# References:\n"
+      "# 1. https://help.gnome.org/admin/gdm/2.32/configuration.html.en\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -749,8 +749,8 @@ benchmark_configs: {
       "Note: If an xinetd service or services are required, ensure that any xinetd service not required"
       "is stopped and disabled"
     remediation:
-      "Run the following command to remove xinetd:"
-      "# yum remove xinetd"
+      "Run the following command to remove xinetd:\n"
+      "# yum remove xinetd\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -779,14 +779,14 @@ benchmark_configs: {
       "do not login."
     rationale:
       "Unless your organization specifically requires graphical login access via X Windows,"
-      "remove it to reduce the potential attack surface."
-      "Impact:"
+      "remove it to reduce the potential attack surface.\n"
+      "Impact:\n"
       "Many Linux systems run applications which require a Java runtime. Some Linux Java"
       "packages have a dependency on specific X Windows xorg-x11-fonts. One workaround to"
       "avoid this dependency is to use the \"headless\" Java packages for your specific Java runtime."
     remediation:
-      "Run the following command to remove the X Windows Server packages:"
-      "# yum remove xorg-x11-server*"
+      "Run the following command to remove the X Windows Server packages:\n"
+      "# yum remove xorg-x11-server*\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -817,17 +817,17 @@ benchmark_configs: {
       "The software for all Mail Transfer Agents is complex and most have a long history of"
       "security issues. While it is important to ensure that the system can process local mail"
       "messages, it is not necessary to have the MTA's daemon listening on a port unless the"
-      "server is intended to be a mail server that receives and processes mail from other systems."
-      "Notes:"
-      "This recommendation is designed around the postfix mail server."
+      "server is intended to be a mail server that receives and processes mail from other systems.\n"
+      "Notes:\n"
+      "This recommendation is designed around the postfix mail server.\n"
       "Depending on your environment you may have an alternative MTA installed such as"
       "sendmail. If this is the case consult the documentation for your installed MTA to"
       "configure the recommended state."
     remediation:
-      "Edit /etc/postfix/main.ct and add the following line to the RECEIVING MAIL section. If"
-      "the line already exists, change it to look like the line below:"
-      "inet_interfaces = loopback-only"
-      "Run the following command to restart postfix:"
+      "Edit /etc/postfix/main.ct and add the following line to the RECEIVING MAIL section. If\n"
+      "the line already exists, change it to look like the line below:\n"
+      "inet_interfaces = loopback-only\n"
+      "Run the following command to restart postfix:\n"
       "# systemctl restart postfix"
     cis_benchmark: {
       profile_level: 1
@@ -894,17 +894,17 @@ benchmark_configs: {
       "nft command line program."
     rationale:
       "A firewall utility is required to configure the Linux kernel's netfilter framework via the"
-      "iptables or nftables back-end."
+      "iptables or nftables back-end.\n"
       "The Linux kernel's netfilter framework host-based firewall can protect against threats"
       "originating from within a corporate network to include malicious mobile code and poorly"
-      "configured software on a host."
+      "configured software on a host.\n"
       "Note: Only one firewall utility should be installed and configured. Firewal11D is dependent on"
-      "the iptables package."
-      "Impact:"
+      "the iptables package.\n"
+      "Impact:\n"
       "Changing firewall settings while connected over the network can result in being locked out"
       "of the system."
     remediation:
-      "Run the following command to install Firewall and iptables:"
+      "Run the following command to install Firewall and iptables:\n"
       "# yum install firewalld iptables"
     cis_benchmark: {
       profile_level: 1
@@ -950,9 +950,9 @@ benchmark_configs: {
       "Note: firewalld may configured as the front-end to nftables. If this case, nftables should be"
       "stopped and masked instead of removed."
     remediation:
-      "Run the following command to remove nftables:"
-      "# yum remove nftables"
-      "Run the following command to stop and mask nftables\""
+      "Run the following command to remove nftables:\n"
+      "# yum remove nftables\n"
+      "Run the following command to stop and mask nftables\n"
       "systemctl --now mask nftables"
     cis_benchmark: {
       profile_level: 1
@@ -1009,9 +1009,9 @@ benchmark_configs: {
       "Running both nftables.service and firewalld.service may lead to conflict and"
       "unexpected results."
     remediation:
-      "Run the following command to remove firewalld"
-      "# yum remove firewalld"
-      "Run the following command to stop and mask firewalld"
+      "Run the following command to remove firewalld\n"
+      "# yum remove firewalld\n"
+      "Run the following command to stop and mask firewalld\n"
       "# systemctl --now mask firewalld"
     cis_benchmark: {
       profile_level: 1
@@ -1067,10 +1067,10 @@ benchmark_configs: {
       "the iptables-services package. Running both nftables and the services included in the"
       "iptables-services package may lead to conflict."
     remediation:
-      "Run the following commands to stop the services included in the iptables-services"
-      "package and remove the iptables-services package"
-      "# systemctl stop iptables"
-      "# systemctl stop ip6tables"
+      "Run the following commands to stop the services included in the iptables-services\n"
+      "package and remove the iptables-services package\n"
+      "# systemctl stop iptables\n"
+      "# systemctl stop ip6tables\n"
       "# yum remove iptables-services"
     cis_benchmark: {
       profile_level: 1
@@ -1117,10 +1117,10 @@ benchmark_configs: {
       "Changes made to nftables ruleset only affect the live system, you will also need to configure"
       "the nftables ruleset to apply on boot"
     remediation:
-      "Edit the /etc/sysconfig/nftables.conf file and un-comment or add a line with include"
-      "Absolute path to nftables rules file>for each nftables file you want included in the"
-      "nftables ruleset on boot:"
-      "Example:"
+      "Edit the /etc/sysconfig/nftables.conf file and un-comment or add a line with include\n"
+      "Absolute path to nftables rules file>for each nftables file you want included in the\n"
+      "nftables ruleset on boot:\n"
+      "Example:\n"
       "include \"/etc/nftables/nftables.rules\""
     cis_benchmark: {
       profile_level: 1
@@ -1172,7 +1172,7 @@ benchmark_configs: {
       "A method of configuring and maintaining firewall rules is necessary to configure a Host"
       "Based Firewall."
     remediation:
-      "Run the following command to install iptables and iptables-services"
+      "Run the following command to install iptables and iptables-services\n"
       "# yum install iptables iptables-services"
     cis_benchmark: {
       profile_level: 1
@@ -1222,7 +1222,7 @@ benchmark_configs: {
     rationale:
       "Running both iptables and nftables may lead to conflict."
     remediation:
-      "Run the following command to remove nftables:"
+      "Run the following command to remove nftables:\n"
       "# yum remove nftables"
     cis_benchmark: {
       profile_level: 1
@@ -1276,12 +1276,12 @@ benchmark_configs: {
       "bridges and also for IPSet firewall settings. There is a separation of the runtime and"
       "permanent configuration options."
     rationale:
-      "Running iptables.service and\\or ip6tables.service with firewalld.service may lead"
+      "Running iptables.service and/or ip6tables.service with firewalld.service may lead"
       "to conflict and unexpected results."
     remediation:
-      "Run the following command to remove firewalld"
-      "# yum remove firewalld"
-      "Run the following command to stop and mask firewalld"
+      "Run the following command to remove firewalld\n"
+      "# yum remove firewalld\n"
+      "Run the following command to stop and mask firewalld\n"
       "# systemctl --now mask firewalld"
     cis_benchmark: {
       profile_level: 1
@@ -1342,7 +1342,7 @@ benchmark_configs: {
       "If the iptables rules are not saved and a system re-boot occurs, the iptables rules will be"
       "lost."
     remediation:
-      "Run the following command to save any configuration to file:"
+      "Run the following command to save any configuration to file:\n"
       "# service iptables save"
     cis_benchmark: {
       profile_level: 1
@@ -1385,7 +1385,7 @@ benchmark_configs: {
       "If the ip6tables rules are notsaved and a system re-boot occurs, the ip6tables rules will"
       "be lost."
     remediation:
-      "Run the following command to save any configuration to file:"
+      "Run the following command to save any configuration to file:\n"
       "# service ip6tables save"
     cis_benchmark: {
       profile_level: 1
@@ -1422,16 +1422,16 @@ benchmark_configs: {
     title: "Ensure rsyslog is installed"
     description:
       "The rsyslog software is arecommended replacement to the original sys1ogd daemon."
-      "rsyslog provides improvements over syslogd, including:"
-      "connection-oriented (i.e. TCP) transmission of logs"
-      "The option to log to database formats"
+      "rsyslog provides improvements over syslogd, including:\n"
+      "connection-oriented (i.e. TCP) transmission of logs\n"
+      "The option to log to database formats\n"
       "Encryption of log data en route to a central logging server"
     rationale:
       "The security enhancements of rsyslog such as connection-oriented (i.e. TCP) transmission"
       "of logs, the option to log to database formats, and the encryption of log data en route to a"
       "central logging server justify installing and configuring the package."
     remediation:
-      "Run the following command to install rsyslog:"
+      "Run the following command to install rsyslog:\n"
       "# yum install rsyslog"
     cis_benchmark: {
       profile_level: 1
@@ -1477,7 +1477,7 @@ benchmark_configs: {
       "If the rsyslog service is not activated the system may default to the sys1ogd service or lack"
       "logging instead."
     remediation:
-      "Run the following command to enable and start rsysiog:"
+      "Run the following command to enable and start rsysiog:\n"
       "# systemctl --now enable rsyslog"
     cis_benchmark: {
       profile_level: 1
@@ -1507,20 +1507,20 @@ benchmark_configs: {
       "rsyslog will create logfiles that do not already exist on the system. This setting controls"
       "what permissions will be applied to these newly created files."
       "The $FilecreateMode parameter specifies the file creation mode with which rsyslogd"
-      "creates new files. If not specified, the value 0644 is used."
-      "Notes:"
-      "o The value given must always be a 4-digit octal number, with the initial digit being"
-      "zero."
-      "o This setting can be overridden by a less restrictive setting in any file ending in .conf in"
+      "creates new files. If not specified, the value 0644 is used.\n"
+      "Notes\n:"
+      "The value given must always be a 4-digit octal number, with the initial digit being"
+      "zero.\n"
+      "This setting can be overridden by a less restrictive setting in any file ending in .conf in"
       "the /etc/rsyslog.d/ directory"
     rationale:
       "It is important to ensure that log files have the correct permissions to ensure that sensitive"
       "data is archived and protected."
     remediation:
-      "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and set $FilecreateMode to"
-      "0640 or more restrictive:"
-      "$FileCreateMode 0640"
-      "References:"
+      "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and set $FilecreateMode to\n"
+      "0640 or more restrictive:\n"
+      "$FileCreateMode 0640\n"
+      "References:\n"
       "1. See the rsyslog.conf(5) man page for more information."
     cis_benchmark: {
       profile_level: 1
@@ -1569,7 +1569,7 @@ benchmark_configs: {
     title: "Ensure rsyslog is configured to send logs to a remote log host"
     description:
       "The rsysilog utility supports the ability to send logs it gathers to a remote log host running"
-      "syslogd(8) Or to receive messages from remote hosts, reducing administrative overhead."
+      "syslogd(8) Or to receive messages from remote hosts, reducing administrative overhead.\n"
       "Note: Ensure that the selection of logfiles being sent follows local site policy"
     rationale:
       "Storing log data on a remote host protects log integrity from local attacks. If an attacker"
@@ -1577,20 +1577,20 @@ benchmark_configs: {
       "stored on the local system"
     remediation:
       "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and add one of the following"
-      "lines:"
+      "lines:\n"
       "<files to sent to the remote log server> action (type=\"omfwd\" target=\"<FQDN or"
       "ip of loghost>\" port=\"<port number>\" protocol=\"tcp\""
-      "<number of re-tries>\""
-      "queue.type=\"LinkedList\""
-      "action.resumeRetryCount"
-      "queue.size=<number of messages to queue>\")"
-      "Example:"
+      "<number of re-tries>\"\n"
+      "queue.type=\"LinkedList\"\n"
+      "action.resumeRetryCount\n"
+      "queue.size=<number of messages to queue>\")\n"
+      "Example:\n"
       "*.* action (type=\"omfwd\" target=\"192.168.2.100\" port=\"514\" protocol=\"tcp\""
       "action.resumeRetryCount=\"100\""
-      "queue. type=\"LinkedList\" queue.size=\"1000\")"
-      "Run the following command to reload the rsys1og configuration:"
-      "# systemctl restart rsyslog"
-      "References:"
+      "queue. type=\"LinkedList\" queue.size=\"1000\")\n"
+      "Run the following command to reload the rsys1og configuration:\n"
+      "# systemctl restart rsyslog\n"
+      "References:\n"
       "1. See the rsyslog.conf(5) man page for more information."
     cis_benchmark: {
       profile_level: 1
@@ -1649,14 +1649,14 @@ benchmark_configs: {
     description:
       "Data from journald may be stored in volatile memory or persisted locally on the server."
       "Utilities exist to accept remote export of journald logs, however, use of the rsyslog service"
-      "provides a consistent means of log collection and export."
-      "Notes:"
-      "o This recommendation assumes that recommendation 4.2.1.5, \"Ensure rsyslog is"
-      "configured to send logs to a remote log host\" has been implemented."
-      "o The main configuration file /etc/systemd/journald. conf is read before any of the"
+      "provides a consistent means of log collection and export.\n"
+      "Notes:\n"
+      "This recommendation assumes that recommendation 4.2.1.5, \"Ensure rsyslog is"
+      "configured to send logs to a remote log host\" has been implemented.\n"
+      "The main configuration file /etc/systemd/journald. conf is read before any of the"
       "custom *.conf files. If there are custom configs present, they override the main"
-      "configuration parameters"
-      "o Asnoted in the journald man pages: journald logs may be exported to rsyslog either"
+      "configuration parameters\n"
+      "As noted in the journald man pages: journald logs may be exported to rsyslog either"
       "through the process mentioned here, or through a facility like systemd-"
       "journald.service. There are trade-offs involved in each implementation, where"
       "ForwardToSyslog Will immediately capture all events (and forward to an external log"
@@ -1670,9 +1670,9 @@ benchmark_configs: {
       "gains root access on the local system, they could tamper with or remove log data that is"
       "stored on the local system."
     remediation:
-      "Edit the /etc/systemd/journald.conf file and add the following line:"
-      "ForwardToSyslog=yes"
-      "References:"
+      "Edit the /etc/systemd/journald.conf file and add the following line:\n"
+      "ForwardToSyslog=yes\n"
+      "References:\n"
       "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
       "mdjournaldconf"
     cis_benchmark: {
@@ -1706,7 +1706,7 @@ benchmark_configs: {
     title: "Ensure journald is configured to compress large log files"
     description:
       "The journald system includes the capability of compressing overly large files to avoid filling"
-      "up the system with logs or making the logs unmanageably large."
+      "up the system with logs or making the logs unmanageably large.\n"
       "Note: The main configuration file /etc/systemd/journald. conf is read before any of the"
       "custom *.conf files. If there are custom configs present, they override the main configuration"
       "parameters"
@@ -1715,9 +1715,9 @@ benchmark_configs: {
       "unavailability. Compressing logs prior to write can prevent sudden, unexpected filesystem"
       "impacts."
     remediation:
-      "Edit the /etc/systemd/journald.cont file and add the following line:"
-      "Compress=yes"
-      "References:"
+      "Edit the /etc/systemd/journald.cont file and add the following line:\n"
+      "Compress=yes\n"
+      "References:\n"
       "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
       "mdjournaldconf"
     cis_benchmark: {
@@ -1757,13 +1757,13 @@ benchmark_configs: {
       "sudo supports a plugin architecture for security policies and input/output logging. Third"
       "parties can develop and distribute their own policy and /0 logging plugins to work"
       "seamlessly with the sudo front end. The default security policy is sudoers, which is"
-      "configured via the file /etc/sudoers."
+      "configured via the file /etc/sudoers.\n"
       "The security policy determines what privileges, if any, a user has to run sudo. The policy"
       "may require that users authenticate themselves with a password or another authentication"
       "mechanism. If authentication is required, sudo will exit if the user's password is not"
       "entered within a configurable time limit. This limit is policy-specific."
     remediation:
-      "Run the following command to install sudo."
+      "Run the following command to install sudo.\n"
       "# yum install sudo"
     cis_benchmark: {
       profile_level: 1
@@ -1811,12 +1811,12 @@ benchmark_configs: {
       "again later. The -f option allows you to tell visudo which file to edit."
     rationale:
       "Attackers can run a malicious program using sudo, which would again fork a background"
-      "process that remains even when the main program has finished executing."
+      "process that remains even when the main program has finished executing.\n"
       "This can be mitigated by configuring sudo to run other commands only from a pseudo-pty,"
       "whether 1/0 logging is turned on or not."
     remediation:
       "Edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo"
-      "and add the following line:"
+      "and add the following line:\n"
       "Defaults use_pty"
     cis_benchmark: {
       profile_level: 1
@@ -1858,17 +1858,17 @@ benchmark_configs: {
       "parse errors. If the sudoers file is currently being edited you will receive a message to try"
       "again later. The -f option allows you to tell visudo which file to edit."
     rationale:
-      "A sudo log file simplifies auditing of sudo commands"
-      "Impact:"
+      "A sudo log file simplifies auditing of sudo commands\n"
+      "Impact:\n"
       "Editing the sudo configuration incorrectly can cause sudo to stop functioning"
     remediation:
-      "edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo -f <PATH"
-      "To FILE>and add the following line:"
-      "Defaults logfile=\"<PATH TO CUSTOM LOG FILE>\""
-      "Example:"
-      "Pefaults logfile=\"/var/log/sudo.log\""
-      "References:"
-      "1. SUDO(8)"
+      "edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo -f <PATH\n"
+      "To FILE>and add the following line:\n"
+      "Defaults logfile=\"<PATH TO CUSTOM LOG FILE>\"\n"
+      "Example:\n"
+      "Pefaults logfile=\"/var/log/sudo.log\"\n"
+      "References:\n"
+      "1. SUDO(8)\n"
       "2. VISUDO(8)"
     cis_benchmark: {
       profile_level: 1
@@ -1915,18 +1915,18 @@ benchmark_configs: {
       "mitigated by using shadowed passwords, thus moving the passwords in the /etc/passwa"
       "file to /etc/shadow. The /etc/shadow file is set so only root will be able to read and write."
       "This helps mitigate the risk of an attacker gaining access to the encoded passwords with"
-      "which to perform a dictionary attack."
-      "Notes:"
-      "o All accounts must have passwords or be locked to prevent the account from being used"
-      "by an unauthorized user."
-      "o Auser account with an empty second field in /etc/passwd allows the account to be"
+      "which to perform a dictionary attack.\n"
+      "Notes:\n"
+      "All accounts must have passwords or be locked to prevent the account from being used"
+      "by an unauthorized user.\n"
+      "Auser account with an empty second field in /etc/passwd allows the account to be"
       "logged into by providing only the username."
     remediation:
-      "If any accounts in the /etc/passwd file do not have a single x in the password field, run the"
-      "following command to set these accounts to use shadowed passwords:"
-      "# sed -e"
-      "'s/\"\\ ([a-2zA-20-9 ]*\\):[\":]1*:/\\1:x:/' -i /etc/passwd"
-      "Investigate to determine if the account is logged in and what it is being used for, to"
+      "If any accounts in the /etc/passwd file do not have a single x in the password field, run the\n"
+      "following command to set these accounts to use shadowed passwords:\n"
+      "# sed -e\n"
+      "'s/\"\\ ([a-2zA-20-9 ]*\\):[\":]1*:/\\1:x:/' -i /etc/passwd\n"
+      "Investigate to determine if the account is logged in and what it is being used for, to\n"
       "determine if it needs to be forced off."
     cis_benchmark: {
       profile_level: 1
@@ -1956,28 +1956,27 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure no users have .rhosts files"
-
     description:
-      "While no . rhosts files are shipped by default, users can easily create them."
+      "While no .rhosts files are shipped by default, users can easily create them."
     rationale:
-      "This action is only meaningful if . rhosts support is permitted in the file /etc/pam.cont."
-      "Even though the . rhosts files are ineffective if support is disabled in /etc/pam.cont, they"
+      "This action is only meaningful if . rhosts support is permitted in the file /etc/pam.cont.\n"
+      "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.cont, they"
       "may have been brought over from other systems and could contain information useful to"
       "an attacker for those other systems."
     remediation:
       "Making global modifications to users' files without alerting the user community can result"
       "in unexpected outages and unhappy users. Therefore, it is recommended that a monitoring"
-      "policy be established to report user . rhosts files and determine the action to be taken in"
-      "accordance with site policy."
-      "The following script will remove . rhosts files from interactive users' home directories"
-      "#!/bin/bash"
-      "awk -F: '($1!~/(root|halt|sync|shutdown|nfsnobody)/ &&"
-      "$71~/~(\\/usr)?2\\/sbin\\/nologin (\\/)?$/ && $7!~/(\\/usr)?\\/bin\\/false(\\/)?$/) {"
-      "print $6 }' /etc/passwd |"
-      "if [ -d \"$dir\" ]; then"
-      "file=\"$dir/.rhosts\""
-      "while read -r dir; do"
-      "[ ! -h \"$file\" ] && [ -f \"$file\" ] && rm -r \"$file\""
+      "policy be established to report user .rhosts files and determine the action to be taken in"
+      "accordance with site policy.\n"
+      "The following script will remove .rhosts files from interactive users' home directories\n"
+      "#!/bin/bash\n"
+      "awk -F: '($1!~/(root|halt|sync|shutdown|nfsnobody)/ &&\n"
+      "$71~/~(\\/usr)?2\\/sbin\\/nologin (\\/)?$/ && $7!~/(\\/usr)?\\/bin\\/false(\\/)?$/) {\n"
+      "print $6 }' /etc/passwd |\n"
+      "if [ -d \"$dir\" ]; then\n"
+      "file=\"$dir/.rhosts\"\n"
+      "while read -r dir; do\n"
+      "[ ! -h \"$file\" ] && [ -f \"$file\" ] && rm -r \"$file\"\n"
       "done"
     cis_benchmark: {
       profile_level: 1
