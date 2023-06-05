@@ -623,7 +623,7 @@ benchmark_configs: {
       "status regarding the system and must include the name of the organization that owns the"
       "system and any monitoring policies that are in place."
       "Notes:"
-      "o Ifagraphical login is not required, it should be removed to reduce the attack surface"
+      "If a graphical login is not required, it should be removed to reduce the attack surface"
       "of the system."
       "If a different GUI login service is in use and required on the system, consult your"
       "documentation to disable displaying the last logged on user"
