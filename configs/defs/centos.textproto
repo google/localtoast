@@ -357,7 +357,7 @@ benchmark_configs: {
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
       "          filter_regex: \".*SELINUXTYPE=[0-9a-zA-Z]+.*\""
-      "          expected_regex: \".*SELINUXTYPE=(targeted|m1s).*\""
+      "          expected_regex: \".*SELINUXTYPE=(targeted|mls).*\""
       "        }"
       "      }"
       "    }"
