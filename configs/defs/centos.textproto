@@ -879,7 +879,7 @@ benchmark_configs: {
   id: "iptables-services-not-installed-with-firewalld"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
-    title: "Ensure firewalld is installed"
+    title: "Ensure iptables-services not installed with firewalld"
     description:
       "firewalld is a firewall management tool for Linux operating systems. It provides firewall"
       "features by acting as a front-end for the Linux kernel's netfilter framework via the iptables"
