@@ -9,6 +9,7 @@ benchmark_configs: {
   id: "cramfs-mounting-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure mounting of cramfs filesystems is disabled"
     description:
       "The cramfs filesystem type is a compressed read-only Linux filesystem "
@@ -540,6 +541,7 @@ benchmark_configs: {
   id: "udf-mounting-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure mounting of udf filesystems is disabled"
     description:
       "The udf filesystem type is the universal disk format used to implement "
@@ -835,6 +837,7 @@ benchmark_configs: {
   id: "var-tmp-nodev-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure nodev option set on /var/tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -892,6 +895,7 @@ benchmark_configs: {
   id: "var-tmp-nosuid-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure nosuid option set on /var/tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -949,6 +953,7 @@ benchmark_configs: {
   id: "var-tmp-noexec-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure noexec option set on /var/tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -1174,6 +1179,7 @@ benchmark_configs: {
   id: "shm-noexec-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure noexec option set on /dev/shm partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -1229,6 +1235,7 @@ benchmark_configs: {
   id: "world-writable-dirs-sticky-fallback"
   compliance_note {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure sticky bit is set on all world-writable directories"
     description:
       "Setting the sticky bit on world writable directories prevents users from "
@@ -1248,7 +1255,7 @@ benchmark_configs: {
       "re-running the file display command.\n"
     cis_benchmark: {
       profile_level: 1
-      severity: LOW
+      severity: HIGH
     }
     scan_instructions:
       "scan_type_specific:{instance_scanning:{"
@@ -1425,6 +1432,7 @@ benchmark_configs: {
   id: "aide-installed-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure AIDE is installed"
     description:
       "AIDE takes a snapshot of filesystem state including modification "
@@ -1493,6 +1501,7 @@ benchmark_configs: {
   id: "filesystem-integrity-checked-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure filesystem integrity is regularly checked"
     description:
       "Periodic checking of the filesystem integrity is needed to detect "
@@ -1554,6 +1563,7 @@ benchmark_configs: {
   id: "bootloader-config-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on bootloader config are configured"
     description:
       "The grub configuration file contains information on boot settings and "
@@ -1620,6 +1630,7 @@ benchmark_configs: {
   id: "bootloader-password-set-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure bootloader password is set"
     description:
       "Setting the boot loader password will require that anyone rebooting "
@@ -1728,6 +1739,7 @@ benchmark_configs: {
   id: "auth-for-single-user-required-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure authentication required for single user mode"
     description:
       "Single user mode is used for recovery when the system detects an "
@@ -1814,6 +1826,7 @@ benchmark_configs: {
   id: "core-dumps-restricted-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure core dumps are restricted"
     description:
       "A core dump is the memory of an executable program. It is generally "
@@ -2117,6 +2130,7 @@ benchmark_configs: {
   id: "prelink-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure prelink is disabled"
     description:
       "prelink is a program that modifies ELF shared libraries and ELF "
@@ -2160,6 +2174,7 @@ benchmark_configs: {
   id: "motd-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure message of the day is configured properly"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -2308,6 +2323,7 @@ benchmark_configs: {
   id: "motd-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/motd are configured"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -2405,6 +2421,7 @@ benchmark_configs: {
   id: "etc-issue-net-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/issue.net are configured"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior "
@@ -2999,6 +3016,7 @@ benchmark_configs: {
   id: "telnet-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure telnet server is not enabled"
     description:
       "The telnet-server package contains the telnet daemon, which accepts "
@@ -3188,6 +3206,7 @@ benchmark_configs: {
   id: "time-synchronization-in-use-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure time synchronization is in use"
     description:
       "System time should be synchronized between all systems in an "
@@ -3304,6 +3323,7 @@ benchmark_configs: {
   id: "ntp-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure ntp is configured"
     description:
       "ntp is a daemon which implements the Network Time Protocol (NTP). It "
@@ -3378,6 +3398,7 @@ benchmark_configs: {
   id: "chrony-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure chrony is configured"
     description:
       "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
@@ -3639,6 +3660,7 @@ benchmark_configs: {
   id: "cups-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure CUPS is not enabled"
     description:
       "The Common Unix Print System (CUPS) provides the ability to print to "
@@ -3679,6 +3701,7 @@ benchmark_configs: {
   id: "dhcp-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure DHCP Server is not enabled"
     description:
       "The Dynamic Host Configuration Protocol (DHCP) is a service that "
@@ -3717,6 +3740,7 @@ benchmark_configs: {
   id: "ldap-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure LDAP Server is not enabled"
     description:
       "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
@@ -3756,6 +3780,7 @@ benchmark_configs: {
   id: "nfs-rpc-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure NFS and RPC are not enabled"
     description:
       "The Network File System (NFS) is one of the first and most widely distributed\n"
@@ -3807,6 +3832,7 @@ benchmark_configs: {
   id: "dns-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure DNS Server is not enabled"
     description:
       "The Domain Name System (DNS) is a hierarchical naming system that maps "
@@ -3846,6 +3872,7 @@ benchmark_configs: {
   id: "ftp-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure FTP Server is not enabled"
     description:
       "The File Transfer Protocol (FTP) provides networked computers with the "
@@ -3886,6 +3913,7 @@ benchmark_configs: {
   id: "http-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure HTTP Server is not enabled"
     description: "HTTP or web servers provide the ability to host web site content."
     rationale:
@@ -3922,6 +3950,7 @@ benchmark_configs: {
   id: "imap-pop3-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure IMAP and POP3 Server is not enabled"
     description: "dovecot is an open source IMAP and POP3 server for Linux based systems."
     rationale:
@@ -3958,6 +3987,7 @@ benchmark_configs: {
   id: "samba-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure Samba Server is not enabled"
     description:
       "The Samba daemon allows system administrators to configure their Linux "
@@ -4000,6 +4030,7 @@ benchmark_configs: {
   id: "http-proxy-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure HTTP Proxy Server is not enabled"
     description:
       "Squid is a standard proxy server used in many distributions and "
@@ -4037,6 +4068,7 @@ benchmark_configs: {
   id: "snmp-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SNMP Server is not enabled"
     description:
       "The Simple Network Management Protocol (SNMP) server is used to listen "
@@ -4079,6 +4111,7 @@ benchmark_configs: {
   id: "rsync-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure rsync service is not enabled"
     description:
       "The rsyncd service can be used to synchronize files between systems over\n"
@@ -4116,6 +4149,7 @@ benchmark_configs: {
   id: "nis-server-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure NIS Server is not enabled"
     description:
       "The Network Information Service (NIS) (formally known as Yellow Pages) "
@@ -4200,6 +4234,7 @@ benchmark_configs: {
   id: "rsh-client-not-installed-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure rsh client is not installed"
     description: "The rsh package contains the client commands for the rsh services."
     rationale:
@@ -4237,6 +4272,7 @@ benchmark_configs: {
   id: "talk-client-not-installed-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure talk client is not installed"
     description:
       "The talk software makes it possible for users to send and receive "
@@ -4273,6 +4309,7 @@ benchmark_configs: {
   id: "telnet-client-not-installed-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure telnet client is not installed"
     description:
       "The telnet package contains the telnet client, which allows users to "
@@ -4310,6 +4347,7 @@ benchmark_configs: {
   id: "ldap-client-not-installed-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure LDAP client is not installed"
     description:
       "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
@@ -4345,6 +4383,7 @@ benchmark_configs: {
   id: "ip-forwarding-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure IP forwarding is disabled"
     description:
       "The net.ipv4.ip_forward and net.ipv6.conf.all.forwarding flags are "
@@ -4636,6 +4675,7 @@ benchmark_configs: {
   id: "icmp-redirects-not-accepted-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure ICMP redirects are not accepted"
     description:
       "ICMP redirect messages are packets that convey routing information and tell\n"
@@ -4755,6 +4795,7 @@ benchmark_configs: {
   id: "secure-icmp-redirects-not-accepted-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure secure ICMP redirects are not accepted"
     description:
       "Secure ICMP redirects are the same as ICMP redirects, except they come "
@@ -4849,6 +4890,7 @@ benchmark_configs: {
   id: "suspicious-packets-logged-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure suspicious packets are logged"
     description:
       "When enabled, this feature logs packets with un-routable source "
@@ -5299,6 +5341,7 @@ benchmark_configs: {
   id: "ipv6-router-advertisements-not-accepted-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure IPv6 router advertisements are not accepted"
     description:
       "This setting disables the system's ability to accept IPv6 router "
@@ -5638,6 +5681,7 @@ benchmark_configs: {
   id: "logfile-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on all logfiles are configured"
     description:
       "Log files stored in /var/log/ contain logged information from many "
@@ -5701,6 +5745,7 @@ benchmark_configs: {
   id: "logrotate-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure logrotate is configured"
     description:
       "The system includes the capability of rotating log files regularly to "
@@ -5749,6 +5794,7 @@ benchmark_configs: {
   id: "cron-daemon-enabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure cron daemon is enabled"
     description: "The cron daemon is used to execute batch jobs on the system."
     rationale:
@@ -5790,6 +5836,7 @@ benchmark_configs: {
   id: "crontab-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/crontab are configured"
     description:
       "The /etc/crontab file is used by cron to control its own jobs. The "
@@ -5841,6 +5888,7 @@ benchmark_configs: {
   id: "cron-hourly-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/cron.hourly are configured"
     description:
       "This directory contains system cron jobs that need to run on an hourly "
@@ -5894,6 +5942,7 @@ benchmark_configs: {
   id: "cron-daily-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/cron.daily are configured"
     description:
       "The /etc/cron.daily directory contains system cron jobs that need to "
@@ -5947,6 +5996,7 @@ benchmark_configs: {
   id: "cron-weekly-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/cron.weekly are configured"
     description:
       "The /etc/cron.weekly directory contains system cron jobs that need to "
@@ -6000,6 +6050,7 @@ benchmark_configs: {
   id: "cron-monthly-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/cron.monthly are configured"
     description:
       "The /etc/cron.monthly directory contains system cron jobs that need to "
@@ -6053,6 +6104,7 @@ benchmark_configs: {
   id: "cron-d-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/cron.d are configured"
     description:
       "The /etc/cron.d directory contains system cron jobs that need to run in "
@@ -6108,6 +6160,7 @@ benchmark_configs: {
   id: "at-cron-restricted-to-authorized-users-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure at/cron is restricted to authorized users"
     description:
       "Configure /etc/cron.allow and /etc/at.allow to allow specific users to "
@@ -6367,6 +6420,7 @@ benchmark_configs: {
   id: "ssh-loglevel-appropriate-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH LogLevel is appropriate"
     description:
       "INFO level is the basic level that only records login activity of SSH users.\n"
@@ -6853,6 +6907,7 @@ benchmark_configs: {
   id: "strong-mac-algorithms-used-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure only strong MAC algorithms are used"
     description: "This variable limits the types of MAC algorithms that SSH can use during communication."
     rationale:
@@ -7016,6 +7071,7 @@ benchmark_configs: {
   id: "ssh-idle-timeout-interval-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH Idle Timeout Interval is configured"
     description:
       "The two options ClientAliveInterval and ClientAliveCountMax control the "
@@ -7097,6 +7153,7 @@ benchmark_configs: {
   id: "ssh-logingrace-one-minute-or-less-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH LoginGraceTime is set to one minute or less"
     description:
       "The LoginGraceTime parameter specifies the time allowed for successful "
@@ -7159,6 +7216,7 @@ benchmark_configs: {
   id: "ssh-access-limited-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH access is limited"
     description:
       "There are several options available to limit which users and group can "
@@ -7273,6 +7331,7 @@ benchmark_configs: {
   id: "ssh-pam-enabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH PAM is enabled"
     description:
       "UsePAM Enables the Pluggable Authentication Module interface. If set to “yes”\n"
@@ -7362,6 +7421,7 @@ benchmark_configs: {
   id: "ssh-maxsessions-4-or-less-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH MaxSessions is set to 4 or less"
     description:
       "The MaxSessions parameter specifies the maximum number of open "
@@ -7409,6 +7469,7 @@ benchmark_configs: {
   id: "password-creation-reqs-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure password creation requirements are configured"
     description:
       "The pam_cracklib.so module checks the strength of passwords. It "
@@ -7491,6 +7552,7 @@ benchmark_configs: {
   id: "failed-password-lockout-configured-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure lockout for failed password attempts is configured"
     description:
       "Lock out users after n unsuccessful consecutive login attempts. The "
@@ -7549,6 +7611,7 @@ benchmark_configs: {
   id: "password-reuse-limited-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure password reuse is limited"
     description:
       "The /etc/security/opasswd file stores the users' old passwords and can "
@@ -8119,6 +8182,7 @@ benchmark_configs: {
   id: "default-user-umask-027-or-more-restrictive-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure default user umask is 027 or more restrictive"
     description:
       "The default umask determines the permissions of files created by "
@@ -8292,6 +8356,7 @@ benchmark_configs: {
   id: "etc-passwd-permissions-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
       "The /etc/passwd file contains user account information that is used by many\n"
@@ -8753,6 +8818,7 @@ benchmark_configs: {
   id: "no-world-writable-files-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure no world writable files exist"
     description:
       "Unix-based systems support variable settings to control access to "
@@ -8814,6 +8880,7 @@ benchmark_configs: {
   id: "no-unowned-files-or-dirs-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure no unowned files or directories exist"
     description:
       "Sometimes when administrators delete users from the password file they "
@@ -8875,6 +8942,7 @@ benchmark_configs: {
   id: "no-ungrouped-files-or-dirs-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure no ungrouped files or directories exist"
     description:
       "Sometimes when administrators delete users or groups from the system "
@@ -8936,6 +9004,7 @@ benchmark_configs: {
   id: "audit-suid-execs-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Audit SUID executables"
     description:
       "The owner of a file can set the file's permissions to run with the "
@@ -8999,6 +9068,7 @@ benchmark_configs: {
   id: "audit-sgid-execs-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Audit SGID executables"
     description:
       "The owner of a file can set the file's permissions to run with the "
@@ -9066,6 +9136,7 @@ benchmark_configs: {
   id: "password-fields-not-empty-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure password fields are not empty"
     description:
       "An account with an empty password field means that anybody may log in as that\n"
@@ -9273,6 +9344,7 @@ benchmark_configs: {
   id: "root-path-integrity-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure root PATH Integrity"
     description:
       "The root user can execute any command on the system and could be fooled "
@@ -9285,7 +9357,7 @@ benchmark_configs: {
     remediation: "Correct or justify any items discovered by the CIS document's Audit step."
     cis_benchmark: {
       profile_level: 1
-      severity: LOW
+      severity: HIGH
     }
     scan_instructions:
       #Check the env vars of the scanner process's user. This assumes that the
@@ -9395,6 +9467,7 @@ benchmark_configs: {
   id: "home-dirs-750-or-more-restrictive-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure users' home directories permissions are 750 or more restrictive"
     description:
       "While the system administrator can establish secure permissions for "
