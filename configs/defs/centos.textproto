@@ -25,7 +25,8 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{"
+      "scan_type_specific:{"
+      " instance_scanning: {"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
@@ -50,6 +51,21 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
+      " }"
+      " image_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/fstab\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .*\""
+      "          expected_regex: \".* /dev/shm .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      " }"
       "}"
   }
 }
@@ -73,7 +89,8 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{"
+      "scan_type_specific:{"
+      " instance_scanning: {"
       " check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{"
@@ -100,7 +117,7 @@ benchmark_configs: {
       "      \""
       "    }"
       " }"
-      "}"
+      "}}"
   }
 }
 benchmark_configs: {
@@ -123,7 +140,8 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{"
+      "scan_type_specific:{"
+      " instance_scanning: {"
       " check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{"
@@ -150,7 +168,7 @@ benchmark_configs: {
       "      \""
       "    }"
       " }"
-      "}"
+      "}}"
   }
 }
 benchmark_configs: {
@@ -172,7 +190,8 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{"
+      "scan_type_specific:{"
+      " instance_scanning: {"
       " check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{"
@@ -199,7 +218,7 @@ benchmark_configs: {
       "      \""
       "    }"
       " }"
-      "}"
+      "}}"
   }
 }
 benchmark_configs: {
@@ -448,7 +467,8 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{"
+      "scan_type_specific:{"
+      " instance_scanning: {"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{"
@@ -468,7 +488,7 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
-      "}"
+      "}}"
   }
 }
 benchmark_configs: {
@@ -834,7 +854,8 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{"
+      "scan_type_specific:{"
+      " instance_scanning: {"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/proc/self/net/tcp\"}}"
@@ -872,7 +893,7 @@ benchmark_configs: {
       "        }"
       "      }}"
       "  }"
-      "}"
+      "}}"
   }
 }
 benchmark_configs: {
