@@ -1,0 +1,2136 @@
+benchmark_configs: {
+  id: "shm-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure /dev/shm is configured"
+    description:
+      "/dev/shm is a traditional shared memory concept. One program will create a memory "
+      "portion, which other processes (if permitted) can access. Mounting tmpts at /dev/shm is "
+      "handled automatically by systemd."
+    rationale:
+      "Any user can upload and execute files inside the /dev/shm similar to the /tmp partition. "
+      "Configuring /dev/shm allows an administrator to set the noexec option on the mount, "
+      "making /dev/shm useless for an attacker to install executable code. It would also prevent an "
+      "attacker from establishing a hardlink to a system setuid program and wait for it to be "
+      "updated. Once the program was updated, the hardlink would be broken and the attacker "
+      "would have his own copy of the program. If the program happened to have a security "
+      "vulnerability, the attacker could continue to exploit the known flaw. "
+    remediation:
+      "Edit /etc/stab and add or edit the following line:\n"
+      "tmpfs /dev/shm tmpfs defaults,noexec,nodev,nosuid,seclabel 0 0\n"
+      "Run the following command to remount /dev/shm:\n"
+      "# mount -o remount,noexec,nodev,nosuid /dev/shm"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .*\""
+      "          expected_regex: \".* /dev/shm .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/fstab\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .*\""
+      "          expected_regex: \".* /dev/shm .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      " }"
+      " image_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/fstab\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /dev/shm .*\""
+      "          expected_regex: \".* /dev/shm .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "removable-media-partitions-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure removable media partitions include noexec option"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain executable binaries. "
+    rationale:
+      "Setting this option on a file system prevents users from executing programs from the "
+      "removable media. This deters users from being able to introduce potentially malicious "
+      "software on the system."
+    remediation:
+      "Edit the /etc/stab file and add noexec to the fourth field (mounting options) of all "
+      "removable media partitions. Look for entries that have mount points that contain words "
+      "such as floppy or cdrom. See the fstab (5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/sys/devices/\""
+      "        recursive: true"
+      "        opt_out_path_regexes: \"/sys/devices/system/memory\""
+      "        opt_out_path_regexes: \"/sys/devices/virtual\""
+      "        filename_regex: \"removable\""
+      "       }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*[0-9a-z]+\\\\s*\""
+      "          expected_regex: \"\\\\s*1\\\\s*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"A removable device was found. Remove it, or make sure that its partition includes the noexec option\""
+      "      file_display_command: \""
+      "      #!/usr/bin/bash"
+      "      for rmpo in $(lsblk -o RM,MOUNTPOINT | awk -F \\\" \\\" '/1/ {print $2}'); do"
+      "      findmnt -n \\\"$rmpo\\\" | grep -Ev \\\"\\\\bnoexec\\\\b\\\""
+      "      done"
+      "      \""
+      "    }"
+      " }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "removable-media-partitions-nodev"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nodev option set on removable media partitions"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    rationale:
+      "Removable media containing character and block special devices could be used to "
+      "circumvent security controls by allowing non-root users to access sensitive device files "
+      "such as /dev/kmem or the raw disk partitions."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) of all "
+      "removable media partitions. Look for entries that have mount points that contain words "
+      "such as floppy or cdrom. See the fstab (5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/sys/devices/\""
+      "        recursive: true"
+      "        opt_out_path_regexes: \"/sys/devices/system/memory\""
+      "        opt_out_path_regexes: \"/sys/devices/virtual\""
+      "        filename_regex: \"removable\""
+      "       }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*[0-9a-z]+\\\\s*\""
+      "          expected_regex: \"\\\\s*1\\\\s*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"A removable device was found. Remove it, or make sure that its partition includes the nodev option\""
+      "      file_display_command: \""
+      "      #!/usr/bin/bash"
+      "      for rmpo in $(lsblk -o RM,MOUNTPOINT | awk -F \\\" \\\" '/1/ {print $2}'); do"
+      "      findmnt -n \\\"$rmpo\\\" | grep -Ev \\\"\\\\bnodev\\\\b\\\""
+      "      done"
+      "      \""
+      "    }"
+      " }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "removable-media-partitions-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nosuid option set on removable media partitions"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain setuid files."
+    rationale:
+      "Setting this option on a file system prevents users from introducing privileged programs "
+      "onto the system and allowing non-root users to execute them."
+    remediation:
+      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) of all "
+      "removable media partitions. Look for entries that have mount points that contain words "
+      "such as floppy or cdrom. See the fstab (5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/sys/devices/\""
+      "        recursive: true"
+      "        opt_out_path_regexes: \"/sys/devices/system/memory\""
+      "        opt_out_path_regexes: \"/sys/devices/virtual\""
+      "        filename_regex: \"removable\""
+      "       }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*[0-9a-z]+\\\\s*\""
+      "          expected_regex: \"\\\\s*1\\\\s*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"A removable device was found. Remove it, or make sure that its partition includes the nosuid option\""
+      "      file_display_command: \""
+      "      #!/usr/bin/bash"
+      "      for rmpo in $(lsblk -o RM,MOUNTPOINT | awk -F \\\" \\\" '/1/ {print $2}'); do"
+      "      findmnt -n \\\"$rmpo\\\" | grep -Ev \\\"\\\\bnodev\\\\b\\\""
+      "      done"
+      "      \""
+      "    }"
+      " }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "gpgcheck-activated"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure gpgcheck is globally activated"
+    description:
+      "The gpgcheck option, found in the main section of the /etc/yum. conf and individual "
+      "/etc/yum/repos.d/*.repo files determines if an RPM package's signature is checked prior "
+      "to its installation."
+    rationale:
+      "It is important to ensure that an RPM's package signature is always checked prior to "
+      "installation to ensure that the software is obtained from a trusted source."
+    remediation:
+      "Edit /etc/yum.conf and set 'gpgcheck=1' in the [main] section.\n"
+      "Edit any failing files in /etc/yum.repos.d/*.repo and set all instances of gpgcheck to 1."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/yum.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*gpgcheck=[0-9]+$\""
+      "          expected_regex: \"^\\\\s*gpgcheck=1$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SELinux is installed"
+    description:
+      "SELinux provides Mandatory Access Control."
+    rationale:
+      "Without a Mandatory Access Control system installed only the default Discretionary Access "
+      "Control system will be available."
+    remediation:
+      "Run the following command to install SELinux:\n"
+      "# yum install libselinux"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/sestatus\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-not-disabled-in-bootloader"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SELinux is not disabled in bootloader configuration"
+    description:
+      "Configure SELINUX to be enabled at boot time and verify that it has not been overwritten "
+      "by the grub boot parameters.\n"
+      "Note: This recommendation is designed around the grub 2 bootloader, if LILO or another "
+      "bootloader is in use in your environment enact equivalent settings."
+    rationale:
+      "SELinux must be enabled at boot time in your grub configuration to ensure that the "
+      "controls it provides are not overridden."
+    remediation:
+      "Edit /etc/default/grub and remove all instances of selinux=0 and enforcing=0 from all\n"
+      "CMDLINE_LINUX parameters:\n"
+      "GRUB_CMDLINE_LINUX=\n"
+      "GRUB_CMDLINE_LINUX DEFAULT=\"quiet\"\n"
+      "Run the following command to update the grub2 configuration:\n"
+      "# grub2-mkconfig -o /boot/grub2/grub.cfg"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/default/grub\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*selinux=[0-9]+.*\""
+      "          expected_regex: \".*selinux=0.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \".*enforcing=[0-9]+.*\""
+      "          expected_regex: \".*enforcing=0.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-policy-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SELinux policy is configured"
+    description:
+      "Configure SELinux to meet or exceed the default targeted policy, which constrains daemons "
+      "and system software only.\n"
+      "Note: If your organization requires stricter policies, ensure that they are set in the "
+      "/etc/selinux/config file."
+    rationale:
+      "Security configuration requirements vary from site to site. Some sites may mandate a "
+      "policy that is stricter than the default policy, which is perfectly acceptable. This item is "
+      "intended to ensure that at least the default recommendations are met."
+    remediation:
+      "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter:\n"
+      "SELINUXTYPE=targeted"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*SELINUXTYPE=[0-9a-zA-Z]+.*\""
+      "          expected_regex: \".*SELINUXTYPE=(targeted|mls).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-mode-enforcing-or-permissive"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure the SELinux mode is enforcing or permissive"
+    description:
+      "SELinux can run in one of three modes: disabled, permissive, or enforcing:\n"
+      "Enforcing - Is the default, and recommended, mode of operation; in enforcing mode "
+      "SELinux operates normally, enforcing the loaded security policy on the entire "
+      "system.\n"
+      "Permissive - The system acts as if SELinux is enforcing the loaded security policy, "
+      "including labeling objects and emitting access denial entries in the logs, but it does "
+      "not actually deny any operations. While not recommended for production systems ,"
+      "permissive mode can be helpful for SELinux policy development.\n"
+      "Disabled - Is strongly discouraged; not only does the system avoid enforcing the "
+      "SELinux policy, it also avoids labeling any persistent objects such as files, making it "
+      "difficult to enable SELinux in the future\n"
+      "Note: you can set individual domains to permissive mode while the system runs in enforcing "
+      "mode. For example, to make the httpd_t domain permissive:\n"
+      "# semanage permissive -a httpd_t"
+    rationale:
+      "Running SELinux in disabled mode is strongly discouraged; not only does the system avoid "
+      "enforcing the SELinux policy, it also avoids labeling any persistent objects such as files, "
+      "making it difficult to enable SELinux in the future."
+    remediation:
+      "Run one of the following commands to set SELinux's running mode:\n"
+      "To set SELinux mode to Enforcing:\n"
+      "# setenforce 1\n"
+      "To set SELinux mode to Permissive:\n"
+      "# setenforce 0\n"
+      "Edit the /etc/selinux/config file to set the SELINUX parameter:\n"
+      "For Enforcing mode:\n"
+      "SELINUX=enforcing\n"
+      "For Permissive mode:\n"
+      "SELINUX=permissive\n"
+      "References:\n"
+      "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/sect-security-enhanced_linux-introduction-selinux_modes"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*SELINUX=[a-zA-Z0-9]+.*\""
+      "          expected_regex: \".*SELINUX=(enforcing|permissive).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "no-unconfined-services"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure no unconfined services exist"
+    description:
+      "Unconfined processes run in unconfined domains"
+      "Note: Occasionally certain daemons such as backup or centralized management software may "
+      "require running unconfined. Any such software should be carefully analyzed and documented "
+      "before such an exception is made."
+    rationale:
+      "For unconfined processes, SELinux policy rules are applied, but policy rules exist that allow "
+      "processes running in unconfined domains almost all access. Processes running in "
+      "unconfined domains fall back to using DAC rules exclusively. If an unconfined process is "
+      "compromised, SELinux does not prevent an attacker from gaining access to system "
+      "resources and data, but of course, DAC rules are still used. SELinux is a security "
+      "enhancement on top of DAC rules - it does not replace them"
+    remediation:
+      "Investigate any unconfined processes found during the audit action. They may need to have "
+      "an existing security context assigned to them or a policy built for them."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "       files_in_dir:{"
+      "        dir_path:\"/proc\""
+      "        recursive: true"
+      "        filename_regex: \"current\""
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc/[a-z].*\""
+      "      }}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*unconfined_service_t.*\""
+      "          expected_regex: \".*unconfined_service_t.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "setroubleshoot-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SETroubleshoot is not installed"
+    description:
+      "The SETroubleshoot service notifies desktop users of SELinux denials through a user-"
+      "friendly interface. The service provides important information around configuration errors, "
+      "unauthorized intrusions, and other potential errors."
+    rationale:
+      "The SETroubleshoot service is an unnecessary daemon to have running on a server,"
+      "especially if X Windows is disabled."
+    remediation:
+      "Run the following command to Uninstall setroubleshoot:\n"
+      "# yum remove setroubleshoot"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/setroubleshoot\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "mcstrans-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure the MCS Translation Service (mcstrans) is not installed"
+    description:
+      "The mcstransd daemon provides category label information to client processes requesting "
+      "information. The label translations are defined in /etc/selinux/targeted/setrans.conf."
+    rationale:
+      "Since this service is not used very often, remove it to reduce the amount of potentially "
+      "vulnerable code running on the system."
+    remediation:
+      "Run the following command to uninstall mcstrans:\n"
+      "# yum remove mcstrans"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/mcstransd\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/mcstransd\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/mcstransd\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/mcstransd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "gdm-login-banner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure GDM login banner is configured"
+    description:
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based"
+      "systems."
+    rationale:
+      "Warning messages inform users who are attempting to login to the system of their legal "
+      "status regarding the system and must include the name of the organization that owns the "
+      "system and any monitoring policies that are in place.\n"
+      "Note: If a graphical login is not required, it should be removed to reduce the attack surface "
+      "of the system."
+    remediation:
+      "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "/etc/dconf/db/gdm.d/01-banner-message)\n"
+      "[org/gnome/login-screen]\n"
+      "banner-message-enable=true\n"
+      "banner-message-text=\"'<banner message>'\n"
+      "Example Banner Text: 'Authorized users only. All activity may be monitored and reported.'\n"
+      "Run the following command to update the system databases:\n"
+      "# dconf update"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*user-db:user.*\""
+      "          expected_regex: \"\\\\s*user-db:user.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*system-db:gdm.*\""
+      "          expected_regex: \"\\\\s*system-db:gdm.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "          expected_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/gdm.d/\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*banner-message-enable=[a-z]+\""
+      "          expected_regex: \"\\\\s*banner-message-enable=true\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*banner-message-text=.+\""
+      "          expected_regex: \"\\\\s*banner-message-text=.+\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "last-logged-user-display-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure last logged in user display is disabled"
+    description:
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based "
+      "systems."
+    rationale:
+      "Displaying the last logged in user eliminates half of the Userid/Password equation that an "
+      "unauthorized person would need to log on.\n"
+      "Warning messages inform users who are attempting to login to the system of their legal "
+      "status regarding the system and must include the name of the organization that owns the "
+      "system and any monitoring policies that are in place.\n"
+      "Notes:"
+      "If a graphical login is not required, it should be removed to reduce the attack surface "
+      "of the system.\n"
+      "If a different GUI login service is in use and required on the system, consult your "
+      "documentation to disable displaying the last logged on user."
+    remediation:
+      "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "/etc/dconf/db/gdm.d/00-1ogin-screen)\n"
+      "[org/gnome/login-screen]\n"
+      "# Do not show the user list\n"
+      "disable-user-list=true\n"
+      "Run the following command to update the system databases:\n"
+      "# dconf update"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*user-db:user.*\""
+      "          expected_regex: \"\\\\s*user-db:user.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*system-db:gdm.*\""
+      "          expected_regex: \"\\\\s*system-db:gdm.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "          expected_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/gdm.d/\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*disable-user-list=[a-z]+\""
+      "          expected_regex: \"\\\\s*disable-user-list=true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "xdcmp-not-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure XDCMP is not enabled"
+    description:
+      "X Display Manager Control Protocol (XDMCP) is designed to provide authenticated access "
+      "to display management services for remote displays"
+    rationale:
+      "XDMCP is inherently insecure.\n"
+      "XDMCP is not a ciphered protocol. This may allow an attacker to capture keystrokes "
+      "entered by a user.\n"
+      "XDMCP is vulnerable to man-in-the-middle attacks. This may allow an attacker to "
+      "steal the credentials of legitimate users by impersonating the XDMCP server."
+    remediation:
+      "Edit the file /etc/gdm/custom.conf and remove the line\n"
+      "Enable=true\n"
+      "Default Value:\n"
+      "false \n"
+      "# This is denoted by no Enabled= entry in the file /etc/gdm/custom.conf in the\n"
+      "# [xdmcp] section\n"
+      "# References:\n"
+      "# 1. https://help.gnome.org/admin/gdm/2.32/configuration.html.en\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/gdm/custom.conf\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*Enable\\\\s*=\\\\s*[0-9a-zA-Z]+\""
+      "          expected_regex: \"\\\\s*Enable\\\\s*=\\\\s*true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/gdm/custom.conf\"}}"
+      "     existence:{should_exist: false}"
+      "   }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "xinetd-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure xinetd is not installed"
+    description:
+      "The eXtended InterNET Daemon ( xinetd ) is an open source super daemon that replaced "
+      "the original inetd daemon. The xinetd daemon listens for well known services and "
+      "dispatches the appropriate daemon to properly respond to service requests."
+    rationale:
+      "If there are no xinetd services required, it is recommended that the package be removed to "
+      "reduce the attack surface are of the system.\n"
+      "Note: If an xinetd service or services are required, ensure that any xinetd service not required "
+      "is stopped and disabled"
+    remediation:
+      "Run the following command to remove xinetd:\n"
+      "# yum remove xinetd\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/xinetd\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/xinetd\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/xinetd\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/xinetd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "x11-server-components-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure X11 Server components are not installed"
+    description:
+      "The X Window System provides a Graphical User Interface (GUI) where users can have "
+      "multiple windows in which to run programs and various add on. The X Windows system is "
+      "typically used on workstations where users login, but not on servers where users typically "
+      "do not login."
+    rationale:
+      "Unless your organization specifically requires graphical login access via X Windows, "
+      "remove it to reduce the potential attack surface.\n"
+      "Impact:\n"
+      "Many Linux systems run applications which require a Java runtime. Some Linux Java "
+      "packages have a dependency on specific X Windows xorg-x11-fonts. One workaround to "
+      "avoid this dependency is to use the \"headless\" Java packages for your specific Java runtime."
+    remediation:
+      "Run the following command to remove the X Windows Server packages:\n"
+      "# yum remove xorg-x11-server*\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{dir_path:\"/usr/bin/\", filename_regex: \"xorg-x11-server.*\"}}"
+      "    files_to_check:{files_in_dir:{dir_path:\"/usr/sbin/\", filename_regex: \"xorg-x11-server.*\"}}"
+      "    files_to_check:{files_in_dir:{dir_path:\"/bin/\", filename_regex: \"xorg-x11-server.*\"}}"
+      "    files_to_check:{files_in_dir:{dir_path:\"/sbin/\", filename_regex: \"xorg-x11-server.*\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "mail-transfer-agent-is-configured-for-localonly-mode"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure mail transfer agent is configured for local-only mode"
+    description:
+      "Mail Transfer Agents (MTA), such as sendmail and Postfix, are used to listen for incoming "
+      "mail and transfer the messages to the appropriate user or mail server. If the system is not "
+      "intended to be a mail server, it is recommended that the MTA be configured to only process "
+      "local mail."
+    rationale:
+      "The software for all Mail Transfer Agents is complex and most have a long history of "
+      "security issues. While it is important to ensure that the system can process local mail "
+      "messages, it is not necessary to have the MTA's daemon listening on a port unless the "
+      "server is intended to be a mail server that receives and processes mail from other systems.\n"
+      "Notes:\n"
+      "This recommendation is designed around the postfix mail server.\n"
+      "Depending on your environment you may have an alternative MTA installed such as "
+      "sendmail. If this is the case consult the documentation for your installed MTA to "
+      "configure the recommended state."
+    remediation:
+      "Edit /etc/postfix/main.ct and add the following line to the RECEIVING MAIL section. If\n"
+      "the line already exists, change it to look like the line below:\n"
+      "inet_interfaces = loopback-only\n"
+      "Run the following command to restart postfix:\n"
+      "# systemctl restart postfix"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/net/tcp\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*0100007F:0019.*\""
+      "          expected_regex: \".*0100007F:0019.*\""
+      "        }"
+      "      }}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/net/tcp6\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*00000000000000000000000001000000:0019.*\""
+      "          expected_regex: \".*00000000000000000000000001000000:0019.*\""
+      "        }"
+      "      }}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "      single_file:{path:\"/proc/self/net/tcp6\"}"
+      "      }"
+      "      files_to_check:{"
+      "      single_file:{path:\"/proc/self/net/tcp\"}"
+      "      }"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*[0-9A-F]+:0019.*\""
+      "        }"
+      "      }}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "firewalld-is-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure firewalld is installed"
+    description:
+      "firewalld is a firewall management tool for Linux operating systems. It provides firewall "
+      "features by acting as a front-end for the Linux kernel's netfilter framework via the iptables "
+      "backend or provides firewall features by acting as a front-end for the Linux kernel's "
+      "netfilter framework via the nftables utility.\n"
+      "firewalld replaces iptables as the default firewall management tool. Use the firewalld utility "
+      "to configure a firewall for less complex firewalls. The utility is easy to use and covers the "
+      "typical use cases scenario. FirewallD supports both IPv4 and IPv6 networks and can"
+      "administer separate firewall zones with varying degrees of trust as defined in zone profiles."
+      "Note: Starting in v0.6.0, FirewallD added support for acting as a front-end for the Linux "
+      "kernel's netfilter framework via the nftables userspace utility, acting as an alternative to the "
+      "nft command line program."
+    rationale:
+      "A firewall utility is required to configure the Linux kernel's netfilter framework via the "
+      "iptables or nftables back-end.\n"
+      "The Linux kernel's netfilter framework host-based firewall can protect against threats "
+      "originating from within a corporate network to include malicious mobile code and poorly "
+      "configured software on a host.\n"
+      "Note: Only one firewall utility should be installed and configured. Firewal11D is dependent on "
+      "the iptables package.\n"
+      "Impact:\n"
+      "Changing firewall settings while connected over the network can result in being locked out "
+      "of the system."
+    remediation:
+      "Run the following command to install Firewall and iptables:\n"
+      "# yum install firewalld iptables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/firewalld\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/firewalld\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/firewalld\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/firewalld\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "iptables-services-not-installed-with-firewalld"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure iptables-services not installed with firewalld"
+    description:
+      "firewalld is a firewall management tool for Linux operating systems. It provides firewall "
+      "features by acting as a front-end for the Linux kernel's netfilter framework via the iptables "
+      "backend or provides firewall features by acting as a front-end for the Linux kernel's "
+      "netfilter framework via the nftables utility.\n"
+      "firewalld replaces iptables as the default firewall management tool. Use the firewalld utility "
+      "to configure a firewall for less complex firewalls. The utility is easy to use and covers the "
+      "typical use cases scenario. FirewallD supports both IPv4 and IPv6 networks and can "
+      "administer separate firewall zones with varying degrees of trust as defined in zone profiles. "
+      "Note: Starting in v0.6.0, FirewallD added support for acting as a front-end for the Linux "
+      "kernel's netfilter framework via the nftables userspace utility, acting as an alternative to the "
+      "nft command line program."
+    rationale:
+      "A firewall utility is required to configure the Linux kernel's netfilter framework via the "
+      "iptables or nftables back-end.\n"
+      "The Linux kernel's netfilter framework host-based firewall can protect against threats "
+      "originating from within a corporate network to include malicious mobile code and poorly "
+      "configured software on a host.\n"
+      "Note: Only one firewall utility should be installed and configured. Firewal11D is dependent on "
+      "the iptables package.\n"
+      "Impact:\n"
+      "Changing firewall settings while connected over the network can result in being locked out "
+      "of the system."
+    remediation:
+      "Run the following command to install Firewall and iptables:\n"
+      "# yum install firewalld iptables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/iptables.service\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/ip6tables.service\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/iptables.service\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/ip6tables.service\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/firewalld\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/firewalld\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/firewalld\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/firewalld\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "nftables-not-enabled-with-firewalld"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nftables either not installed or masked with firewalld"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
+      "packets/datagrams/frames and is the successor to iptables.\n"
+      "Note: Support for using nftables as the back-end for firewalld was added in release v0.6.0. "
+      "In Fedora 19 Linux derivatives, firewalld utilizes iptables as its back-end by default."
+    rationale:
+      "Running both firewalld and nftables may lead to conflict.\n"
+      "Note: firewalld may configured as the front-end to nftables. If this case, nftables should be "
+      "stopped and masked instead of removed."
+    remediation:
+      "Run the following command to remove nftables:\n"
+      "# yum remove nftables\n"
+      "Run the following command to stop and mask nftables\n"
+      "systemctl --now mask nftables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"firewalld.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "nftables-is-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nftables is installed"
+    description:
+      "nftables provides a new in-kernel packet classification framework that is based on a "
+      "network-specific Virtual Machine (VM) and a new nft userspace command line tool.\n"
+      "nftables reuses the existing Netfilter subsystems such as the existing hook infrastructure, "
+      "the connection tracking system, NAT, userspace queuing and logging subsystem.\n"
+      "Note:\n"
+      "nftables is available in Linux kernel 3.13 and newer.\n"
+      "Only one firewall utility should be installed and configured."
+    rationale:
+      "nftables is a subsystem of the Linux kernel that can protect against threats originating from "
+      "within a corporate network to include malicious mobile code and poorly configured "
+      "software on a host.\n"
+      "Impact:\n"
+      "Changing firewall settings while connected over the network can result in being locked out "
+      "of the system."
+    remediation:
+      "Run the following command to install nftables\n"
+      "# yum install nftables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "firewalld-not-enabled-with-nftables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure firewalld is either not installed or masked with nftables"
+    description:
+      "firewalld (Dynamic Firewall Manager) provides a dynamically managed firewall with "
+      "support for network/firewall “zones” to assign a level of trust to a network and its "
+      "associated connections, interfaces or sources. It has support for IPv4, IPv6, Ethernet "
+      "bridges and also for IPSet firewall settings. There is a separation of the runtime and "
+      "permanent configuration options."
+    rationale:
+      "Running both nftables.service and firewalld.service may lead to conflict and "
+      "unexpected results."
+    remediation:
+      "Run the following command to remove firewalld\n"
+      "# yum remove firewalld\n"
+      "Run the following command to stop and mask firewalld\n"
+      "# systemctl --now mask firewalld"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"firewalld.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"firewalld.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "iptables-services-not-installed-with-nftables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure iptables-services not installed with nftables"
+    description:
+      "The iptables-services package contains the iptables.service and ip6tables.service. "
+      "These services allow for management of the Host Based Firewall provided by the iptables "
+      "package."
+    rationale:
+      "iptables.service and ip6tables.service are still supported and can be installed with "
+      "the iptables-services package. Running both nftables and the services included in the "
+      "iptables-services package may lead to conflict."
+    remediation:
+      "Run the following commands to stop the services included in the iptables-services\n"
+      "package and remove the iptables-services package\n"
+      "# systemctl stop iptables\n"
+      "# systemctl stop ip6tables\n"
+      "# yum remove iptables-services"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/iptables.service\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/ip6tables.service\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/iptables.service\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/lib/systemd/system/ip6tables.service\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/nft\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/nft\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/nft\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/nft\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "nftables-rules-are-permanent"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nftables rules are permanent"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
+      "packets/datagrams/frames."
+      "The nftables service reads the /etc/sysconfig/nftables.conf file for a nftables file or "
+      "files to include in the nftables ruleset."
+      "A nftables ruleset containing the input, forward, and output base chains allow network "
+      "traffic to be filtered."
+    rationale:
+      "Changes made to nftables ruleset only affect the live system, you will also need to configure "
+      "the nftables ruleset to apply on boot"
+    remediation:
+      "Edit the /etc/sysconfig/nftables.conf file and un-comment or add a line with include\n"
+      "Absolute path to nftables rules file>for each nftables file you want included in the\n"
+      "nftables ruleset on boot:\n"
+      "Example:\n"
+      "include \"/etc/nftables/nftables.rules\""
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sysconfig/nftables.conf\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "  }"
+      " }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "iptables-packages-are-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure iptables packages are installed"
+    description:
+      "iptables is a utility program that allows a system administrator to configure the tables "
+      "provided by the Linux kernel firewall, implemented as different Netfilter modules, and the "
+      "chains and rules it stores. Different kernel modules and programs are used for different "
+      "protocols; iptables applies to IPv4, ip6tables to IPv6, arptables to ARP, and ebtables to "
+      "Ethernet frames."
+    rationale:
+      "A method of configuring and maintaining firewall rules is necessary to configure a Host "
+      "Based Firewall."
+    remediation:
+      "Run the following command to install iptables and iptables-services\n"
+      "# yum install iptables iptables-services"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/bin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/sbin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/usr/bin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "nftables-not-installed-with-iptables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nftables is not installed with iptables"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
+      "packets/datagrams/frames and is the successor to iptables."
+    rationale:
+      "Running both iptables and nftables may lead to conflict."
+    remediation:
+      "Run the following command to remove nftables:\n"
+      "# yum remove nftables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "firewalld-not-enabled-with-iptables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure firewalld is either not installed or masked with iptables"
+    description:
+      "firewalld (Dynamic Firewall Manager) provides a dynamically managed firewall with "
+      "support for network/firewall “zones” to assign a level of trust to a network and its "
+      "associated connections, interfaces or sources. It has support for IPv4, IPv6, Ethernet "
+      "bridges and also for IPSet firewall settings. There is a separation of the runtime and "
+      "permanent configuration options."
+    rationale:
+      "Running iptables.service and/or ip6tables.service with firewalld.service may lead "
+      "to conflict and unexpected results."
+    remediation:
+      "Run the following command to remove firewalld\n"
+      "# yum remove firewalld\n"
+      "Run the following command to stop and mask firewalld\n"
+      "# systemctl --now mask firewalld"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"firewalld.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"firewalld.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"ip6tables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "iptables-rules-are-saved"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure iptables rules are saved"
+    description:
+      "The iptables-services package includes the /etc/sysconfig/iptables file. The "
+      "iptables rules in this file will be loaded by the iptables.service during boot, or when it "
+      "is started or re-loaded."
+    rationale:
+      "If the iptables rules are not saved and a system re-boot occurs, the iptables rules will be "
+      "lost."
+    remediation:
+      "Run the following command to save any configuration to file:\n"
+      "# service iptables save"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sysconfig/iptables\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      " }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "      }}"
+      "      existence:{should_exist: false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ip6tables-rules-are-saved"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure ip6tables rules are saved"
+    description:
+      "The iptables-services package includes the /etc/sysconfig/ip6tables file. The "
+      "ip6tables rules in this file will be loaded by the ip6tables.service during boot, or when "
+      "it is started or re-loaded."
+    rationale:
+      "If the ip6tables rules are notsaved and a system re-boot occurs, the ip6tables rules will "
+      "be lost."
+    remediation:
+      "Run the following command to save any configuration to file:\n"
+      "# service ip6tables save"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sysconfig/ip6tables\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"ip6tables.service\""
+      "      }}"
+      "      existence:{should_exist: false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure rsyslog is installed"
+    description:
+      "The rsyslog software is arecommended replacement to the original sys1ogd daemon. "
+      "rsyslog provides improvements over syslogd, including:\n"
+      "connection-oriented (i.e. TCP) transmission of logs\n"
+      "The option to log to database formats\n"
+      "Encryption of log data en route to a central logging server"
+    rationale:
+      "The security enhancements of rsyslog such as connection-oriented (i.e. TCP) transmission "
+      "of logs, the option to log to database formats, and the encryption of log data en route to a "
+      "central logging server justify installing and configuring the package."
+    remediation:
+      "Run the following command to install rsyslog:\n"
+      "# yum install rsyslog"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/rsyslog\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/rsyslog\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/rsyslog\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/rsyslog\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure rsyslog Service is enabled and running"
+    description:
+      "rsyslog needs to be enabled and running to perform logging"
+    rationale:
+      "If the rsyslog service is not activated the system may default to the sys1ogd service or lack "
+      "logging instead."
+    remediation:
+      "Run the following command to enable and start rsysiog:\n"
+      "# systemctl --now enable rsyslog"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"rsyslog.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-default-file-permissions-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure rsyslog default file permissions configured"
+    description:
+      "rsyslog will create logfiles that do not already exist on the system. This setting controls "
+      "what permissions will be applied to these newly created files.\n"
+      "The $FilecreateMode parameter specifies the file creation mode with which rsyslogd "
+      "creates new files. If not specified, the value 0644 is used.\n"
+      "Notes\n:"
+      "The value given must always be a 4-digit octal number, with the initial digit being "
+      "zero.\n"
+      "This setting can be overridden by a less restrictive setting in any file ending in .conf in "
+      "the /etc/rsyslog.d/ directory"
+    rationale:
+      "It is important to ensure that log files have the correct permissions to ensure that sensitive "
+      "data is archived and protected."
+    remediation:
+      "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and set $FilecreateMode to "
+      "0640 or more restrictive:\n"
+      "$FileCreateMode 0640\n"
+      "References:\n"
+      "1. See the rsyslog.conf(5) man page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-configured-to-send-logs-to-remote-host"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure rsyslog is configured to send logs to a remote log host"
+    description:
+      "The rsysilog utility supports the ability to send logs it gathers to a remote log host running "
+      "syslogd(8) Or to receive messages from remote hosts, reducing administrative overhead.\n"
+      "Note: Ensure that the selection of logfiles being sent follows local site policy"
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system"
+    remediation:
+      "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and add one of the following"
+      "lines:\n"
+      "<files to sent to the remote log server> action (type=\"omfwd\" target=\"<FQDN or"
+      "ip of loghost>\" port=\"<port number>\" protocol=\"tcp\""
+      "<number of re-tries>\"\n"
+      "queue.type=\"LinkedList\"\n"
+      "action.resumeRetryCount\n"
+      "queue.size=<number of messages to queue>\")\n"
+      "Example:\n"
+      "*.* action (type=\"omfwd\" target=\"192.168.2.100\" port=\"514\" protocol=\"tcp\""
+      "action.resumeRetryCount=\"100\""
+      "queue. type=\"LinkedList\" queue.size=\"1000\")\n"
+      "Run the following command to reload the rsys1og configuration:\n"
+      "# systemctl restart rsyslog\n"
+      "References:\n"
+      "1. See the rsyslog.conf(5) man page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*([^#]+\\\\s+)?action\\\\(([^#]+\\\\s+)?\\\\btarget=\\\"?[^#\\\"]+\\\"?\\\\b\""
+      "          expected_regex: \"^\\\\s*([^#]+\\\\s+)?action\\\\(([^#]+\\\\s+)?\\\\btarget=\\\"?[^#\\\"]+\\\"?\\\\b\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^[^#]\\\\s*\\\\S+\\\\.\\\\*\\\\s+@\""
+      "          expected_regex: \"^[^#]\\\\s*\\\\S+\\\\.\\\\*\\\\s+@\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "journald-is-configured-to-send-logs-to-rsyslog"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure journald is configured to send logs to rsyslog"
+    description:
+      "Data from journald may be stored in volatile memory or persisted locally on the server."
+      "Utilities exist to accept remote export of journald logs, however, use of the rsyslog service "
+      "provides a consistent means of log collection and export.\n"
+      "Notes:\n"
+      "This recommendation assumes that recommendation 4.2.1.5, \"Ensure rsyslog is "
+      "configured to send logs to a remote log host\" has been implemented.\n"
+      "The main configuration file /etc/systemd/journald. conf is read before any of the "
+      "custom *.conf files. If there are custom configs present, they override the main "
+      "configuration parameters\n"
+      "As noted in the journald man pages: journald logs may be exported to rsyslog either "
+      "through the process mentioned here, or through a facility like systemd-"
+      "journald.service. There are trade-offs involved in each implementation, where "
+      "ForwardToSyslog Will immediately capture all events (and forward to an external log "
+      "server, if properly configured), but may not capture all boot-up activities. Mechanisms "
+      "such as systemd-journald.service, on the other hand, will record bootup events, but "
+      "may delay sending the information to rsyslog, leading to the potential for log "
+      "manipulation prior to export. Be aware of the limitations of all tools employed to "
+      "secure a system."
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system."
+    remediation:
+      "Edit the /etc/systemd/journald.conf file and add the following line:\n"
+      "ForwardToSyslog=yes\n"
+      "References:\n"
+      "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
+      "mdjournaldconf"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/systemd/journald.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*ForwardToSyslog=[a-z]+\""
+      "          expected_regex: \"\\\\s*ForwardToSyslog=yes\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "journald-is-configured-to-compress-large-log-files"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure journald is configured to compress large log files"
+    description:
+      "The journald system includes the capability of compressing overly large files to avoid filling "
+      "up the system with logs or making the logs unmanageably large.\n"
+      "Note: The main configuration file /etc/systemd/journald. conf is read before any of the "
+      "custom *.conf files. If there are custom configs present, they override the main configuration "
+      "parameters"
+    rationale:
+      "Uncompressed large files may unexpectedly fill a filesystem leading to resource "
+      "unavailability. Compressing logs prior to write can prevent sudden, unexpected filesystem "
+      "impacts."
+    remediation:
+      "Edit the /etc/systemd/journald.cont file and add the following line:\n"
+      "Compress=yes\n"
+      "References:\n"
+      "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
+      "mdjournaldconf"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/systemd/journald.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*Compress=[a-z]\""
+      "          expected_regex: \"\\\\s*Compress=yes\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "sudo-is-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure sudo is installed"
+    description:
+      "sudo allows a permitted user to execute a command as the superuser or another user, as "
+      "specified by the security policy. The invoking user's real (not effective) user ID is used to "
+      "determine the user name with which to query the security policy."
+    rationale:
+      "sudo supports a plugin architecture for security policies and input/output logging. Third "
+      "parties can develop and distribute their own policy and /0 logging plugins to work "
+      "seamlessly with the sudo front end. The default security policy is sudoers, which is "
+      "configured via the file /etc/sudoers.\n"
+      "The security policy determines what privileges, if any, a user has to run sudo. The policy "
+      "may require that users authenticate themselves with a password or another authentication "
+      "mechanism. If authentication is required, sudo will exit if the user's password is not "
+      "entered within a configurable time limit. This limit is policy-specific."
+    remediation:
+      "Run the following command to install sudo.\n"
+      "# yum install sudo"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "sudo-commands-use-pty"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure sudo commands use pty"
+    description:
+      "sudo can be configured to run only from a pseudo-pty\n"
+      "Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the "
+      "sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks for "
+      "parse errors. If the sudoers file is currently being edited you will receive a message to try "
+      "again later. The -f option allows you to tell visudo which file to edit."
+    rationale:
+      "Attackers can run a malicious program using sudo, which would again fork a background "
+      "process that remains even when the main program has finished executing.\n"
+      "This can be mitigated by configuring sudo to run other commands only from a pseudo-pty, "
+      "whether 1/0 logging is turned on or not."
+    remediation:
+      "Edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo "
+      "and add the following line:\n"
+      "Defaults use_pty"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*Defaults\\\\s+([^#]\\\\S+,\\\\s*)?use_pty\b\""
+      "          expected_regex: \"^\\\\s*Defaults\\\\s+([^#]\\\\S+,\\\\s*)?use_pty\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "sudo-log-file-exists"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure sudo log file exists"
+    description:
+      "sudo can use a custom log file\n"
+      "Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the "
+      "sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks for "
+      "parse errors. If the sudoers file is currently being edited you will receive a message to try "
+      "again later. The -f option allows you to tell visudo which file to edit."
+    rationale:
+      "A sudo log file simplifies auditing of sudo commands\n"
+      "Impact:\n"
+      "Editing the sudo configuration incorrectly can cause sudo to stop functioning"
+    remediation:
+      "edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo -f <PATH\n"
+      "To FILE>and add the following line:\n"
+      "Defaults logfile=\"<PATH TO CUSTOM LOG FILE>\"\n"
+      "Example:\n"
+      "Pefaults logfile=\"/var/log/sudo.log\"\n"
+      "References:\n"
+      "1. SUDO(8)\n"
+      "2. VISUDO(8)"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*Defaults\\\\s+([^#;]+,\\\\s*)?logfile\\\\s*=\\\\s*(\\\")?[^#;]+(\\\")?\""
+      "          expected_regex: \"Defaults logfile=\\\"[/.a-z]\\\"\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "accounts-in-etc-passwd-use-shadowed-passwords"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure accounts in /etc/passwd use shadowed passwords"
+    description:
+      "Local accounts can uses shadowed passwords. With shadowed passwords, The passwords "
+      "are saved in shadow password file, /etc/shadow, encrypted by a salted one-way hash. "
+      "Accounts with a shadowed password have an x in the second field in /etc/passwd."
+    rationale:
+      "The /etc/passwd file also contains information like user ID's and group ID's that are used "
+      "by many system programs. Therefore, the /etc/passwd file must remain world readable. In "
+      "spite of encoding the password with a randomly-generated one-way hash function, an "
+      "attacker could still break the system if they got access to the /etc/passwd file. This can be "
+      "mitigated by using shadowed passwords, thus moving the passwords in the /etc/passwd "
+      "file to /etc/shadow. The /etc/shadow file is set so only root will be able to read and write.\n"
+      "This helps mitigate the risk of an attacker gaining access to the encoded passwords with "
+      "which to perform a dictionary attack.\n"
+      "Notes:\n"
+      "All accounts must have passwords or be locked to prevent the account from being used "
+      "by an unauthorized user.\n"
+      "Auser account with an empty second field in /etc/passwd allows the account to be "
+      "logged into by providing only the username."
+    remediation:
+      "If any accounts in the /etc/passwd file do not have a single x in the password field, run the "
+      "following command to set these accounts to use shadowed passwords:\n"
+      "# sed -e\n"
+      "'s/\"\\ ([a-2zA-20-9 ]*\\):[\":]1*:/\\1:x:/' -i /etc/passwd\n"
+      "Investigate to determine if the account is logged in and what it is being used for, to "
+      "determine if it needs to be forced off."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/passwd\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"^[^:]*:[xX]:\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "no-users-have-rhosts-files"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure no users have .rhosts files"
+    description:
+      "While no .rhosts files are shipped by default, users can easily create them."
+    rationale:
+      "This action is only meaningful if . rhosts support is permitted in the file /etc/pam.cont.\n"
+      "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.cont, they "
+      "may have been brought over from other systems and could contain information useful to "
+      "an attacker for those other systems."
+    remediation:
+      "Making global modifications to users' files without alerting the user community can result "
+      "in unexpected outages and unhappy users. Therefore, it is recommended that a monitoring "
+      "policy be established to report user .rhosts files and determine the action to be taken in "
+      "accordance with site policy.\n"
+      "The following script will remove .rhosts files from interactive users' home directories\n"
+      "#!/bin/bash\n"
+      "awk -F: '($1!~/(root|halt|sync|shutdown|nfsnobody)/ &&\n"
+      "$71~/~(\\/usr)?2\\/sbin\\/nologin (\\/)?$/ && $7!~/(\\/usr)?\\/bin\\/false(\\/)?$/) {\n"
+      "print $6 }' /etc/passwd |\n"
+      "if [ -d \"$dir\" ]; then\n"
+      "file=\"$dir/.rhosts\"\n"
+      "while read -r dir; do\n"
+      "[ ! -h \"$file\" ] && [ -f \"$file\" ] && rm -r \"$file\"\n"
+      "done"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home/.rhosts\"}}"
+      "    existence:{should_exist:false}"
+      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "  }"
+      " }"
+      "}"
+  }
+}
