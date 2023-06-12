@@ -54,9 +54,6 @@ func (c *SQLCheck) Exec() (ComplianceMap, error) {
 		}
 	} else if c.checkInstruction.TargetDatabase == ipb.SQLCheck_DB_ELASTICSEARCH {
 		// Perform regex match on result string for ElasticSearch
-		if c.checkInstruction.GetFilterRegex() == "" {
-			return nil, errors.New("no regex provided for ElasticSearch database SQLCheck")
-		}
 		filterRegex, err := regexp.Compile("^" + c.checkInstruction.FilterRegex + "$")
 		if err != nil {
 			return nil, err
@@ -113,6 +110,9 @@ func createSQLChecksFromConfig(ctx context.Context, benchmarks []*benchmark, tim
 				}
 				if dbtype != sqlCheckInstruction.GetTargetDatabase() {
 					return nil, errors.New("sql check does not match the connected database type")
+				}
+				if sqlCheckInstruction.GetTargetDatabase() == ipb.SQLCheck_DB_ELASTICSEARCH && sqlCheckInstruction.GetFilterRegex() == "" {
+					return nil, errors.New("no regex provided for ElasticSearch database SQLCheck")
 				}
 				checks = append(checks, &SQLCheck{
 					ctx:              ctx,
