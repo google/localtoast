@@ -13,15 +13,15 @@ benchmark_configs: {
         "By enabling XPack security, you establish a strong foundation for securing your Elasticsearch environment and ensure that only authenticated "
         "and authorized users have access to the cluster."
       remediation:
-        "To remediate this issue, follow these steps:"
-        "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation."
-        "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms."
-        "2. Search for the `xpack.security.enabled` setting in the configuration file."
-        "3. If the setting is present and set to `false`, modify the value to `true`."
-        "4. If the setting is not present, add the following line to the configuration file:"
-        "      xpack.security.enabled: true"
-        "5. Save the configuration file."
-        "6. Restart the Elasticsearch service for the changes to take effect."
+        "To remediate this issue, follow these steps:\n"
+        "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation.\n"
+        "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms.\n"
+        "2. Search for the `xpack.security.enabled` setting in the configuration file.\n"
+        "3. If the setting is present and set to `false`, modify the value to `true`.\n"
+        "4. If the setting is not present, add the following line to the configuration file:\n"
+        "      xpack.security.enabled: true\n"
+        "5. Save the configuration file.\n"
+        "6. Restart the Elasticsearch service for the changes to take effect.\n"
         "After performing these steps, XPack security will be enabled in Elasticsearch, providing authentication, access control, and other security features. Remember to configure appropriate user accounts, roles, and permissions within Elasticsearch to ensure secure access to the cluster."
       cis_benchmark: {
         profile_level: 1
@@ -33,7 +33,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
@@ -53,7 +52,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
@@ -103,7 +101,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{files_in_dir:{"
@@ -120,7 +117,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{files_in_dir:{"
@@ -169,7 +165,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
@@ -186,7 +181,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
@@ -206,7 +200,7 @@ benchmark_configs: {
       version: { version: "1.0.0" benchmark_document: "" }
       title: "Ensure a separate user and group exist for ElasticSearch"
       description:
-        "This check verifies that a dedicated user and group are created specifically for running Elasticsearch. "
+        "This check verifies that a dedicated user and group are created specifically for running ElasticSearch."
         "Running Elasticsearch under a separate user and group helps enhance the security and isolation of the Elasticsearch process."
       rationale:
         "Running Elasticsearch with a dedicated user and group provides several security benefits. "
@@ -301,7 +295,7 @@ benchmark_configs: {
     id: "elasticsearch-logs-permissions"
     compliance_note: {
       version: { version: "1.0.0" benchmark_document: "" }
-      title: "Ensure ElasticSearch Logs has Correct Permissions"
+      title: "Ensure ElasticSearch Logs have Correct Permissions"
       description:
         "This check verifies that the Elasticsearch log files have the permissions set to 600. "
         "The log files contain sensitive information, including error messages, stack traces, "
@@ -331,7 +325,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{files_in_dir:{"
@@ -352,7 +345,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{files_in_dir:{"
@@ -394,7 +386,7 @@ benchmark_configs: {
         "4. If the `network.host` setting is not present, add the following line to the configuration file:\n"
         "      network.host: <Interface_or_IP>\n"
         "5. Save the configuration file.\n"
-        "6. Restart the Elasticsearch service for the changes to take effect.\n"
+        "6. Restart the Elasticsearch service for the changes to take effect."
       cis_benchmark: {
         profile_level: 1
         severity: LOW
@@ -405,7 +397,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/elasticsearch.yml\"}}"
@@ -424,7 +415,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
@@ -440,8 +430,7 @@ benchmark_configs: {
     }
   }
 
-  # Some rules need a workaround because the configuration value is not on the same line of the key.
-# Therefore, a workaround is needed. Using the \0 delimiter does not seem to execute the regex on all file content
+# Some rules need a workaround because the configuration value is not on the same line of the key.
 #
 # The approach used in the following rules set the file content split delimiter to "true" and checks with a regexp
 # if the required configuration value is enabled or not. The regexp was thoroughly tested to avoid false positives.
@@ -452,7 +441,7 @@ benchmark_configs: {
       version: { version: "1.0.0" benchmark_document: "" }
       title: "Ensure encrypted communication with clients"
       description:
-        "This check verifies whether the X-Pack security module is configured to enable encrypted communication with clients in Elasticsearch. "
+        "This check verifies whether the X-Pack security module is configured to enable encrypted communication with clients in ElasticSearch."
         "Enabling encryption ensures that client-server communication is protected and data transmitted over the network remains confidential and secure."
       rationale:
         "Encrypting communication between clients and Elasticsearch is essential to prevent unauthorized access, eavesdropping, and tampering of sensitive data. "
@@ -480,7 +469,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
@@ -500,7 +488,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
@@ -552,7 +539,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
@@ -572,7 +558,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
@@ -595,7 +580,7 @@ benchmark_configs: {
       version: { version: "1.0.0" benchmark_document: "" }
       title: "Ensure ElasticSearch has auditing enabled"
       description:
-        "This check verifies whether the X-Pack security module is configured to enable auditing in Elasticsearch. "
+        "This check verifies whether the X-Pack security module is configured to enable auditing in ElasticSearch."
         "Enabling auditing allows for the recording and analysis of security-related events and activities within "
         "the Elasticsearch cluster, providing valuable insights for monitoring and compliance purposes."
       rationale:
@@ -624,7 +609,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
@@ -644,7 +628,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
@@ -667,7 +650,7 @@ benchmark_configs: {
       version: { version: "1.0.0" benchmark_document: "" }
       title: "Ensure ElasticSearch has http filter enabled"
       description:
-        "This check verifies that the HTTP filter is enabled in Elasticsearch. "
+        "This check verifies that the HTTP filter is enabled in ElasticSearch."
         "Enabling the HTTP filter allows for additional security measures and control over HTTP requests made to Elasticsearch."
       rationale:
         "Enabling the HTTP filter in Elasticsearch provides an extra layer of security and "
@@ -694,7 +677,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
@@ -714,7 +696,6 @@ benchmark_configs: {
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
         "    existence:{should_exist: true}"
-        "    non_compliance_msg: \"Elasticsearch configuration file does not exist\""
         "  }"
         "  file_checks:{"
         "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
