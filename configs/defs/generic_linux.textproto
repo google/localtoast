@@ -5007,3 +5007,50 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "default-user-shell-timeout-900-or-less"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure default user shell timeout is 900 seconds or less"
+    description:
+      "The default TMOUT determines the shell timeout for users. The TMOUT "
+      "value is measured in seconds."
+    rationale:
+      "Having no timeout value associated with a shell could allow an "
+      "unauthorized user access to another user's shell session (e.g. user "
+      "walks away from their computer and doesn't lock the screen). Setting a "
+      "timeout value at least reduces the risk of this happening."
+    remediation:
+      "Edit the /etc/bash/bashrc and /etc/profile files (and the appropriate "
+      "files for any other shell supported on your system) and add or edit any "
+      "umask parameters as follows:\n"
+      "```\n"
+      "TMOUT=900\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/bash/bashrc\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"TMOUT=.*\""
+      "        expected_regex: \"TMOUT=(\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: LESS_THAN"
+      "          const: 901"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
