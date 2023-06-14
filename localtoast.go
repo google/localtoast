@@ -28,6 +28,7 @@ import (
 	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannercommon"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
+	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 // localScanAPIProvider provides access to the local filesystem.
@@ -57,6 +58,11 @@ func (a *localScanAPIProvider) FilePermissions(ctx context.Context, filePath str
 func (localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) {
 	// This is intentionally not implemented for the scanner version without SQL.
 	return 0, errors.New("not implemented")
+}
+
+func (localScanAPIProvider) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	// This is intentionally not implemented for the scanner version without SQL.
+	return ipb.SQLCheck_DB_UNSPECIFIED, errors.New("not implemented")
 }
 
 func main() {

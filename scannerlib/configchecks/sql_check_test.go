@@ -30,29 +30,48 @@ import (
 )
 
 func TestSQLCheckCreation(t *testing.T) {
-	check := &ipb.SQLCheck{
-		TargetDatabase: ipb.SQLCheck_DB_MYSQL,
-		Query:          "SELECT 1;",
-		ExpectResults:  true,
+	testCases := []struct {
+		desc     string
+		sqlCheck *ipb.SQLCheck
+	}{
+		{
+			desc: "MySQL",
+			sqlCheck: &ipb.SQLCheck{
+				TargetDatabase: ipb.SQLCheck_DB_MYSQL,
+				Query:          "SELECT 1;",
+				ExpectResults:  true,
+			}},
+		{
+			desc: "Cassandra",
+			sqlCheck: &ipb.SQLCheck{
+				TargetDatabase: ipb.SQLCheck_DB_CASSANDRA,
+				Query:          "SELECT 1;",
+				ExpectResults:  true,
+			}},
 	}
-	scanInstruction := testconfigcreator.NewSQLScanInstruction([]*ipb.SQLCheck{check})
-	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
 
-	newchecks, err := configchecks.CreateChecksFromConfig(
-		context.Background(),
-		&apb.ScanConfig{
-			BenchmarkConfigs: []*apb.BenchmarkConfig{config},
-		},
-		newFakeAPI())
-	if err != nil {
-		t.Fatalf("configchecks.CreateChecksFromConfig([%v]) returned an error: %v", config, err)
-	}
-	if len(newchecks) != 1 {
-		t.Fatalf("Expected 1 check to be created, got %d", len(newchecks))
-	}
-	expectedIDs := []string{"id"}
-	if diff := cmp.Diff(expectedIDs, newchecks[0].BenchmarkIDs()); diff != "" {
-		t.Errorf("%v.BenchmarkIDs() returned unexpected diff (-want +got):\n%s", newchecks[0], diff)
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			scanInstruction := testconfigcreator.NewSQLScanInstruction([]*ipb.SQLCheck{tc.sqlCheck})
+			config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+
+			newchecks, err := configchecks.CreateChecksFromConfig(
+				context.Background(),
+				&apb.ScanConfig{
+					BenchmarkConfigs: []*apb.BenchmarkConfig{config},
+				},
+				newFakeAPI(withSupportedDatabase(tc.sqlCheck.TargetDatabase)))
+			if err != nil {
+				t.Fatalf("configchecks.CreateChecksFromConfig([%v]) returned an error: %v", config, err)
+			}
+			if len(newchecks) != 1 {
+				t.Fatalf("Expected 1 check to be created, got %d", len(newchecks))
+			}
+			expectedIDs := []string{"id"}
+			if diff := cmp.Diff(expectedIDs, newchecks[0].BenchmarkIDs()); diff != "" {
+				t.Errorf("%v.BenchmarkIDs() returned unexpected diff (-want +got):\n%s", newchecks[0], diff)
+			}
+		})
 	}
 }
 
@@ -72,22 +91,46 @@ func TestSQLCheckWithEmptyInstructionsReturnsError(t *testing.T) {
 	}
 }
 
-func TestSQLCheckNonMySQLReturnsError(t *testing.T) {
-	check := &ipb.SQLCheck{
-		TargetDatabase: ipb.SQLCheck_DB_UNSPECIFIED,
-		Query:          "SELECT 1;",
-		ExpectResults:  true,
-	}
-	scanInstruction := testconfigcreator.NewSQLScanInstruction([]*ipb.SQLCheck{check})
-	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
-
-	if _, err := configchecks.CreateChecksFromConfig(
-		context.Background(),
-		&apb.ScanConfig{
-			BenchmarkConfigs: []*apb.BenchmarkConfig{config},
+func TestSQLCheckUnsupportedTypeReturnsError(t *testing.T) {
+	testCases := []struct {
+		desc        string
+		sqlCheck    *ipb.SQLCheck
+		supportedDB ipb.SQLCheck_SQLDatabase
+	}{
+		{
+			desc: "Unspecified",
+			sqlCheck: &ipb.SQLCheck{
+				TargetDatabase: ipb.SQLCheck_DB_UNSPECIFIED,
+				Query:          "SELECT 1;",
+				ExpectResults:  true,
+			},
+			supportedDB: ipb.SQLCheck_DB_MYSQL,
 		},
-		newFakeAPI()); err == nil {
-		t.Errorf("configchecks.CreateChecksFromConfig([%v]) didn't return an error", config)
+		{
+			desc: "Wrong DB type",
+			sqlCheck: &ipb.SQLCheck{
+				TargetDatabase: ipb.SQLCheck_DB_CASSANDRA,
+				Query:          "SELECT 1;",
+				ExpectResults:  true,
+			},
+			supportedDB: ipb.SQLCheck_DB_MYSQL,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			scanInstruction := testconfigcreator.NewSQLScanInstruction([]*ipb.SQLCheck{tc.sqlCheck})
+			config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+
+			if _, err := configchecks.CreateChecksFromConfig(
+				context.Background(),
+				&apb.ScanConfig{
+					BenchmarkConfigs: []*apb.BenchmarkConfig{config},
+				},
+				newFakeAPI()); err == nil {
+				t.Errorf("configchecks.CreateChecksFromConfig([%v]) didn't return an error", config)
+			}
+		})
 	}
 }
 

@@ -1,0 +1,12 @@
+version: { cpe_uri: "cpe:/a:elastic:elasticsearch:*" version: "1.0.0" benchmark_document: "" }
+benchmark_id: "elasticsearch-xpack"
+benchmark_id: "elasticsearch-homefolder-owner"
+benchmark_id: "elasticsearch-configuration-permissions"
+benchmark_id: "elasticsearch-usergroup"
+benchmark_id: "elasticsearch-runasroot"
+benchmark_id: "elasticsearch-logs-permissions"
+benchmark_id: "elasticsearch-networkinterfaces"
+benchmark_id: "elasticsearch-http-ssl"
+benchmark_id: "elasticsearch-transport-ssl"
+benchmark_id: "elasticsearch-auditing"
+benchmark_id: "elasticsearch-httpfilter"
