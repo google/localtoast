@@ -62,6 +62,14 @@ func (w *apiErrorWrapper) SQLQuery(ctx context.Context, query string) (int, erro
 	return l, err
 }
 
+func (w *apiErrorWrapper) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	l, err := w.api.SQLQueryWithResponse(ctx, query)
+	if err != nil {
+		err = fmt.Errorf("api.SQLQueryWithResponse(%q): %w", query, err)
+	}
+	return l, err
+}
+
 func (w *apiErrorWrapper) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	l, err := w.api.SupportedDatabase()
 	if err != nil {

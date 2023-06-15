@@ -18,14 +18,17 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"database/sql"
 	"errors"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"path"
 
 	"github.com/google/localtoast/cqlquerier"
+	"github.com/google/localtoast/elsquerier"
 	"github.com/google/localtoast/localfilereader"
 	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannercommon"
@@ -35,6 +38,9 @@ import (
 
 	// Import Cassandra connector
 	"github.com/gocql/gocql"
+
+	// Import ElasticSearch connector
+	els "github.com/elastic/go-elasticsearch/v8"
 
 	// We need this import to call sql.Open with the "mysql" driver.
 	_ "github.com/go-sql-driver/mysql"
@@ -46,6 +52,7 @@ type localScanAPIProvider struct {
 	chrootPath string
 	sqldb      *sql.DB
 	cqldb      *gocql.Session
+	elsdb      *els.Client
 
 	dbtype ipb.SQLCheck_SQLDatabase
 }
@@ -87,7 +94,22 @@ func (a *localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int,
 	if dbtype == ipb.SQLCheck_DB_CASSANDRA {
 		return cqlquerier.Query(ctx, a.cqldb, query)
 	}
-	return 0, errors.New("no database specified. Please provide one using --mysql-database or --cassandra-database flags")
+	if dbtype == ipb.SQLCheck_DB_ELASTICSEARCH {
+		return 0, errors.New("unsupported SQLQuery returning row number for ElasticSearch database")
+	}
+	return 0, errors.New("no database specified. Please provide one using --mysql-database, --cassandra-database or --elasticsearch-database flags")
+}
+
+func (a *localScanAPIProvider) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	dbtype, err := a.SupportedDatabase()
+	if err != nil {
+		return "", err
+	}
+	if dbtype != ipb.SQLCheck_DB_ELASTICSEARCH {
+		return "", errors.New("SQLQueryWithResponse compatible only with ElasticSearch database")
+	}
+
+	return elsquerier.Query(ctx, a.elsdb, query)
 }
 
 func main() {
@@ -95,6 +117,7 @@ func main() {
 
 	var sqldb *sql.DB
 	var cqldb *gocql.Session
+	var elsdb *els.Client
 	var err error
 
 	dbtype := ipb.SQLCheck_DB_UNSPECIFIED
@@ -119,11 +142,30 @@ func main() {
 		defer cqldb.Close()
 
 		dbtype = ipb.SQLCheck_DB_CASSANDRA
+	} else if flags.ElasticSearchDatabase != "" {
+		cfg := els.Config{
+			Addresses: []string{
+				flags.ElasticSearchDatabase,
+			},
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{
+					InsecureSkipVerify: flags.ElasticSearchSkipVerify,
+				},
+			},
+		}
+
+		elsdb, err = els.NewClient(cfg)
+		if err != nil {
+			log.Fatalf("Error connecting to ElasticSearch: %v\n", err)
+		}
+
+		dbtype = ipb.SQLCheck_DB_ELASTICSEARCH
 	}
 	provider := &localScanAPIProvider{
 		chrootPath: flags.ChrootPath,
 		sqldb:      sqldb,
 		cqldb:      cqldb,
+		elsdb:      elsdb,
 		dbtype:     dbtype,
 	}
 	os.Exit(scannercommon.RunScan(flags, provider))

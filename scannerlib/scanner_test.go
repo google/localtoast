@@ -70,6 +70,9 @@ func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) 
 		return 0, fmt.Errorf("the query %q is not supported by fakeAPIProvider", query)
 	}
 }
+func (fakeAPIProvider) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	return "", errors.New("not implemented")
+}
 func (fakeAPIProvider) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	return ipb.SQLCheck_DB_MYSQL, nil
 }

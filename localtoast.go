@@ -60,6 +60,11 @@ func (localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int, er
 	return 0, errors.New("not implemented")
 }
 
+func (localScanAPIProvider) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	// This is intentionally not implemented for the scanner version without SQL.
+	return "", errors.New("not implemented")
+}
+
 func (localScanAPIProvider) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	// This is intentionally not implemented for the scanner version without SQL.
 	return ipb.SQLCheck_DB_UNSPECIFIED, errors.New("not implemented")

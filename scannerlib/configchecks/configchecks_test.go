@@ -144,6 +144,10 @@ func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, error) {
 	}
 }
 
+func (fakeAPI) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	return "", errors.New("not implemented")
+}
+
 func (r *fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	return r.supportedDB, nil
 }

@@ -117,6 +117,16 @@ func TestValidateFlags(t *testing.T) {
 			},
 			expectError: true,
 		},
+		{
+			desc: "Multiple database set",
+			flags: &cli.Flags{
+				ConfigFile:            "config.textproto",
+				ResultFile:            "result.textproto",
+				MySQLDatabase:         "127.0.0.1",
+				ElasticSearchDatabase: "https://elastic:test@localhost:9200",
+			},
+			expectError: true,
+		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
 			err := cli.ValidateFlags(tc.flags)
