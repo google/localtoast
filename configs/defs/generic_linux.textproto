@@ -2,6 +2,83 @@
 # distributions (e.g. COS, Debian).
 
 benchmark_configs: {
+  id: "cramfs-mounting-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure mounting of cramfs filesystems is disabled"
+    description:
+      "The cramfs filesystem type is a compressed read-only Linux filesystem "
+      "embedded in small footprint systems. A cramfs image can be used "
+      "without having to first decompress the image."
+    rationale:
+      "Removing support for unneeded filesystem types reduces the local attack "
+      "surface of the server. If this filesystem type is not needed, disable "
+      "it."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
+      "Example: vim /etc/modprobe.d/cramfs.conf\n"
+      "and add the following line:\n"
+      "```\n"
+      "install cramfs /bin/true\n"
+      "```\n"
+      "Run the following command to unload the cramfs module:\n"
+      "```\n"
+      "# rmmod cramfs\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"cramfs .*\""
+      "          expected_regex: \"cramfs .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install cramfs .*\""
+      "          expected_regex: \"install cramfs /bin/true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install cramfs .*\""
+      "          expected_regex: \"install cramfs /bin/true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
   id: "udf-mounting-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -673,6 +750,165 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "var-tmp-nodev"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nodev option set on /var/tmp partition"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain "
+      "special devices."
+    rationale:
+      "Since the /var/tmp filesystem is not intended to support devices, set "
+      "this option to ensure that users cannot attempt to create block or "
+      "character special devices in /var/tmp."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
+      "options) for the /var/tmp partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /var/tmp:\n"
+      "```\n"
+      "# mount -o remount,nodev /var/tmp\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var/tmp .* - .*\""
+      "        expected_regex: \".* /var/tmp .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var/tmp .* - .*\""
+      "        expected_regex: \".* /var/tmp .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "var-tmp-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nosuid option set on /var/tmp partition"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain "
+      "setuid files."
+    rationale:
+      "Since the /var/tmp filesystem is only intended for temporary file "
+      "storage, set this option to ensure that users cannot create setuid "
+      "files in /var/tmp."
+    remediation:
+      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting "
+      "options) for the /var/tmp partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /var/tmp:\n"
+      "```\n"
+      "# mount -o remount,nosuid /var/tmp\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var/tmp .* - .*\""
+      "        expected_regex: \".* /var/tmp .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var/tmp .* - .*\""
+      "        expected_regex: \".* /var/tmp .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "var-tmp-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure noexec option set on /var/tmp partition"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain "
+      "executable binaries."
+    rationale:
+      "Since the /var/tmp filesystem is only intended for temporary file "
+      "storage, set this option to ensure that users cannot run executable "
+      "binaries from /var/tmp."
+    remediation:
+      "Edit the /etc/fstab file and add noexec to the fourth field (mounting "
+      "options) for the /var/tmp partition. See the fstab(5) manual page for "
+      "more information.\n"
+      "Run the following command to remount /var/tmp:\n"
+      "```\n"
+      "# mount -o remount,noexec /var/tmp\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var/tmp .* - .*\""
+      "        expected_regex: \".* /var/tmp .*noexec.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var/tmp .* - .*\""
+      "        expected_regex: \".* /var/tmp .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
       "}}"
   }
 }
@@ -5050,6 +5286,3170 @@ benchmark_configs: {
       "        }"
       "      }"
       "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "world-writable-dirs-sticky"
+  compliance_note {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure sticky bit is set on all world-writable directories"
+    description:
+      "Setting the sticky bit on world writable directories prevents users from "
+      "deleting or renaming files in that directory that are not owned by them."
+    rationale:
+      "This feature prevents the ability to delete or rename files in world "
+      "writable directories (such as /tmp) that are owned by another user."
+    remediation:
+      "Set the sticky bit on all world-writable directories, for example by "
+      "running the following command:\n"
+      "```\n"
+      "# df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' "
+      "-xdev -type d \\( -perm -0002 -a ! -perm -1000 \\) 2>/dev/null | xargs -I "
+      "'{}' chmod a+t '{}'\n"
+      "```\n"
+      "Then verify that no world-writable non-sticky directories remain by "
+      "re-running the file display command.\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        dirs_only: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{set_bits: 01000 clear_bits: 0002 bits_should_match: EITHER_SET_OR_CLEAR}"
+      "      non_compliance_msg: \"there are non-sticky world-writable directories on the filesystem\""
+      "      file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \\\\( -perm -0002 -a ! -perm -1000 \\\\) 2>/dev/null\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        dirs_only: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{set_bits: 01000 clear_bits: 0002 bits_should_match: EITHER_SET_OR_CLEAR}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "aide-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure AIDE is installed"
+    description:
+      "AIDE takes a snapshot of filesystem state including modification "
+      "times, permissions, and file hashes which can then be used to compare "
+      "against the current state of the filesystem to detect modifications to "
+      "the system."
+    rationale:
+      "By monitoring the filesystem state compromised files can be detected "
+      "to prevent or limit the exposure of accidental or malicious "
+      "misconfigurations or modified binaries."
+    remediation:
+      "install AIDE using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "# yum install aide\n"
+      "# dnf install aide\n"
+      "# apt-get install aide\n"
+      "# zypper install aide\n"
+      "# emerge aide\n"
+      "```\n"
+      "Configure AIDE as appropriate for your environment. Consult the AIDE "
+      "documentation for options.\n"
+      "Initialize AIDE:\n"
+      "```\n"
+      "# aide --init\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/aide\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/aide\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/aide\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/aide\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "filesystem-integrity-checked"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure filesystem integrity is regularly checked"
+    description:
+      "Periodic checking of the filesystem integrity is needed to detect "
+      "changes to the filesystem."
+    rationale:
+      "Periodic file checking allows the system administrator to determine on "
+      "a regular basis if critical files have been changed in an unauthorized "
+      "fashion."
+    remediation:
+      "Run the following commands:\n"
+      "```\n"
+      "# cp ./config/aidecheck.service /etc/systemd/system/aidecheck.service\n"
+      "# cp ./config/aidecheck.timer /etc/systemd/system/aidecheck.timer\n"
+      "# chmod 0644 /etc/systemd/system/aidecheck.*\n"
+      "# systemctl reenable aidecheck.timer\n"
+      "# systemctl restart aidecheck.timer\n"
+      "# systemctl daemon-reload\n"
+      "```\n"
+      "or\n"
+      "Run the following command:\n"
+      "```\n"
+      "# crontab -u root -e\n"
+      "```\n"
+      "Add the following line to the crontab:\n"
+      "0 5 * * * /usr/sbin/aide --check\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"aidcheck.service\""
+      "    }}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"aidcheck.timer\""
+      "    }}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "bootloader-password-set"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure bootloader password is set"
+    description:
+      "Setting the boot loader password will require that anyone rebooting "
+      "the system must enter a password before being able to set command line "
+      "boot parameters"
+    rationale:
+      "Requiring a boot password upon execution of the boot loader will "
+      "prevent an unauthorized user from entering boot parameters or "
+      "changing the boot partition. This prevents users from weakening "
+      "security (e.g. turning off SELinux at boot time)."
+    remediation:
+      "For grub based systems create an encrypted password with grub-md5-crypt:\n"
+      "```\n"
+      "# grub-crypt\n"
+      "Password: <password>\n"
+      "Retype Password: <password>\n"
+      "<encrypted-password>\n"
+      "```\n"
+      "Copy and paste the <encrypted-password> into the global section of "
+      "/boot/grub/menu.lst:\n"
+      "```\n"
+      "password <encrypted-password>\n"
+      "```\n"
+      "For grub2 based systems\n"
+      "Create an encrypted password with grub2-setpassword:\n"
+      "```\n"
+      "# grub2-setpassword\n"
+      "Enter password: <password>\n"
+      "Confirm password: <password>\n"
+      "```\n"
+      "OR\n"
+      "create an encrypted password with grub-mkpasswd-pbkdf2:\n"
+      "```\n"
+      "# grub-mkpasswd-pbkdf2\n"
+      "Enter password: <password>\n"
+      "Reenter password: <password>\n"
+      "Your PBKDF2 is <encrypted-password>\n"
+      "```\n"
+      "Add the following into /etc/grub.d/00_header or a custom /etc/grub.d "
+      "configuration file:\n"
+      "```\n"
+      "cat <<EOF\n"
+      "set superusers=\"<username>\"\n"
+      "password_pbkdf2 <username> <encrypted-password>\n"
+      "EOF\n"
+      "```\n"
+      "Run the following command to update the grub2 configuration:\n"
+      "```\n"
+      "# grub2-mkconfig -o /boot/grub2/grub.cfg\n"
+      "```\n"
+      "OR\n"
+      "```\n"
+      "# update-grub\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/grub/menu.lst\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"^\\\\s*password.*\""
+      "        expected_regex: \"^\\\\s*password.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/grub2/user.cfg\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"^\\\\s*GRUB2_PASSWORD.*\""
+      "        expected_regex: \"^\\\\s*GRUB2_PASSWORD=.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"^\\\\s*password.*\""
+      "        expected_regex: \"^\\\\s*password_pbkdf2.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "bootloader-config-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on bootloader config are configured"
+    description:
+      "The grub configuration file contains information on boot settings and "
+      "passwords for unlocking boot options. The grub configuration is "
+      "usually grub.cfg stored in /boot/grub2/ or /boot/grub/."
+    rationale:
+      "Setting the permissions to read and write for root only prevents "
+      "non-root users from seeing the boot parameters or changing them. "
+      "Non-root users who read the boot parameters may be able to identify "
+      "weaknesses in security upon boot and be able to exploit them."
+    remediation:
+      "Run the following commands to set permissions on your grub "
+      "configuration:\n"
+      "```\n"
+      "# chown root:root /boot/grub2/grub.cfg\n"
+      "# chmod og-rwx /boot/grub2/grub.cfg\n"
+      "```\n"
+      "OR\n"
+      "```\n"
+      "# chown root:root /boot/grub/grub.cfg\n"
+      "# chmod og-rwx /boot/grub/grub.cfg\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "    permission:{"
+      "      clear_bits: 077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/grub2/grub.cfg\"}}"
+      "    permission:{"
+      "      clear_bits: 077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "    files_to_check:{single_file:{path:\"/boot/grub2/grub.cfg\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "auth-for-single-user-required"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure authentication required for single user mode"
+    description:
+      "Single user mode is used for recovery when the system detects an "
+      "issue during boot or by manual selection from the bootloader."
+    rationale:
+      "Requiring authentication in single user mode prevents an unauthorized "
+      "user from rebooting the system into single user to gain root "
+      "privileges without credentials."
+    remediation:
+      "Run the following command and follow the prompts to set a password for "
+      "the root user:\n"
+      "```\n"
+      "# passwd root\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"root:[*\\\\!]:.*\""
+      "        expected_regex: \"root:[*\\\\!]:.*\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"the root user has a password set\""
+      "    file_display_command: \"grep ^root:[*\\\\!]: /etc/shadow\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "core-dumps-restricted"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure core dumps are restricted"
+    description:
+      "A core dump is the memory of an executable program. It is generally "
+      "used to determine why a program aborted. It can also be used to glean "
+      "confidential information from a core file. The system provides the "
+      "ability to set a soft limit for core dumps, but this can be overridden "
+      "by the user."
+    rationale:
+      "Setting a hard limit on core dumps prevents users from overriding the "
+      "soft variable. If core dumps are required, consider setting limits for "
+      "user groups (see limits.conf(5) ). In addition, setting the "
+      "fs.suid_dumpable variable to 0 will prevent setuid programs from "
+      "dumping core."
+    remediation:
+      "Add the following line to /etc/security/limits.conf or a /etc/security/limits.d/* file:\n"
+      "```\n"
+      "* hard core 0\n"
+      "```\n"
+      "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "fs.suid_dumpable = 0\n"
+      "```\n"
+      "Run the following command to set the active kernel parameter:\n"
+      "```\n"
+      "# sysctl -w fs.suid_dumpable=0\n"
+      "```\n"
+      "If systemd-coredump is installed:\n"
+      "edit /etc/systemd/coredump.conf and add/modify the following lines:\n"
+      "```\n"
+      "Storage=none\n"
+      "ProcessSizeMax=0\n"
+      "```\n"
+      "Run the command:\n"
+      "```\n"
+      "systemctl daemon-reload\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/limits.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*hard core.*\""
+      "          expected_regex: \"\\\\* hard core 0\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"fs.suid_dumpable = .*\""
+      "          expected_regex: \"fs.suid_dumpable = 0\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/fs/suid_dumpable\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/limits.conf\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/limits.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*hard core.*\""
+      "          expected_regex: \"\\\\* hard core 0\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"fs.suid_dumpable = .*\""
+      "          expected_regex: \"fs.suid_dumpable = 0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "prelink-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure prelink is disabled"
+    description:
+      "prelink is a program that modifies ELF shared libraries and ELF "
+      "dynamically linked binaries in such a way that the time needed for the "
+      "dynamic linker to perform relocations at startup significantly "
+      "decreases."
+    rationale:
+      "The prelinking feature can interfere with the operation of AIDE, "
+      "because it changes binaries. Prelinking can also increase the "
+      "vulnerability of the system if a malicious user is able to compromise "
+      "a common library such as libc."
+    remediation:
+      "Run the following command to restore binaries to normal:\n"
+      "```\n"
+      "# prelink -ua\n"
+      "```\n"
+      "Uninstall prelink using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "# yum remove prelink\n"
+      "# apt-get remove prelink\n"
+      "# zypper remove prelink\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/prelink\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/prelink\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/prelink\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/prelink\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "motd-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure message of the day is configured properly"
+    description:
+      "The contents of the /etc/motd file are displayed to users after login "
+      "and function as a message of the day for authenticated users.\n"
+      "Unix-based systems have typically displayed information about the OS "
+      "release and patch level upon logging in to the system. This information "
+      "can be useful to developers who are developing software for a "
+      "particular OS platform. If mingetty(8) supports the following options, "
+      "they display operating system information: \\m - machine architecture "
+      "\\r - operating system release \\s - operating system name \\v - "
+      "operating system version"
+    rationale:
+      "Warning messages inform users who are attempting to login to the "
+      "system of their legal status regarding the system and must include the "
+      "name of the organization that owns the system and any monitoring "
+      "policies that are in place. Displaying OS and patch level information "
+      "in login banners also has the side effect of providing detailed system "
+      "information to attackers attempting to target specific exploits of a "
+      "system. Authorized users can easily get this information by running "
+      "the \"uname -a\" command once they have logged in."
+    remediation:
+      "Make sure the /etc/motd file is empty or deleted. Alternatively, "
+      "edit the /etc/motd file with the appropriate contents according "
+      "to your site policy, remove any instances of \\m , \\r , \\s , \\v "
+      "or references to the OS platform and (when applicable) opt the file out "
+      "from scanning to prevent further compliance reports."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    content:{content:\"\"}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "motd-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/motd are configured"
+    description:
+      "The contents of the /etc/motd file are displayed to users after login "
+      "and function as a message of the day for authenticated users."
+    rationale:
+      "If the /etc/motd file does not have the correct ownership it could be "
+      "modified by unauthorized users with incorrect or misleading information."
+    remediation:
+      "Run the following commands to set permissions on /etc/motd:\n"
+      "```\n"
+      "# chown root:root /etc/motd\n"
+      "# chmod 644 /etc/motd\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/motd\"}}"
+      "    permission:{"
+      "      set_bits: 0444"
+      "      clear_bits: 0133"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "etc-issue-net-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/issue.net are configured"
+    description:
+      "The contents of the /etc/issue.net file are displayed to users prior "
+      "to login for remote connections from configured services."
+    rationale:
+      "If the /etc/issue.net file does not have the correct ownership it "
+      "could be modified by unauthorized users with incorrect or misleading "
+      "information."
+    remediation:
+      "Run the following commands to set permissions on /etc/issue.net:\n"
+      "```\n"
+      "# chown root:root /etc/issue.net\n"
+      "# chmod 644 /etc/issue.net\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "    permission:{"
+      "      set_bits: 0444"
+      "      clear_bits: 0133"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "time-synchronization-in-use"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure time synchronization is in use"
+    description:
+      "System time should be synchronized between all systems in an "
+      "environment. This is typically done by establishing an authoritative "
+      "time server or set of servers and having all systems synchronize "
+      "their clocks to them."
+    rationale:
+      "Time synchronization is important to support time sensitive security "
+      "mechanisms like Kerberos and also ensures log files have consistent "
+      "time records across the enterprise, which aids in forensic "
+      "investigations."
+    remediation:
+      "On physical systems or virtual systems where host based time "
+      "synchronization is not available install NTP or chrony using the "
+      "appropriate package manager or manual installation:\n"
+      "```\n"
+      "# yum install ntp\n"
+      "# dnf install ntp\n"
+      "# apt-get install ntp\n"
+      "# zypper install ntp\n"
+      "# emerge ntp\n"
+      "```\n"
+      "The previous commands install NTP, use the appropriate package if "
+      "chrony is desired. On virtual systems where host based time "
+      "synchronization is available consult your virtualization software "
+      "documentation and setup host based synchronization."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/chronyd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/chronyd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/chronyd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/chronyd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ntpd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ntpd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/ntpd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/ntpd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/timesyncd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/timesyncd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/timesyncd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/timesyncd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "chrony-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure chrony is configured"
+    description:
+      "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
+      "designed to synchronize system clocks across a variety of systems and use a\n"
+      "source that is highly accurate. More information on chrony can be found at\n"
+      "http://chrony.tuxfamily.org/. chrony can be configured to be a client and/or a\n"
+      "server."
+    rationale:
+      "If chrony is in use on the system proper configuration is vital to ensuring\n"
+      "time synchronization is working properly. This recommendation only applies if\n"
+      "chrony is in use on the system."
+    remediation:
+      "Add or edit server or pool lines to /etc/chrony.conf as appropriate:\n"
+      "```\n"
+      "server <remote-server>\n"
+      "```\n"
+      "Configure chrony to run as the chrony user by configuring the appropriate\n"
+      "startup script for your distribution. Startup scripts are typically stored in\n"
+      "etc/init.d or /etc/systemd"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      permission:{user: {name: \"chrony\" should_own: true}}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      permission:{user: {name: \"_chrony\" should_own: true}}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"server|pool .*\""
+      "          expected_regex: \"server|pool .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ntp-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure ntp is configured"
+    description:
+      "ntp is a daemon which implements the Network Time Protocol (NTP). It "
+      "is designed to synchronize system clocks across a variety of systems "
+      "and use a source that is highly accurate. More information on NTP can "
+      "be found at http://www.ntp.org. ntp can be configured to be a client "
+      "and/or a server.\n"
+      "This recommendation only applies if ntp is in use on the system."
+    rationale:
+      "If ntp is in use on the system proper configuration is vital to "
+      "ensuring time synchronization is working properly."
+    remediation:
+      "Add or edit restrict lines in /etc/ntp.conf to match the following:\n"
+      "```\n"
+      "restrict -4 default kod nomodify notrap nopeer noquery\n"
+      "restrict -6 default kod nomodify notrap nopeer noquery\n"
+      "```\n"
+      "Add or edit server or pool lines to /etc/ntp.conf as appropriate:\n"
+      "```\n"
+      "server <remote-server>\n"
+      "```\n"
+      "Configure ntp to run as the ntp user by adding or editing one of the following files as\n"
+      "appropriate for your distribution:\n"
+      "```\n"
+      "/etc/sysconfig/ntpd :\n"
+      "OPTIONS=\"-u ntp:ntp\"\n"
+      "/etc/sysconfig/ntp :\n"
+      "NTPD_OPTIONS=\"-u ntp:ntp\"\n"
+      "/etc/init.d/ntp:\n"
+      "RUNASUSER=ntp\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ntp.conf\"}}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"restrict (-4 )?default kod nomodify notrap nopeer noquery\""
+      "        expected_regex: \"restrict (-4 )?default kod nomodify notrap nopeer noquery\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"restrict -6 default kod nomodify notrap nopeer noquery\""
+      "        expected_regex: \"restrict -6 default kod nomodify notrap nopeer noquery\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/init.d/ntp\"}}"
+      "    content_entry: {"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"RUNASUSER=ntp\""
+      "        expected_regex: \"RUNASUSER=ntp\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cups-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure CUPS is not enabled"
+    description:
+      "The Common Unix Print System (CUPS) provides the ability to print to "
+      "both local and network printers. A system running CUPS can also accept "
+      "print jobs from remote systems and print them to local printers. It "
+      "also provides a web based remote administration capability"
+    rationale:
+      "If the system does not need to print jobs or accept print jobs from "
+      "other systems, it is recommended that CUPS be disabled to reduce the "
+      "potential attack surface."
+    remediation:
+      "Run one of the following commands to disable cups:\n"
+      "```\n"
+      "# chkconfig cups off\n"
+      "# systemctl disable cups\n"
+      "# update-rc.d cups disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"cups.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables cups\""
+      "    file_display_command: \"find /etc/systemd/system -name cups.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "dhcp-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure DHCP Server is not enabled"
+    description:
+      "The Dynamic Host Configuration Protocol (DHCP) is a service that "
+      "allows machines to be dynamically assigned IP addresses."
+    rationale:
+      "Unless a system is specifically set up to act as a DHCP server, it is "
+      "recommended that this service be deleted to reduce the potential "
+      "attack surface."
+    remediation:
+      "Run one of the following commands to disable dhcpd:\n"
+      "```\n"
+      "# chkconfig dhcpd off\n"
+      "# systemctl disable dhcpd\n"
+      "# update-rc.d dhcpd disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"dhcpd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dhcpd\""
+      "    file_display_command: \"find /etc/systemd/system -name dhcpd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ldap-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure LDAP Server is not enabled"
+    description:
+      "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
+      "replacement for NIS/YP. It is a service that provides a method for "
+      "looking up information from a central database."
+    rationale:
+      "If the system will not need to act as an LDAP server, it is "
+      "recommended that the software be disabled to reduce the potential "
+      "attack surface."
+    remediation:
+      "Run one of the following commands to disable slapd:\n"
+      "```\n"
+      "# chkconfig slapd off\n"
+      "# systemctl disable slapd\n"
+      "# update-rc.d slapd disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"slapd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables slapd\""
+      "    file_display_command: \"find /etc/systemd/system -name slapd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "dns-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure DNS Server is not enabled"
+    description:
+      "The Domain Name System (DNS) is a hierarchical naming system that maps "
+      "names to IP addresses for computers, services and other resources "
+      "connected to a network."
+    rationale:
+      "Unless a system is specifically designated to act as a DNS server, it "
+      "is recommended that the package be deleted to reduce the potential "
+      "attack surface."
+    remediation:
+      "Run one of the following commands to disable named:\n"
+      "```\n"
+      "# chkconfig named off\n"
+      "# systemctl disable named\n"
+      "# update-rc.d named disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"named.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables named\""
+      "    file_display_command: \"find /etc/systemd/system -name named.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ftp-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure FTP Server is not enabled"
+    description:
+      "The File Transfer Protocol (FTP) provides networked computers with the "
+      "ability to transfer files."
+    rationale:
+      "FTP does not protect the confidentiality of data or authentication "
+      "credentials. It is recommended SFTP be used if file transfer is "
+      "required. Unless there is a need to run the system as a FTP server "
+      "(for example, to allow anonymous downloads), it is recommended that "
+      "the package be deleted to reduce the potential attack surface."
+    remediation:
+      "Run one of the following commands to disable vsftpd:\n"
+      "```\n"
+      "# chkconfig vsftpd off\n"
+      "# systemctl disable vsftpd\n"
+      "# update-rc.d vsftpd disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"vsftpd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables vsftpd\""
+      "    file_display_command: \"find /etc/systemd/system -name vsftpd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "http-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure HTTP Server is not enabled"
+    description: "HTTP or web servers provide the ability to host web site content."
+    rationale:
+      "Unless there is a need to run the system as a web server, it is "
+      "recommended that the package be deleted to reduce the potential "
+      "attack surface."
+    remediation:
+      "Run one of the following commands to disable httpd:\n"
+      "```\n"
+      "# chkconfig httpd off\n"
+      "# systemctl disable httpd\n"
+      "# update-rc.d httpd disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"httpd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables httpd\""
+      "    file_display_command: \"find /etc/systemd/system -name httpd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "imap-pop3-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure IMAP and POP3 Server is not enabled"
+    description: "dovecot is an open source IMAP and POP3 server for Linux based systems."
+    rationale:
+      "Unless POP3 and/or IMAP servers are to be provided by this system, it "
+      "is recommended that the service be deleted to reduce the potential "
+      "attack surface."
+    remediation:
+      "Run one of the following commands to disable dovecot:\n"
+      "```\n"
+      "# chkconfig dovecot off\n"
+      "# systemctl disable dovecot\n"
+      "# update-rc.d dovecot disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"dovecot.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dovecot\""
+      "    file_display_command: \"find /etc/systemd/system -name dovecot.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "samba-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure Samba Server is not enabled"
+    description:
+      "The Samba daemon allows system administrators to configure their Linux "
+      "systems to share file systems and directories with Windows desktops. "
+      "Samba will advertise the file systems and directories via the Server "
+      "Message Block (SMB) protocol. Windows desktop users will be able to "
+      "mount these directories and file systems as letter drives on their "
+      "systems."
+    rationale:
+      "If there is no need to mount directories and file systems to Windows "
+      "systems, then this service can be deleted to reduce the potential "
+      "attack surface."
+    remediation:
+      "Run one of the following commands to disable smb:\n"
+      "```\n"
+      "# chkconfig smb off\n"
+      "# systemctl disable smb\n"
+      "# update-rc.d smb disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"smb.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables smb\""
+      "    file_display_command: \"find /etc/systemd/system -name smb.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "http-proxy-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure HTTP Proxy Server is not enabled"
+    description:
+      "Squid is a standard proxy server used in many distributions and "
+      "environments."
+    rationale:
+      "If there is no need for a proxy server, it is recommended that the "
+      "squid proxy be deleted to reduce the potential attack surface."
+    remediation:
+      "Run one of the following commands to disable squid:\n"
+      "```\n"
+      "# chkconfig squid off\n"
+      "# systemctl disable squid\n"
+      "# update-rc.d squid disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"squid.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables squid\""
+      "    file_display_command: \"find /etc/systemd/system -name squid.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "snmp-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SNMP Server is not enabled"
+    description:
+      "The Simple Network Management Protocol (SNMP) server is used to listen "
+      "for SNMP commands from an SNMP management system, execute the commands "
+      "or collect the information and then send results back to the "
+      "requesting system."
+    rationale:
+      "The SNMP server can communicate using SNMP v1, which transmits data in "
+      "the clear and does not require authentication to execute commands. "
+      "Unless absolutely necessary, it is recommended that the SNMP service "
+      "not be used. If SNMP is required the server should be configured to "
+      "disallow SNMP v1."
+    remediation:
+      "Run one of the following commands to disable snmpd:\n"
+      "```\n"
+      "# chkconfig snmpd off\n"
+      "# systemctl disable snmpd\n"
+      "# update-rc.d snmpd disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"snmpd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables snmpd\""
+      "    file_display_command: \"find /etc/systemd/system -name snmpd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "nis-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure NIS Server is not enabled"
+    description:
+      "The Network Information Service (NIS) (formally known as Yellow Pages) "
+      "is a client-server directory service protocol for distributing system "
+      "configuration files. The NIS server is a collection of programs that "
+      "allow for the distribution of configuration files."
+    rationale:
+      "The NIS service is inherently an insecure system that has been "
+      "vulnerable to DOS attacks, buffer overflows and has poor "
+      "authentication for querying NIS maps. NIS generally has been replaced "
+      "by such protocols as Lightweight Directory Access Protocol (LDAP). It "
+      "is recommended that the service be disabled and other, more secure "
+      "services be used"
+    remediation:
+      "Run one of the following commands to disable ypserv:\n"
+      "```\n"
+      "# chkconfig ypserv off\n"
+      "# systemctl disable ypserv\n"
+      "# update-rc.d ypserv disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"ypserv.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables ypserv\""
+      "    file_display_command: \"find /etc/systemd/system -name ypserv.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "telnet-server-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure telnet server is not enabled"
+    description:
+      "The telnet-server package contains the telnet daemon, which accepts "
+      "connections from users from other systems via the telnet protocol."
+    rationale:
+      "The telnet protocol is insecure and unencrypted. The use of an "
+      "unencrypted transmission medium could allow a user with access to "
+      "sniff network traffic the ability to steal credentials. The ssh "
+      "package provides an encrypted session and stronger security."
+    remediation:
+      "Comment out or remove any lines starting with telnet from "
+      "/etc/inetd.conf and /etc/inetd.d/*.\n"
+      "Set disable = yes on all telnet services in /etc/xinetd.conf and "
+      "/etc/xinetd.d/*."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc\""
+      "      filename_regex: \"inetd\\\\..*\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry: {"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"telnet.*\""
+      "        expected_regex: \"telnet.*\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"a config file enables telnet\""
+      "    file_display_command: \"grep -R '^telnet' /etc/inetd.*\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/xinetd.conf\"}}"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/xinetd.d\""
+      "      recursive: true"
+      "    }}"
+      "    content_entry: {"
+      "      match_type: NONE_MATCH"
+      "      delimiter: \"}\""  # Each service config is contained within a "{}".
+      "      match_criteria: {"
+      "        filter_regex: \".*service telnet.*disable\\\\s+=\\\\sno.*\""
+      "        expected_regex: \".*service telnet.*disable\\\\s+=\\\\sno.*\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"a config file in enables telnet\""
+      "    file_display_command: \"grep -l 'telnet' /etc/xinetd.conf /etc/xinetd.d/*\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "rsync-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure rsync service is not enabled"
+    description:
+      "The rsyncd service can be used to synchronize files between systems over\n"
+      "network links."
+    rationale:
+      "The rsyncd service presents a security risk as it uses unencrypted protocols\n"
+      "for communication."
+    remediation:
+      "Run one of the following commands to disable rsyncd:\n"
+      "```\n"
+      "# chkconfig rsyncd off\n"
+      "# systemctl disable rsyncd\n"
+      "# update-rc.d rsyncd disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"rsyncd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables rsyncd\""
+      "    file_display_command: \"find /etc/systemd/system -name rsyncd.service\""
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "rsh-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure rsh client is not installed"
+    description: "The rsh package contains the client commands for the rsh services."
+    rationale:
+      "These legacy clients contain numerous security exposures and have "
+      "been replaced with the more secure SSH package. Even if the server is "
+      "removed, it is best to ensure the clients are also removed to prevent "
+      "users from inadvertently attempting to use these commands and "
+      "therefore exposing their credentials. Note that removing the rsh "
+      "package removes the clients for rsh , rcp and rlogin ."
+    remediation:
+      "Uninstall rsh using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "yum remove rsh\n"
+      "apt-get remove rsh\n"
+      "zypper remove rsh\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/rsh\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/rsh\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/rsh\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/rsh\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "talk-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure talk client is not installed"
+    description:
+      "The talk software makes it possible for users to send and receive "
+      "messages across systems through a terminal session. The talk client, "
+      "which allows initialization of talk sessions, is installed by default."
+    rationale:
+      "The software presents a security risk as it uses unencrypted protocols "
+      "for communication."
+    remediation:
+      "Uninstall talk using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "yum remove talk\n"
+      "apt-get remove talk\n"
+      "zypper remove talk\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/talk\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/talk\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/talk\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/talk\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "telnet-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure telnet client is not installed"
+    description:
+      "The telnet package contains the telnet client, which allows users to "
+      "start connections to other systems via the telnet protocol."
+    rationale:
+      "The telnet protocol is insecure and unencrypted. The use of an "
+      "unencrypted transmission medium could allow an unauthorized user to "
+      "steal credentials. The ssh package provides an encrypted session and "
+      "stronger security and is included in most Linux distributions."
+    remediation:
+      "Uninstall telnet using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "# yum remove telnet\n"
+      "# apt-get remove telnet\n"
+      "# zypper remove telnet\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/telnet\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/telnet\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/telnet\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/telnet\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ldap-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure LDAP client is not installed"
+    description:
+      "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
+      "replacement for NIS/YP. It is a service that provides a method for "
+      "looking up information from a central database."
+    rationale:
+      "If the system will not need to act as an LDAP client, it is "
+      "recommended that the software be removed to reduce the potential "
+      "attack surface."
+    remediation:
+      "Uninstall openldap-clients using the appropriate package manager or "
+      "manual installation:"
+      "# yum remove openldap-clients\n"
+      "# apt-get remove openldap-clients\n"
+      "# zypper remove openldap-clients"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ldapadd\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ldapadd\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/ldapadd\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/ldapadd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ip-forwarding-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure IP forwarding is disabled"
+    description:
+      "The net.ipv4.ip_forward and net.ipv6.conf.all.forwarding flags are "
+      "used to tell the system whether it can forward packets or not."
+    rationale:
+      "Setting the flags to 0 ensures that a system with multiple interfaces "
+      "(for example, a hard proxy), will never be able to forward packets, and "
+      "therefore, never serve as a router."
+    remediation:
+      "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.ip_forward = 0\n"
+      "net.ipv6.conf.all.forwarding = 0\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.ip_forward=0\n"
+      "# sysctl -w net.ipv6.conf.all.forwarding=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/ip_forward\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/forwarding\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.ip_forward *=.*\""
+      "          expected_regex: \"net.ipv4.ip_forward *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.all.forwarding *=.*\""
+      "          expected_regex: \"net.ipv6.conf.all.forwarding *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables IP forwarding\""
+      "      file_display_command: \"grep -l 'ip_forward\\\\|forwarding' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/sysctl.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.ip_forward *=.*\""
+      "          expected_regex: \"net.ipv4.ip_forward *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.all.forwarding *=.*\""
+      "          expected_regex: \"net.ipv6.conf.all.forwarding *= *0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "icmp-redirects-not-accepted"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure ICMP redirects are not accepted"
+    description:
+      "ICMP redirect messages are packets that convey routing information and tell\n"
+      "your host (acting as a router) to send packets via an alternate path. It is a\n"
+      "way of allowing an outside routing device to update your system routing\n"
+      "tables. By setting net.ipv4.conf.all.accept_redirects and net.ipv6.conf.all\n"
+      "accept_redirects to 0, the system will not accept any ICMP redirect messages,\n"
+      "and therefore, won't allow outsiders to update the system's routing tables."
+    rationale:
+      "Attackers could use bogus ICMP redirect messages to maliciously alter the\n"
+      "system routing tables and get them to send packets to incorrect networks and\n"
+      "allow your system packets to be captured."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.conf.all.accept_redirects = 0\n"
+      "net.ipv4.conf.default.accept_redirects = 0\n"
+      "net.ipv6.conf.all.accept_redirects = 0\n"
+      "net.ipv6.conf.default.accept_redirects = 0\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.accept_redirects=0\n"
+      "# sysctl -w net.ipv4.conf.default.accept_redirects=0\n"
+      "# sysctl -w net.ipv6.conf.all.accept_redirects=0\n"
+      "# sysctl -w net.ipv6.conf.default.accept_redirects=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/accept_redirects\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/accept_redirects\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/accept_redirects\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/default/accept_redirects\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.accept_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.accept_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.all.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv6.conf.all.accept_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.default.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv6.conf.default.accept_redirects *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables accept_redirects\""
+      "      file_display_command: \"grep -l 'accept_redirects' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.accept_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.accept_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.all.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv6.conf.all.accept_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.default.accept_redirects *=.*\""
+      "          expected_regex: \"net.ipv6.conf.default.accept_redirects *= *0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "secure-icmp-redirects-not-accepted"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure secure ICMP redirects are not accepted"
+    description:
+      "Secure ICMP redirects are the same as ICMP redirects, except they come "
+      "from gateways listed on the default gateway list. It is assumed that "
+      "these gateways are known to your system, and that they are likely to "
+      "be secure."
+    rationale:
+      "It is still possible for even known gateways to be compromised. "
+      "Setting net.ipv4.conf.all.secure_redirects to 0 protects the system "
+      "from routing table updates by possibly compromised known gateways."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.conf.all.secure_redirects = 0\n"
+      "net.ipv4.conf.default.secure_redirects = 0\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.secure_redirects=0\n"
+      "# sysctl -w net.ipv4.conf.default.secure_redirects=0\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/secure_redirects\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/secure_redirects\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.secure_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.secure_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.secure_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.secure_redirects *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables secure ICMP redirects\""
+      "      file_display_command: \"grep -l 'secure_redirects' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.secure_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.secure_redirects *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.secure_redirects *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.secure_redirects *= *0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "suspicious-packets-logged"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure suspicious packets are logged"
+    description:
+      "When enabled, this feature logs packets with un-routable source "
+      "addresses to the kernel log."
+    rationale:
+      "Enabling this feature and logging these packets allows an administrator "
+      "to investigate the possibility that an attacker is sending spoofed "
+      "packets to their system."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv4.conf.all.log_martians = 1\n"
+      "net.ipv4.conf.default.log_martians = 1\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv4.conf.all.log_martians=1\n"
+      "# sysctl -w net.ipv4.conf.default.log_martians=1\n"
+      "# sysctl -w net.ipv4.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/all/log_martians\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv4/conf/default/log_martians\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.log_martians *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.log_martians *= *1\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.log_martians *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.log_martians *= *1\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"no config file in /etc/sysctl.d/ enables logging suspicious packets\""
+      "      file_display_command: \"grep -l 'log_martians' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.all.log_martians *=.*\""
+      "          expected_regex: \"net.ipv4.conf.all.log_martians *= *1\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv4.conf.default.log_martians *=.*\""
+      "          expected_regex: \"net.ipv4.conf.default.log_martians *= *1\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-router-advertisements-not-accepted"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure IPv6 router advertisements are not accepted"
+    description:
+      "This setting disables the system's ability to accept IPv6 router "
+      "advertisements."
+    rationale:
+      "It is recommended that systems do not accept router advertisements as "
+      "they could be tricked into routing traffic to compromised machines. "
+      "Setting hard routes within the system (usually a single default route "
+      "to a trusted router) protects the system from bad routes."
+    remediation:
+      "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
+      "```\n"
+      "net.ipv6.conf.all.accept_ra = 0\n"
+      "net.ipv6.conf.default.accept_ra = 0\n"
+      "```\n"
+      "Run the following commands to set the active kernel parameters:\n"
+      "```\n"
+      "# sysctl -w net.ipv6.conf.all.accept_ra=0\n"
+      "# sysctl -w net.ipv6.conf.default.accept_ra=0\n"
+      "# sysctl -w net.ipv6.route.flush=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/all/accept_ra\"}}"
+      "      files_to_check:{single_file:{path:\"/proc/sys/net/ipv6/conf/default/accept_ra\"}}"
+      "      content:{content:\"0\\n\"}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.all.accept_ra *=.*\""
+      "          expected_regex: \"net.ipv6.conf.all.accept_ra *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.default.accept_ra *=.*\""
+      "          expected_regex: \"net.ipv6.conf.default.accept_ra *= *0\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"a config file in /etc/sysctl.d/ enables IPv6 router advertisements\""
+      "      file_display_command: \"grep -l 'accept_ra' /etc/sysctl.d/*\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d/\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry: {"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.all.accept_ra *=.*\""
+      "          expected_regex: \"net.ipv6.conf.all.accept_ra *= *0\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"net.ipv6.conf.default.accept_ra *=.*\""
+      "          expected_regex: \"net.ipv6.conf.default.accept_ra *= *0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "logfile-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on all logfiles are configured"
+    description:
+      "Log files stored in /var/log/ contain logged information from many "
+      "services on the system, or on log hosts others as well."
+    rationale:
+      "It is important to ensure that log files have the correct permissions "
+      "to ensure that sensitive data is archived and protected."
+    remediation:
+      "Run the following commands to set permissions on all existing log files:\n"
+      "```\n"
+      "find /var/log -type f -exec chmod g-wx,o-rwx \"{}\" + -o -type d -exec chmod gw,o-rwx \"{}\" +\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/var/log\""
+      "        files_only: true"
+      "        recursive: true"
+      "        skip_symlinks: true"
+      "      }}"
+      "      permission:{clear_bits: 0037}"
+      "      non_compliance_msg: \"there are files under /var/log with g+wx or o+rwx permissions\""
+      "      file_display_command: \"find /var/log -type f -ls\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/var/log\""
+      "        files_only: true"
+      "        recursive: true"
+      "        skip_symlinks: true"
+      "      }}"
+      "      permission:{clear_bits: 0037}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "logrotate-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure logrotate is configured"
+    description:
+      "The system includes the capability of rotating log files regularly to "
+      "avoid filling up the system with logs or making the logs unmanageably "
+      "large. The file /etc/logrotate.d/syslog is the configuration file used "
+      "to rotate log files created by syslog or rsyslog."
+    rationale:
+      "By keeping the log files smaller and more manageable, a system "
+      "administrator can easily archive these files to another system and "
+      "spend less time looking through inordinately large log files."
+    remediation:
+      "Edit /etc/logrotate.conf and /etc/logrotate.d/* to ensure logs are "
+      "rotated according to site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/logrotate.conf\"}}"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/logrotate.d\""
+      "      recursive: true"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      # Expect some kind of policy in the file (i.e. not just comments).
+      "        filter_regex: \"[^#].*\""
+      "        expected_regex: \"[^#].*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cron-daemon-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure cron daemon is enabled"
+    description: "The cron daemon is used to execute batch jobs on the system."
+    rationale:
+      "While there may not be user jobs that need to be run on the system, "
+      "the system does have maintenance jobs that may include security "
+      "monitoring that have to run, and cron is used to execute them."
+    remediation:
+      "Based on your system configuration, run the appropriate one of the "
+      "following commands to enable cron:\n"
+      "```\n"
+      "# chkconfig crond on\n"
+      "# systemctl enable crond\n"
+      "# update-rc.d crond enable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"cron(d)?.service\""
+      "    }}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "crontab-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/crontab are configured"
+    description:
+      "The /etc/crontab file is used by cron to control its own jobs. The "
+      "commands in this item make sure that root is the user and group owner "
+      "of the file and that only the owner can access the file."
+    rationale:
+      "This file contains information on what system jobs are run by cron. "
+      "Write access to these files could provide unprivileged users with the "
+      "ability to elevate their privileges. Read access to these files could "
+      "provide users with the ability to gain insight on system jobs that run "
+      "on the system and could provide them a way to gain unauthorized "
+      "privileged access."
+    remediation:
+      "Run the following commands to set ownership and permissions on /etc/crontab:\n"
+      "```\n"
+      "# chown root:root /etc/crontab\n"
+      "# chmod og-rwx /etc/crontab\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/crontab\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cron-hourly-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/cron.hourly are configured"
+    description:
+      "This directory contains system cron jobs that need to run on an hourly "
+      "basis. The files in this directory cannot be manipulated by the "
+      "crontab command, but are instead edited by system administrators using "
+      "a text editor. The commands below restrict read/write and search "
+      "access to user and group root, preventing regular users from accessing "
+      "this directory."
+    rationale:
+      "Granting write access to this directory for non-privileged users could "
+      "provide them the means for gaining unauthorized elevated privileges. "
+      "Granting read access to this directory could give an unprivileged "
+      "user insight in how to gain elevated privileges or circumvent auditing "
+      "controls."
+    remediation:
+      "Run the following commands to set ownership and permissions on /etc/cron.hourly:\n"
+      "```\n"
+      "# chown root:root /etc/cron.hourly\n"
+      "# chmod og-rwx /etc/cron.hourly\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.hourly\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cron-daily-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/cron.daily are configured"
+    description:
+      "The /etc/cron.daily directory contains system cron jobs that need to "
+      "run on a daily basis. The files in this directory cannot be "
+      "manipulated by the crontab command, but are instead edited by system "
+      "administrators using a text editor. The commands below restrict "
+      "read/write and search access to user and group root, preventing "
+      "regular users from accessing this directory."
+    rationale:
+      "Granting write access to this directory for non-privileged users could "
+      "provide them the means for gaining unauthorized elevated privileges. "
+      "Granting read access to this directory could give an unprivileged "
+      "user insight in how to gain elevated privileges or circumvent auditing "
+      "controls."
+    remediation:
+      "Run the following commands to set ownership and permissions on /etc/cron.daily:\n"
+      "```\n"
+      "# chown root:root /etc/cron.daily\n"
+      "# chmod og-rwx /etc/cron.daily\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.daily\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cron-weekly-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/cron.weekly are configured"
+    description:
+      "The /etc/cron.weekly directory contains system cron jobs that need to "
+      "run on a weekly basis. The files in this directory cannot be "
+      "manipulated by the crontab command, but are instead edited by system "
+      "administrators using a text editor. The commands below restrict "
+      "read/write and search access to user and group root, preventing "
+      "regular users from accessing this directory."
+    rationale:
+      "Granting write access to this directory for non-privileged users could "
+      "provide them the means for gaining unauthorized elevated privileges. "
+      "Granting read access to this directory could give an unprivileged "
+      "user insight in how to gain elevated privileges or circumvent auditing "
+      "controls."
+    remediation:
+      "Run the following commands to set ownership and permissions on /etc/cron.weekly:\n"
+      "```\n"
+      "# chown root:root /etc/cron.weekly\n"
+      "# chmod og-rwx /etc/cron.weekly\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.weekly\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cron-monthly-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/cron.monthly are configured"
+    description:
+      "The /etc/cron.monthly directory contains system cron jobs that need to "
+      "run on a monthly basis. The files in this directory cannot be "
+      "manipulated by the crontab command, but are instead edited by system "
+      "administrators using a text editor. The commands below restrict "
+      "read/write and search access to user and group root, preventing "
+      "regular users from accessing this directory."
+    rationale:
+      "Granting write access to this directory for non-privileged users could "
+      "provide them the means for gaining unauthorized elevated privileges. "
+      "Granting read access to this directory could give an unprivileged "
+      "user insight in how to gain elevated privileges or circumvent auditing "
+      "controls."
+    remediation:
+      "Run the following commands to set ownership and permissions on /etc/cron.monthly:\n"
+      "```\n"
+      "# chown root:root /etc/cron.monthly\n"
+      "# chmod og-rwx /etc/cron.monthly\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.monthly\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "cron-d-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure permissions on /etc/cron.d are configured"
+    description:
+      "The /etc/cron.d directory contains system cron jobs that need to run in "
+      "a similar manner to the hourly, daily weekly and monthly jobs from "
+      "/etc/crontab, but require more granular control as to when they run. "
+      "The files in this directory cannot be manipulated by the crontab "
+      "command, but are instead edited by system administrators using a text "
+      "editor. The commands below restrict read/write and search access to "
+      "user and group root, preventing regular users from accessing this "
+      "directory."
+    rationale:
+      "Granting write access to this directory for non-privileged users could "
+      "provide them the means for gaining unauthorized elevated privileges. "
+      "Granting read access to this directory could give an unprivileged "
+      "user insight in how to gain elevated privileges or circumvent auditing "
+      "controls."
+    remediation:
+      "Run the following commands to set ownership and permissions on /etc/cron.d:\n"
+      "```\n"
+      "# chown root:root /etc/cron.d\n"
+      "# chmod og-rwx /etc/cron.d\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.d\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "at-cron-restricted-to-authorized-users"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure at/cron is restricted to authorized users"
+    description:
+      "Configure /etc/cron.allow and /etc/at.allow to allow specific users to "
+      "use these services. If /etc/cron.allow or /etc/at.allow do not exist, "
+      "then /etc/at.deny and /etc/cron.deny are checked. Any user not "
+      "specifically defined in those files is allowed to use at and cron. By "
+      "removing the files, only users in /etc/cron.allow and /etc/at.allow "
+      "are allowed to use at and cron. Note that even though a given user is "
+      "not listed in cron.allow , cron jobs can still be run as that user. "
+      "The cron.allow file only controls administrative access to the crontab "
+      "command for scheduling and modifying cron jobs."
+    rationale:
+      "On many systems, only the system administrator is authorized to "
+      "schedule cron jobs. Using the cron.allow file to control who can run "
+      "cron jobs enforces this policy. It is easier to manage an allow list "
+      "than a deny list. In a deny list, you could potentially add a user ID "
+      "to the system and forget to add it to the deny files."
+    remediation:
+      "Run the following commands to remove /etc/cron.deny and /etc/at.deny "
+      "and create and set permissions and ownership for /etc/cron.allow and "
+      "/etc/at.allow:\n"
+      "```\n"
+      "# rm /etc/cron.deny\n"
+      "# rm /etc/at.deny\n"
+      "# touch /etc/cron.allow\n"
+      "# touch /etc/at.allow\n"
+      "# chmod og-rwx /etc/cron.allow\n"
+      "# chmod og-rwx /etc/at.allow\n"
+      "# chown root:root /etc/cron.allow\n"
+      "# chown root:root /etc/at.allow\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.deny\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/at.deny\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.allow\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/at.allow\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.deny\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/at.deny\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/cron.allow\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/at.allow\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ssh-access-limited"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SSH access is limited"
+    description:
+      "There are several options available to limit which users and group can "
+      "access the system via SSH. It is recommended that at least one of the "
+      "following options be leveraged:\n"
+      "AllowUsers\n"
+      "The AllowUsers variable gives the system administrator the option of "
+      "allowing specific users to ssh into the system. The list consists of "
+      "space separated user names. Numeric user IDs are not recognized with "
+      "this variable. If a system administrator wants to restrict user access "
+      "further by only allowing the allowed users to log in from a particular "
+      "host, the entry can be specified in the form of user@host.\n"
+      "AllowGroups\n"
+      "The AllowGroups variable gives the system administrator the option of "
+      "allowing specific groups of users to ssh into the system. The list "
+      "consists of space separated group names. Numeric group IDs are not "
+      "recognized with this variable.\n"
+      "DenyUsers\n"
+      "The DenyUsers variable gives the system administrator the option of "
+      "denying specific users to ssh into the system. The list consists of "
+      "space separated user names. Numeric user IDs are not recognized with "
+      "this variable. If a system administrator wants to restrict user "
+      "access further by specifically denying a user's access from a "
+      "particular host, the entry can be specified in the form of user@host.\n"
+      "DenyGroups\n"
+      "The DenyGroups variable gives the system administrator the option of "
+      "denying specific groups of users to ssh into the system. The list "
+      "consists of space separated group names. Numeric group IDs are not "
+      "recognized with this variable."
+    rationale:
+      "Restricting which users can remotely access the system via SSH will "
+      "help ensure that only authorized users access the system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set one or more of the parameter "
+      "as follows:\n"
+      "```\n"
+      "AllowUsers <userlist>\n"
+      "AllowGroups <grouplist>\n"
+      "DenyUsers <userlist>\n"
+      "DenyGroups <grouplist>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"AllowUsers|AllowGroups|DenyUsers|DenyGroups .*\""
+      "        expected_regex: \"AllowUsers|AllowGroups|DenyUsers|DenyGroups .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "ssh-loglevel-appropriate"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure SSH LogLevel is appropriate"
+    description:
+      "INFO level is the basic level that only records login activity of SSH users.\n"
+      "In many situations, such as Incident Response, it is important to determine\n"
+      "when a particular user was active on a system. The logout record can eliminate\n"
+      "those users who disconnected, which helps narrow the field.\n"
+      "VERBOSE level\n"
+      "specifies that login and logout activity as well as the key fingerprint for\n"
+      "any SSH key used for login will be logged. This information is important for\n"
+      "SSH key management, especially in legacy environments."
+    rationale:
+      "SSH provides several logging levels with varying amounts of verbosity. DEBUG\n"
+      "is specifically not recommended other than strictly for debugging SSH\n"
+      "communications since it provides so much data that it is difficult to identify\n"
+      "important security information."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
+      "```\n"
+      "LogLevel VERBOSE\n"
+      "```\n"
+      "OR\n"
+      "```\n"
+      "LogLevel INFO\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"LogLevel .*\""
+      "        expected_regex: \"LogLevel .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"LogLevel .*\""
+      "        expected_regex: \"LogLevel (INFO|VERBOSE)\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "password-creation-reqs-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure password creation requirements are configured"
+    description:
+      "The pam_cracklib.so module checks the strength of passwords. It "
+      "performs checks such as making sure a password is not a dictionary "
+      "word, it is a certain length, contains a mix of characters (e.g. "
+      "alphabet, numeric, other) and more. The following are definitions of "
+      "the pam_cracklib.so options.\n"
+      "* try_first_pass - retrieve the password from a previous stacked PAM module. "
+      "If not available, then prompt the user for a password.\n"
+      "* retry=3 - Allow 3 tries before sending back a failure.\n"
+      "* minlen=14 - password must be 14 characters or more\n"
+      "* dcredit=-1 - provide at least one digit\n"
+      "* ucredit=-1 - provide at least one uppercase character\n"
+      "* ocredit=-1 - provide at least one special character\n"
+      "* lcredit=-1 - provide at least one lowercase character\n"
+      "The pam_pwquality.so module functions similarly but the minlen, dcredit, "
+      "ucredit, ocredit, and lcredit parameters are stored in the "
+      "/etc/security/pwquality.conf file. The settings shown above are one "
+      "possible policy. Alter these values to conform to your own "
+      "organization's password policies."
+    rationale:
+      "Strong passwords protect systems from being hacked through brute force "
+      "methods."
+    remediation:
+      "Set password creation requirements to conform to site policy. Many "
+      "distributions provide tools for updating PAM configuration, consult "
+      "your documentation for details. If no tooling is provided edit the "
+      "appropriate /etc/pam.d/ configuration file and add or modify the "
+      "pam_cracklib.so or pam_pwquality.so lines to include the required "
+      "options:\n"
+      "```\n"
+      "password required pam_cracklib.so try_first_pass retry=3 minlen=14 dcredit=-1\n"
+      "ucredit=-1 ocredit=-1 lcredit=-1\n"
+      "password requisite pam_pwquality.so try_first_pass retry=3\n"
+      "```\n"
+      "If pam_pwquality.so is in use also configure settings in "
+      "/etc/security/pwquality.conf:\n"
+      "```\n"
+      "minlen = 14\n"
+      "dcredit = -1\n"
+      "ucredit = -1\n"
+      "ocredit = -1\n"
+      "lcredit = -1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex: \"(system-auth)|(common-password)\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"password.*pam_(cracklib|pwquality).so.*\""
+      "        expected_regex: \"password.*required.*pam_(cracklib|pwquality).so.*minlen=(\\\\d+).*\""
+      "        group_criteria: {"
+      "          group_index: 2"
+      "          type: GREATER_THAN"
+      "          const: 13"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "failed-password-lockout-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure lockout for failed password attempts is configured"
+    description:
+      "Lock out users after n unsuccessful consecutive login attempts. The "
+      "first sets of changes are made to the PAM configuration files. The "
+      "second set of changes are applied to the program specific PAM "
+      "configuration file. The second set of changes must be applied to each "
+      "program that will lock out users. Check the documentation for each "
+      "secondary program for instructions on how to configure them to work "
+      "with PAM. Set the lockout number to the policy in effect at your site."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts "
+      "mitigates brute force password attacks against your systems."
+    remediation:
+      "Set password lockouts to conform to site policy. Many distributions "
+      "provide tools for updating PAM configuration, consult your "
+      "documentation for details. If no tooling is provided edit the "
+      "appropriate /etc/pam.d/ configuration file and add or modify the "
+      "pam_tally2.so or pam_faillock.so lines as appropriate:\n"
+      "```\n"
+      "auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900\n"
+      "auth required pam_faillock.so preauth audit silent deny=5 unlock_time=900\n"
+      "auth sufficient pam_unix.so\n"
+      "auth [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900\n"
+      "auth sufficient pam_faillock.so authsucc audit deny=5 unlock_time=900\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex: \"(system-auth)|(common-password)\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"auth.*unlock_time=.*\""
+      "        expected_regex: \"auth.*unlock_time=.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "default-user-umask-027-or-more-restrictive"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure default user umask is 027 or more restrictive"
+    description:
+      "The default umask determines the permissions of files created by "
+      "users. The user creating the file has the discretion of making their "
+      "files and directories readable by others via the chmod command. Users "
+      "who wish to allow their files and directories to be readable by others "
+      "by default may choose a different default umask by inserting the umask "
+      "command into the standard shell configuration files (.profile, .bashrc"
+      ", etc.) in their home directories."
+    rationale:
+      "Setting a very secure default value for umask ensures that users make "
+      "a conscious choice about their file permissions. A default umask "
+      "setting of 077 causes files and directories created by users to not be "
+      "readable by any other user on the system. A umask of 027 would make "
+      "files and directories readable by users in the same Unix group, while "
+      "a umask of 022 would make files readable by every user on the system."
+    remediation:
+      "Edit the /etc/bashrc, /etc/profile and /etc/profile.d/*.sh files (and "
+      "the appropriate files for any other shell supported on your system) and "
+      "add or edit any umask parameters as follows:\n"
+      "```\n"
+      "umask 027\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/bash/bashrc\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/profile.d\""
+      "      filename_regex: \".*\\\\.sh\""
+      "      recursive: true"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"umask .*\""
+      "        expected_regex: \"umask (\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: NO_LESS_RESTRICTIVE_UMASK"
+      "          const: 027"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "no-world-writable-files"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure no world writable files exist"
+    description:
+      "Unix-based systems support variable settings to control access to "
+      "files. World writable files are the least secure. See the chmod(2) "
+      "man page for more information."
+    rationale:
+      "Data in world-writable files can be modified and compromised by any "
+      "user on the system. World writable files may also indicate an "
+      "incorrectly written script or program that could potentially be the "
+      "cause of a larger compromise to the system's integrity."
+    remediation:
+      "Removing write access for the \"other\" category (chmod o-w <filename>)"
+      " is advisable, but always consult relevant vendor documentation to "
+      "avoid breaking any application dependencies on a given file. If the "
+      "permissions of a file can't be restricted, add it to the CIS scanner's "
+      "exclusion list."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{clear_bits: 0002}"
+      "      non_compliance_msg: \"there are world-writable files on the filesystem\""
+      "      file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -0002\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{clear_bits: 0002}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "no-unowned-files-or-dirs"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure no unowned files or directories exist"
+    description:
+      "Sometimes when administrators delete users from the password file they "
+      "neglect to remove all files owned by those users from the system."
+    rationale:
+      "A new user who is assigned the deleted user's user ID or group ID may "
+      "then end up \"owning\" these files, and thus have more access on the "
+      "system than was intended."
+    remediation:
+      "Locate files that are owned by users or groups not listed in the "
+      "system configuration files, and reset the ownership of these files "
+      "to some active user on the system as appropriate."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{user:{name: \"\" should_own: false}}"
+      "      non_compliance_msg: \"there are unowned files or directories on the filesystem\""
+      "      file_display_command: \"df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{user:{name: \"\" should_own: false}}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "no-ungrouped-files-or-dirs"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure no ungrouped files or directories exist"
+    description:
+      "Sometimes when administrators delete users or groups from the system "
+      "they neglect to remove all files owned by those users or groups."
+    rationale:
+      "A new user who is assigned the deleted user's user ID or group ID may "
+      "then end up \"owning\" these files, and thus have more access on the "
+      "system than was intended."
+    remediation:
+      "Locate files that are owned by users or groups not listed in the "
+      "system configuration files, and reset the ownership of these files to "
+      "some active user on the system as appropriate."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{group:{name: \"\" should_own: false}}"
+      "      non_compliance_msg: \"there are ungrouped files or directories on the filesystem\""
+      "      file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{group:{name: \"\" should_own: false}}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "audit-suid-execs"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Audit SUID executables"
+    description:
+      "The owner of a file can set the file's permissions to run with the "
+      "owner's or group's permissions, even if the user running the program "
+      "is not the owner or a member of the group. The most common reason for a "
+      "SUID program is to enable users to perform functions (such as changing "
+      "their password) that require root privileges."
+    rationale:
+      "There are valid reasons for SUID programs, but it is important to "
+      "identify and review such programs to ensure they are legitimate."
+    remediation:
+      "Ensure that no rogue SUID programs have been introduced into the "
+      "system. Review the files returned by the display_command "
+      "confirm the integrity of these binaries. If they have a valid reason to "
+      "be SUID, add them to the CIS scanner's exclusion list by editing the "
+      "scanner invocation script and adding the appropriate "
+      "`--filename-opt-out-regexes` argument. If a binary doesn't have a "
+      "valid reason to be SUID, remove the SUID flag from it."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{ clear_bits: 04000 }"
+      "      non_compliance_msg: \"some files on the filesystem have the SUID bit set\""
+      "      file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -4000\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{ clear_bits: 04000 }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "audit-sgid-execs"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Audit SGID executables"
+    description:
+      "The owner of a file can set the file's permissions to run with the "
+      "owner's or group's permissions, even if the user running the program is "
+      "not the owner or a member of the group. The most common reason for a "
+      "SGID program is to enable users to perform functions (such as changing "
+      "their password) that require root privileges."
+    rationale:
+      "There are valid reasons for SGID programs, but it is important to "
+      "identify and review such programs to ensure they are legitimate. "
+      "Review the files returned by the action in the audit section and "
+      "check to see if system binaries have a different md5 checksum than "
+      "what from the package. This is an indication that the binary may have "
+      "been replaced."
+    remediation:
+      "Ensure that no rogue SGID programs have been introduced into the "
+      "system. Review the files returned by the display_command "
+      "confirm the integrity of these binaries. If they have a valid reason to "
+      "be SGID, add them to the CIS scanner's exclusion list by editing the "
+      "scanner invocation script and adding the appropriate "
+      "`--filename-opt-out-regexes` argument. If a binary doesn't have a "
+      "valid reason to be SGID, remove the SGID flag from it."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{ clear_bits: 02000 }"
+      "      non_compliance_msg: \"some files on the filesystem have the SGID bit set\""
+      "      file_display_command: \"df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -2000\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc\""
+      "        opt_out_path_regexes: \"/sys\""
+      "        opt_out_path_regexes: \"/dev\""
+      "      }}"
+      "      permission:{ clear_bits: 02000 }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "root-path-integrity"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure root PATH Integrity"
+    description:
+      "The root user can execute any command on the system and could be fooled "
+      "into executing programs unintentionally if the PATH is not set correctly"
+    rationale:
+      "Including the current working directory (.) or other writable directory "
+      "in root's executable path makes it likely that an attacker can gain "
+      "superuser access by forcing an administrator operating as root to execute "
+      "a Trojan horse program."
+    remediation: "Correct or justify any items discovered by the CIS document's Audit step."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      #Check the env vars of the scanner process's user. This assumes that the
+      # scanner is running as root.
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/environ\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      delimiter: \"\\0\""
+      # No empty dirs.
+      "      match_criteria: {"
+      "        filter_regex: \"PATH=.*\""
+      "        expected_regex: \"PATH=.*::\""
+      "      }"
+      # No trailing ':'.
+      "      match_criteria: {"
+      "        filter_regex: \"PATH=.*\""
+      "        expected_regex: \"PATH=.*:$\""
+      "      }"
+      "    }"
+      "  }"
+      # Directories have restricted permissions.
+      "  file_checks:{"
+      "    files_to_check:{unix_env_var_paths:{"
+      "      var_name: \"PATH\""
+      "      dirs_only: true"
+      "    }}"
+      "    permission:{"
+      "      clear_bits: 0022"
+      "      user: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      # No files among paths.
+      "  file_checks:{"
+      "    files_to_check:{unix_env_var_paths:{"
+      "      var_name: \"PATH\""
+      "      files_only: true"
+      "    }}"
+      "    existence:{should_exist: false}"
       "  }"
       "}}"
   }
