@@ -81,8 +81,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "udf-mounting-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure mounting of udf filesystems is disabled"
     description:
@@ -143,15 +141,15 @@ benchmark_configs: {
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
       "        recursive: true"
       "      }}"
       "      content_entry:{"
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
-      "          filter_regex: \"echo \\\"install udf .*\""
-      "          expected_regex: \"echo \\\"install udf /bin/true\\\" > /etc/modprobe.d/udf.conf\""
+      "          filter_regex: \"install udf .*\""
+      "          expected_regex: \"install udf /bin/true\""
       "        }"
       "      }"
       "    }"
@@ -2543,8 +2541,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-mac-algorithms-used"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure only strong MAC algorithms are used"
     description: "This variable limits the types of MAC algorithms that SSH can use during communication."
@@ -2567,7 +2563,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -2644,26 +2640,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      # Use a null byte as the delimiter to be able to match multi-line commands.
-      "        delimiter: \"\\0\""
-      "        match_criteria: {"
-      "          filter_regex: \".*echo .*MACs.* /etc/ssh/sshd_config.*\""
-      "          expected_regex: \".*echo \\\"MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,[^a-z]*hmac-sha2-256,hmac-sha2-512\\\" >> /etc/ssh/sshd_config.*\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
@@ -2721,8 +2697,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-idle-timeout-interval-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH Idle Timeout Interval is configured"
     description:
@@ -2758,7 +2732,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -2795,47 +2769,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      # Use a null byte as the delimiter to be able to match multi-line commands.
-      "        delimiter: \"\\0\""
-      "        match_criteria: {"
-      "          filter_regex: \".*sed .*ClientAliveInterval.* /etc/ssh/sshd_config.*\""
-      "          expected_regex: \".*sed -i 's/\\\\^ClientAliveInterval .*\\\\$/ClientAliveInterval 300/'.*/etc/ssh/sshd_config.*\""
-      "        }"
-      "      }"
-      "    }"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"echo.*ClientAliveCountMax.*/etc/ssh/sshd_config\""
-      "          expected_regex: \"echo \\\"ClientAliveCountMax 0\\\" >> /etc/ssh/sshd_config\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "ssh-logingrace-one-minute-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH LoginGraceTime is set to one minute or less"
     description:
@@ -2861,7 +2799,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -2889,31 +2827,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"echo.*LoginGraceTime.*/etc/ssh/sshd_config\""
-      "          expected_regex: \"echo \\\"LoginGraceTime 60\\\" >> /etc/ssh/sshd_config\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "ssh-warning-banner-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH warning banner is configured"
     description:
@@ -2935,7 +2853,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -2949,24 +2867,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"echo.*Banner.*/etc/ssh/sshd_config\""
-      "          expected_regex: \"echo \\\"Banner /etc/issue.net\\\" >> /etc/ssh/sshd_config\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
@@ -3015,8 +2915,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-allowtcpforwarding-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH AllowTcpForwarding is disabled"
     description:
       "SSH port forwarding is a mechanism in SSH for tunneling application "
@@ -3044,7 +2942,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -3058,31 +2956,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"sed.*AllowTcpForwarding.*/etc/ssh/sshd_config\""
-      "          expected_regex: \"sed -i 's/\\\\^AllowTcpForwarding \\\\.\\\\*\\\\$/AllowTcpForwarding no/' /etc/ssh/sshd_config\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "ssh-maxstartups-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH MaxStartups is configured"
     description:
@@ -3103,7 +2981,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -3117,31 +2995,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"echo.*maxstartups.*/etc/ssh/sshd_config\""
-      "          expected_regex: \"echo \\\"maxstartups 10:30:60\\\" >> /etc/ssh/sshd_config\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "ssh-maxsessions-4-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure SSH MaxSessions is set to 4 or less"
     description:
@@ -3161,7 +3019,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
@@ -3180,31 +3038,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"echo.*MaxSessions.*/etc/ssh/sshd_config\""
-      "          expected_regex: \"echo \\\"MaxSessions 4\\\" >> /etc/ssh/sshd_config\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "password-reuse-limited"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure password reuse is limited"
     description:
@@ -3230,7 +3068,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{"
@@ -3252,47 +3090,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      # Use a null byte as the delimiter to be able to match multi-line commands.
-      "        delimiter: \"\\0\""
-      "        match_criteria: {"
-      "          filter_regex: \".*sed.*pam_pwhistory.so.*/etc/pam.d/system-auth.*\""
-      "          expected_regex: \".*sed -i '0,/password/s//password\\\\s+required\\\\s+pam_pwhistory.so\\\\s+remember=5\\\\\\\\n&/'.*/etc/pam.d/system-auth.*\""
-      "        }"
-      "      }"
-      "    }"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"sed.*pam_unix.so.*/etc/pam.d/system-auth\""
-      "          expected_regex: \".*sed -i 's/password\\\\.\\\\*pam_unix.so/& remember=5/' /etc/pam.d/system-auth.*\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "password-hashing-algorithm-sha-512"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure password hashing algorithm is SHA-512"
     description:
@@ -3320,7 +3122,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{"
@@ -3338,31 +3140,11 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"sed.*md5.*/etc/pam.d/system-auth\""
-      "          expected_regex: \"sed -i '/password/s/md5/sha512/' /etc/pam.d/system-auth\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
   id: "password-expiration-365-days-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure password expiration is 365 days or less"
     description:
@@ -3391,7 +3173,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
@@ -3427,39 +3209,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"sed.*PASS_MAX_DAYS.*/etc/login.defs\""
-      "          expected_regex: \"sed -i 's/\\\\^PASS_MAX_DAYS\\\\\\\\t\\\\.\\\\*\\\\$/PASS_MAX_DAYS 365/' /etc/login.defs\""
-      "        }"
-      "      }"
-      "    }"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/shadow\"}}"
-      "      content_entry:{"
-      "        match_type: NONE_MATCH"
-      "        match_criteria: {"
-      "          filter_regex: \".+:[^!*]+:.*:.*:.*:.*:.*:.*:.*\""
-      "          expected_regex: \".*:.*:.*:.*:.*:(\\\\d+):.*:.*:.*\""
-      "          group_criteria: {"
-      "            group_index: 1"
-      "            type: LESS_THAN"
-      "            const: 366"
-      "          }"
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
@@ -3492,7 +3241,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
@@ -3528,39 +3277,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"sed.*PASS_MIN_DAYS.*/etc/login.defs\""
-      "          expected_regex: \"sed -i 's/\\\\^PASS_MIN_DAYS\\\\\\\\t\\\\.\\\\*\\\\$/PASS_MIN_DAYS 7/' /etc/login.defs\""
-      "        }"
-      "      }"
-      "    }"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/shadow\"}}"
-      "      content_entry:{"
-      "        match_type: NONE_MATCH"
-      "        match_criteria: {"
-      "          filter_regex: \".+:[^!*]+:.*:.*:.*:.*:.*:.*:.*\""
-      "          expected_regex: \".*:.*:.*:.*:(\\\\d+):.*:.*:.*:.*\""
-      "          group_criteria: {"
-      "            group_index: 1"
-      "            type: GREATER_THAN"
-      "            const: 6"
-      "          }"
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
@@ -3632,8 +3348,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "inactive-password-lock-30-days-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure inactive password lock is 30 days or less"
     description:
@@ -3658,7 +3372,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/default/useradd\"}}"
@@ -3694,39 +3408,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "image_scanning:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/usr/share/google/security\""
-      "        filename_regex: \".*\\\\.sh\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"useradd -D -f .*\""
-      "          expected_regex: \"useradd -D -f 30\""
-      "        }"
-      "      }"
-      "    }"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/shadow\"}}"
-      "      content_entry:{"
-      "        match_type: NONE_MATCH"
-      "        match_criteria: {"
-      "          filter_regex: \".+:[^!*]+:.*:.*:.*:.*:.*:.*:.*\""
-      "          expected_regex: \".*:.*:.*:.*:.*:.*:.*:(\\\\d+):.*\""
-      "          group_criteria: {"
-      "            group_index: 1"
-      "            type: LESS_THAN"
-      "            const: 31"
-      "          }"
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
