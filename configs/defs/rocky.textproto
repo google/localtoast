@@ -12,7 +12,9 @@ benchmark_configs: {
       "Edit the /etc/fstabp file and add nodev to the fourth field (mounting options) for the /var "
       "partition.\n"
       "Example: \n"
+      "```\n"
       "<device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var with the configured options:\n"
       "mount -o remount /var\n"
       "References:\n"
@@ -63,9 +65,13 @@ benchmark_configs: {
       "Edit the /etc/fstabp file and add noexec to the fourth field (mounting options) for the /var "
       "partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var with the configured options:\n"
+      "```\n"
       "mount -o remount /var\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -114,9 +120,13 @@ benchmark_configs: {
       "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the /var "
       "partition. "
       "Example: "
+      "```\n"
       "‘ <device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0 "
+      "```\n"
       "Run the following command to remount /var with the configured options: "
-      "H mount -o remount /var "
+      "```\n"
+      "mount -o remount /var "
+      "```\n"
       "References: "
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -165,9 +175,13 @@ benchmark_configs: {
       "Edit the /etc/fstabp file and add nodev to the fourth field (mounting options) for the "
       "/var/log partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
+      "```\n"
       "Run the following command to remount /var/1og with the configured options:\n"
+      "```\n"
       "mount -o remount /var/log\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -216,9 +230,13 @@ benchmark_configs: {
       "Editthe /etc/fstab file and add noexec to the fourth field (mounting options) for the "
       "/var/log partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
+      "```\n"
       "Run the following command to remount /var/1og with the configured options:\n"
+      "```\n"
       "mount -o remount /var/log\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -267,9 +285,13 @@ benchmark_configs: {
       "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the "
       "/var/log partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
+      "```\n"
       "Run the following command to remount /var/1og with the configured options:\n"
+      "```\n"
       "mount -o remount /var/log\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -318,10 +340,14 @@ benchmark_configs: {
       "Editthe /etc/fstabp file and add noexec to the fourth field (mounting options) for the /var "
       "partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log/audit <fstype>\n"
       "defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
+      "```\n"
       "mount -o remount /var/log/audit\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -370,10 +396,14 @@ benchmark_configs: {
       "Editthe /etc/fstab file and add nodev to the fourth field (mounting options) for the "
       "/var/log/audit partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log/audit <fstype>\n"
       "defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
+      "```\n"
       "mount -o remount /var/log/audit\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -422,10 +452,14 @@ benchmark_configs: {
       "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the "
       "option to ensure that users cannot create setuidfilesin /var/log/audit.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log/audit <fstype>\n"
       "defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
+      "```\n"
       "mount -o remount /var/log/audit\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -474,9 +508,13 @@ benchmark_configs: {
       "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the "
       "/home partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /home <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /home with the configured options:\n"
+      "```\n"
       "mount -o remount /home\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -574,7 +612,9 @@ benchmark_configs: {
       "Editthe /etc/fstabp file and add grpquota to the fourth field (mounting options) for the "
       "/home partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /home <fstype> defaults, rw, usrquota, grpquota, nodev, relatime"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -623,8 +663,10 @@ benchmark_configs: {
       "The systemd drop-in files mustbe created if it is necessary to change the default settings:\n"
       "Create the file /etc/systemd/system/rescue.service.d/00-require-auth.conf which "
       "contains only the configuration to be overridden:\n"
+      "```\n"
       "[Service]\n"
-      "ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue"
+      "ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -668,13 +710,17 @@ benchmark_configs: {
       "of the less secure LEGACY policy level."
     remediation:
       "Run the following command to change the system-wide crypto policy\n"
-      "# update-crypto-policies --set <CRYPTO POLICY>\n"
+      "```\n"
+      "update-crypto-policies --set <CRYPTO POLICY>\n"
+      "```\n"
       "Example:\n"
-      "# update-crypto-policies --set DEFAULT\n"
+      "```\n"
+      "update-crypto-policies --set DEFAULT\n"
+      "```\n"
       "Run the following to make the updated system-wide crypto policy active\n"
-      "# update-crypto-policies\n"
-      "Default Value:\n"
-      "DEFAULT\n"
+      "```\n"
+      "update-crypto-policies\n"
+      "```\n"
       "References:\n"
       "1. CRYPTO-POLICIES(7)\n"
       "2. https://access.redhat.com/articles/3642912#what-polices-are-provided-1"
@@ -713,6 +759,7 @@ benchmark_configs: {
       "wireless requiring these interfaces be enabled."
     remediation:
       "Run the following script to disable any wireless interfaces:\n"
+      "```\n"
       "#!/usr/bin/env bash\n"
       "if command -v nmcli >/dev/null 2>&1 ; then\n"
       "nmcli radio all off\n"
@@ -724,7 +771,8 @@ benchmark_configs: {
       "for dm in $mname; do\n"
       "echo \"install $dm /bin/true\" >>\n"
       "/etc/modprobe.d/disable_wireless.conf\n"
-      "done -"
+      "done\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -764,7 +812,9 @@ benchmark_configs: {
       "stored on the local system."
     remediation:
       "Run the following command to install systemd-journal-remote:\n"
+      "```\n"
       "dnf install systemd-journal-remote"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -799,7 +849,9 @@ benchmark_configs: {
       "stored on the local system."
     remediation:
       "Run the following command to enable systemd-journal-remote:\n"
-      "# systemctl --now enable systemd-journal-upload.service"
+      "```\n"
+      "systemctl --now enable systemd-journal-upload.service"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -956,8 +1008,10 @@ benchmark_configs: {
       "secure Ciphers, MACs, KexAlgorithms and GSSAPIKexAlgorithm"
     remediation:
       "Run the following commands:\n"
-      "# sed -ri \"s/\"\\s* (CRYPTO_POLICY\\s*=.*)$/# \\1/\" /etc/sysconfig/sshd\n"
-      "# systemctl reload sshd"
+      "```\n"
+      "sed -ri \"s/\"\\s* (CRYPTO_POLICY\\s*=.*)$/# \\1/\" /etc/sysconfig/sshd\n"
+      "systemctl reload sshd"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1040,9 +1094,11 @@ benchmark_configs: {
       "sectionwith visudo -f <pATH TO FILE>and modifythe entry timestamp timeout=to 15 "
       "minutes or less as per your site policy. The value is in minutes.\nThis particular entry may "
       "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
+      "```\n"
       "Defaults env_reset, timestamp timeout=15\n"
       "Defaults timestamp_ timeout=15\n"
       "Defaults env_reset\n"
+      "```\n"
       "References:\n"
       "1. https://www.sudo.ws/man/1.9.0/sudoers.man.html"
     cis_benchmark: {
@@ -1094,13 +1150,21 @@ benchmark_configs: {
       "When you deploy a profile, the profile is applied to every user logging into the given host"
     remediation:
       "Run the following command to create a custom authselect profile:\n"
+      "```\n"
       "authselect create-profile <custom-profile name> <options>\n"
+      "```\n"
       "Example:\n"
+      "```\n"
       "authselect create-profile custom-profile -b sssd --symlink-meta\n"
+      "```\n"
       "Run the following command to select a custom authselect profile:\n"
+      "```\n"
       "authselect select custom/<CUSTOM PROFILE NAME> {with-<OPTIONS>}\n"
+      "```\n"
       "Example:\n"
+      "```\n"
       "# authselect select custom/custom-profile with-sudo with-faillock without-nullok\n"
+      "```\n"
       "References:\n"
       "1. authselect(8)"
     cis_benchmark: {
@@ -1145,8 +1209,10 @@ benchmark_configs: {
     remediation:
       "Run the following commands to include the with-faillock optionto the current authselect "
       "profile:\n"
+      "```\n"
       "# authselect enable-feature with-faillock\n"
       "# authselect apply-changes\n"
+      "```\n"
       "References:\n"
       "1. faillock(8) - Linux man page\n"
       "2. pam_faillock(8) - Linux man page\n"
