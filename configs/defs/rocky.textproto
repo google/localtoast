@@ -6,10 +6,10 @@ benchmark_configs: {
     description:
       "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
-      "Since the /var filesystem is not intended to supportdevices, set this option to ensure that "
+      "Since the /var filesystem is not intended to support devices, set this option to ensure that "
       "users cannot create a block or character special devices in /var."
     remediation:
-      "Edit the /etc/fstabp file and add nodev to the fourth field (mounting options) for the /var "
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the /var "
       "partition.\n"
       "Example: \n"
       "```\n"
@@ -59,10 +59,10 @@ benchmark_configs: {
     description:
       "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
-      "Since the /var filesystem is only intended for variable files suchas logs, set this option to "
+      "Since the /var filesystem is only intended for variable files such as logs, set this option to "
       "ensure that users cannot run executable binaries from /var."
     remediation:
-      "Edit the /etc/fstabp file and add noexec to the fourth field (mounting options) for the /var "
+      "Edit the /etc/fstab file and add noexec to the fourth field (mounting options) for the /var "
       "partition.\n"
       "Example:\n"
       "```\n"
@@ -90,7 +90,7 @@ benchmark_configs: {
       "        expected_regex: \".* /var .*noexec.* - .*\""
       "      }"
       "    }"
-      "  }"
+      "  }"log
       "}"
       "check_alternatives:{"
       "  file_checks:{"
@@ -112,12 +112,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var partition"
     description:
-      "The nosuid mount optionspecifies thatthe filesystem cannot contain setuid files."
+      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
-      "Since the /var filesystemis only intended for variable files suchas logs, set this option to "
-      "ensure that users cannot create setuidfilesin /var."
+      "Since the /var file system is only intended for variable files such as logs, set this option to "
+      "ensure that users cannot create setuid files in /var."
     remediation:
-      "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the /var "
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the /var "
       "partition. "
       "Example: "
       "```\n"
@@ -169,16 +169,16 @@ benchmark_configs: {
     description:
       "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
-      "Since the /var/log filesystemisnot intended to support devices, set this option to ensure "
-      "that users cannot create a block or character special devicesin /var/log."
+      "Since the /var/log file system is not intended to support devices, set this option to ensure "
+      "that users cannot create a block or character special devices in /var/log."
     remediation:
-      "Edit the /etc/fstabp file and add nodev to the fourth field (mounting options) for the "
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the "
       "/var/log partition.\n"
       "Example:\n"
       "```\n"
       "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
       "```\n"
-      "Run the following command to remount /var/1og with the configured options:\n"
+      "Run the following command to remount /var/log with the configured options:\n"
       "```\n"
       "mount -o remount /var/log\n"
       "```\n"
@@ -224,7 +224,7 @@ benchmark_configs: {
     description:
       "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
-      "Since the /var/log filesystemis only intended for log files, set this option to ensure that "
+      "Since the /var/log file system is only intended for log files, set this option to ensure that "
       "users cannot run executable binaries from /var/log."
     remediation:
       "Editthe /etc/fstab file and add noexec to the fourth field (mounting options) for the "
@@ -233,7 +233,7 @@ benchmark_configs: {
       "```\n"
       "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
       "```\n"
-      "Run the following command to remount /var/1og with the configured options:\n"
+      "Run the following command to remount /var/log with the configured options:\n"
       "```\n"
       "mount -o remount /var/log\n"
       "```\n"
@@ -279,16 +279,16 @@ benchmark_configs: {
     description:
       "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
-      "Since the /var/1log filesystemis only intended for log files, set this option to ensure that "
+      "Since the /var/log file system is only intended for log files, set this option to ensure that "
       "users cannot create setuid files in /var/log."
     remediation:
-      "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the "
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
       "/var/log partition.\n"
       "Example:\n"
       "```\n"
       "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
       "```\n"
-      "Run the following command to remount /var/1og with the configured options:\n"
+      "Run the following command to remount /var/log with the configured options:\n"
       "```\n"
       "mount -o remount /var/log\n"
       "```\n"
@@ -337,7 +337,7 @@ benchmark_configs: {
       "Since the /var/log/audit filesystems only intended for auditlogs, set this option to "
       "ensure that users cannot run executable binaries from /var/log/audit."
     remediation:
-      "Editthe /etc/fstabp file and add noexec to the fourth field (mounting options) for the /var "
+      "Editthe /etc/fstab file and add noexec to the fourth field (mounting options) for the /var "
       "partition.\n"
       "Example:\n"
       "```\n"
@@ -390,8 +390,8 @@ benchmark_configs: {
     description:
       "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
-      "Since the /var/log/audit filesystemis not intended to support devices, set this option to "
-      "ensure that users cannot create a block or characterspecial devicesin /var/log/audit.\n"
+      "Since the /var/log/audit file system is not intended to support devices, set this option to "
+      "ensure that users cannot create a block or character special devices in /var/log/audit.\n"
     remediation:
       "Editthe /etc/fstab file and add nodev to the fourth field (mounting options) for the "
       "/var/log/audit partition.\n"
@@ -444,13 +444,13 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log/audit partition"
     description:
-      "The nosuid mount optionspecifies thatthe filesystem cannot contain setuid files."
+      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
-      "Since the /var/log/audit filesystemis only intended for variable files suchas logs, set this "
-      "option to ensure that users cannot create setuidfilesin /var/log/audit.\n"
+      "Since the /var/log/audit file system is only intended for variable files such as logs, set this "
+      "option to ensure that users cannot create setuid files in /var/log/audit.\n"
     remediation:
-      "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the "
-      "option to ensure that users cannot create setuidfilesin /var/log/audit.\n"
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
+      "option to ensure that users cannot create setuid files in /var/log/audit.\n"
       "Example:\n"
       "```\n"
       "<device> /var/log/audit <fstype>\n"
@@ -500,12 +500,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /home partition"
     description:
-      "The nosuid mount optionspecifies thatthe filesystem cannot contain setuid files."
+      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
       "Since the /nome filesystem is only intended for user file storage, set this option to ensure "
-      "that users cannot create setuidfiles in /home."
+      "that users cannot create setuid files in /home."
     remediation:
-      "Editthe /etc/fstabp file and add nosuid to the fourth field (mounting options) for the "
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
       "/home partition.\n"
       "Example:\n"
       "```\n"
@@ -557,9 +557,9 @@ benchmark_configs: {
     description:
       "The usrquota mount optionallows for the filesystem to have disk quotas configured."
     rationale:
-      "To ensure the availability of disk space on /home, it is important to limit the impacta single "
+      "To ensure the availability of disk space on /home, it is important to limit the impact a single "
       "user or group can cause for other users (or the wider system) by accidentally filling up the "
-      "partition. Quotas can also be applied to inodes for filesystems where inode exhaustionis a "
+      "partition. Quotas can also be applied to inodes for filesystems where inode exhaustion is a "
       "concern."
     remediation:
       "Edit the /etc/fstab file and add usrquota to the fourth field (mounting options) for the "
@@ -604,12 +604,12 @@ benchmark_configs: {
     description:
       "The grpquota mount option allows for the filesystem to have disk quotas configured."
     rationale:
-      "To ensure the availability of disk space on /home, it is important to limit the impacta single "
+      "To ensure the availability of disk space on /home, it is important to limit the impact a single "
       "user or group can cause for other users (or the wider system) by accidentally filling up the "
-      "partition. Quotas can also be applied to inodes for filesystems where inode exhaustionis a "
+      "partition. Quotas can also be applied to inodes for filesystems where inode exhaustion is a "
       "concern."
     remediation:
-      "Editthe /etc/fstabp file and add grpquota to the fourth field (mounting options) for the "
+      "Editthe /etc/fstab file and add grpquota to the fourth field (mounting options) for the "
       "/home partition.\n"
       "Example:\n"
       "```\n"
@@ -656,7 +656,7 @@ benchmark_configs: {
       "Rescue mode (former single user mode) is used for recovery when the system detects an "
       "issue during boot or by manual selection from the bootloader."
     rationale:
-      "Requiring authenticationinrescue mode (former single user mode) prevents an "
+      "Requiring authentication in rescue mode (former single user mode) prevents an "
       "unauthorized user from rebooting the system into rescue mode to gainroot privileges "
       "without credentials."
     remediation:
@@ -804,11 +804,11 @@ benchmark_configs: {
     title: "Ensure systemd-journal-remote is installed"
     description:
       "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
-      "aremote log hostor to receive messages from remote hosts, thus enabling centralised log "
+      "a remote log host or to receive messages from remote hosts, thus enabling centralised log "
       "management."
     rationale:
       "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
-      "gainsroot access on the local system, they could tamper with or remove log data that is "
+      "gains root access on the local system, they could tamper with or remove log data that is "
       "stored on the local system."
     remediation:
       "Run the following command to install systemd-journal-remote:\n"
@@ -841,11 +841,11 @@ benchmark_configs: {
     title: "Ensure systemd-journal-remote is enabled"
     description:
       "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
-      "aremote log hostor to receive messages from remote hosts, thus enabling centralised log "
+      "a remote log host or to receive messages from remote hosts, thus enabling centralised log "
       "management."
     rationale:
       "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
-      "gainsroot access on the local system, they could tamper with or remove log data that is "
+      "gains root access on the local system, they could tamper with or remove log data that is "
       "stored on the local system."
     remediation:
       "Run the following command to enable systemd-journal-remote:\n"
@@ -877,7 +877,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald is not configured to receive logs from a remote client"
     description:
-      "Journald supports the ability to receive messages from remote hosts, thus actingas a log "
+      "Journald supports the ability to receive messages from remote hosts, thus acting as a log "
       "server. Clients should not receive data from other hosts.\n"
       "NOTE:\n"
       "The same package, systemd-journal-remote, is used for both sending logs to "
@@ -885,7 +885,7 @@ benchmark_configs: {
       "With regards to receiving logs, there are two services; systemd-journal-"
       "remote.socket and systemd-journal-remote.service."
     rationale:
-      "If a client is configured to also receive data, thus turning it into a server, the clientsystemis "
+      "If a client is configured to also receive data, thus turning it into a server, the client system is "
       "acting outside it's operational boundary."
     remediation:
       "Run the following command to disable systemd-journal-remote.socket:\n"
@@ -927,9 +927,9 @@ benchmark_configs: {
       "If the systemd-journald serviceis not enabled to start on boot, the system will not capture "
       "logging events."
     remediation:
-      "By default the systemd-journald service does nothavean [Install] sectionand thus "
+      "By default the systemd-journald service does not have an [Install] sectionand thus "
       "cannot be enabled / disabled.\nIt is meant to be referenced as Requires or wants by other "
-      "unit files. As such, if the status of systemd-journald isnot static, investigate why."
+      "unit files. As such, if the status of systemd-journald is not static, investigate why."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -955,7 +955,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald default file permissions configured"
     description:
-      "Journald will create logfiles that do not already existon the system. This setting controls "
+      "Journald will create log files that do not already existon the system. This setting controls "
       "what permissions will be applied to these newly created files."
     rationale:
       "It isimportantto ensure that log files have the correct permissions to ensure that sensitive "
@@ -1083,15 +1083,15 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure sudo authentication timeout is configured correctly"
     description:
-      "sudo caches used credentials for a default of 5 minutes.\nThis is for ease of use when there " 
-      "are multiple administrative tasks to perform. The timeout canbe modified to suitlocal "
+      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there " 
+      "are multiple administrative tasks to perform. The timeout can be modified to suit local "
       "security policies."
     rationale:
       "Setting a timeout value reduces the window of opportunity for unauthorized privileged "
       "access to another user."
     remediation:
       "If the currently configured timeoutis larger than 15 minutes, edit the file listed in the audit "
-      "sectionwith visudo -f <pATH TO FILE>and modifythe entry timestamp timeout=to 15 "
+      "section with visudo -f <PATH TO FILE> and modify the entry timestamp timeout=to 15 "
       "minutes or less as per your site policy. The value is in minutes.\nThis particular entry may "
       "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
       "```\n"
@@ -1200,14 +1200,14 @@ benchmark_configs: {
     title: "Ensure authselect includes with-faillock"
     description:
       "The pam_faillock.so module maintains a list of failed authentication attempts per user "
-      "during a specified intervaland locks the account in case there were more than deny "
+      "during a specified interval and locks the account in case there were more than deny "
       "consecutive failed authentications. It stores the failure records into per-user files in the "
       "tally directory"
     rationale:
       "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force"
-      "password attacks againstyour systems."
+      "password attacks against your systems."
     remediation:
-      "Run the following commands to include the with-faillock optionto the current authselect "
+      "Run the following commands to include the with-faillock option to the current authselect "
       "profile:\n"
       "```\n"
       "# authselect enable-feature with-faillock\n"
