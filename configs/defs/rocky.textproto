@@ -90,7 +90,7 @@ benchmark_configs: {
       "        expected_regex: \".* /var .*noexec.* - .*\""
       "      }"
       "    }"
-      "  }"log
+      "  }"
       "}"
       "check_alternatives:{"
       "  file_checks:{"
@@ -789,7 +789,7 @@ benchmark_configs: {
       "        match_type: NONE_MATCH"
       "        match_criteria: {"
       # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>: 
-      "          filter_regex: \"^[^:]*:.*\""
+      "          filter_regex: \"[^:]*:.*\""
       "        }"
       "      }"
       "    }"
@@ -1178,9 +1178,9 @@ benchmark_configs: {
       "    content_entry:{"
       "      match_type: ALL_MATCH_ANY_ORDER"
       "      match_criteria: {"
-      # Expect some kind of policy in the file (i.e. not just comments).
-      "        filter_regex: \"custom/.*\""
-      "        expected_regex: \"custom/[a-z0-9A-Z_]+\""
+      # Expect a custom profile in the file.
+      "        filter_regex: \"-\\s*custom/.*\""
+      "        expected_regex: \"-\\s*custom/[a-z0-9A-Z_-]+\""
       "      }"
       "    }"
       "  }"
@@ -1228,8 +1228,8 @@ benchmark_configs: {
       "    content_entry:{"
       "      match_type: ALL_MATCH_ANY_ORDER"
       "      match_criteria: {"
-      "        filter_regex: \"pam_faillock\\\\.so\""
-      "        expected_regex: \"pam_faillock\\\\.so\""
+      "        filter_regex: \"\\s*pam_faillock\\.so\""
+      "        expected_regex: \"\\s*pam_faillock\\.so\""
       "      }"
       "    }"
       "  }"
