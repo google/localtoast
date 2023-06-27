@@ -1155,7 +1155,7 @@ benchmark_configs: {
       "    content_entry:{"
       "        match_type: NONE_MATCH"
       "        match_criteria: {"
-      "          filter_regex: \"^[^#].*\\\\!authenticate\""
+      "          filter_regex: \"[^#].*\\\\!authenticate.*\""
       "        }"
       "      }"
       "    }"
