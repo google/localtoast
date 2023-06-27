@@ -1179,8 +1179,8 @@ benchmark_configs: {
       "      match_type: ALL_MATCH_ANY_ORDER"
       "      match_criteria: {"
       # Expect a custom profile in the file.
-      "        filter_regex: \"-\\s*custom/.*\""
-      "        expected_regex: \"-\\s*custom/[a-z0-9A-Z_-]+\""
+      "        filter_regex: \"-\\\\s*custom/.*\""
+      "        expected_regex: \"-\\\\s*custom/[a-z0-9A-Z_-]+\""
       "      }"
       "    }"
       "  }"
@@ -1228,8 +1228,8 @@ benchmark_configs: {
       "    content_entry:{"
       "      match_type: ALL_MATCH_ANY_ORDER"
       "      match_criteria: {"
-      "        filter_regex: \"\\s*pam_faillock\\.so\""
-      "        expected_regex: \"\\s*pam_faillock\\.so\""
+      "        filter_regex: \"\\\\s*pam_faillock\\\\.so\""
+      "        expected_regex: \"\\\\s*pam_faillock\\\\.so\""
       "      }"
       "    }"
       "  }"
@@ -1238,6 +1238,47 @@ benchmark_configs: {
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/pam.d/password-auth\"}}"
       "    files_to_check:{single_file:{path:\"/etc/pam.d/system-auth\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "nis-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure NIS Client is not installed"
+    description:
+      "The Network Information Service (NIS), formerly known as Yellow Pages, "
+      "is a client-server directory service protocol used to distribute "
+      "system configuration files. The NIS client (ypbind) was used to bind a "
+      "machine to an NIS server and receive the distributed configuration "
+      "files."
+    rationale:
+      "The NIS service is inherently an insecure system that has been "
+      "vulnerable to DOS attacks, buffer overflows and has poor "
+      "authentication for querying NIS maps. NIS generally has been replaced "
+      "by such protocols as Lightweight Directory Access Protocol (LDAP). It "
+      "is recommended that the service be removed."
+    remediation:
+      "Uninstall ypbind using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "yum remove ypbind\n"
+      "apt-get remove ypbind\n"
+      "zypper remove ypbind\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/ypbind\"}}"
       "    existence:{should_exist: false}"
       "  }"
       "}}"
