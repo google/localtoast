@@ -812,6 +812,7 @@ benchmark_configs: {
       "        match_type: NONE_MATCH"
       "        match_criteria: {"
       "          filter_regex: \"\\\\s*LEGACY\\\\s*(\\\\s+#.*)?\""
+      "          expected_regex: \"\\\\s*LEGACY\\\\s*(\\\\s+#.*)?\""
       "        }"
       "      }"
       "    }"
