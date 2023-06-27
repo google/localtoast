@@ -948,7 +948,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "journald-is-not-configured-to-receive-logs-from-a-remoteclient"
+  id: "journald-no-logs-from-remote-client"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald is not configured to receive logs from a remote client"
