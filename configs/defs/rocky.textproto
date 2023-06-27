@@ -1031,14 +1031,14 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald default file permissions configured"
     description:
-      "Journald will create log files that do not already existon the system. This setting controls "
+      "Journald will create log files that do not already exist on the system. This setting controls "
       "what permissions will be applied to these newly created files."
     rationale:
-      "It isimportantto ensure that log files have the correct permissions to ensure that sensitive "
+      "It is important to ensure that log files have the correct permissions to ensure that sensitive "
       "data is archived and protected."
     remediation:
       "If the default configuration is not appropriate for the site specific requirements, copy "
-      "/usr/lib/tmpfiles.d/systemd.conf to /etc/tmpfiles.d/systemd.conf and modifyas "
+      "/usr/lib/tmpfiles.d/systemd.conf to /etc/tmpfiles.d/systemd.conf and modify as "
       "required. Requirements is either 0640 or site policy if that is less restrictive."
     cis_benchmark: {
       profile_level: 1
@@ -1049,7 +1049,7 @@ benchmark_configs: {
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{"
-      "        path:\"/usr/lib/tmpfiles.d/systemd.conf\""
+      "        path:\"/etc/tmpfiles.d/systemd.conf\""
       "       }"
       "      }"
       "    permission:{"
@@ -1067,8 +1067,25 @@ benchmark_configs: {
       "        path:\"/usr/lib/tmpfiles.d/systemd.conf\""
       "       }"
       "      }"
-      "    existence:{should_exist: false}"
+      "    permission:{"
+      "      set_bits: 0640"
+      "      user:{"
+      "        name: \"root\""
+      "        should_own: true"
+      "      }"
+      "    }"
+      "    }"
+      "    file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/tmpfiles.d/systemd.conf\"}}"
+      "     existence:{should_exist: false}"
+      "    }"
       "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "     files_to_check:{single_file:{path:\"/usr/lib/tmpfiles.d/systemd.conf\"}}"
+      "     files_to_check:{single_file:{path:\"/etc/tmpfiles.d/systemd.conf\"}}"
+      "     existence:{should_exist: false}"
+      "    }"
       "}}"
   }
 }
