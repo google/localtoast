@@ -765,7 +765,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "systemwide-crypto-policy-is-not-legacy"
+  id: "systemwide-crypto-policy-not-legacy"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure system-wide crypto policy is not legacy"
