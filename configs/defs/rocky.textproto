@@ -756,7 +756,7 @@ benchmark_configs: {
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
       "          filter_regex: \".*/systemd-sulogin-shell.*\""
-      "          expected_regex: \"ExecStart=/usr/lib/systemd/systemd-sulogin-shell rescue\""
+      "          expected_regex: \"ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\""
       "        }"
       "      }"
       "    }"
