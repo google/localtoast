@@ -1,0 +1,1386 @@
+benchmark_configs: {
+  id: "var-nodev"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nodev option set on /var partition"
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
+    rationale:
+      "Since the /var filesystem is not intended to support devices, set this option to ensure that "
+      "users cannot create a block or character special devices in /var."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the /var "
+      "partition.\n"
+      "Example: \n"
+      "```\n"
+      "<device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
+      "Run the following command to remount /var with the configured options:\n"
+      "```\n"
+      "mount -o remount /var\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure noexec option set on /var partition"
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    rationale:
+      "Since the /var filesystem is only intended for variable files such as logs, set this option to "
+      "ensure that users cannot run executable binaries from /var."
+    remediation:
+      "Edit the /etc/fstab file and add noexec to the fourth field (mounting options) for the /var "
+      "partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
+      "Run the following command to remount /var with the configured options:\n"
+      "```\n"
+      "mount -o remount /var\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*noexec.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nosuid option set on /var partition"
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    rationale:
+      "Since the /var file system is only intended for variable files such as logs, set this option to "
+      "ensure that users cannot create setuid files in /var."
+    remediation:
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the /var "
+      "partition. "
+      "Example: "
+      "```\n"
+      "‘ <device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0 "
+      "```\n"
+      "Run the following command to remount /var with the configured options: "
+      "```\n"
+      "mount -o remount /var "
+      "```\n"
+      "References: "
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-log-nodev"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nodev option set on /var/log partition"
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
+    rationale:
+      "Since the /var/log file system is not intended to support devices, set this option to ensure "
+      "that users cannot create a block or character special devices in /var/log."
+    remediation:
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the "
+      "/var/log partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
+      "```\n"
+      "Run the following command to remount /var/log with the configured options:\n"
+      "```\n"
+      "mount -o remount /var/log\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-log-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure noexec option set on /var/log partition"
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    rationale:
+      "Since the /var/log file system is only intended for log files, set this option to ensure that "
+      "users cannot run executable binaries from /var/log."
+    remediation:
+      "Editthe /etc/fstab file and add noexec to the fourth field (mounting options) for the "
+      "/var/log partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
+      "```\n"
+      "Run the following command to remount /var/log with the configured options:\n"
+      "```\n"
+      "mount -o remount /var/log\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .*noexec.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-log-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nosuid option set on /var/log partition"
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    rationale:
+      "Since the /var/log file system is only intended for log files, set this option to ensure that "
+      "users cannot create setuid files in /var/log."
+    remediation:
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
+      "/var/log partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var/log <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0\n"
+      "```\n"
+      "Run the following command to remount /var/log with the configured options:\n"
+      "```\n"
+      "mount -o remount /var/log\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-log-audit-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure noexec option set on /var/log/audit partition"
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    rationale:
+      "Since the /var/log/audit filesystems only intended for auditlogs, set this option to "
+      "ensure that users cannot run executable binaries from /var/log/audit."
+    remediation:
+      "Editthe /etc/fstab file and add noexec to the fourth field (mounting options) for the /var "
+      "partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var/log/audit <fstype>\n"
+      "defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
+      "Run the following command to remount /var/log/audit with the configured options:\n"
+      "```\n"
+      "mount -o remount /var/log/audit\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .*noexec.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-log-audit-nodev"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nodev option set on /var/log/audit partition"
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
+    rationale:
+      "Since the /var/log/audit file system is not intended to support devices, set this option to "
+      "ensure that users cannot create a block or character special devices in /var/log/audit.\n"
+    remediation:
+      "Editthe /etc/fstab file and add nodev to the fourth field (mounting options) for the "
+      "/var/log/audit partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var/log/audit <fstype>\n"
+      "defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
+      "Run the following command to remount /var/log/audit with the configured options:\n"
+      "```\n"
+      "mount -o remount /var/log/audit\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "var-log-audit-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nosuid option set on /var/log/audit partition"
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    rationale:
+      "Since the /var/log/audit file system is only intended for variable files such as logs, set this "
+      "option to ensure that users cannot create setuid files in /var/log/audit.\n"
+    remediation:
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
+      "option to ensure that users cannot create setuid files in /var/log/audit.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /var/log/audit <fstype>\n"
+      "defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
+      "Run the following command to remount /var/log/audit with the configured options:\n"
+      "```\n"
+      "mount -o remount /var/log/audit\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "home-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nosuid option set on /home partition"
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    rationale:
+      "Since the /nome filesystem is only intended for user file storage, set this option to ensure "
+      "that users cannot create setuid files in /home."
+    remediation:
+      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
+      "/home partition.\n"
+      "Example:\n"
+      "```\n"
+      "<device> /home <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
+      "```\n"
+      "Run the following command to remount /home with the configured options:\n"
+      "```\n"
+      "mount -o remount /home\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) manual page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /home .* - .*\""
+      "          expected_regex: \".* /home .*nosuid.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /home .* - .*\""
+      "          expected_regex: \".* /home .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "home-usrquota"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure usrquota option set on /home partition"
+    description: "The usrquota mount optionallows for the filesystem to have disk quotas configured."
+    rationale:
+      "To ensure the availability of disk space on /home, it is important to limit the impact a single "
+      "user or group can cause for other users (or the wider system) by accidentally filling up the "
+      "partition. Quotas can also be applied to inodes for filesystems where inode exhaustion is a "
+      "concern."
+    remediation:
+      "Edit the /etc/fstab file and add usrquota to the fourth field (mounting options) for the "
+      "/home partition. "
+      "Example:\n"
+      "```\n"
+      "<device> /home <fstype> defaults, rw, usrquota, grpquota, nodev, relatime\n"
+      "```\n"
+      "Run the following command to remount /home with the configured options:\n"
+      "```\n"
+      "# mount -o remount /home "
+      "```\n"
+      "Create the quota database. This example will ignore any existing quotafiles.\n"
+      "```\n"
+      "quotacheck -cugv /home \n"
+      "quotacheck: Your kernel probably supports journaled quota but you are not \n"
+      "using it. Consider switching to journaled quota to avoid running quotacheck \n"
+      "after an unclean shutdown. \n"
+      "quotacheck: Scanning /dev/sdb [/home] done \n"
+      "quotacheck: Cannot stat old user quota file /home/aquota.user: No such file \n"
+      "or directory. Usage will not be subtracted. \n"
+      "quotacheck: Cannot stat old group quota file /home/aquota.group: No such file \n"
+      "or directory. Usage will not be subtracted. \n"
+      "quotacheck: Cannot stat old user quota file /home/aquota.user: No such file \n"
+      "or directory. Usage will not be subtracted. \n"
+      "quotacheck: Cannot stat old group quota file /home/aquota.group: No such file \n"
+      "or directory. Usage will not be subtracted. \n"
+      "quotacheck: Checked 8 directories and 0 files \n"
+      "quotacheck: Old file not found. \n"
+      "quotacheck: Old file not found. \n"
+      "```\n"
+      "Restore SELinux context on the quota database files. Order of operations is importantas "
+      "quotaon will set the immutable attribute on the files and thus restorecon will fail. "
+      "```\n"
+      "restorecon /home/aquota.user "
+      "```\n"
+      "Enable quotas on the partition: "
+      "```\n"
+      "quotaon -vug /home "
+      "/dev/sdb [/home]: group quotas turned on "
+      "/dev/sdb [/home]: user quotas turned on "
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) and edquota(8) manual pages for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /home .*\""
+      "          expected_regex: \".* /home .*usrquota.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /home .* - .*\""
+      "          expected_regex: \".* /home .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "home-grpquota"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure grpquota option set on /home partition"
+    description: "The grpquota mount option allows for the filesystem to have disk quotas configured."
+    rationale:
+      "To ensure the availability of disk space on /home, it is important to limit the impact a single "
+      "user or group can cause for other users (or the wider system) by accidentally filling up the "
+      "partition. Quotas can also be applied to inodes for filesystems where inode exhaustion is a "
+      "concern."
+    remediation:
+      "Edit the /etc/fstab file and add grpquota to the fourth field (mounting options) for the "
+      "/home partition. "
+      "Example:\n"
+      "```\n"
+      "<device> /home <fstype> defaults, rw, usrquota, grpquota, nodev, relatime\n"
+      "```\n"
+      "Run the following command to remount /home with the configured options:\n"
+      "```\n"
+      "mount -o remount /home "
+      "```\n"
+      "Create the quota database. This example will ignore any existing quotafiles.\n"
+      "```\n"
+      "quotacheck -cugv /home "
+      "quotacheck: Your kernel probably supports journaled quota but you are not "
+      "using it. Consider switching to journaled quota to avoid running quotacheck "
+      "after an unclean shutdown. "
+      "quotacheck: Scanning /dev/sdb [/home] done "
+      "quotacheck: Cannot stat old user quota file /home/aquota.user: No such file "
+      "or directory. Usage will not be subtracted. "
+      "quotacheck: Cannot stat old group quota file /home/aquota.group: No such file "
+      "or directory. Usage will not be subtracted. "
+      "quotacheck: Cannot stat old user quota file /home/aquota.user: No such file "
+      "or directory. Usage will not be subtracted. "
+      "quotacheck: Cannot stat old group quota file /home/aquota.group: No such file "
+      "or directory. Usage will not be subtracted. "
+      "quotacheck: Checked 8 directories and 0 files "
+      "quotacheck: Old file not found. "
+      "quotacheck: Old file not found. "
+      "```\n"
+      "Restore SELinux context on the quota database files. Order of operations is importantas "
+      "quotaon will set the immutable attribute on the files and thus restorecon will fail.\n"
+      "```\n"
+      "restorecon /home/aquota.group\n"
+      "```\n"
+      "Enable quotas on the partition:\n"
+      "quotaon -vug /home\n"
+      "/dev/sdb [/home]: group quotas turned on\n"
+      "/dev/sdb [/home]: user quotas turned on\n"
+      "```\n"
+      "References:\n"
+      "1. See the fstab(5) and edquota(8) manual pages for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "          filter_regex: \".* /home .*\""
+      "          expected_regex: \".* /home .*grpgquota.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "          filter_regex: \".* /home .* - .*\""
+      "          expected_regex: \".* /home .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+benchmark_configs: {
+  id: "boot-rescue-mode-password"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure authentication is required when booting into rescue mode"
+    description:
+      "Rescue mode (former single user mode) is used for recovery when the system detects an "
+      "issue during boot or by manual selection from the bootloader."
+    rationale:
+      "Requiring authentication in rescue mode (former single user mode) prevents an "
+      "unauthorized user from rebooting the system into rescue mode to gainroot privileges "
+      "without credentials."
+    remediation:
+      "The systemd drop-in files mustbe created if it is necessary to change the default settings:\n"
+      "Create the file /etc/systemd/system/rescue.service.d/00-require-auth.conf which "
+      "contains only the configuration to be overridden:\n"
+      "```\n"
+      "[Service]\n"
+      "ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/lib/systemd/system/rescue.service\"}}"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/system/rescue.service.d\",recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/systemd-sulogin-shell.*\""
+      "          expected_regex: \"ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "systemwide-crypto-policy-not-legacy"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure system-wide crypto policy is not legacy"
+    description:
+      "The system-wide crypto-policies followed by the crypto core components allow "
+      "consistently deprecating and disabling algorithms system-wide.\n"
+      "The individual policy levels (DEFAULT, LEGACY, FUTURE, and FIPS) are included in the "
+      "crypto-policies(7) package."
+    rationale:
+      "If the Legacy system-wide crypto policy is selected, itincludes support for TLS 1.0, TLS 1.1, "
+      "and SSH2 protocols or later. The algorithms DSA, 3DES, and RC4 are allowed, while RSA "
+      "and Diffie-Hellman parameters are accepted if larger than 1023-bits.\n"
+      "These legacy protocols and algorithms can make the system vulnerable to attacks, "
+      "including those listed in RFC 7457\n"
+      "Impact:\n"
+      "Environments that require compatibility with older insecure protocols may require the use "
+      "of the less secure LEGACY policy level."
+    remediation:
+      "Run the following command to change the system-wide crypto policy\n"
+      "```\n"
+      "update-crypto-policies --set <CRYPTO POLICY>\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "update-crypto-policies --set DEFAULT\n"
+      "```\n"
+      "Run the following to make the updated system-wide crypto policy active\n"
+      "```\n"
+      "update-crypto-policies\n"
+      "```\n"
+      "References:\n"
+      "1. CRYPTO-POLICIES(7)\n"
+      "2. https://access.redhat.com/articles/3642912#what-polices-are-provided-1"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/crypto-policies/config\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*LEGACY\\\\s*(\\\\s+#.*)?\""
+      "          expected_regex: \"\\\\s*LEGACY\\\\s*(\\\\s+#.*)?\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "wireless-interfaces-are-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure wireless interfaces are disabled"
+    description: "Wireless networking is used when wired networks are unavailable."
+    rationale:
+      "If wireless is not to be used, wireless devices should be disabled to reduce the potential "
+      "attack surface.\n"
+      "Impact:\n"
+      "Many if not all laptop workstations and some desktop workstations will connect via "
+      "wireless requiring these interfaces be enabled."
+    remediation:
+      "Run the following script to disable any wireless interfaces:\n"
+      "```\n"
+      "#!/usr/bin/env bash\n"
+      "if command -v nmcli >/dev/null 2>&1 ; then\n"
+      "nmcli radio all off\n"
+      "else\n"
+      "if [ -n \"$(find /sys/class/net/*/ -type d -name wireless)\" ]; then\n"
+      "mname=5$ (for driverdir in $(find /sys/class/net/*/ -type d -name\n"
+      "wireless | xargs -0 dirname); do basename \"$(readlink -f\n"
+      "\"$driverdir\"/device/driver/module) \";done | sort -u)\n"
+      "for dm in $mname; do\n"
+      "echo \"install $dm /bin/true\" >>\n"
+      "/etc/modprobe.d/disable_wireless.conf\n"
+      "done\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/proc/net/wireless\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>:
+      "          filter_regex: \"[^:]*:.*\""
+      "          expected_regex: \"[^:]*:.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "systemd-journal-remote-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure systemd-journal-remote is installed"
+    description:
+      "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
+      "a remote log host or to receive messages from remote hosts, thus enabling centralised log "
+      "management."
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system."
+    remediation:
+      "Run the following command to install systemd-journal-remote:\n"
+      "```\n"
+      "dnf install systemd-journal-remote"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/usr/lib/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"systemd-journal-upload.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "systemd-journal-remote-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure systemd-journal-remote is enabled"
+    description:
+      "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
+      "a remote log host or to receive messages from remote hosts, thus enabling centralised log "
+      "management."
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system."
+    remediation:
+      "Run the following command to enable systemd-journal-remote:\n"
+      "```\n"
+      "systemctl --now enable systemd-journal-upload.service"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"systemd-journal-upload.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "journald-no-logs-from-remote-client"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure journald is not configured to receive logs from a remote client"
+    description:
+      "Journald supports the ability to receive messages from remote hosts, thus acting as a log "
+      "server. Clients should not receive data from other hosts.\n"
+      "NOTE:\n"
+      "The same package, systemd-journal-remote, is used for both sending logs to "
+      "remote hostsand receiving incominglogs.\n"
+      "With regards to receiving logs, there are two services; systemd-journal-"
+      "remote.socket and systemd-journal-remote.service."
+    rationale:
+      "If a client is configured to also receive data, thus turning it into a server, the client system is "
+      "acting outside it's operational boundary."
+    remediation:
+      "Run the following command to disable systemd-journal-remote.socket:\n"
+      "```\n"
+      "systemctl --now mask systemd-journal-remote.socket"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"systemd-journal-remote.service\""
+      "      }"
+      "    }"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"systemd-journal-remote.socket\""
+      "      }"
+      "    }"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "journald-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure journald service is enabled"
+    description: "Ensure that the systemd-journald serviceis enabled to allow capturing of logging events."
+    rationale:
+      "If the systemd-journald serviceis not enabled to start on boot, the system will not capture "
+      "logging events."
+    remediation:
+      "By default the systemd-journald service does not have an [Install] sectionand thus "
+      "cannot be enabled / disabled.\nIt is meant to be referenced as Requires or wants by other "
+      "unit files. As such, if the status of systemd-journald is not static, investigate why."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"systemd-journal.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "journald-default-file-permissions-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure journald default file permissions configured"
+    description:
+      "Journald will create log files that do not already exist on the system. This setting controls "
+      "what permissions will be applied to these newly created files."
+    rationale:
+      "It is important to ensure that log files have the correct permissions to ensure that sensitive "
+      "data is archived and protected."
+    remediation:
+      "If the default configuration is not appropriate for the site specific requirements, copy "
+      "/usr/lib/tmpfiles.d/systemd.conf to /etc/tmpfiles.d/systemd.conf and modify as "
+      "required. Requirements is either 0640 or site policy if that is less restrictive."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/tmpfiles.d/systemd.conf\""
+      "       }"
+      "      }"
+      "    permission:{"
+      "      set_bits: 0640"
+      "    }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/usr/lib/tmpfiles.d/systemd.conf\""
+      "       }"
+      "      }"
+      "    permission:{"
+      "      set_bits: 0640"
+      "    }"
+      "    }"
+      "    file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/tmpfiles.d/systemd.conf\"}}"
+      "     existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "     files_to_check:{single_file:{path:\"/usr/lib/tmpfiles.d/systemd.conf\"}}"
+      "     files_to_check:{single_file:{path:\"/etc/tmpfiles.d/systemd.conf\"}}"
+      "     existence:{should_exist: false}"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "systemwide-crypto-policy-is-not-overridden"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure system-wide crypto policy is not over-ridden"
+    description: "System-wide Crypto policy can be over-ridden or opted out of for openSSH"
+    rationale:
+      "Over-riding or opting out of the system-wide crypto policy could allow for the use of less "
+      "secure Ciphers, MACs, KexAlgorithms and GSSAPIKexAlgorithm"
+    remediation:
+      "Run the following commands:\n"
+      "```\n"
+      "sed -ri \"s/\"\\s* (CRYPTO_POLICY\\s*=.*)$/# \\1/\" /etc/sysconfig/sshd\n"
+      "systemctl reload sshd"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/sysconfig/sshd\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*CRYPTO_POLICY\\\\s*=.*\""
+      "          expected_regex: \"\\\\s*CRYPTO_POLICY\\\\s*=.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "reauthentication-for-privilege-escalation-not-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure re-authentication for privilege escalation is not disabled globally"
+    description:
+      "The operating system must be configured so that users must re-authenticate for privilege "
+      "escalation."
+    rationale:
+      "Without re-authentication, users may access resources or perform tasks for which they do "
+      "not have authorization.\n"
+      "When operating systems provide the capability to escalate a functional capability, it is "
+      "critical the user re-authenticate."
+    remediation:
+      "Configure the operating system to require users to reauthenticate for privilege escalation.\n"
+      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
+      "relevant sudoers file.\n"
+      "Remove any occurrences of !authenticate tags in the file(s)."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#].*\\\\!authenticate.*\""
+      "          expected_regex: \"[^#].*\\\\!authenticate.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "sudo-authentication-timeout-is-configured-correctly"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure sudo authentication timeout is configured correctly"
+    description:
+      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there "
+      "are multiple administrative tasks to perform. The timeout can be modified to suit local "
+      "security policies."
+    rationale:
+      "Setting a timeout value reduces the window of opportunity for unauthorized privileged "
+      "access to another user."
+    remediation:
+      "If the currently configured time out is larger than 15 minutes, edit the file listed in the audit "
+      "section with ```visudo -f <PATH TO FILE>``` and modify the entry ```timestamp_timeout=``` to 15 "
+      "minutes or less as per your site policy. The value is in minutes. This particular entry may "
+      "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
+      "1. Same line\n"
+      "```\n"
+      "Defaults env_reset, timestamp timeout=15\n"
+      "```\n"
+      "2. Different lines\n"
+      "```\n"
+      "Defaults timestamp_ timeout=15\n"
+      "Defaults env_reset\n"
+      "```\n"
+      "References:\n"
+      "1. https://www.sudo.ws/man/1.9.0/sudoers.man.html"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "          expected_regex: \".*timestamp_timeout\\\\s*=\\\\s*(\\\\d+).*\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 16"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "          expected_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "custom-authselect-profile-is-used"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure custom authselect profile is used"
+    description:
+      "A custom profile can be created by copying and customizing one of the default profiles. The "
+      "default profiles include: sssd, winbind, or the nis. This profile can then be customized to "
+      "follow site specific requirements.\n"
+      "You can select a profile for the authselect utility for a specific host. The profile will be "
+      "applied to every user logging into the host."
+    rationale:
+      "A custom profile is required to customize many of the pam options.\n"
+      "When you deploy a profile, the profile is applied to every user logging into the given host"
+    remediation:
+      "Run the following command to create a custom authselect profile:\n"
+      "```\n"
+      "authselect create-profile <custom-profile name> <options>\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "authselect create-profile custom-profile -b sssd --symlink-meta\n"
+      "```\n"
+      "Run the following command to select a custom authselect profile:\n"
+      "```\n"
+      "authselect select custom/<CUSTOM PROFILE NAME> {with-<OPTIONS>}\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "# authselect select custom/custom-profile with-sudo with-faillock without-nullok\n"
+      "```\n"
+      "References:\n"
+      "1. authselect(8)"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/authselect/authselect.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      # Expect a custom profile in the file.
+      "        filter_regex: \"-\\\\s*custom/.*\""
+      "        expected_regex: \"-\\\\s*custom/[a-z0-9A-Z_-]+\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/authselect/authselect.conf\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "authselect-includes-with-faillock"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure authselect includes with-faillock"
+    description:
+      "The pam_faillock.so module maintains a list of failed authentication attempts per user "
+      "during a specified interval and locks the account in case there were more than deny "
+      "consecutive failed authentications. It stores the failure records into per-user files in the "
+      "tally directory"
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force"
+      "password attacks against your systems."
+    remediation:
+      "Run the following commands to include the with-faillock option to the current authselect "
+      "profile:\n"
+      "```\n"
+      "# authselect enable-feature with-faillock\n"
+      "# authselect apply-changes\n"
+      "```\n"
+      "References:\n"
+      "1. faillock(8) - Linux man page\n"
+      "2. pam_faillock(8) - Linux man page\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/pam.d/password-auth\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/pam.d/system-auth\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"\\\\s*pam_faillock\\\\.so\""
+      "        expected_regex: \"\\\\s*pam_faillock\\\\.so\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/pam.d/password-auth\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/pam.d/system-auth\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "nis-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure NIS Client is not installed"
+    description:
+      "The Network Information Service (NIS), formerly known as Yellow Pages, "
+      "is a client-server directory service protocol used to distribute "
+      "system configuration files. The NIS client (ypbind) was used to bind a "
+      "machine to an NIS server and receive the distributed configuration "
+      "files."
+    rationale:
+      "The NIS service is inherently an insecure system that has been "
+      "vulnerable to DOS attacks, buffer overflows and has poor "
+      "authentication for querying NIS maps. NIS generally has been replaced "
+      "by such protocols as Lightweight Directory Access Protocol (LDAP). It "
+      "is recommended that the service be removed."
+    remediation:
+      "Uninstall ypbind using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "yum remove ypbind\n"
+      "apt-get remove ypbind\n"
+      "zypper remove ypbind\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/ypbind\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
