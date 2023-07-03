@@ -868,6 +868,7 @@ benchmark_configs: {
       "        match_criteria: {"
       # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>: 
       "          filter_regex: \"[^:]*:.*\""
+      "          expected_regex: \"[^:]*:.*\""
       "        }"
       "      }"
       "    }"
@@ -1160,6 +1161,7 @@ benchmark_configs: {
       "        match_type: NONE_MATCH"
       "        match_criteria: {"
       "          filter_regex: \"[^#].*\\\\!authenticate.*\""
+      "          expected_regex: \"[^#].*\\\\!authenticate.*\""
       "        }"
       "      }"
       "    }"
