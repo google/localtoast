@@ -16,7 +16,9 @@ benchmark_configs: {
       "<device> /var <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
       "```\n"
       "Run the following command to remount /var with the configured options:\n"
+      "```\n"
       "mount -o remount /var\n"
+      "```\n"
       "References:\n"
       "1. See the fstab(5) manual page for more information."
     cis_benchmark: {
@@ -965,7 +967,9 @@ benchmark_configs: {
       "acting outside it's operational boundary."
     remediation:
       "Run the following command to disable systemd-journal-remote.socket:\n"
+      "```\n"
       "systemctl --now mask systemd-journal-remote.socket"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
