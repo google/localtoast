@@ -3,8 +3,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var partition"
-    description:
-      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
       "Since the /var filesystem is not intended to support devices, set this option to ensure that "
       "users cannot create a block or character special devices in /var."
@@ -58,8 +57,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var partition"
-    description:
-      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
       "Since the /var filesystem is only intended for variable files such as logs, set this option to "
       "ensure that users cannot run executable binaries from /var."
@@ -113,8 +111,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var partition"
-    description:
-      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
       "Since the /var file system is only intended for variable files such as logs, set this option to "
       "ensure that users cannot create setuid files in /var."
@@ -168,8 +165,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log partition"
-    description:
-      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
       "Since the /var/log file system is not intended to support devices, set this option to ensure "
       "that users cannot create a block or character special devices in /var/log."
@@ -223,8 +219,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log partition"
-    description:
-      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
       "Since the /var/log file system is only intended for log files, set this option to ensure that "
       "users cannot run executable binaries from /var/log."
@@ -278,8 +273,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log partition"
-    description:
-      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
       "Since the /var/log file system is only intended for log files, set this option to ensure that "
       "users cannot create setuid files in /var/log."
@@ -333,8 +327,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log/audit partition"
-    description:
-      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
       "Since the /var/log/audit filesystems only intended for auditlogs, set this option to "
       "ensure that users cannot run executable binaries from /var/log/audit."
@@ -389,8 +382,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log/audit partition"
-    description:
-      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
       "Since the /var/log/audit file system is not intended to support devices, set this option to "
       "ensure that users cannot create a block or character special devices in /var/log/audit.\n"
@@ -445,8 +437,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log/audit partition"
-    description:
-      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
       "Since the /var/log/audit file system is only intended for variable files such as logs, set this "
       "option to ensure that users cannot create setuid files in /var/log/audit.\n"
@@ -501,8 +492,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /home partition"
-    description:
-      "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
       "Since the /nome filesystem is only intended for user file storage, set this option to ensure "
       "that users cannot create setuid files in /home."
@@ -556,8 +546,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure usrquota option set on /home partition"
-    description:
-      "The usrquota mount optionallows for the filesystem to have disk quotas configured."
+    description: "The usrquota mount optionallows for the filesystem to have disk quotas configured."
     rationale:
       "To ensure the availability of disk space on /home, it is important to limit the impact a single "
       "user or group can cause for other users (or the wider system) by accidentally filling up the "
@@ -643,8 +632,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure grpquota option set on /home partition"
-    description:
-      "The grpquota mount option allows for the filesystem to have disk quotas configured."
+    description: "The grpquota mount option allows for the filesystem to have disk quotas configured."
     rationale:
       "To ensure the availability of disk space on /home, it is important to limit the impact a single "
       "user or group can cause for other users (or the wider system) by accidentally filling up the "
@@ -827,8 +815,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure wireless interfaces are disabled"
-    description:
-      "Wireless networking is used when wired networks are unavailable."
+    description: "Wireless networking is used when wired networks are unavailable."
     rationale:
       "If wireless is not to be used, wireless devices should be disabled to reduce the potential "
       "attack surface.\n"
@@ -866,7 +853,7 @@ benchmark_configs: {
       "    content_entry:{"
       "        match_type: NONE_MATCH"
       "        match_criteria: {"
-      # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>: 
+      # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>:
       "          filter_regex: \"[^:]*:.*\""
       "          expected_regex: \"[^:]*:.*\""
       "        }"
@@ -1002,8 +989,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald service is enabled"
-    description:
-      "Ensure that the systemd-journald serviceis enabled to allow capturing of logging events."
+    description: "Ensure that the systemd-journald serviceis enabled to allow capturing of logging events."
     rationale:
       "If the systemd-journald serviceis not enabled to start on boot, the system will not capture "
       "logging events."
@@ -1091,8 +1077,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure system-wide crypto policy is not over-ridden"
-    description:
-      "System-wide Crypto policy can be over-ridden or opted out of for openSSH"
+    description: "System-wide Crypto policy can be over-ridden or opted out of for openSSH"
     rationale:
       "Over-riding or opting out of the system-wide crypto policy could allow for the use of less "
       "secure Ciphers, MACs, KexAlgorithms and GSSAPIKexAlgorithm"
@@ -1175,7 +1160,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure sudo authentication timeout is configured correctly"
     description:
-      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there " 
+      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there "
       "are multiple administrative tasks to perform. The timeout can be modified to suit local "
       "security policies."
     rationale:
