@@ -1,3 +1,7 @@
+1.1.6:
+* Add support for CassandraDB, ElasticSearch, and CentOS7
+* Miscellaneous benchmark fixes
+
 1.1.5:
 * Add numerous runtime / memory usage optimizations
 * Fix race condition caused by opening files multiple times
