@@ -780,7 +780,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "dm-verity-installed"
+  id: "dm-verity-installed-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure dm-verity is enabled"
