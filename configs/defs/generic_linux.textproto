@@ -1060,8 +1060,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure address space layout randomization (ASLR) is enabled"
     description:
@@ -1268,8 +1268,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/issue are configured"
     description:
@@ -1368,8 +1368,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure packet redirect sending is disabled"
     description:
@@ -1453,8 +1453,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure source routed packets are not accepted"
     description:
@@ -1520,8 +1520,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
@@ -1599,8 +1599,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
@@ -1672,8 +1672,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
@@ -1763,8 +1763,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
@@ -3666,8 +3666,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
@@ -3763,8 +3763,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/group are configured"
     description:
@@ -3866,8 +3866,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
@@ -4029,8 +4029,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password fields are not empty"
     description:
@@ -4075,8 +4075,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4114,8 +4114,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4151,8 +4151,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4191,8 +4191,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure root is the only UID 0 account"
     description: "Any account with UID 0 has superuser privileges on the system."
@@ -4721,8 +4721,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate UIDs exist"
     description:
@@ -4768,8 +4768,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate GIDs exist"
     description:
@@ -4813,8 +4813,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate user names exist"
     description:
@@ -4863,8 +4863,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate group names exist"
     description:
@@ -4911,8 +4911,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure shadow group is empty"
     description:
       "The shadow group allows system programs which require access the ability to\n"
