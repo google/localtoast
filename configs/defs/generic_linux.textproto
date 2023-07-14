@@ -8153,3 +8153,1050 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "selinux-not-disabled-in-bootloader"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure SELinux is not disabled in bootloader configuration"
+    description:
+      "Configure SELINUX to be enabled at boot time and verify that it has not been overwritten "
+      "by the grub boot parameters.\n"
+      "Note: This recommendation is designed around the grub 2 bootloader, if LILO or another "
+      "bootloader is in use in your environment enact equivalent settings."
+    rationale:
+      "SELinux must be enabled at boot time in your grub configuration to ensure that the "
+      "controls it provides are not overridden."
+    remediation:
+      "Edit /etc/default/grub and remove all instances of selinux=0 and enforcing=0 from all\n"
+      "CMDLINE_LINUX parameters:\n"
+      "GRUB_CMDLINE_LINUX=\n"
+      "GRUB_CMDLINE_LINUX DEFAULT=\"quiet\"\n"
+      "Run the following command to update the grub2 configuration:\n"
+      "# grub2-mkconfig -o /boot/grub2/grub.cfg"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/default/grub\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*selinux=[0-9]+.*\""
+      "          expected_regex: \".*selinux=0.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \".*enforcing=[0-9]+.*\""
+      "          expected_regex: \".*enforcing=0.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-policy-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure SELinux policy is configured"
+    description:
+      "Configure SELinux to meet or exceed the default targeted policy, which constrains daemons "
+      "and system software only.\n"
+      "Note: If your organization requires stricter policies, ensure that they are set in the "
+      "/etc/selinux/config file."
+    rationale:
+      "Security configuration requirements vary from site to site. Some sites may mandate a "
+      "policy that is stricter than the default policy, which is perfectly acceptable. This item is "
+      "intended to ensure that at least the default recommendations are met."
+    remediation:
+      "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter:\n"
+      "SELINUXTYPE=targeted"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*SELINUXTYPE=[0-9a-zA-Z]+.*\""
+      "          expected_regex: \".*SELINUXTYPE=(targeted|mls).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-mode-enforcing-or-permissive"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure the SELinux mode is enforcing or permissive"
+    description:
+      "SELinux can run in one of three modes: disabled, permissive, or enforcing:\n"
+      "Enforcing - Is the default, and recommended, mode of operation; in enforcing mode "
+      "SELinux operates normally, enforcing the loaded security policy on the entire "
+      "system.\n"
+      "Permissive - The system acts as if SELinux is enforcing the loaded security policy, "
+      "including labeling objects and emitting access denial entries in the logs, but it does "
+      "not actually deny any operations. While not recommended for production systems ,"
+      "permissive mode can be helpful for SELinux policy development.\n"
+      "Disabled - Is strongly discouraged; not only does the system avoid enforcing the "
+      "SELinux policy, it also avoids labeling any persistent objects such as files, making it "
+      "difficult to enable SELinux in the future\n"
+      "Note: you can set individual domains to permissive mode while the system runs in enforcing "
+      "mode. For example, to make the httpd_t domain permissive:\n"
+      "# semanage permissive -a httpd_t"
+    rationale:
+      "Running SELinux in disabled mode is strongly discouraged; not only does the system avoid "
+      "enforcing the SELinux policy, it also avoids labeling any persistent objects such as files, "
+      "making it difficult to enable SELinux in the future."
+    remediation:
+      "Run one of the following commands to set SELinux's running mode:\n"
+      "To set SELinux mode to Enforcing:\n"
+      "# setenforce 1\n"
+      "To set SELinux mode to Permissive:\n"
+      "# setenforce 0\n"
+      "Edit the /etc/selinux/config file to set the SELINUX parameter:\n"
+      "For Enforcing mode:\n"
+      "SELINUX=enforcing\n"
+      "For Permissive mode:\n"
+      "SELINUX=permissive\n"
+      "References:\n"
+      "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/sect-security-enhanced_linux-introduction-selinux_modes"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*SELINUX=[a-zA-Z0-9]+.*\""
+      "          expected_regex: \".*SELINUX=(enforcing|permissive).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "no-unconfined-services"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure no unconfined services exist"
+    description:
+      "Unconfined processes run in unconfined domains"
+      "Note: Occasionally certain daemons such as backup or centralized management software may "
+      "require running unconfined. Any such software should be carefully analyzed and documented "
+      "before such an exception is made."
+    rationale:
+      "For unconfined processes, SELinux policy rules are applied, but policy rules exist that allow "
+      "processes running in unconfined domains almost all access. Processes running in "
+      "unconfined domains fall back to using DAC rules exclusively. If an unconfined process is "
+      "compromised, SELinux does not prevent an attacker from gaining access to system "
+      "resources and data, but of course, DAC rules are still used. SELinux is a security "
+      "enhancement on top of DAC rules - it does not replace them"
+    remediation:
+      "Investigate any unconfined processes found during the audit action. They may need to have "
+      "an existing security context assigned to them or a policy built for them."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "       files_in_dir:{"
+      "        dir_path:\"/proc\""
+      "        recursive: true"
+      "        filename_regex: \"current\""
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc/[a-z].*\""
+      "      }}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*unconfined_service_t.*\""
+      "          expected_regex: \".*unconfined_service_t.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "gdm-login-banner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure GDM login banner is configured"
+    description:
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based"
+      "systems."
+    rationale:
+      "Warning messages inform users who are attempting to login to the system of their legal "
+      "status regarding the system and must include the name of the organization that owns the "
+      "system and any monitoring policies that are in place.\n"
+      "Note: If a graphical login is not required, it should be removed to reduce the attack surface "
+      "of the system."
+    remediation:
+      "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "/etc/dconf/db/gdm.d/01-banner-message)\n"
+      "[org/gnome/login-screen]\n"
+      "banner-message-enable=true\n"
+      "banner-message-text=\"'<banner message>'\n"
+      "Example Banner Text: 'Authorized users only. All activity may be monitored and reported.'\n"
+      "Run the following command to update the system databases:\n"
+      "# dconf update"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*user-db:user.*\""
+      "          expected_regex: \"\\\\s*user-db:user.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*system-db:gdm.*\""
+      "          expected_regex: \"\\\\s*system-db:gdm.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "          expected_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/gdm.d/\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*banner-message-enable=[a-z]+\""
+      "          expected_regex: \"\\\\s*banner-message-enable=true\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*banner-message-text=.+\""
+      "          expected_regex: \"\\\\s*banner-message-text=.+\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "last-logged-user-display-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure last logged in user display is disabled"
+    description:
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based "
+      "systems."
+    rationale:
+      "Displaying the last logged in user eliminates half of the Userid/Password equation that an "
+      "unauthorized person would need to log on.\n"
+      "Warning messages inform users who are attempting to login to the system of their legal "
+      "status regarding the system and must include the name of the organization that owns the "
+      "system and any monitoring policies that are in place.\n"
+      "Notes:"
+      "If a graphical login is not required, it should be removed to reduce the attack surface "
+      "of the system.\n"
+      "If a different GUI login service is in use and required on the system, consult your "
+      "documentation to disable displaying the last logged on user."
+    remediation:
+      "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "/etc/dconf/db/gdm.d/00-1ogin-screen)\n"
+      "[org/gnome/login-screen]\n"
+      "# Do not show the user list\n"
+      "disable-user-list=true\n"
+      "Run the following command to update the system databases:\n"
+      "# dconf update"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*user-db:user.*\""
+      "          expected_regex: \"\\\\s*user-db:user.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*system-db:gdm.*\""
+      "          expected_regex: \"\\\\s*system-db:gdm.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "          expected_regex: \"\\\\s*file-db:/usr/share/gdm/greeter-dconf-defaults.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/gdm.d/\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*disable-user-list=[a-z]+\""
+      "          expected_regex: \"\\\\s*disable-user-list=true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/profile/gdm\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "xdcmp-not-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure XDCMP is not enabled"
+    description:
+      "X Display Manager Control Protocol (XDMCP) is designed to provide authenticated access "
+      "to display management services for remote displays"
+    rationale:
+      "XDMCP is inherently insecure.\n"
+      "XDMCP is not a ciphered protocol. This may allow an attacker to capture keystrokes "
+      "entered by a user.\n"
+      "XDMCP is vulnerable to man-in-the-middle attacks. This may allow an attacker to "
+      "steal the credentials of legitimate users by impersonating the XDMCP server."
+    remediation:
+      "Edit the file /etc/gdm/custom.conf and remove the line\n"
+      "Enable=true\n"
+      "Default Value:\n"
+      "false \n"
+      "# This is denoted by no Enabled= entry in the file /etc/gdm/custom.conf in the\n"
+      "# [xdmcp] section\n"
+      "# References:\n"
+      "# 1. https://help.gnome.org/admin/gdm/2.32/configuration.html.en\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/gdm/custom.conf\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*Enable\\\\s*=\\\\s*[0-9a-zA-Z]+\""
+      "          expected_regex: \"\\\\s*Enable\\\\s*=\\\\s*true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/gdm/custom.conf\"}}"
+      "     existence:{should_exist: false}"
+      "   }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "mail-transfer-agent-is-configured-for-localonly-mode"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure mail transfer agent is configured for local-only mode"
+    description:
+      "Mail Transfer Agents (MTA), such as sendmail and Postfix, are used to listen for incoming "
+      "mail and transfer the messages to the appropriate user or mail server. If the system is not "
+      "intended to be a mail server, it is recommended that the MTA be configured to only process "
+      "local mail."
+    rationale:
+      "The software for all Mail Transfer Agents is complex and most have a long history of "
+      "security issues. While it is important to ensure that the system can process local mail "
+      "messages, it is not necessary to have the MTA's daemon listening on a port unless the "
+      "server is intended to be a mail server that receives and processes mail from other systems.\n"
+      "Notes:\n"
+      "This recommendation is designed around the postfix mail server.\n"
+      "Depending on your environment you may have an alternative MTA installed such as "
+      "sendmail. If this is the case consult the documentation for your installed MTA to "
+      "configure the recommended state."
+    remediation:
+      "Edit /etc/postfix/main.ct and add the following line to the RECEIVING MAIL section. If\n"
+      "the line already exists, change it to look like the line below:\n"
+      "inet_interfaces = loopback-only\n"
+      "Run the following command to restart postfix:\n"
+      "# systemctl restart postfix"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/net/tcp\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*0100007F:0019.*\""
+      "          expected_regex: \".*0100007F:0019.*\""
+      "        }"
+      "      }}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/net/tcp6\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*00000000000000000000000001000000:0019.*\""
+      "          expected_regex: \".*00000000000000000000000001000000:0019.*\""
+      "        }"
+      "      }}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "      single_file:{path:\"/proc/self/net/tcp6\"}"
+      "      }"
+      "      files_to_check:{"
+      "      single_file:{path:\"/proc/self/net/tcp\"}"
+      "      }"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*[0-9A-F]+:0019.*\""
+      "        }"
+      "      }}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "nftables-rules-are-permanent"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nftables rules are permanent"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
+      "packets/datagrams/frames."
+      "The nftables service reads the /etc/sysconfig/nftables.conf file for a nftables file or "
+      "files to include in the nftables ruleset."
+      "A nftables ruleset containing the input, forward, and output base chains allow network "
+      "traffic to be filtered."
+    rationale:
+      "Changes made to nftables ruleset only affect the live system, you will also need to configure "
+      "the nftables ruleset to apply on boot"
+    remediation:
+      "Edit the /etc/sysconfig/nftables.conf file and un-comment or add a line with include\n"
+      "Absolute path to nftables rules file>for each nftables file you want included in the\n"
+      "nftables ruleset on boot:\n"
+      "Example:\n"
+      "include \"/etc/nftables/nftables.rules\""
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sysconfig/nftables.conf\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "  }"
+      " }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "iptables-rules-are-saved"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure iptables rules are saved"
+    description:
+      "The iptables-services package includes the /etc/sysconfig/iptables file. The "
+      "iptables rules in this file will be loaded by the iptables.service during boot, or when it "
+      "is started or re-loaded."
+    rationale:
+      "If the iptables rules are not saved and a system re-boot occurs, the iptables rules will be "
+      "lost."
+    remediation:
+      "Run the following command to save any configuration to file:\n"
+      "# service iptables save"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sysconfig/iptables\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      " }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "      }}"
+      "      existence:{should_exist: false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ip6tables-rules-are-saved"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure ip6tables rules are saved"
+    description:
+      "The iptables-services package includes the /etc/sysconfig/ip6tables file. The "
+      "ip6tables rules in this file will be loaded by the ip6tables.service during boot, or when "
+      "it is started or re-loaded."
+    rationale:
+      "If the ip6tables rules are notsaved and a system re-boot occurs, the ip6tables rules will "
+      "be lost."
+    remediation:
+      "Run the following command to save any configuration to file:\n"
+      "# service ip6tables save"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sysconfig/ip6tables\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"ip6tables.service\""
+      "      }}"
+      "      existence:{should_exist: false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure rsyslog Service is enabled and running"
+    description:
+      "rsyslog needs to be enabled and running to perform logging"
+    rationale:
+      "If the rsyslog service is not activated the system may default to the sys1ogd service or lack "
+      "logging instead."
+    remediation:
+      "Run the following command to enable and start rsysiog:\n"
+      "# systemctl --now enable rsyslog"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"rsyslog.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-default-file-permissions-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure rsyslog default file permissions configured"
+    description:
+      "rsyslog will create logfiles that do not already exist on the system. This setting controls "
+      "what permissions will be applied to these newly created files.\n"
+      "The $FilecreateMode parameter specifies the file creation mode with which rsyslogd "
+      "creates new files. If not specified, the value 0644 is used.\n"
+      "Notes\n:"
+      "The value given must always be a 4-digit octal number, with the initial digit being "
+      "zero.\n"
+      "This setting can be overridden by a less restrictive setting in any file ending in .conf in "
+      "the /etc/rsyslog.d/ directory"
+    rationale:
+      "It is important to ensure that log files have the correct permissions to ensure that sensitive "
+      "data is archived and protected."
+    remediation:
+      "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and set $FilecreateMode to "
+      "0640 or more restrictive:\n"
+      "$FileCreateMode 0640\n"
+      "References:\n"
+      "1. See the rsyslog.conf(5) man page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "rsyslog-configured-to-send-logs-to-remote-host"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure rsyslog is configured to send logs to a remote log host"
+    description:
+      "The rsysilog utility supports the ability to send logs it gathers to a remote log host running "
+      "syslogd(8) Or to receive messages from remote hosts, reducing administrative overhead.\n"
+      "Note: Ensure that the selection of logfiles being sent follows local site policy"
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system"
+    remediation:
+      "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and add one of the following"
+      "lines:\n"
+      "<files to sent to the remote log server> action (type=\"omfwd\" target=\"<FQDN or"
+      "ip of loghost>\" port=\"<port number>\" protocol=\"tcp\""
+      "<number of re-tries>\"\n"
+      "queue.type=\"LinkedList\"\n"
+      "action.resumeRetryCount\n"
+      "queue.size=<number of messages to queue>\")\n"
+      "Example:\n"
+      "*.* action (type=\"omfwd\" target=\"192.168.2.100\" port=\"514\" protocol=\"tcp\""
+      "action.resumeRetryCount=\"100\""
+      "queue. type=\"LinkedList\" queue.size=\"1000\")\n"
+      "Run the following command to reload the rsys1og configuration:\n"
+      "# systemctl restart rsyslog\n"
+      "References:\n"
+      "1. See the rsyslog.conf(5) man page for more information."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*([^#]+\\\\s+)?action\\\\(([^#]+\\\\s+)?\\\\btarget=\\\"?[^#\\\"]+\\\"?\\\\b\""
+      "          expected_regex: \"^\\\\s*([^#]+\\\\s+)?action\\\\(([^#]+\\\\s+)?\\\\btarget=\\\"?[^#\\\"]+\\\"?\\\\b\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^[^#]\\\\s*\\\\S+\\\\.\\\\*\\\\s+@\""
+      "          expected_regex: \"^[^#]\\\\s*\\\\S+\\\\.\\\\*\\\\s+@\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "journald-is-configured-to-send-logs-to-rsyslog"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure journald is configured to send logs to rsyslog"
+    description:
+      "Data from journald may be stored in volatile memory or persisted locally on the server."
+      "Utilities exist to accept remote export of journald logs, however, use of the rsyslog service "
+      "provides a consistent means of log collection and export.\n"
+      "Notes:\n"
+      "This recommendation assumes that recommendation 4.2.1.5, \"Ensure rsyslog is "
+      "configured to send logs to a remote log host\" has been implemented.\n"
+      "The main configuration file /etc/systemd/journald. conf is read before any of the "
+      "custom *.conf files. If there are custom configs present, they override the main "
+      "configuration parameters\n"
+      "As noted in the journald man pages: journald logs may be exported to rsyslog either "
+      "through the process mentioned here, or through a facility like systemd-"
+      "journald.service. There are trade-offs involved in each implementation, where "
+      "ForwardToSyslog Will immediately capture all events (and forward to an external log "
+      "server, if properly configured), but may not capture all boot-up activities. Mechanisms "
+      "such as systemd-journald.service, on the other hand, will record bootup events, but "
+      "may delay sending the information to rsyslog, leading to the potential for log "
+      "manipulation prior to export. Be aware of the limitations of all tools employed to "
+      "secure a system."
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system."
+    remediation:
+      "Edit the /etc/systemd/journald.conf file and add the following line:\n"
+      "ForwardToSyslog=yes\n"
+      "References:\n"
+      "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
+      "mdjournaldconf"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/systemd/journald.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*ForwardToSyslog=[a-z]+\""
+      "          expected_regex: \"\\\\s*ForwardToSyslog=yes\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "journald-is-configured-to-compress-large-log-files"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure journald is configured to compress large log files"
+    description:
+      "The journald system includes the capability of compressing overly large files to avoid filling "
+      "up the system with logs or making the logs unmanageably large.\n"
+      "Note: The main configuration file /etc/systemd/journald. conf is read before any of the "
+      "custom *.conf files. If there are custom configs present, they override the main configuration "
+      "parameters"
+    rationale:
+      "Uncompressed large files may unexpectedly fill a filesystem leading to resource "
+      "unavailability. Compressing logs prior to write can prevent sudden, unexpected filesystem "
+      "impacts."
+    remediation:
+      "Edit the /etc/systemd/journald.cont file and add the following line:\n"
+      "Compress=yes\n"
+      "References:\n"
+      "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
+      "mdjournaldconf"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/systemd/journald.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*Compress=[a-z]\""
+      "          expected_regex: \"\\\\s*Compress=yes\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "sudo-commands-use-pty"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure sudo commands use pty"
+    description:
+      "sudo can be configured to run only from a pseudo-pty\n"
+      "Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the "
+      "sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks for "
+      "parse errors. If the sudoers file is currently being edited you will receive a message to try "
+      "again later. The -f option allows you to tell visudo which file to edit."
+    rationale:
+      "Attackers can run a malicious program using sudo, which would again fork a background "
+      "process that remains even when the main program has finished executing.\n"
+      "This can be mitigated by configuring sudo to run other commands only from a pseudo-pty, "
+      "whether 1/0 logging is turned on or not."
+    remediation:
+      "Edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo "
+      "and add the following line:\n"
+      "Defaults use_pty"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*Defaults\\\\s+([^#]\\\\S+,\\\\s*)?use_pty\b\""
+      "          expected_regex: \"^\\\\s*Defaults\\\\s+([^#]\\\\S+,\\\\s*)?use_pty\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "sudo-log-file-exists"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure sudo log file exists"
+    description:
+      "sudo can use a custom log file\n"
+      "Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the "
+      "sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks for "
+      "parse errors. If the sudoers file is currently being edited you will receive a message to try "
+      "again later. The -f option allows you to tell visudo which file to edit."
+    rationale:
+      "A sudo log file simplifies auditing of sudo commands\n"
+      "Impact:\n"
+      "Editing the sudo configuration incorrectly can cause sudo to stop functioning"
+    remediation:
+      "edit the file /etc/sudoers orafile in /etc/sudoers.d/ with visudo or visudo -f <PATH\n"
+      "To FILE>and add the following line:\n"
+      "Defaults logfile=\"<PATH TO CUSTOM LOG FILE>\"\n"
+      "Example:\n"
+      "Pefaults logfile=\"/var/log/sudo.log\"\n"
+      "References:\n"
+      "1. SUDO(8)\n"
+      "2. VISUDO(8)"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"^\\\\s*Defaults\\\\s+([^#;]+,\\\\s*)?logfile\\\\s*=\\\\s*(\\\")?[^#;]+(\\\")?\""
+      "          expected_regex: \"Defaults logfile=\\\"[/.a-z]\\\"\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "no-users-have-rhosts-files"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure no users have .rhosts files"
+    description:
+      "While no .rhosts files are shipped by default, users can easily create them."
+    rationale:
+      "This action is only meaningful if . rhosts support is permitted in the file /etc/pam.cont.\n"
+      "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.cont, they "
+      "may have been brought over from other systems and could contain information useful to "
+      "an attacker for those other systems."
+    remediation:
+      "Making global modifications to users' files without alerting the user community can result "
+      "in unexpected outages and unhappy users. Therefore, it is recommended that a monitoring "
+      "policy be established to report user .rhosts files and determine the action to be taken in "
+      "accordance with site policy.\n"
+      "The following script will remove .rhosts files from interactive users' home directories\n"
+      "#!/bin/bash\n"
+      "awk -F: '($1!~/(root|halt|sync|shutdown|nfsnobody)/ &&\n"
+      "$71~/~(\\/usr)?2\\/sbin\\/nologin (\\/)?$/ && $7!~/(\\/usr)?\\/bin\\/false(\\/)?$/) {\n"
+      "print $6 }' /etc/passwd |\n"
+      "if [ -d \"$dir\" ]; then\n"
+      "file=\"$dir/.rhosts\"\n"
+      "while read -r dir; do\n"
+      "[ ! -h \"$file\" ] && [ -f \"$file\" ] && rm -r \"$file\"\n"
+      "done"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home/.rhosts\"}}"
+      "    existence:{should_exist:false}"
+      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "  }"
+      " }"
+      "}"
+  }
+}
