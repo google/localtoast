@@ -4,8 +4,8 @@
 benchmark_configs: {
   id: "cramfs-mounting-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure mounting of cramfs filesystems is disabled"
     description:
       "The cramfs filesystem type is a compressed read-only Linux filesystem "
@@ -161,9 +161,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure /tmp is configured"
     description:
       "The /tmp directory is a world-writable directory used for temporary "
@@ -248,9 +248,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -342,9 +342,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -436,9 +436,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tmp-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -530,9 +530,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /home partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -580,8 +580,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /dev/shm partition"
     description:
@@ -633,8 +633,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /dev/shm partition"
     description:
@@ -686,8 +686,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shm-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /dev/shm partition"
     description:
@@ -763,8 +763,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -817,8 +817,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain "
@@ -871,8 +871,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/tmp partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain "
@@ -965,10 +965,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nx-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure XD/NX support is enabled"
     description:
       "Recent processors in the x86 family support the ability to prevent "
@@ -1056,12 +1056,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "aslr-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure address space layout randomization (ASLR) is enabled"
     description:
@@ -1165,8 +1165,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "local-login-warning-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure local login warning banner is configured properly"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -1215,8 +1215,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "remote-login-warning-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure remote login warning banner is configured properly"
     description:
       "The contents of the /etc/issue.net file are displayed to users prior to "
@@ -1266,10 +1266,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-issue-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/issue are configured"
     description:
@@ -1313,9 +1313,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nfs-rpc-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure NFS and RPC are not enabled"
     description:
       "The Network File System (NFS) is one of the first and most widely distributed\n"
@@ -1366,10 +1366,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "packet-redirect-sending-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure packet redirect sending is disabled"
     description:
@@ -1451,10 +1451,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "source-routed-packets-not-accepted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure source routed packets are not accepted"
     description:
@@ -1518,10 +1518,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "broadcast-icmp-requests-ignored"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
@@ -1597,10 +1597,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bogus-icmp-responses-ignored"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
@@ -1670,10 +1670,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "reverse-path-filtering-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
@@ -1761,10 +1761,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tcp-syn-cookies-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
@@ -1844,9 +1844,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-write-to-persistent-disk"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald is configured to write logfiles to persistent disk"
     description:
       "Data from journald may be stored in volatile memory or persisted locally on\n"
@@ -1883,10 +1883,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-config-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/ssh/sshd_config are configured"
     description:
@@ -1927,10 +1927,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-private-host-key-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on SSH private host key files are configured"
     description:
@@ -1974,10 +1974,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sshd-public-host-key-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on SSH public host key files are configured"
     description:
@@ -2053,11 +2053,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-loglevel-appropriate"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH LogLevel is appropriate"
     description:
       "INFO level is the basic level that only records login activity of SSH users.\n"
@@ -2169,9 +2169,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-maxauthtries-4-or-less"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH MaxAuthTries is set to 4 or less"
     description:
@@ -2215,10 +2215,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-ignorerhosts-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH IgnoreRhosts is enabled"
     description:
@@ -2267,10 +2267,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-hostbasedauthentication-disabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH HostbasedAuthentication is disabled"
     description:
@@ -2322,10 +2322,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-root-login-disabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH root login is disabled"
     description:
@@ -2363,10 +2363,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-permitemptypasswords-disabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH PermitEmptyPasswords is disabled"
     description:
@@ -2415,10 +2415,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-permituserenvironments-disabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH PermitUserEnvironment is disabled"
     description:
@@ -2468,10 +2468,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-ciphers-used"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure only strong Ciphers are used"
     description: "This variable limits the ciphers that SSH can use during communication."
     rationale:
@@ -2678,10 +2678,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "strong-key-exchange-algos-used"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure only strong Key Exchange algorithms are used"
     description:
       "Key exchange is any method in cryptography by which cryptographic keys are\n"
@@ -2908,10 +2908,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-pam-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH PAM is enabled"
     description:
@@ -3036,8 +3036,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-reuse-limited"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password reuse is limited"
     description:
       "The /etc/security/opasswd file stores the users' old passwords and can "
@@ -3089,8 +3089,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-hashing-algorithm-sha-512"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password hashing algorithm is SHA-512"
     description:
       "The commands below change password encryption from md5 to sha512 (a "
@@ -3140,8 +3140,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-expiration-365-days-or-less"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password expiration is 365 days or less"
     description:
       "The PASS_MAX_DAYS parameter in /etc/login.defs allows an administrator "
@@ -3210,9 +3210,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "minimum-days-between-password-changes-7-or-more"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure minimum days between password changes is 7 or more"
     description:
@@ -3279,10 +3279,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-expiration-warning-days-7-or-more"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password expiration warning days is 7 or more"
     description:
@@ -3412,10 +3412,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "last-password-change-date-in-past"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure all users last password change date is in the past"
     description: "All users should have a password change date in the past."
@@ -3455,9 +3455,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "system-accounts-secured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure system accounts are secured"
     description:
@@ -3527,10 +3527,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-group-for-root-account-is-gid-0"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure default group for the root account is GID 0"
     description:
@@ -3566,10 +3566,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-login-restricted-to-system-console"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure root login is restricted to system console"
     description:
       "The file /etc/securetty contains a list of valid terminals that may be logged\n"
@@ -3604,8 +3604,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "access-to-su-restricted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure access to the su command is restricted"
     description:
@@ -3662,12 +3662,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-passwd-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
@@ -3707,10 +3707,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-shadow-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/shadow are configured"
     description:
@@ -3759,12 +3759,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/group are configured"
     description:
@@ -3803,10 +3803,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-gshadow-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/gshadow are configured"
     description:
@@ -3862,12 +3862,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-group-dash-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
@@ -3909,9 +3909,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-shadow-dash-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/shadow- are configured"
     description:
@@ -3967,9 +3967,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "etc-gshadow-dash-permissions"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/gshadow- are configured"
     description:
@@ -4025,12 +4025,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-fields-not-empty"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password fields are not empty"
     description:
@@ -4072,11 +4072,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "passwd-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4111,11 +4111,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4148,11 +4148,11 @@ benchmark_configs: {
 benchmark_configs: {
   id: "group-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
     description:
       "The character + in various files used to be markers for systems to insert data\n"
@@ -4187,12 +4187,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-is-only-uid-0-account"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure root is the only UID 0 account"
     description: "Any account with UID 0 has superuser privileges on the system."
@@ -4226,9 +4226,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-dirs-exist"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure all users' home directories exist"
     description:
@@ -4272,9 +4272,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-dirs-750-or-more-restrictive"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure users' home directories permissions are 750 or more restrictive"
     description:
@@ -4334,9 +4334,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "users-own-home-dirs"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure users own their home directories"
     description:
@@ -4399,9 +4399,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dot-files-not-group-world-writable"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure users' dot files are not group or world writable"
     description:
@@ -4464,9 +4464,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-forward-files"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .forward files"
     description:
@@ -4518,9 +4518,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-netrc-files"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .netrc files"
     description:
@@ -4670,9 +4670,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "groups-from-etc-passwd-in-etc-group"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure all groups in /etc/passwd exist in /etc/group"
     description:
@@ -4717,12 +4717,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-uids"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate UIDs exist"
     description:
@@ -4764,12 +4764,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-gids"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate GIDs exist"
     description:
@@ -4809,12 +4809,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-user-names"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate user names exist"
     description:
@@ -4859,12 +4859,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-duplicate-group-names"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate group names exist"
     description:
@@ -4907,12 +4907,12 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-group-empty"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     title: "Ensure shadow group is empty"
     description:
       "The shadow group allows system programs which require access the ability to\n"
@@ -4951,9 +4951,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-user-shell-timeout-900-or-less"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure default user shell timeout is 900 seconds or less"
     description:
@@ -4999,8 +4999,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "world-writable-dirs-sticky"
   compliance_note {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure sticky bit is set on all world-writable directories"
     description:
       "Setting the sticky bit on world writable directories prevents users from "
@@ -5060,8 +5060,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "aide-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure AIDE is installed"
     description:
       "AIDE takes a snapshot of filesystem state including modification "
@@ -5122,8 +5122,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "filesystem-integrity-checked"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure filesystem integrity is regularly checked"
     description:
       "Periodic checking of the filesystem integrity is needed to detect "
@@ -5178,8 +5178,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bootloader-password-set"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure bootloader password is set"
     description:
       "Setting the boot loader password will require that anyone rebooting "
@@ -5280,8 +5280,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "bootloader-config-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on bootloader config are configured"
     description:
       "The grub configuration file contains information on boot settings and "
@@ -5380,8 +5380,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "core-dumps-restricted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure core dumps are restricted"
     description:
       "A core dump is the memory of an executable program. It is generally "
@@ -5535,8 +5535,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "motd-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure message of the day is configured properly"
     description:
       "The contents of the /etc/motd file are displayed to users after login "
@@ -5659,8 +5659,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "time-synchronization-in-use"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure time synchronization is in use"
     description:
       "System time should be synchronized between all systems in an "
@@ -5769,8 +5769,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "chrony-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure chrony is configured"
     description:
       "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
@@ -5940,8 +5940,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cups-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure CUPS is not enabled"
     description:
       "The Common Unix Print System (CUPS) provides the ability to print to "
@@ -5981,8 +5981,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dhcp-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure DHCP Server is not enabled"
     description:
       "The Dynamic Host Configuration Protocol (DHCP) is a service that "
@@ -6020,8 +6020,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ldap-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure LDAP Server is not enabled"
     description:
       "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
@@ -6060,8 +6060,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dns-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure DNS Server is not enabled"
     description:
       "The Domain Name System (DNS) is a hierarchical naming system that maps "
@@ -6100,8 +6100,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ftp-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure FTP Server is not enabled"
     description:
       "The File Transfer Protocol (FTP) provides networked computers with the "
@@ -6178,8 +6178,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "imap-pop3-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure IMAP and POP3 Server is not enabled"
     description: "dovecot is an open source IMAP and POP3 server for Linux based systems."
     rationale:
@@ -6215,8 +6215,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "samba-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure Samba Server is not enabled"
     description:
       "The Samba daemon allows system administrators to configure their Linux "
@@ -6258,8 +6258,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "http-proxy-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure HTTP Proxy Server is not enabled"
     description:
       "Squid is a standard proxy server used in many distributions and "
@@ -6296,8 +6296,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "snmp-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SNMP Server is not enabled"
     description:
       "The Simple Network Management Protocol (SNMP) server is used to listen "
@@ -6339,8 +6339,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nis-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure NIS Server is not enabled"
     description:
       "The Network Information Service (NIS) (formally known as Yellow Pages) "
@@ -6383,8 +6383,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "telnet-server-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure telnet server is not enabled"
     description:
       "The telnet-server package contains the telnet daemon, which accepts "
@@ -6444,8 +6444,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsync-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure rsync service is not enabled"
     description:
       "The rsyncd service can be used to synchronize files between systems over\n"
@@ -6482,8 +6482,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsh-client-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure rsh client is not installed"
     description: "The rsh package contains the client commands for the rsh services."
     rationale:
@@ -6520,8 +6520,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "talk-client-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure talk client is not installed"
     description:
       "The talk software makes it possible for users to send and receive "
@@ -6557,8 +6557,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "telnet-client-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure telnet client is not installed"
     description:
       "The telnet package contains the telnet client, which allows users to "
@@ -6595,8 +6595,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ldap-client-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure LDAP client is not installed"
     description:
       "The Lightweight Directory Access Protocol (LDAP) was introduced as a "
@@ -6631,8 +6631,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ip-forwarding-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure IP forwarding is disabled"
     description:
       "The net.ipv4.ip_forward and net.ipv6.conf.all.forwarding flags are "
@@ -6991,8 +6991,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ipv6-router-advertisements-not-accepted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure IPv6 router advertisements are not accepted"
     description:
       "This setting disables the system's ability to accept IPv6 router "
@@ -7073,8 +7073,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logfile-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on all logfiles are configured"
     description:
       "Log files stored in /var/log/ contain logged information from many "
@@ -7125,8 +7125,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logrotate-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure logrotate is configured"
     description:
       "The system includes the capability of rotating log files regularly to "
@@ -7167,8 +7167,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-daemon-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure cron daemon is enabled"
     description: "The cron daemon is used to execute batch jobs on the system."
     rationale:
@@ -7203,8 +7203,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "crontab-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/crontab are configured"
     description:
       "The /etc/crontab file is used by cron to control its own jobs. The "
@@ -7243,8 +7243,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-hourly-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/cron.hourly are configured"
     description:
       "This directory contains system cron jobs that need to run on an hourly "
@@ -7285,8 +7285,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-daily-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/cron.daily are configured"
     description:
       "The /etc/cron.daily directory contains system cron jobs that need to "
@@ -7327,8 +7327,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-weekly-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/cron.weekly are configured"
     description:
       "The /etc/cron.weekly directory contains system cron jobs that need to "
@@ -7369,8 +7369,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-monthly-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/cron.monthly are configured"
     description:
       "The /etc/cron.monthly directory contains system cron jobs that need to "
@@ -7411,8 +7411,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "cron-d-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/cron.d are configured"
     description:
       "The /etc/cron.d directory contains system cron jobs that need to run in "
@@ -7455,8 +7455,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "at-cron-restricted-to-authorized-users"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure at/cron is restricted to authorized users"
     description:
       "Configure /etc/cron.allow and /etc/at.allow to allow specific users to "
@@ -7523,8 +7523,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-access-limited"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH access is limited"
     description:
       "There are several options available to limit which users and group can "
@@ -7588,8 +7588,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-creation-reqs-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password creation requirements are configured"
     description:
       "The pam_cracklib.so module checks the strength of passwords. It "
@@ -7665,8 +7665,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "failed-password-lockout-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure lockout for failed password attempts is configured"
     description:
       "Lock out users after n unsuccessful consecutive login attempts. The "
@@ -7718,8 +7718,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-user-umask-027-or-more-restrictive"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure default user umask is 027 or more restrictive"
     description:
       "The default umask determines the permissions of files created by "
@@ -7776,8 +7776,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-world-writable-files"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no world writable files exist"
     description:
       "Unix-based systems support variable settings to control access to "
@@ -7838,8 +7838,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-unowned-files-or-dirs"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no unowned files or directories exist"
     description:
       "Sometimes when administrators delete users from the password file they "
@@ -7900,8 +7900,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-ungrouped-files-or-dirs"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no ungrouped files or directories exist"
     description:
       "Sometimes when administrators delete users or groups from the system "
@@ -7962,8 +7962,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-suid-execs"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Audit SUID executables"
     description:
       "The owner of a file can set the file's permissions to run with the "
@@ -8026,8 +8026,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-sgid-execs"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Audit SGID executables"
     description:
       "The owner of a file can set the file's permissions to run with the "
@@ -8094,8 +8094,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-path-integrity"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure root PATH Integrity"
     description:
       "The root user can execute any command on the system and could be fooled "
