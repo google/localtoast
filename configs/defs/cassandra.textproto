@@ -3,8 +3,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
     title: "Ensure a separate user and group exist for Cassandra"
-    description:
-      "Checks whether the Cassandra User and Group exists on the linux system"
+    description: "Checks whether the Cassandra User and Group exists on the linux system"
     rationale:
       "All processes need to run as a user with least privilege. "
       "This mitigates the potential impact of malware to the system."
@@ -57,8 +56,7 @@ benchmark_configs: {
       "the nodes in the cluster based on timestamps. It is paramount "
       "to ensure all clocks are in-sync, otherwise the most current "
       "data may not be returned or worse, marked for deletion."
-    remediation:
-      "Install and start the time protocol on every node in the Cassandra cluster."
+    remediation: "Install and start the time protocol on every node in the Cassandra cluster."
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -114,23 +112,24 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
-    "  }"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    content_entry: {"
-    "      match_type: NONE_MATCH"
-    "      match_criteria: {"
-    "        filter_regex: \"authenticator: .*\""
-    "        expected_regex: \"authenticator: AllowAllAuthenticator\""
-    "      }"
-    "    }"
-    "  }"
-    "}}"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*authenticator: .*\""
+      "        expected_regex: \".*authenticator: AllowAllAuthenticator.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -161,23 +160,24 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
-    "  }"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    content_entry: {"
-    "      match_type: NONE_MATCH"
-    "      match_criteria: {"
-    "        filter_regex: \"authorizer: .*\""
-    "        expected_regex: \"authorizer: AllowAllAuthorizer\""
-    "      }"
-    "    }"
-    "  }"
-    "}}"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*authorizer: .*\""
+      "        expected_regex: \".*authorizer: AllowAllAuthorizer.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -189,8 +189,7 @@ benchmark_configs: {
     description:
       "Cassandra offers the option to encrypt data in transit between nodes on the cluster. By "
       "default, inter-node encryption is turned off. "
-    rationale:
-      "Data being transferred on the wire should be encrypted to avoid network snooping, whether legitimate or not."
+    rationale: "Data being transferred on the wire should be encrypted to avoid network snooping, whether legitimate or not."
     remediation:
       "The inter-node encryption should be implemented before anyone accesses the Cassandra server.\n"
       "To enable the inter-node encryption mechanism:\n"
@@ -203,24 +202,24 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
-    "  }"
-
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    content_entry: {"
-    "      match_type: NONE_MATCH"
-    "      match_criteria: {"
-    "        filter_regex: \"\\\\s*internode_encryption:.*\""
-    "        expected_regex: \"\\\\s*internode_encryption:\\\\s*none\""
-    "      }"
-    "    }"
-    "  }"
-    "}}"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*\\\\s*internode_encryption:.*\""
+      "        expected_regex: \".*\\\\s*internode_encryption:\\\\s*none.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -260,35 +259,33 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra logback.xml configuration file does not exist\""
-    "  }"
-
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
-    "    content_entry: {"
-    "      match_type: NONE_MATCH"
-    "      match_criteria: {"
-    "        filter_regex: \".*?<level>.*?</level>.*?\""
-    "        expected_regex: \".*?<level>OFF</level>.*?\""
-    "      }"
-    "    }"
-    "  }"
-
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
-    "    content_entry: {"
-    "      match_type: NONE_MATCH"
-    "      match_criteria: {"
-    "        filter_regex: \".*?level=\\\".*?\\\".*?\""
-    "        expected_regex: \".*?level=\\\"OFF\\\".*?\""
-    "      }"
-    "    }"
-    "  }"
-    "}}"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra logback.xml configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+      "    content_entry: {"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*?<level>.*?</level>.*?\""
+      "        expected_regex: \".*?<level>OFF</level>.*?\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/logback.xml\"}}"
+      "    content_entry: {"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*?level=\\\".*?\\\".*?\""
+      "        expected_regex: \".*?level=\\\"OFF\\\".*?\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -314,23 +311,24 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
-    "  }"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    content_entry: {"
-    "      match_type: NONE_MATCH"
-    "      match_criteria: {"
-    "        filter_regex: \"listen_address:.*\""
-    "        expected_regex: \"listen_address:[\\\\s]*0\\\\.0\\\\.0\\\\.0\""
-    "      }"
-    "    }"
-    "  }"
-    "}}"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*listen_address:.*\""
+      "        expected_regex: \".*listen_address:[\\\\s]*0\\\\.0\\\\.0\\\\.0.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -340,8 +338,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
     title: "Ensure the Cassandra service is run as a non-root user"
-    description:
-      "Though Cassandra database may be run as root, it should run as another non-root user"
+    description: "Though Cassandra database may be run as root, it should run as another non-root user"
     rationale:
       "One of the best ways to reduce your exposure to attack is to create a unique, unprivileged "
       "user and group for the server application. A best practice is to follow is ensuring processes "
@@ -390,8 +387,7 @@ benchmark_configs: {
       "(successful as well as unsuccessful login) to C* node. Currently, there are two "
       "implementations provided, the custom logger can be implemented and injected with the "
       "class name as a parameter in cassandra.yaml."
-    rationale:
-      "Unauthorized attempts to create, drop or alter users or data should be a concern."
+    rationale: "Unauthorized attempts to create, drop or alter users or data should be a concern."
     remediation:
       "Enable the Cassandra Auditing feature. Note that on the Open Source version this feature is available only starting from version 4.\n"
       "Open the dse.yaml file in a text editor\n"
@@ -406,25 +402,24 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
-    "  }"
-
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    content_entry: {"
-    "      delimiter: \"true\""
-    "      match_type: ALL_MATCH_ANY_ORDER"
-    "      match_criteria: {"
-    "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
-    "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
-    "      }"
-    "    }"
-    "  }"
-    "}}"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
+      "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*audit_logging_options:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+enabled:\\\\s*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -454,14 +449,13 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
-    "  file_checks:{"
-    "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
-    "    existence:{should_exist: true}"
-    "    non_compliance_msg: \"Cassandra configuration file does not exist\""
-    "  }"
-
-    "  file_checks:{"
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
+      "    existence:{should_exist: true}"
+      "    non_compliance_msg: \"Cassandra configuration file does not exist\""
+      "  }"
+      "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/cassandra/cassandra.yaml\"}}"
       "    content_entry: {"
       "      delimiter: \"true\""

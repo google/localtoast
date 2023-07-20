@@ -25,13 +25,13 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/encoding/prototext"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 	"bitbucket.org/creachadair/stringset"
 	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	spb "github.com/google/localtoast/scannerlib/proto/severity_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
-	sipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
 )
 
 //go:embed defs/*
@@ -110,7 +110,7 @@ func TestRequiredAttributes(t *testing.T) {
 			if note.GetCisBenchmark().GetSeverity() == spb.Severity_SEVERITY_UNSPECIFIED {
 				t.Errorf("%s GetCisBenchmark().GetSeverity(): got %s, want any specified severity", noteID, note.GetCisBenchmark().GetSeverity())
 			}
-			scanInstructions := &sipb.BenchmarkScanInstructionDef{}
+			scanInstructions := &ipb.BenchmarkScanInstructionDef{}
 			if err := prototext.Unmarshal(note.GetScanInstructions(), scanInstructions); err != nil {
 				t.Errorf("%s could not parse scan instructions: %v", noteID, err)
 			}
@@ -237,6 +237,60 @@ func TestConfigDefContainsUniqueNoteDefinitions(t *testing.T) {
 				noteIdsToConfigs[noteID] = append(configs, benchmarkConfig)
 			} else {
 				noteIdsToConfigs[noteID] = []*apb.BenchmarkConfig{benchmarkConfig}
+			}
+		}
+	}
+}
+
+func TestOnlyOneDelimiterForGivenFile(t *testing.T) {
+	fileToDelimiter := make(map[string]string)
+	for filePath, configBytes := range scanConfigDefs {
+		config := &apb.ScanConfig{}
+		if err := prototext.Unmarshal(configBytes, config); err != nil {
+			t.Fatalf("error reading %s: %v", filePath, err)
+		}
+		for _, b := range config.GetBenchmarkConfigs() {
+			noteID := b.GetId()
+			instructionDef := &ipb.BenchmarkScanInstructionDef{}
+			if err := prototext.Unmarshal(b.GetComplianceNote().GetScanInstructions(), instructionDef); err != nil {
+				t.Errorf("%s could not parse scan instructions: %v", noteID, err)
+			}
+			var scanInstructions []*ipb.BenchmarkScanInstruction
+			if instructionDef.GetGeneric() != nil {
+				scanInstructions = []*ipb.BenchmarkScanInstruction{instructionDef.GetGeneric()}
+			} else if instructionDef.GetScanTypeSpecific() != nil {
+				scanInstructions = []*ipb.BenchmarkScanInstruction{
+					instructionDef.GetScanTypeSpecific().InstanceScanning,
+					instructionDef.GetScanTypeSpecific().ImageScanning,
+				}
+			} else {
+				t.Fatalf("benchmark %s has invalid instruction def %v", noteID, instructionDef)
+			}
+			for _, i := range scanInstructions {
+				for _, a := range i.GetCheckAlternatives() {
+					for _, f := range a.GetFileChecks() {
+						if f.GetContentEntry() != nil {
+							delimiter := string(f.GetContentEntry().GetDelimiter())
+							if delimiter == "" {
+								delimiter = "\n" // Default value.
+							}
+							for _, fs := range f.GetFilesToCheck() {
+								fileToCheck, err := proto.MarshalOptions{Deterministic: true}.Marshal(fs)
+								if err != nil {
+									t.Fatalf("Error marshaling %v: %v", f.GetFilesToCheck(), err)
+								}
+								if prev, ok := fileToDelimiter[string(fileToCheck)]; ok {
+									if prev != delimiter {
+										t.Fatalf("file %v has content entry checks with different delimiters: %q vs. %q",
+											fs, prev, delimiter)
+									}
+								} else {
+									fileToDelimiter[string(fileToCheck)] = delimiter
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
