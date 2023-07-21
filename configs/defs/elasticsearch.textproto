@@ -428,6 +428,48 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "elasticsearch-clocksync"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch:*" version: "1.0.0" benchmark_document: "" }
+    title: "Ensure clocks are synchronized on all nodes"
+    description:
+      "Checks whether the clocks on all nodes are in sync. "
+      "In particular, this checks the existence of a time synchronization daemon such as ntp, chronyd or systemd-timesyn."
+    rationale:
+      "A time synchronization daemon such as NTP or Chrony must be functioning on the system to keep the time in sync. "
+      "This is especially critical for virtualized and cloud-hosted machine instances."
+    remediation: "Install and start the time protocol on every node in the Elasticsearch cluster."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning: {"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "    }"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{process_path:{proc_name:\"ntp\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "    }"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{process_path:{proc_name:\"systemd-timesyn\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
 # Some rules need a workaround because the configuration value is not on the same line of the key.
 #
 # The approach used in the following rules set the file content split delimiter to "true" and checks with a regexp
@@ -701,6 +743,71 @@ benchmark_configs: {
       "        expected_regex: \".*(^|\\\\n)[^#\\\\S]*xpack\\\\.security\\\\.http\\\\.filter(:[\\\\s]*(#[ -~]*)*\\\\n(\\\\n|[\\\\t #]+[ -~]*\\\\n)*[^#\\\\S\\\\n]+|\\\\.)enabled:\\\\s*\""
       "      }"
       "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "elasticsearch-no-anonymous-access"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch:*" version: "1.0.0" benchmark_document: "" }
+    title: "Ensure Anonymous Access is not enabled"
+    description:
+      "This check verifies that anonymous access is not enabled in Elasticsearch. "
+      "Elasticsearch allows for anonymous access to be set up, but this functionality should not be used."
+    rationale:
+      "Ensuring that anonymous acces is not enabled is crucial for protecting sensitive data and preventing unauthorized access to your Elasticsearch cluster. "
+    remediation:
+      "To remediate this issue, follow these steps:\n"
+      "1. Open the `elasticsearch.yml` configuration file for your Elasticsearch installation.\n"
+      "   - The file is typically located in `/etc/elasticsearch/elasticsearch.yml` on Linux systems or `<Elasticsearch_Home>/config/elasticsearch.yml` on other platforms.\n"
+      "2. Search for the `xpack.security.authc` setting in the configuration file.\n"
+      "3. If the setting is present, find the anonymous section within and remove it.\n"
+      "5. Save the configuration file.\n"
+      "6. Restart the Elasticsearch service for the changes to take effect.\n"
+      "After performing these steps, Anonymous access will be disabled in Elasticsearch."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      # /usr/share/elasticsearch/config/elasticsearch.yml
+      "generic{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/share/elasticsearch/config/elasticsearch.yml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*xpack\\\\.security\\\\.authc:.*anonymous:.*\""
+      "        expected_regex: \".*xpack\\\\.security\\\\.authc:.*anonymous:.*\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"ElasticSearch has anonymous access enabled\""
+      "  }"
+      "}"
+      # /etc/elasticsearch/elasticsearch.yml
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/elasticsearch/elasticsearch.yml\"}}"
+      "    content_entry: {"
+      "      delimiter: \"true\""
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*xpack\\\\.security\\\\.authc:.*anonymous:.*\""
+      "        expected_regex: \".*xpack\\\\.security\\\\.authc:.*anonymous:.*\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"ElasticSearch has anonymous access enabled\""
       "  }"
       "}}"
   }
