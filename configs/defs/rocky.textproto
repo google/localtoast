@@ -681,7 +681,7 @@ benchmark_configs: {
       "References:\n"
       "1. See the fstab(5) and edquota(8) manual pages for more information."
     cis_benchmark: {
-      profile_level: 1
+      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1380,6 +1380,578 @@ benchmark_configs: {
       "    files_to_check:{single_file:{path:\"/bin/ypbind\"}}"
       "    files_to_check:{single_file:{path:\"/sbin/ypbind\"}}"
       "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "squashfs-mounting-disabled-rocky"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure mounting of squashfs filesystems is disabled"
+    description:
+      "The squashfs filesystem type is a compressed read-only Linux "
+      "filesystem embedded in small footprint systems (similar to cramfs ). A "
+      "squashfs image can be used without having to first decompress the image."
+    rationale:
+      "Removing support for unneeded filesystem types reduces the local attack "
+      "surface of the server. If this filesystem type is not needed, disable "
+      "it."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf "
+      "with the lines that read install squashfs /bin/false and blacklist squashfs.\n"
+      "Example: \n"
+      "```\n"
+      "printf \"install squashfs /bin/false "
+      "blacklist squashfs "
+      "\" >> /etc/modprobe.d/squashfs.conf "
+      "```\n"
+      "Run the following command to unload the squashfs module:\n"
+      "```\n"
+      "# rmmod squashfs\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"squashfs\\\\s+.*\""
+      "          expected_regex: \"squashfs .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install squashfs .*\""
+      "          expected_regex: \"install squashfs /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install squashfs .*\""
+      "          expected_regex: \"install squashfs /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "udf-mounting-disabled-rocky"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure mounting of udf filesystems is disabled"
+    description:
+      "The udf filesystem type is the universal disk format used to implement "
+      "ISO/IEC 13346 and ECMA-167 specifications. This is an open vendor "
+      "filesystem type for data storage on a broad range of media. This "
+      "filesystem type is necessary to support writing DVDs and newer optical "
+      "disc formats."
+    rationale:
+      "Removing support for unneeded filesystem types reduces the local "
+      "attack surface of the system. If this filesystem type is not needed, "
+      "disable it."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf "
+      "with the lines that read install udf /bin/false and blacklist udf.\n"
+      "Example: \n"
+      "```\n"
+      "printf \"install udf /bin/false "
+      "blacklist udf "
+      "\" >> /etc/modprobe.d/udf.conf "
+      "```\n"
+      "Run the following command to unload the udf module:\n"
+      "```\n"
+      "# rmmod udf\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"udf .*\""
+      "          expected_regex: \"udf .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install udf .*\""
+      "          expected_regex: \"install udf /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install udf .*\""
+      "          expected_regex: \"install udf /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "separate-partition-var"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure separate partition exists for /var"
+    description:
+      "The /var directory is used by daemons and other system services to temporarily store "
+      "dynamic data. Some directories created by these processes may be world-writable."
+    rationale:
+      "The reasoning for mounting /var on a separate partition is as follow.\n"
+      "Protection from resource exhaustion\n"
+      "The default installation only creates a single / partition. Since the /var directory may "
+      "contain world-writable files and directories, there is a risk of resource exhaustion. It will "
+      "essentially have the whole disk available to fill up and impact the system as a whole. In "
+      "addition, other operations on the system could fill up the disk unrelated to /var and cause "
+      "unintended behavior across the system as the disk is full. See man auditd.conf for details.\n"
+      "Fine grained control over the mount\n"
+      "Configuring /var as its own file system allows an administrator to set additional mount "
+      "options such as noexec/nosuid/nodev. These options limits an attackers ability to create "
+      "exploits on the system. Other options allow for specific behaviour. See man mount for exact "
+      "details regarding filesystem-independent and filesystem-specific options.\n"
+      "Protection from exploitation\n"
+      "An example of exploiting /var may be an attacker establishing a hard-link to a system "
+      "setuid program and wait for it to be updated. Once the program was updated, the hard-"
+      "link would be broken and the attacker would have his own copy of the program. If the "
+      "program happened to have a security vulnerability, the attacker could continue to exploit "
+      "the known flaw."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "          content_entry:{"
+      "            match_type: ALL_MATCH_ANY_ORDER"
+      "            match_criteria: {"
+      "              filter_regex: \".* /var .* - .*\""
+      "              expected_regex: \".* /var .* - .*\""
+      "            }"
+      "          }"
+      "        }"
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "separate-partition-var-tmp"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure separate partition exists for /var/tmp"
+    description:
+      "The /var/tmp directory is a world-writable directory used for temporary storage by all"
+      "users and some applications. Temporary file residing in /var/tmp is to be preserved"
+      "between reboots."
+    rationale:
+      "The reasoning for mounting /var/tmp on a separate partition is as follow.\n"
+      "Protection from resource exhaustion "
+      "The default installation only creates a single / partition. Since the /var/tmp directory may "
+      "contain world-writable files and directories, there is a risk of resource exhaustion. It will "
+      "essentially have the whole disk available to fill up and impact the system as a whole. In "
+      "addition, other operations on the system could fill up the disk unrelated to /var/tmp and "
+      "cause the potential disruption to daemons as the disk is full.\n"
+      "Fine grained control over the mount\n"
+      "Configuring /var/tmp as its own file system allows an administrator to set additional "
+      "mount options such as noexec/nosuid/nodev. These options limits an attackers ability to "
+      "create exploits on the system. Other options allow for specific behavior. See man mount for "
+      "exact details regarding filesystem-independent and filesystem-specific options.\n"
+      "Protection from exploitation\n"
+      "An example of exploiting /var/tmp may be an attacker establishing a hard-link to a system "
+      "setuid program and wait for it to be updated. Once the program was updated, the hard-"
+      "link would be broken and the attacker would have his own copy of the program. If the "
+      "program happened to have a security vulnerability, the attacker could continue to exploit "
+      "the known flaw."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var/tmp.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "          content_entry:{"
+      "            match_type: ALL_MATCH_ANY_ORDER"
+      "            match_criteria: {"
+      "              filter_regex: \".* /var/tmp .* - .*\""
+      "              expected_regex: \".* /var/tmp .* - .*\""
+      "            }"
+      "          }"
+      "        }"
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "separate-partition-var-log"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure separate partition exists for /var/log"
+    description:
+      "The /var/log directory is used by system services to store log data."
+    rationale:
+      "The reasoning for mounting /var/log on a separate partition is as follow.\n"
+      "Protection from resource exhaustion\n"
+      "The default installation only creates a single / partition. Since the /var/log directory "
+      "contain the log files that can grow quite large, there is a risk of resource exhaustion. It will "
+      "essentially have the whole disk available to fill up and impact the system as a whole.\n"
+      "Fine grained control over the mount\n"
+      "Configuring /var/log as its own file system allows an administrator to set additional "
+      "mount options such as noexec/nosuid/nodev. These options limits an attackers ability to "
+      "create exploits on the system. Other options allow for specific behavior. See man mount for "
+      "exact details regarding filesystem-independent and filesystem-specific options.\n"
+      "Protection of log data\n"
+      "As /var/log contains log files, care should be taken to ensure the security and integrity of "
+      "the data and mount point."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var/log.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "          content_entry:{"
+      "            match_type: ALL_MATCH_ANY_ORDER"
+      "            match_criteria: {"
+      "              filter_regex: \".* /var/log .* - .*\""
+      "              expected_regex: \".* /var/log .* - .*\""
+      "            }"
+      "          }"
+      "        }"
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "separate-partition-var-log-audit"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure separate partition exists for /var/log/audit"
+    description:
+      "The auditing daemon, auditd, stores log data in the /var/log/audit directory."
+    rationale:
+      "The reasoning for mounting /var/log/audit on a separate partition is as follow.\n"
+      "Protection from resource exhaustion\n"
+      "The default installation only creates a single / partition. Since the /var/log/audit "
+      "directory contain the audit.log file that can grow quite large, there is a risk of resource "
+      "exhaustion. It will essentially have the whole disk available to fill up and impact the system "
+      "as a whole. In addition, other operations on the system could fill up the disk unrelated to "
+      "/var/log/audit and cause auditd to trigger it's space_left_action as the disk is full. See "
+      "man auditd.conf for details.\n"
+      "Fine grained control over the mount\n"
+      "Configuring /var/log/audit as its own file system allows an administrator to set "
+      "additional mount options such as noexec/nosuid/nodev. These options limits an attackers "
+      "ability to create exploits on the system. Other options allow for specific behavior. See man "
+      "mount for exact details regarding filesystem-independent and filesystem-specific options.\n"
+      "Protection of audit data\n"
+      "As /var/log/audit contains audit logs, care should be taken to ensure the security and "
+      "integrity of the data and mount point."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var/log/audit.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "          content_entry:{"
+      "            match_type: ALL_MATCH_ANY_ORDER"
+      "            match_criteria: {"
+      "              filter_regex: \".* /var/log/audit .* - .*\""
+      "              expected_regex: \".* /var/log/audit .* - .*\""
+      "            }"
+      "          }"
+      "        }"
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "separate-partition-home"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure separate partition exists for /home"
+    description:
+      "The /home directory is used to support disk storage needs of local users."
+    rationale:
+      "The reasoning for mounting /home on a separate partition is as follow.\n"
+      "Protection from resource exhaustion\n"
+      "The default installation only creates a single / partition. Since the /home directory contains "
+      "user generated data, there is a risk of resource exhaustion. It will essentially have the "
+      "whole disk available to fill up and impact the system as a whole. In addition, other "
+      "operations on the system could fill up the disk unrelated to /home and impact all local users.\n"
+      "Fine grained control over the mount\n"
+      "Configuring /home as its own file system allows an administrator to set additional mount "
+      "options such as noexec/nosuid/nodev. These options limits an attackers ability to create "
+      "exploits on the system. In the case of /home options such as usrquota/grpquota may be "
+      "considered to limit the impact that users can have on each other with regards to disk "
+      "resource exhaustion. Other options allow for specific behavior. See man mount for exact "
+      "details regarding filesystem-independent and filesystem-specific options.\n"
+      "Protection of user data\n"
+      "As /home contains user data, care should be taken to ensure the security and integrity of the "
+      "data and mount point."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /home.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "          content_entry:{"
+      "            match_type: ALL_MATCH_ANY_ORDER"
+      "            match_criteria: {"
+      "              filter_regex: \".* /home .* - .*\""
+      "              expected_regex: \".* /home .* - .*\""
+      "            }"
+      "          }"
+      "        }"
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "disable-automounting"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Disable Automounting"
+    description:
+      "autofs allows automatic mounting of devices, typically including CD/DVDs and USB drives."
+    rationale:
+      "With automounting enabled anyone with physical access could attach a USB drive or disc "
+      "and have its contents available in system even if they lacked permissions to mount it "
+      "themselves."
+    remediation:
+      "If there are no other packages that depends on autofs, remove the package with:\n"
+      "```\n"
+      "dnf remove autofs\n"
+      "```\n"
+      "Run the following command to disable autofs if it is required:\n"
+      "```\n"
+      "systemctl --now disable autofs\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+        "      check_alternatives:{"
+        "        file_checks:{"
+        "          files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/autofs.service\"}}"
+        "            existence:{should_exist:false}"
+        "        }"
+        "      }"
+        "    }"
+      " image_scanning:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/autofs.service\"}}"
+      "            existence:{should_exist:false}"
+      "        }"
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "usb-storage-disabled-rocky"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Disable USB Storage"
+    description:
+      "USB storage provides a means to transfer and store files insuring persistence and "
+      "availability of the files independent of network connection status. Its popularity and utility "
+      "has led to USB-based malware being a simple and common means for network infiltration "
+      "and a first step to establishing a persistent threat within a networked environment."
+    rationale:
+      "Restricting USB access on the system will decrease the physical attack surface for a device "
+      "and diminish the possible vectors to introduce malware."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
+      "with the lines that read install usb-storage /bin/false and blacklist usb-storage.\n"
+      "Example: \n"
+      "```\n"
+      "printf \"install usb-storage /bin/false "
+      "blacklist usb-storage "
+      "\" >> /etc/modprobe.d/usb-storage.conf "
+      "```\n"
+      "Run the following command to unload the usb-storage module:\n"
+      "```\n"
+      "# rmmod usb-storage\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"usb-storage .*\""
+      "          expected_regex: \"usb-storage .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install usb-storage .*\""
+      "          expected_regex: \"install usb-storage /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install usb-storage .*\""
+      "          expected_regex: \"install usb-storage /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
       "  }"
       "}}"
   }
