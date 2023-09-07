@@ -682,7 +682,6 @@ benchmark_configs: {
       "1. See the fstab(5) and edquota(8) manual pages for more information."
     cis_benchmark: {
       profile_level: 2
-      profile_level: 2
       severity: LOW
     }
     scan_instructions:
@@ -1824,7 +1823,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "disable-automounting"
+  id: "automounting-disabled-rocky"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Disable Automounting"
@@ -1848,22 +1847,18 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
-        "      check_alternatives:{"
+      "generic:{check_alternatives:{"
         "        file_checks:{"
         "          files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/autofs.service\"}}"
         "            existence:{should_exist:false}"
         "        }"
         "      }"
-        "    }"
-      " image_scanning:{"
-      "      check_alternatives:{"
-      "        file_checks:{"
-      "          files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/autofs.service\"}}"
-      "            existence:{should_exist:false}"
-      "        }"
-      "      }"
-      "    }}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/etc/systemd/system\"}}"
+        "      existence:{should_exist: false}"
+        "  }"
+        "}}"
   }
 }
 benchmark_configs: {
@@ -1955,5 +1950,133 @@ benchmark_configs: {
       "    }"
       "  }"
       "}}"
+  }
+}
+benchmark_configs: {
+  id: "selinux-mode-enforcing"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure the SELinux mode is enforcing"
+    description:
+      "SELinux can run in one of three modes: disabled, permissive, or enforcing:\n"
+      "Enforcing - Is the default, and recommended, mode of operation; in enforcing mode "
+      "SELinux operates normally, enforcing the loaded security policy on the entire "
+      "system.\n"
+      "Permissive - The system acts as if SELinux is enforcing the loaded security policy, "
+      "including labeling objects and emitting access denial entries in the logs, but it does "
+      "not actually deny any operations. While not recommended for production systems, "
+      "permissive mode can be helpful for SELinux policy development.\n"
+      "Disabled - Is strongly discouraged; not only does the system avoid enforcing the "
+      "SELinux policy, it also avoids labeling any persistent objects such as files, making it "
+      "difficult to enable SELinux in the future\n"
+      "Note: you can set individual domains to permissive mode while the system runs in enforcing "
+      "mode. For example, to make the httpd_t domain permissive:\n"
+      "```\n"
+      "# semanage permissive -a httpd_t\n"
+      "```\n"
+    rationale:
+      "Running SELinux in disabled mode the system not only avoids enforcing the SELinux poli cy,"
+      "it also avoids labeling any persistent objects such as files, making it difficult to enable"
+      "SELinux in the future."
+      "Running SELinux in Permissive mode, though helpful for developing SELinux policy, only"
+      "logs access denial entries, but does not deny any operations."
+    remediation:
+      "Run one of the following commands to set SELinux's running mode:\n"
+      "```\n"
+      "# setenforce 1\n"
+      "```\n"
+      "Edit the /etc/selinux/config file to set the SELINUX parameter:\n"
+      "```\n"
+      "SELINUX=enforcing\n"
+      "```\n"
+      "References:\n"
+      "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/sect-security-enhanced_linux-introduction-selinux_modes"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "scan_type_specific:{instance_scanning:{"
+    "      check_alternatives:{"
+    "          file_checks:{"
+    "              files_to_check:{single_file{path:\"/sys/fs/selinux/enforce\"}}"
+    "              content:{content:\"1\"}"
+    "          }"
+    "          file_checks:{"
+    "            files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+    "            content_entry:{"
+    "                match_type: ALL_MATCH_ANY_ORDER"
+    "                match_criteria: {"
+    "                filter_regex: \"SELINUX=[a-zA-Z0-9]+\""
+    "                expected_regex: \"SELINUX=enforcing\""
+    "                }"
+    "          }"
+    "      }"
+    "   }"
+    "  }image_scanning:{"
+    "      check_alternatives:{"
+    "          file_checks:{"
+    "            files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+    "            content_entry:{"
+    "              match_type: ALL_MATCH_ANY_ORDER"
+    "              match_criteria: {"
+    "                filter_regex: \"SELINUX=[a-zA-Z0-9]+\""
+    "                expected_regex: \"SELINUX=enforcing\""
+    "              }"
+    "            }"
+    "          }"
+    "       }"
+    "  }"
+    "  }"
+  }
+}
+benchmark_configs: {
+  id: "automount-removable-media-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure automatic mounting of removable media is disabled"
+    description:
+      "By default GNOME automatically mounts removable media when inserted as a convenience "
+      "to the user."
+    rationale:
+      "With automounting enabled anyone with physical access could attach a USB drive or disc "
+      "and have its contents available in system even if they lacked permissions to mount it "
+      "themselves."
+    remediation:
+      "Ensure that automatic mounting of media is disabled for all GNOME users:\n"
+      "```\n"
+      "# cat << EOF >> /etc/dconf/db/local.d/00-media-automount\n"
+      "[org/gnome/desktop/media-handling]\n"
+      "automount=false\n"
+      "automount-open=false\n"
+      "EOF\n"
+      "```\n"
+      "Apply the changes with:\n"
+      "```\n"
+      "# dconf update"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/glib-2.0/settings/defaults\"}}"
+      "        content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        delimiter: \"\\0\""
+      "        match_criteria: {"
+      "            filter_regex: \"\\\\[org/gnome/desktop/media-handling\\\\].*(\\\\n\\\\[|$)\""
+      "            expected_regex: \".*\\\\nautomount=false.*\""
+      "        }"
+      "        match_criteria: {"
+      "            filter_regex: \"\\\\[org/gnome/desktop/media-handling\\\\].*(\\\\n\\\\[|$)\""
+      "            expected_regex: \".*\\\\nautomount-open=false.*\""
+      "        }"
+      "        }"
+      "        } "
+      "    }"
+      "}"
   }
 }
