@@ -2080,3 +2080,456 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "avahi-disabled-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure Avahi Server is not installed"
+    description:
+      "Avahi is a free zeroconf implementation, including a system for multicast DNS/DNS-SD "
+      "service discovery. Avahi allows programs to publish and discover services and hosts "
+      "running on a local network with no specific configuration. For example, a user can plug a "
+      "computer into a network and Avahi automatically finds printers to print to, files to look at "
+      "and people to talk to, as well as network services running on the machine."
+    rationale:
+      "Automatic discovery of network services is not normally required for system functionality. "
+      "It is recommended to remove this package to reduce the potential attack surface."
+    remediation:
+      "Run the following commands to stop, mask and remove avahi-autoipd and avahi:"
+      "```\n"
+      "# systemctl stop avahi-daemon.socket avahi-daemon.service\n"
+      "# dnf remove avahi-autoipd avahi\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "        files_to_check:{"
+      "            files_in_dir:{"
+      "                dir_path:\"/etc/systemd/system\""
+      "                recursive: true"
+      "                filename_regex: \"avahi-daemon.(service|socket)\""
+      "        }}"
+      "        existence:{should_exist: false}"
+      "        non_compliance_msg: \"a config file in /etc/systemd/system enables avahi-daemon\""
+      "        file_display_command: \"find /etc/systemd/system -name avahi-daemon.*\""
+      "    }"
+      "    file_checks: {"
+      "        files_to_check:{"
+      "            files_in_dir:{"
+      "                dir_path: \"/usr/lib/systemd/system\""
+      "                recursive: true"
+      "                filename_regex: \"avahi-daemon.(service|socket)\""
+      "        }}"
+      "        existence:{should_exist: false}"
+      "        non_compliance_msg: \"a config file in /usr/lib/systemd/system enables avahi-daemon\""
+      "        file_display_command: \"find /usr/lib/systemd/system -name avahi-daemon.*\""
+      "    }"
+      "    file_checks: {"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/avahi-autoipd\"}}"
+      "        existence:{should_exist: false}"
+      "        non_compliance_msg: \"Executable file /usr/sbin/avahi-autoipd is available\""
+      "        file_display_command: \"find /usr/sbin -name avahi-autoipd\""
+      "    }"
+      "    file_checks: {"
+      "        files_to_check:{single_file:{path:\"/etc/avahi/avahi-autoipd.action\"}}"
+      "        existence:{should_exist: false}"
+      "        non_compliance_msg: \"Executable file /etc/avahi/avahi-autoipd.action is available\""
+      "        file_display_command: \"find /etc/avahi -name avahi-autoipd.action\""
+      "      }"
+      "    }}"
+  }
+}
+benchmark_configs: {
+  id: "sctp-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure SCTP is disabled"
+    description:
+      "The Stream Control Transmission Protocol (SCTP) is a transport layer protocol used to "
+      "support message oriented communication, with several streams of messages in one "
+      "connection. It serves a similar function as TCP and UDP, incorporating features of both. It is "
+      "message-oriented like UDP, and ensures reliable in-sequence transport of messages with "
+      "congestion control like TCP."
+    rationale:
+      "If the protocol is not being used, it is recommended that kernel module not be loaded, "
+      "disabling the service to reduce the potential attack surface."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf "
+      "Example: \n"
+      "```\n"
+      "printf \"\n"
+      "install sctp /bin/true\n"
+      "\" >> /etc/modprobe.d/sctp.conf"
+      "```\n"
+      "Run the following command to unload the sctp module:\n"
+      "```\n"
+      "# rmmod stcp\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"sctp\\\\s+.*\""
+      "          expected_regex: \"sctp .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install sctp .*\""
+      "          expected_regex: \"install sctp /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install sctp .*\""
+      "          expected_regex: \"install sctp /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "dccp-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure DCCP is disabled"
+    description:
+      "The Datagram Congestion Control Protocol (DCCP) is a transport layer protocol that "
+      "supports streaming media and telephony. DCCP provides a way to gain access to "
+      "congestion control, without having to do it at the application layer, but does not provide in-"
+      "sequence delivery."
+    rationale:
+      "If the protocol is not required, it is recommended that the drivers not be installed to reduce"
+      "the potential attack surface."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf "
+      "Example: \n"
+      "```\n"
+      "printf \"\n"
+      "install dccp /bin/true\n"
+      "\" >> /etc/modprobe.d/dccp.conf"
+      "```\n"
+      "Run the following command to unload the sctp module:\n"
+      "```\n"
+      "# rmmod dccp\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"sctp\\\\s+.*\""
+      "          expected_regex: \"sctp .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install sctp .*\""
+      "          expected_regex: \"install sctp /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install sctp .*\""
+      "          expected_regex: \"install sctp /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "auditd-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure auditd is installed"
+    description:
+      "auditd is the userspace component to the Linux Auditing System. It's responsible for"
+      "writing audit records to the disk"
+    rationale:
+      "The capturing of system events provides system administrators with information to allow"
+      "them to determine if unauthorized access to their system is occurring."
+    remediation:
+      "Run the following command to Install auditd\n"
+      "```\n"
+      "# dnf install audit\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "auditd-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure auditd service is enabled"
+    description: "Turn on the auditd daemon to record system events."
+    rationale:
+      "The capturing of system events provides system administrators with information to allow "
+      "them to determine if unauthorized access to their system is occurring."
+    remediation:
+      "Run the following command to enable auditd:\n"
+      "```\n"
+      "# systemctl --now enable auditd\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"auditd.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "auditing-prior-to-auditd-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure auditing for processes that start prior to auditd is enabled"
+    description: 
+      "Configure grub2 so that processes that are capable of being audited can be audited even if "
+      "they start up prior to auditd startup."
+    rationale:
+      "Audit events need to be captured on processes that start up prior to auditd , so that "
+      "potential malicious activity cannot go undetected."
+    remediation:
+      "Run the following command to add audit=1 to GRUB_CMDLINE_LINUX:\n"
+      "```\n"
+      "# grubby --update-kernel ALL --args 'audit=1'\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "        dir_path:\"/boot\""
+      "        recursive: true"
+      "        filename_regex: \"grubenv\""
+      "        }"
+      "    }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "        filter_regex: \"kernelopts=.*\""
+      "        expected_regex: \"kernelopts=([^#]+\\\\s+)?(audit=1)\""
+      "        }"
+      "    }"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "audit-backlog-limit-sufficient"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure audit_backlog_limit is sufficient"
+    description: 
+      "The backlog limit has a default setting of 64"
+    rationale:
+      "During boot if audit=1, then the backlog will hold 64 records. If more that 64 records are "
+      "created during boot, auditd records will be lost and potential malicious activity could go "
+      "undetected."
+    remediation:
+      "Run the following command to add audit_backlog_limit=<BACKLOG SIZE> to "
+      "GRUB_CMDLINE_LINUX:\n"
+      "```\n"
+      "# grubby --update-kernel ALL --args 'audit_backlog_limit=<BACKLOG SIZE>'\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "# grubby --update-kernel ALL --args 'audit_backlog_limit=8192'\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "        dir_path:\"/boot\""
+      "        recursive: true"
+      "        filename_regex: \"grubenv\""
+      "        }"
+      "    }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "        filter_regex: \"kernelopts=.*\""
+      "        expected_regex: \"kernelopts=([^#]+\\\\s+)?audit_backlog_limit=(\\\\d+)\""
+      "          group_criteria: {"
+      "            group_index: 2"
+      "            type: GREATER_THAN"
+      "            const: 8191"
+      "          }"
+      "        }"
+      "    }"
+      "    }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "audit-log-storage-size-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure audit log storage size is configured"
+    description: 
+      "Configure the maximum size of the audit log file. Once the log reaches the maximum size, it "
+      "will be rotated and a new log file will be started."
+    rationale:
+      "It is important that an appropriate size is determined for log files so that they do not impact "
+      "the system and audit data is not lost."
+    remediation:
+      "Set the following parameter in /etc/audit/auditd.conf in accordance with site policy:\n"
+      "```\n"
+      "max_log_file = <MB>\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "              content_entry:{"
+      "                match_type: ALL_MATCH_ANY_ORDER"
+      "                match_criteria: {"
+      "                  filter_regex: \"\\\\s*max_log_file(\\\\s|=).*\""
+      "                  expected_regex: \"max_log_file\\\\s*=\\\\s*(\\\\d+)\""
+      "                }"
+      "              }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
