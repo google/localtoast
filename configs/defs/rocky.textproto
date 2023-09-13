@@ -2682,7 +2682,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "scan_type_specific:{"
+      "scan_type_specific:{"
       "    instance_scanning:{"
       "        check_alternatives:{"
       "            file_checks:{"
@@ -2691,7 +2691,7 @@ benchmark_configs: {
       "                    match_type: ALL_MATCH_ANY_ORDER"
       "                    match_criteria:{"
       "                        filter_regex: \".*/etc/sudoers[^\\\\.].*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa\\\\s+(key=\\\\s*[!-~]*\\\\s*$|-k\\\\s*[!-~]*\\\\s*$)\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa(\\\\s+key=|\\\\s+-k)\\\\s*[!-~]*\\\\s*$\""
       "                    }"
       "                }"
       "            }"
@@ -2701,7 +2701,7 @@ benchmark_configs: {
       "                    match_type: ALL_MATCH_ANY_ORDER"
       "                    match_criteria:{"
       "                        filter_regex: \".*/etc/sudoers\\\\.d.*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa\\\\s+(key=\\\\s*[!-~]*\\\\s*$|-k\\\\s*[!-~]*\\\\s*$)\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa(\\\\s+key=|\\\\s+-k)\\\\s*[!-~]*\\\\s*$\""
       "                    }"
       "                }"
       "            }"
@@ -2722,7 +2722,7 @@ benchmark_configs: {
       "                    match_type: ALL_MATCH_ANY_ORDER"
       "                    match_criteria:{"
       "                        filter_regex: \".*/etc/sudoers[^\\\\.].*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa\\\\s+(key=\\\\s*[!-~]*\\\\s*$|-k\\\\s*[!-~]*\\\\s*$)\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa(\\\\s+key=|\\\\s+-k)\\\\s*[!-~]*\\\\s*$\""
       "                    }"
       "                }"
       "            }"
@@ -2739,13 +2739,143 @@ benchmark_configs: {
       "                    match_type: ALL_MATCH_ANY_ORDER"
       "                    match_criteria:{"
       "                        filter_regex: \".*/etc/sudoers\\\\.d.*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa\\\\s+(key=\\\\s*[!-~]*\\\\s*$|-k\\\\s*[!-~]*\\\\s*$)\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa(\\\\s+key=|\\\\s+-k)\\\\s*[!-~]*\\\\s*$\""
       "                    }"
       "                }"
       "            }"
       "        }"
       "    }"
       "}"
+  }
+}
+benchmark_configs: {
+  id: "actions-as-another-user-logged"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure actions as another user are always logged"
+    description: 
+      "sudo provides users with temporary elevated privileges to perform operations, either as "
+      "the superuser or another user. "
+    rationale:
+      "Creating an audit log of users with temporary elevated privileges and the operation(s) they "
+      "performed is essential to reporting. Administrators will want to correlate the events "
+      "written to the audit trail with the records written to sudo's logfile to verify if unauthorized "
+      "commands have been executed."
+    remediation:
+      "Create audit rules\n"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor elevated privileges.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# printf \"\n"
+      "-a always,exit -F arch=b64 -C euid!=uid -F auid!=unset -S execve -k "
+      "user_emulation\n"
+      "-a always,exit -F arch=b32 -C euid!=uid -F auid!=unset -S execve -k "
+      "user_emulation\n"
+      "\" >> /etc/audit/rules.d/50-user_emulation.rules\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot "
+      "required to load rules\\\\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*(e)?uid\\\\!=(e?)uid.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-C\\\\s*(euid\\\\!=uid|uid\\\\!=euid)\\\\s*-S\\\\s*execve(\\\\s+key=|\\\\s*-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*(e)?uid\\\\!=(e?)uid.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-C\\\\s*(euid\\\\!=uid|uid\\\\!=euid)\\\\s*-S\\\\s*execve(\\\\s+key=|\\\\s*-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "events-modifying-sudo-log-file-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure events that modify the sudo log file are collected"
+    description: 
+      "Monitor the sudo log file. If the system has been properly configured to disable the use of "
+      "the su command and force all administrators to have to log in first and then use sudo to "
+      "execute privileged commands, then all administrator commands will be logged to "
+      "/var/log/sudo.log . Any time a command is executed, an audit event will be triggered as "
+      "the /var/log/sudo.log file will be opened for write and the executed administration "
+      "command will be written to the log."
+    rationale:
+      "Changes in /var/log/sudo.log indicate that an administrator has executed a command or "
+      "the log file itself has been tampered with. Administrators will want to correlate the events "
+      "written to the audit trail with the records written to /var/log/sudo.log to verify if "
+      "unauthorized commands have been executed."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor events that modify the sudo log file.\n"
+      "Example:\n"
+      "```\n"
+      "# {\n"
+      "SUDO_LOG_FILE=$(grep -r logfile /etc/sudoers* | sed -e 's/.*logfile=//;s/,? "
+      ".*//' -e 's/\"//g')\n"
+      "[ -n \"${SUDO_LOG_FILE}\" ] && printf \""
+      "-w ${SUDO_LOG_FILE} -p wa -k sudo_log_file"
+      "\" >> /etc/audit/rules.d/50-sudo.rules \\"
+      "|| printf \"ERROR: Variable 'SUDO_LOG_FILE_ESCAPED' is unset.\\\\n\"\n"
+      "}\n"
+      "```\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load"
+      "```\n"
+      "Check if reboot is required."
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot "
+      "required to load rules\\\\n\"; fi\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
   }
 }
 benchmark_configs: {
