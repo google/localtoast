@@ -80,6 +80,95 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "squashfs-mounting-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure mounting of squashfs filesystems is disabled"
+    description:
+      "The squashfs filesystem type is a compressed read-only Linux "
+      "filesystem embedded in small footprint systems. A squashfs image can "
+      "be used without having to first decompress the image."
+    rationale:
+      "Removing support for unneeded filesystem types reduces the local attack "
+      "surface of the system. If this filesystem type is not needed, disable "
+      "it.\n\n"
+      "Impact:\n"
+      "As Snap packages utilizes squashfs as a compressed filesystem, "
+      "disabling squashfs will cause Snap packages to fail.\n"
+      "Snap application packages of software are self-contained and work "
+      "across a range of Linux distributions. This is unlike traditional Linux "
+      "package management approaches, like APT or RPM, which require "
+      "specifically adapted packages per Linux distribution on an application "
+      "update and delay therefore application deployment from developers to "
+      "their software's end-user. Snaps themselves have no dependency on any "
+      "external store (\"App store\"), can be obtained from any source and can "
+      "be therefore used for upstream software deployment."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
+      "Example: vim /etc/modprobe.d/squashfs.conf\n"
+      "and add the following line:\n"
+      "```\n"
+      "install squashfs /bin/true\n"
+      "```\n"
+      "Run the following command to unload the squashfs module:\n"
+      "```\n"
+      "# rmmod squashfs\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"squashfs .*\""
+      "          expected_regex: \"squashfs .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install squashfs .*\""
+      "          expected_regex: \"install squashfs /bin/true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install squashfs .*\""
+      "          expected_regex: \"install squashfs /bin/true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
   id: "udf-mounting-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }

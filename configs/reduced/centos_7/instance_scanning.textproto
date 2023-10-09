@@ -1,5 +1,6 @@
 version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
 benchmark_id: "cramfs-mounting-disabled"
+benchmark_id: "squashfs-mounting-disabled"
 benchmark_id: "udf-mounting-disabled"
 benchmark_id: "tmp-configured"
 benchmark_id: "tmp-noexec"
