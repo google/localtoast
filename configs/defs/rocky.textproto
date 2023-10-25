@@ -5179,57 +5179,6 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "ssh-x11-forwarding-disabled"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure SSH X11 forwarding is disabled"
-    description: 
-      "The X11Forwarding parameter provides the ability to tunnel X11 traffic through the" 
-      "connection to enable remote graphic connections."
-    rationale:
-      "Disable X11 forwarding unless there is an operational requirement to use X11 applications "
-      "directly. There is a small risk that the remote X11 servers of users who are logged in via "
-      "SSH with X11 forwarding could be compromised by other users on the X11 server. Note "
-      "that even if X11 forwarding is disabled, users can always install their own forwarders."
-    remediation:
-      "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
-      "X11Forwarding no\n"
-      "```"
-    cis_benchmark: {
-      profile_level: 2
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-        "  check_alternatives:{"
-        "    file_checks:{"
-        "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
-        "          content_entry:{"
-        "            match_type: ALL_MATCH_ANY_ORDER"
-        "            match_criteria:{"
-        "              filter_regex: \"\\\\s*X11Forwarding\\\\s+.*\""
-        "              expected_regex: \"X11Forwarding\\\\s+no\""
-        "            }"
-        "          }"
-        "    }"
-        "  }"
-        "  check_alternatives:{"
-        "    file_checks:{"
-        "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
-        "      content_entry:{"
-        "        match_type: NONE_MATCH"
-        "        match_criteria:{"
-        "          filter_regex: \"\\\\s*X11Forwarding\\\\s+.*\""
-        "          expected_regex: \"X11Forwarding\\\\s+[^n][^o].*\""
-        "        }"
-        "      }"
-        "    }"
-        "  }"
-        "}"
-  }
-}
-benchmark_configs: {
   id: "ssh-allowtcpforwarding-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
