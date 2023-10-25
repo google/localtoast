@@ -5179,62 +5179,6 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "ssh-allowtcpforwarding-disabled"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure SSH AllowTcpForwarding is disabled"
-    description: 
-      "SSH port forwarding is a mechanism in SSH for tunneling application ports from the client "
-      "to the server, or servers to clients. It can be used for adding encryption to legacy "
-      "applications, going through firewalls, and some system administrators and IT professionals "
-      "use it for opening backdoors into the internal network from their home machines."
-    rationale:
-      "Leaving port forwarding enabled can expose the organization to security risks and back-"
-      "doors.\n"
-      "SSH connections are protected with strong encryption. This makes their contents invisible "
-      "to most deployed network monitoring and traffic filtering solutions. This invisibility carries "
-      "considerable risk potential if it is used for malicious purposes such as data exfiltration. "
-      "Cybercriminals or malware could exploit SSH to hide their unauthorized communications, "
-      "or to exfiltrate stolen data from the target network."
-    remediation:
-      "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
-      "AllowTcpForwarding no\n"
-      "```"
-    cis_benchmark: {
-      profile_level: 2
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-        "  check_alternatives:{"
-        "    file_checks:{"
-        "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
-        "          content_entry:{"
-        "            match_type: ALL_MATCH_ANY_ORDER"
-        "            match_criteria:{"
-        "              filter_regex: \"\\\\s*AllowTcpForwarding\\\\s+.*\""
-        "              expected_regex: \"AllowTcpForwarding\\\\s+no\""
-        "            }"
-        "          }"
-        "    }"
-        "  }"
-        "  check_alternatives:{"
-        "    file_checks:{"
-        "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
-        "      content_entry:{"
-        "        match_type: NONE_MATCH"
-        "        match_criteria:{"
-        "          filter_regex: \"\\\\s*AllowTcpForwarding\\\\s+.*\""
-        "          expected_regex: \"AllowTcpForwarding\\\\s+[^n][^o].*\""
-        "        }"
-        "      }"
-        "    }"
-        "  }"
-        "}"
-  }
-}
-benchmark_configs: {
   id: "users-password-for-escalation"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
