@@ -681,7 +681,7 @@ benchmark_configs: {
       "References:\n"
       "1. See the fstab(5) and edquota(8) manual pages for more information."
     cis_benchmark: {
-      profile_level: 2
+      profile_level: 1
       severity: LOW
     }
     scan_instructions:
