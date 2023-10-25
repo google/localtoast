@@ -1799,45 +1799,6 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "automounting-disabled-rocky"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Disable Automounting"
-    description:
-      "autofs allows automatic mounting of devices, typically including CD/DVDs and USB drives."
-    rationale:
-      "With automounting enabled anyone with physical access could attach a USB drive or disc "
-      "and have its contents available in system even if they lacked permissions to mount it "
-      "themselves."
-    remediation:
-      "If there are no other packages that depends on autofs, remove the package with:\n"
-      "```\n"
-      "dnf remove autofs\n"
-      "```\n"
-      "Run the following command to disable autofs if it is required:\n"
-      "```\n"
-      "systemctl --now disable autofs\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 2
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{check_alternatives:{"
-        "        file_checks:{"
-        "          files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/autofs.service\"}}"
-        "            existence:{should_exist:false}"
-        "        }"
-        "      }"
-        "check_alternatives:{"
-        "  file_checks:{"
-        "    files_to_check:{single_file:{path:\"/etc/systemd/system\"}}"
-        "      existence:{should_exist: false}"
-        "  }"
-        "}}"
-  }
-}
-benchmark_configs: {
   id: "usb-storage-disabled-rocky"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }

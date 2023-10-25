@@ -939,6 +939,7 @@ benchmark_configs: {
     remediation:
       "Run one of the following commands to disable autofs:\n"
       "```\n"
+      "# dnf remove autofs\n"
       "# chkconfig autofs off\n"
       "# systemctl disable autofs\n"
       "# update-rc.d autofs disable\n"
