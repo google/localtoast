@@ -1813,16 +1813,14 @@ benchmark_configs: {
       "and diminish the possible vectors to introduce malware."
     remediation:
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
-      "with the lines that read install usb-storage /bin/false and blacklist usb-storage.\n"
-      "Example: \n"
+      "Example: vim /etc/modprobe.d/usb_storage.conf\n"
+      "and add the following line:\n"
       "```\n"
-      "printf \"install usb-storage /bin/false "
-      "blacklist usb-storage "
-      "\" >> /etc/modprobe.d/usb-storage.conf "
+      "install usb-storage /bin/true\n"
       "```\n"
       "Run the following command to unload the usb-storage module:\n"
       "```\n"
-      "# rmmod usb-storage\n"
+      "rmmod usb-storage\n"
       "```\n"
     cis_benchmark: {
       profile_level: 2
