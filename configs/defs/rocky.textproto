@@ -1976,7 +1976,7 @@ benchmark_configs: {
       "```\n"
       "Apply the changes with:\n"
       "```\n"
-      "# dconf update"
+      "# dconf update\n"
       "```\n"
     cis_benchmark: {
       profile_level: 2
