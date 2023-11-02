@@ -1017,6 +1017,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Disable Automounting"
     description:
       "autofs allows automatic mounting of devices, typically including CD/"
@@ -1028,6 +1029,7 @@ benchmark_configs: {
     remediation:
       "Run one of the following commands to disable autofs:\n"
       "```\n"
+      "# dnf remove autofs\n"
       "# chkconfig autofs off\n"
       "# systemctl disable autofs\n"
       "# update-rc.d autofs disable\n"
@@ -2208,6 +2210,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH X11 forwarding is disabled"
     description:
       "The X11Forwarding parameter provides the ability to tunnel X11 traffic through\n"
@@ -8866,8 +8869,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure rsyslog Service is enabled and running"
-    description:
-      "rsyslog needs to be enabled and running to perform logging"
+    description: "rsyslog needs to be enabled and running to perform logging"
     rationale:
       "If the rsyslog service is not activated the system may default to the sys1ogd service or lack "
       "logging instead."
@@ -9251,8 +9253,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .rhosts files"
-    description:
-      "While no .rhosts files are shipped by default, users can easily create them."
+    description: "While no .rhosts files are shipped by default, users can easily create them."
     rationale:
       "This action is only meaningful if . rhosts support is permitted in the file /etc/pam.cont.\n"
       "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.cont, they "
@@ -9278,7 +9279,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-    "generic:{"
+      "generic:{"
       "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"$home/.rhosts\"}}"
@@ -9286,6 +9287,62 @@ benchmark_configs: {
       "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
       "  }"
       " }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "ssh-allowtcpforwarding-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure SSH AllowTcpForwarding is disabled"
+    description:
+      "SSH port forwarding is a mechanism in SSH for tunneling application ports from the client "
+      "to the server, or servers to clients. It can be used for adding encryption to legacy "
+      "applications, going through firewalls, and some system administrators and IT professionals "
+      "use it for opening backdoors into the internal network from their home machines."
+    rationale:
+      "Leaving port forwarding enabled can expose the organization to security risks and back-"
+      "doors.\n"
+      "SSH connections are protected with strong encryption. This makes their contents invisible "
+      "to most deployed network monitoring and traffic filtering solutions. This invisibility carries "
+      "considerable risk potential if it is used for malicious purposes such as data exfiltration. "
+      "Cybercriminals or malware could exploit SSH to hide their unauthorized communications, "
+      "or to exfiltrate stolen data from the target network."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
+      "```\n"
+      "AllowTcpForwarding no\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "          content_entry:{"
+      "            match_type: ALL_MATCH_ANY_ORDER"
+      "            match_criteria:{"
+      "              filter_regex: \"\\\\s*AllowTcpForwarding\\\\s+.*\""
+      "              expected_regex: \"AllowTcpForwarding\\\\s+no\""
+      "            }"
+      "          }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*AllowTcpForwarding\\\\s+.*\""
+      "          expected_regex: \"AllowTcpForwarding\\\\s+[^n][^o].*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
       "}"
   }
 }
