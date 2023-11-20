@@ -16,6 +16,11 @@ The scanner can either be used as a standalone binary to scan the local machine 
 1. `make configs`
 2. `sudo ./localtoast --config=configs/full/cos_97/instance_scanning.textproto --result=scan-result.textproto`
 
+#### Build and run Localtoast with SQL scanning capabilities:
+1. `make configs`
+2. `make localtoast_sql`
+3. `sudo localtoast_sql/localtoast_sql --config=configs/full/cassandra-cql/instance_scanning.textproto --result=scan-result.textproto --cassandra-database=localhost:9042`
+
 ### As a library:
 1. Import `github.com/google/localtoast/scannerlib` and `github.com/google/localtoast/scanapi` into your Go project
 2. Write a custom implementation for the `scanapi.ScanAPI` interface
