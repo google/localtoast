@@ -10523,3 +10523,42 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "selinux-policy-configured-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure SELinux policy is configured"
+    description:
+      "Configure SELinux to meet or exceed the default targeted policy, "
+      "which constrains daemons and system software only."
+    rationale:
+      "Security configuration requirements vary from site to site. "
+      "Some sites may mandate a policy that is stricter than the default policy, "
+      "which is perfectly acceptable. "
+      "This item is intended to ensure that at least the default recommendations are met."
+    remediation:
+      "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter: \n"
+      "```SELINUXTYPE=targeted```\n"
+      "Notes: If your organization requires stricter policies, "
+      "ensure that they are set in the /etc/selinux/config file."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*SELINUXTYPE\\\\s*=\\\\s*\\\\w+.*\""
+      "          expected_regex: \"\\\\s*SELINUXTYPE\\\\s*=\\\\s*(targeted|mls).*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
