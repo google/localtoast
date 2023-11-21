@@ -10489,3 +10489,37 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "selinux-enforcing-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure the SELinux state is enforcing"
+    description:
+      "Set SELinux to enable when the system is booted."
+    rationale:
+      "SELinux must be enabled at boot time to ensure that " 
+      "the controls it provides are in effect at all times."
+    remediation:
+      "Edit the /etc/selinux/config file to set the SELINUX parameter: \n"
+      "```SELINUX=enforcing```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/selinux/config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*SELINUX\\\\s*=\\\\s*\\\\w+.*\""
+      "          expected_regex: \"\\\\s*SELINUX\\\\s*=\\\\s*enforcing.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
