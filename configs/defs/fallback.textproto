@@ -10295,3 +10295,40 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "separate-partition-var-log-audit-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure separate partition exists for /var/log/audit"
+    description:
+      "The auditing daemon, auditd , stores log data in the /var/log/audit directory."
+    rationale:
+      "There are two important reasons to ensure that data gathered by auditd is stored on a separate partition: "
+      "protection against resource exhaustion (since the audit.log file can grow quite large) and protection of audit data. "
+      "The audit daemon calculates how much free space is left and performs actions based on the results. "
+      "If other processes (such as syslog ) consume space in the same partition as auditd , it may not perform as desired."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a separate partition for /var/log/audit .\n"
+      "For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria: {"
+      "            filter_regex: \".* /var/log/audit .* - .*\""
+      "            expected_regex: \".* /var/log/audit .* - .*\""
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
