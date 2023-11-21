@@ -10367,3 +10367,76 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "selinux-or-apparmor-installed-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure SELinux or AppArmor are installed"
+    description:
+      "SELinux and AppArmor provide Mandatory Access Controls."
+    rationale:
+      "Without a Mandatory Access Control system installed only the default "
+      "Discretionary Access Control system will be available."
+    remediation:
+      "Install SELinux or apparmor using the appropriate package manager or manual installation:\n"
+      "```# yum install libselinux\n"
+      "# apt-get install libselinux1\n"
+      "# zypper install libselinux```\n"
+      "The previous commands install SELinux, use the appropriate package if AppArmor is desired. "
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/bin/sestatus\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/sbin/sestatus\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/bin/sestatus\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/sbin/sestatus\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/bin/aa-status\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/usr/sbin/aa-status\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/bin/aa-status\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+        "check_alternatives:{"
+        "  file_checks:{"
+        "    files_to_check:{single_file:{path:\"/sbin/aa-status\"}}"
+        "    existence:{should_exist: true}"
+        "  }"
+        "}"
+      "}"
+  }
+}
