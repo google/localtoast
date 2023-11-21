@@ -10562,3 +10562,34 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "setroubleshoot-not-installed-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure SETroubleshoot is not installed"
+    description:
+      "The SETroubleshoot service notifies desktop users of SELinux denials through a user-"
+      "friendly interface. The service provides important information around configuration errors, "
+      "unauthorized intrusions, and other potential errors."
+    rationale:
+      "The SETroubleshoot service is an unnecessary daemon to have running on a server,"
+      "especially if X Windows is disabled."
+    remediation:
+      "Run the following command to Uninstall setroubleshoot:\n"
+      "# yum remove setroubleshoot"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/setroubleshoot\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/setroubleshoot\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
