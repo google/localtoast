@@ -10187,3 +10187,38 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "separate-partition-var-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure separate partition exists for /var"
+    description:
+      "The /var directory is used by daemons and other system services to temporarily store dynamic data. "
+      "Some directories created by these processes may be world-writable."
+    rationale:
+      "Since the /var directory may contain world-writable files and directories, there is a risk of resource exhaustion if it is not bound to a separate partition."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a separate partition for /var .\n"
+      "For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria: {"
+      "            filter_regex: \".* /var .* - .*\""
+      "            expected_regex: \".* /var .* - .*\""
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
