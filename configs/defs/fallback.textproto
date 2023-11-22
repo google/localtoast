@@ -10625,3 +10625,50 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "apparmor-not-disabled-in-bootloader-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure AppArmor is not disabled in bootloader configuration"
+    description:
+      "Configure AppArmor to be enabled at boot time and verify that "
+      "it has not been overwritten by the bootloader boot parameters."
+    rationale:
+      "AppArmor must be enabled at boot time in your bootloader configuration "
+      "to ensure that the controls it provides are not overridden."
+    remediation:
+      "For grub based systems edit /boot/grub/menu.lst and remove all instances of apparmor=0 on all kernel lines. \n"
+      "For grub2 based systems edit /etc/default/grub and remove all instances "
+      "of apparmor=0 from all CMDLINE_LINUX parameters: \n"
+      "```GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\" \n"
+      "GRUB_CMDLINE_LINUX=\"\" ```\n"
+      "Run the following command to update the grub2 configuration: \n"
+      "```# update-grub```\n "
+      "Notes: This recommendation is designed around the grub bootloader, "
+      "if LILO or another bootloader is in use in your environment enact equivalent settings. \n"
+      "Replace /boot/grub/menu.lst with the appropriate grub configuration file for your environment."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/default/grub\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*kernel.*apparmor=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*kernel.*apparmor=0.*\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*apparmor=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*linux.*apparmor=0.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
