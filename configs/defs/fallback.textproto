@@ -10876,7 +10876,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "rds-is-disabled-fallback"
+  id: "rds-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure RDS is disabled"
@@ -10944,6 +10944,87 @@ benchmark_configs: {
       "        match_criteria: {"
       "          filter_regex: \"install rds .*\""
       "          expected_regex: \"install rds /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "tipc-disabled-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure TIPC is disabled"
+    description:
+      "The Transparent Inter-Process Communication (TIPC) protocol is designed "
+      "to provide communication between cluster nodes."
+    rationale:
+      "If the protocol is not being used, it is recommended that kernel module "
+      "not be loaded, disabling the service to reduce the potential attack surface."
+    remediation:
+      "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
+      "Example: vim /etc/modprobe.d/tipc.conf \n"
+      "and add the following line: \n"
+      "```install tipc /bin/true```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/modules\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"tipc\\\\s+.*\""
+      "          expected_regex: \"tipc .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install tipc .*\""
+      "          expected_regex: \"install tipc /bin/(true|false)\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/modprobe.d\"}}"
+      "      existence:{should_exist: false}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/modprobe.d\""
+      "        filename_regex: \".*\\\\.conf\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"install tipc .*\""
+      "          expected_regex: \"install tipc /bin/(true|false)\""
       "        }"
       "      }"
       "    }"
