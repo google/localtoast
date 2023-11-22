@@ -11078,3 +11078,53 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "disable-ipv6-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Disable IPv6"
+    description:
+      "Although IPv6 has many advantages over IPv4, not all organizations have "
+      "IPv6 or dual stack configurations implemented."
+    rationale:
+      "If IPv6 or dual stack is not to be used, it is recommended that IPv6 be "
+      "disabled to reduce the attack surface of the system."
+    remediation:
+      "Edit /etc/default/grub and add ipv6.disable=1 to the GRUB_CMDLINE_LINUX parameters: \n"
+      "```GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"```\n "
+      "Depending or your distribution, run the appropriate following command to "
+      "update the grub2 configuration: \n"
+      "```# grub2-mkconfig –o /boot/grub2/grub.cfg```\n "
+      "or \n"
+      "```# update-grub```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/default/grub\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*ipv6.disabled=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*linux.*ipv6.disabled=1.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub2/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*ipv6.disabled=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*linux.*ipv6.disabled=1.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
