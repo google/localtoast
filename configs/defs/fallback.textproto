@@ -10593,3 +10593,35 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "mcstrans-not-installed-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure the MCS Translation Service (mcstrans) is not installed"
+    description:
+      "The mcstransd daemon provides category label information to client processes requesting information. "
+      "The label translations are defined in /etc/selinux/targeted/setrans.conf"
+    rationale:
+      "Since this service is not used very often, remove it to reduce the amount of potentially "
+      "vulnerable code running on the system."
+    remediation:
+      "Uninstall mcstrans using the appropriate package manager or manual installation: \n"
+      "```yum remove mcstrans \n"
+      "apt-get remove mcstrans \n"
+      "zypper remove mcstrans```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/mcstransd\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/mcstransd\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/mcstransd\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/mcstransd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
