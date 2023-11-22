@@ -11331,3 +11331,69 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "auditing-processes-auditd-enabled-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure auditing for processes that start prior to auditd is enabled"
+    description:
+      "Configure grub so that processes that are capable of being audited "
+      "can be audited even if they start up prior to auditd startup."
+    rationale:
+      "Audit events need to be captured on processes that start up prior to auditd, "
+      "so that potential malicious activity cannot go undetected."
+    remediation:
+      "For grub2 based systems edit /etc/default/grub and add audit=1 to GRUB_CMDLINE_LINUX:\n"
+      "```GRUB_CMDLINE_LINUX=\"audit=1\"```\n"
+      "Run the following command to update the grub2 configuration: \n"
+      "```# grub2-mkconfig -o /boot/grub2/grub.cfg```\n"
+      " or \n"
+      "```# update-grub```\n"
+      "For grub based systems edit /boot/grub/menu.lst to "
+      "include audit=1 on all kernel lines.\n"
+      "Notes:\n"
+      "This recommendation is designed around the grub bootloader, if LILO "
+      "or another bootloader is in use in your environment enact equivalent settings.\n"
+      "Replace /boot/grub2/grub.cfg, /boot/grub/grun.cfg, /boot/grub/menu.lst with "
+      "the appropriate grub configuration file for your environment."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub2/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*audit=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*linux.*audit=1.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*audit=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*linux.*audit=1.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/menu.lst\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*kernel.*audit=[0-9]+.*\""
+      "          expected_regex: \"\\\\s*kernel.*audit=1.*\""
+      "        }"
+      "      }"
+      "    }"
+      " }"
+      "}"
+  }
+}
