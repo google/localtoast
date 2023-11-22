@@ -11038,3 +11038,43 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "wireless-interfaces-disabled-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure wireless interfaces are disabled"
+    description:
+      "Wireless networking is used when wired networks are unavailable. "
+      "Debian contains a wireless tool kit to allow system administrators "
+      "to configure and use wireless networks."
+    rationale:
+      "If wireless is not to be used, wireless devices can be disabled to reduce the potential attack surface."
+    remediation:
+      "Run the following command to disable any wireless interfaces: \n"
+      "```# ip link set <interface> down```\n "
+      "Disable any wireless interfaces in your network configuration."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/proc/net/wireless\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>:
+      "          filter_regex: \"[^:]*:.*\""
+      "          expected_regex: \"[^:]*:.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
