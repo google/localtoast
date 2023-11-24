@@ -12044,3 +12044,50 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "default-user-shell-timeout-900-or-less-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure default user shell timeout is 900 seconds or less"
+    description:
+      "The default TMOUT determines the shell timeout for users. "
+      "The TMOUT value is measured in seconds."
+    rationale:
+      "Having no timeout value associated with a shell could allow an unauthorized "
+      "user access to another user's shell session (e.g. "
+      "user walks away from their computer and doesn't lock the screen). "
+      "Setting a timeout value at least reduces the risk of this happening."
+    remediation:
+      "Edit the /etc/bashrc and /etc/profile files (and the appropriate files for any other shell "
+      "supported on your system) and add or edit any umask parameters as follows: \n"
+      "```TMOUT=900``` \n"
+      "Notes: \n"
+      "The audit and remediation in this recommendation apply to bash and shell. "
+      "If other shells are supported on the system, it is recommended that their configuration files also are checked. "
+      "Other methods of setting a timeout exist for other shells not covered here. "
+      "Ensure that the timeout conforms to your local policy."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/bashrc\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"\\\\s*TMOUT\\\\s*=.*\""
+      "        expected_regex: \"\\\\s*TMOUT\\\\s*=\\\\s*(\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: LESS_THAN"
+      "          const: 901"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
