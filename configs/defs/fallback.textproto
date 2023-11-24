@@ -12178,6 +12178,68 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "audit-configuration-immutable-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure the audit configuration is immutable"
+    description:
+      "Set system audit so that audit rules cannot be modified with auditctl . "
+      "Setting the flag \"-e 2\" forces audit to be put in immutable mode. "
+      "Audit changes can only be made on system reboot."
+    rationale:
+      "In immutable mode, unauthorized users cannot execute changes to the audit "
+      "system to potentially hide malicious activity and then put the audit rules back. "
+      "Users would most likely notice a system reboot and that could alert "
+      "administrators of an attempt to make unauthorized audit changes."
+    remediation:
+      "Edit or create the file /etc/audit/rules.d/99-finalize.rules and add the line \n"
+      "```-e 2``` \n"
+      "at the end of the file \n"
+      "Notes: \n"
+      "This setting will ensure reloading the auditd config to set active settings requires a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"\\\\s*[^#]\""
+      "                        expected_regex: \"\\\\s*-e 2\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"\\\\s*[^#]\""
+      "                        expected_regex: \"\\\\s*-e 2\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "ssh-allowtcpforwarding-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
