@@ -10673,6 +10673,44 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "enforcing-apparmor-profiles-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure all AppArmor Profiles are enforcing"
+    description:
+      "AppArmor profiles define what resources applications are able to access."
+    rationale:
+      "Security configuration requirements vary from site to site. "
+      "Some sites may mandate a policy that is stricter than the default policy, which is perfectly acceptable. "
+      "This item is intended to ensure that any policies that exist on the system are activated."
+    remediation:
+      "Run the following command to set all profiles to enforce mode: \n"
+      "```# enforce /etc/apparmor.d/*```\n "
+      "Any unconfined processes may need to have a profile created or activated for them and then be restarted."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/sys/kernel/security/apparmor/profiles\"}}"
+      "                content_entry:{"
+      "                    match_type: NONE_MATCH"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\(\\\\w+\\)\""
+      "                        expected_regex: \".*\\(complain\\)"
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "dccp-disabled-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
