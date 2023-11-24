@@ -10626,6 +10626,54 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "no-unconfined-daemons-exist-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure no unconfined daemons exist"
+    description:
+      "Daemons that are not defined in SELinux policy will inherit "
+      "the security context of their parent process."
+    rationale:
+      "Since daemons are launched and descend from the init process, "
+      "they will inherit the security context label initrc_t . "
+      "This could cause the unintended consequence of giving the "
+      "process more permission than it requires."
+    remediation:
+      "Investigate any unconfined daemons found during the audit action. "
+      "They may need to have an existing security context assigned to them or a policy built for them. \n"
+      "Notes: \n"
+      "Occasionally certain daemons such as backup or centralized management software may require running unconfined. "
+      "Any such software should be carefully analyzed and documented before such an exception is made."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      " instance_scanning: {"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{"
+      "       files_in_dir:{"
+      "        dir_path:\"/proc\""
+      "        recursive: true"
+      "        filename_regex: \"current\""
+      "        skip_symlinks: true"
+      "        opt_out_path_regexes: \"/proc/[a-z].*\""
+      "      }}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*initrc.*\""
+      "          expected_regex: \".*initrc.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
   id: "apparmor-not-disabled-in-bootloader-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
