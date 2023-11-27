@@ -12232,6 +12232,89 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "unsuccessful-unauthorized-file-access-collected-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure unsuccessful unauthorized file access attempts are collected"
+    description:
+      "Monitor for unsuccessful attempts to access files. "
+      "The parameters below are associated with system calls that control creation ( creat ), "
+      "opening ( open , openat ) and truncation ( truncate , ftruncate ) of files. "
+      "An audit log record will only be written if the user is a nonprivileged user (auid > = 500), "
+      "is not a Daemon event (auid=4294967295) and if the system call returned EACCES "
+      "(permission denied to the file) or EPERM (some other permanent error associated with the specific system call). "
+      "All audit records will be tagged with the identifier \"access.\""
+    rationale:
+      "Failed attempts to open, create or truncate files could be an indication "
+      "that an individual or process is trying to gain unauthorized access to the system."
+    remediation:
+      "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access ```\n"
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n"
+      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access ```\n"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+access\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*creat\\\\s*-S\\\\s*open\\\\s*-S\\\\s*openat\\\\s*-S\\\\s*truncate\\\\s*-S\\\\s*ftruncate\\\\s*\\\\s*-F\\\\s*exit\\\\s*=\\\\s*-EACCES\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*500\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+access\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+access\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*creat\\\\s*-S\\\\s*open\\\\s*-S\\\\s*openat\\\\s*-S\\\\s*truncate\\\\s*-S\\\\s*ftruncate\\\\s*\\\\s*-F\\\\s*exit\\\\s*=\\\\s*-EPERM\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*500\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+access\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+access\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*creat\\\\s*-S\\\\s*open\\\\s*-S\\\\s*openat\\\\s*-S\\\\s*truncate\\\\s*-S\\\\s*ftruncate\\\\s*\\\\s*-F\\\\s*exit\\\\s*=\\\\s*-EACCES\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*500\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+access\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+access\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*creat\\\\s*-S\\\\s*open\\\\s*-S\\\\s*openat\\\\s*-S\\\\s*truncate\\\\s*-S\\\\s*ftruncate\\\\s*\\\\s*-F\\\\s*exit\\\\s*=\\\\s*-EPERM\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*500\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+access\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "default-user-shell-timeout-900-or-less-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
