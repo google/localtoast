@@ -12514,6 +12514,78 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "file-deletion-collected-fallback"
+  compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
+    title: "Ensure file deletion events by users are collected"
+    description:
+      "Monitor the use of system calls associated with the deletion or renaming of files and file attributes. "
+      "This configuration statement sets up monitoring for the unlink (remove a file), unlinkat "
+      "(remove a file attribute), rename (rename a file) and renameat (rename a file attribute) "
+      "system calls and tags them with the identifier \"delete\"."
+    rationale:
+      "Monitoring these calls from non-privileged users could provide a system administrator "
+      "with evidence that inappropriate removal of files and file attributes associated with protected files is occurring. "
+      "While this audit option will look at all events, system administrators will want to "
+      "look for specific privileged files that are being deleted or altered."
+    remediation:
+      "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules "
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete```\n 
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
+      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete ```\n"
+      "Notes: \n"
+      "At a minimum, configure the audit system to collect file deletion events for all users and root. \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+delete\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*unlink\\\\s*-S\\\\s*unlinkat\\\\s*-S\\\\s*rename\\\\s*-S renameat\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*500\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+delete\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+delete\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*unlink\\\\s*-S\\\\s*unlinkat\\\\s*-S\\\\s*rename\\\\s*-S renameat\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*500\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+delete\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "changes-to-sudoers-collected-fallback"
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
