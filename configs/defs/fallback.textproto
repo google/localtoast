@@ -12532,7 +12532,7 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules "
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete```\n 
+      "```-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete```\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
