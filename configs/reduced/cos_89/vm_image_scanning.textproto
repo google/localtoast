@@ -31,6 +31,7 @@ benchmark_id: "sshd-public-host-key-permissions"
 benchmark_id: "ssh-protocol-set-to-2"
 benchmark_id: "ssh-loglevel-appropriate"
 benchmark_id: "ssh-x11-forwarding-disabled"
+benchmark_id: "ssh-access-limited"
 benchmark_id: "ssh-ignorerhosts-enabled"
 benchmark_id: "ssh-hostbasedauthentication-disabled"
 benchmark_id: "ssh-root-login-disabled"
@@ -64,4 +65,5 @@ benchmark_id: "shadow-group-empty"
 profile_level_override: {
   level: 2
   benchmark_id: "password-expiration-warning-days-7-or-more"
+  benchmark_id: "ssh-access-limited"
 }
