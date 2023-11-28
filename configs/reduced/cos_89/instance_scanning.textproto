@@ -65,10 +65,12 @@ benchmark_id: "no-duplicate-gids"
 benchmark_id: "no-duplicate-user-names"
 benchmark_id: "no-duplicate-group-names"
 benchmark_id: "shadow-group-empty"
+benchmark_id: "no-users-have-rhosts-files"
 
 # Generic linux checks that should be L2 in COS.
 profile_level_override: {
   level: 2
   benchmark_id: "password-expiration-warning-days-7-or-more"
   benchmark_id: "ssh-access-limited"
+  benchmark_id: "no-users-have-rhosts-files"
 }
