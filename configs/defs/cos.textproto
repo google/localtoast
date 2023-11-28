@@ -2479,6 +2479,56 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "logging-service-running"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.1.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.1.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure logging Service is running"
+    description:
+      "Stackdriver-logging agent or fluent-bit logging agent needs "
+      "to be activated in order to export logs to Cloud Logging."
+    rationale:
+      "If neither stackdriver-logging nor fluent-bit service is running, "
+      "the logs will not be exported to Cloud Logging."
+    remediation:
+      "Stackdriver-logging Agent \n"
+      "Run the following command to enable stackdriver-logging : \n"
+      "```# systemctl start stackdriver-logging```\n "
+      "Fluent-bit Logging \n"
+      "Run the following command to enable fluent-bit : \n"
+      "```# systemctl start fluent-bit```\n "
+      "Works for Both \n"
+      "Simply update the instance metadata to enable logging as follows: \n"
+      "```# gcloud compute instances add-metadata <instance-name> \\ --zone <compute-zone> \\ --metadata google-logging-enabled=true```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"stackdriver-logging.service\""
+      "      }"
+      "    }"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"fluent-bit.service\""
+      "      }"
+      "    }"
+      "    existence:{should_exist: true}"
+      "  }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "logging-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
