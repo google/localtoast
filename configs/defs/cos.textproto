@@ -2730,10 +2730,7 @@ benchmark_configs: {
       "```\n"
       "find /var/log -type f -exec chmod g-wx,o-rwx \"{}\" + -o -type d -exec chmod gw,o-rwx \"{}\" +\n"
       "```\n"
-      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
-      "cannot be used to make these changes persistent across reboots. The "
-      "steps mentioned above needs to be performed after every boot."
-    cis_benchmark: {
+     cis_benchmark: {
       profile_level: 2
       severity: LOW
     }
