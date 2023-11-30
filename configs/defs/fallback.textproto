@@ -11200,6 +11200,8 @@ benchmark_configs: {
       "        }"
       "      }"
       "    }"
+      " }"
+      " check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/boot/grub2/grub.cfg\"}}"
       "      content_entry:{"
