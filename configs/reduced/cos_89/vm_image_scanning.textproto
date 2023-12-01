@@ -64,6 +64,7 @@ benchmark_id: "shadow-group-empty"
 benchmark_id: "no-users-have-rhosts-files"
 benchmark_id: "ipv6-default-deny-firewall-policy"
 benchmark_id: "ipv6-loopback-traffic-configured"
+benchmark_id: "ipv6-outbound-established-connections-configured"
 
 # Generic linux checks that should be L2 in COS.
 profile_level_override: {
