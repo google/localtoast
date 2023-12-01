@@ -104,6 +104,7 @@ benchmark_id: "no-duplicate-user-names"
 benchmark_id: "no-duplicate-group-names"
 benchmark_id: "shadow-group-empty"
 benchmark_id: "ipv6-default-deny-firewall-policy"
+benchmark_id: "ipv6-loopback-traffic-configured"
 
 # Generic linux checks that should be L2 in COS.
 profile_level_override: {
