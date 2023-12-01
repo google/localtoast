@@ -4445,3 +4445,51 @@ benchmark_configs: {
     "}"
   }
 }
+benchmark_configs: {
+  id: "default-deny-firewall-policy"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure default deny firewall policy"
+    description:
+      "A default deny all policy on connections ensures that "
+      "any unconfigured network usage will be rejected."
+    rationale:
+      "With a default accept policy the firewall will accept "
+      "any packet that is not configured to be denied. "
+      "It is easier to white list acceptable usage than to black list unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy: \n"
+      "```# iptables -P INPUT DROP \n"
+      "# iptables -P OUTPUT DROP \n"
+      "# iptables -P FORWARD DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/iptables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-P\\\\s+INPUT\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"ip6tables\\\\s+-P\\\\s+INPUT\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-P\\\\s+OUTPUT\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"ip6tables\\\\s+-P\\\\s+OUTPUT\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-P\\\\s+FORWARD\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"ip6tables\\\\s+-P\\\\s+FORWARD\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
+  }
+}
