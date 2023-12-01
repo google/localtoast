@@ -71,6 +71,7 @@ benchmark_id: "ipv6-default-deny-firewall-policy"
 benchmark_id: "ipv6-loopback-traffic-configured"
 benchmark_id: "ipv6-outbound-established-connections-configured"
 benchmark_id: "default-deny-firewall-policy"
+benchmark_id: "loopback-traffic-configured"
 
 # Generic linux checks that should be L2 in COS.
 profile_level_override: {
