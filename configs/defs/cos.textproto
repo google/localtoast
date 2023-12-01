@@ -4605,7 +4605,7 @@ benchmark_configs: {
     " }"
     " check_alternatives:{"
     "   file_checks:{"
-    "     files_to_check:{single_file:{path:\"/usr/share/cloud/ip6tables-setup\"}}"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/iptables-setup\"}}"
     "     content_entry:{"
     "         match_type: ALL_MATCH_ANY_ORDER"
     "         match_criteria: {"
