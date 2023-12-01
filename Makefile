@@ -15,6 +15,9 @@ FULL_CONFIGS = $(subst /reduced/,/full/,${REDUCED_CONFIGS})
 localtoast: protos
 	go build localtoast.go
 
+localtoast_sql: protos
+	cd localtoast_sql && go build localtoast_sql.go
+
 test: protos
 	go test ./...
 
@@ -30,5 +33,6 @@ clean:
 	rm -rf scannerlib/proto/*_go_proto
 	rm -rf scannerlib/proto/v1
 	rm -f localtoast
+	rm -f localtoast_sql/localtoast_sql
 	rm -rf configs/full
 	rm -f gen_full_config
