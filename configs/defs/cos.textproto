@@ -4272,7 +4272,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "ipv6-default-deny-firewall-policy"
+  id: "ipv6-default-deny-firewall-policy-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -4321,7 +4321,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "ipv6-loopback-traffic-configured"
+  id: "ipv6-loopback-traffic-configured-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -4370,7 +4370,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "ipv6-outbound-established-connections-configured"
+  id: "ipv6-outbound-established-connections-configured-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -4449,7 +4449,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "default-deny-firewall-policy"
+  id: "default-deny-firewall-policy-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -4497,7 +4497,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "loopback-traffic-configured"
+  id: "loopback-traffic-configured-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -4547,7 +4547,7 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "outbound-established-connections-configured"
+  id: "outbound-established-connections-configured-cos"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
