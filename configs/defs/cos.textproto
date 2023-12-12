@@ -4552,7 +4552,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    title: "Ensure outbound and established connections are"
+    title: "Ensure outbound and established connections are configured"
     description:
       "Configure the firewall rules for new outbound, and established connections."
     rationale:
