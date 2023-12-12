@@ -2481,7 +2481,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "logging-service-running"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure logging Service is running"
@@ -4274,7 +4273,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ipv6-default-deny-firewall-policy-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure IPv6 default deny firewall policy"
@@ -4323,7 +4321,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ipv6-loopback-traffic-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure IPv6 loopback traffic is configured"
@@ -4372,7 +4369,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ipv6-outbound-established-connections-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure IPv6 outbound and established connections are configured"
@@ -4451,7 +4447,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "default-deny-firewall-policy-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure default deny firewall policy"
@@ -4499,7 +4494,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "loopback-traffic-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure loopback traffic is configured"
@@ -4549,7 +4543,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "outbound-established-connections-configured-cos"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure outbound and established connections are configured"
