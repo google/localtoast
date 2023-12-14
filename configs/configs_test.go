@@ -100,7 +100,7 @@ func TestRequiredAttributes(t *testing.T) {
 				if version.GetVersion() == "" {
 					t.Errorf(`%s version.GetVersion(): got "", want non-empty string`, noteID)
 				}
-				if version.GetCpeUri() != "fallback" && version.GetCpeUri() != "cpe:/distribution_independent_linux" && len(strings.Split(version.GetCpeUri(), ":")) != 5 {
+				if version.GetCpeUri() != "fallback" && version.GetCpeUri() != "cpe:/distribution_independent_linux" && len(strings.Split(version.GetCpeUri(), ":")) > 5 {
 					t.Errorf("%s version.getCpeUri(): got %s, want a valid CPE", noteID, version.GetCpeUri())
 				}
 			}

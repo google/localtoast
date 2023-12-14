@@ -1,8 +1,7 @@
-
 benchmark_configs: {
   id: "gpgcheck-activated"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure gpgcheck is globally activated"
     description:
@@ -39,11 +38,10 @@ benchmark_configs: {
 benchmark_configs: {
   id: "selinux-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SELinux is installed"
-    description:
-      "SELinux provides Mandatory Access Control."
+    description: "SELinux provides Mandatory Access Control."
     rationale:
       "Without a Mandatory Access Control system installed only the default Discretionary Access "
       "Control system will be available."
@@ -84,7 +82,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "setroubleshoot-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SETroubleshoot is not installed"
     description:
@@ -116,7 +114,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "mcstrans-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure the MCS Translation Service (mcstrans) is not installed"
     description:
@@ -147,7 +145,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "xinetd-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure xinetd is not installed"
     description:
@@ -181,7 +179,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "x11-server-components-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure X11 Server components are not installed"
     description:
@@ -218,7 +216,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "iptables-services-not-installed-with-firewalld"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure iptables-services not installed with firewalld"
     description:
@@ -279,7 +277,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nftables-not-enabled-with-firewalld"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nftables either not installed or masked with firewalld"
     description:
@@ -339,7 +337,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "firewalld-not-enabled-with-nftables"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure firewalld is either not installed or masked with nftables"
     description:
@@ -399,7 +397,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "iptables-services-not-installed-with-nftables"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure iptables-services not installed with nftables"
     description:
@@ -448,7 +446,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "iptables-packages-are-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure iptables packages are installed"
     description:
@@ -503,14 +501,13 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nftables-not-installed-with-iptables"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nftables is not installed with iptables"
     description:
       "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
       "packets/datagrams/frames and is the successor to iptables."
-    rationale:
-      "Running both iptables and nftables may lead to conflict."
+    rationale: "Running both iptables and nftables may lead to conflict."
     remediation:
       "Run the following command to remove nftables:\n"
       "# yum remove nftables"
@@ -557,7 +554,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "firewalld-not-enabled-with-iptables"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure firewalld is either not installed or masked with iptables"
     description:
@@ -623,7 +620,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsyslog-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure rsyslog is installed"
     description:
@@ -675,7 +672,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sudo-is-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.*" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure sudo is installed"
     description:
