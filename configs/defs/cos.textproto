@@ -2479,6 +2479,55 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
+  id: "logging-service-running"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure logging Service is running"
+    description:
+      "Stackdriver-logging agent or fluent-bit logging agent needs "
+      "to be activated in order to export logs to Cloud Logging."
+    rationale:
+      "If neither stackdriver-logging nor fluent-bit service is running, "
+      "the logs will not be exported to Cloud Logging."
+    remediation:
+      "Stackdriver-logging Agent \n"
+      "Run the following command to enable stackdriver-logging : \n"
+      "```# systemctl start stackdriver-logging```\n "
+      "Fluent-bit Logging \n"
+      "Run the following command to enable fluent-bit : \n"
+      "```# systemctl start fluent-bit```\n "
+      "Works for Both \n"
+      "Simply update the instance metadata to enable logging as follows: \n"
+      "```# gcloud compute instances add-metadata <instance-name> \\ --zone <compute-zone> \\ --metadata google-logging-enabled=true```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"stackdriver-logging.service\""
+      "      }"
+      "    }"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/systemd/system\""
+      "        recursive: true"
+      "        filename_regex: \"fluent-bit.service\""
+      "      }"
+      "    }"
+      "    existence:{should_exist: true}"
+      "  }"
+      " }"
+      "}"
+  }
+}
+benchmark_configs: {
   id: "logging-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
@@ -2683,7 +2732,7 @@ benchmark_configs: {
       "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
       "cannot be used to make these changes persistent across reboots. The "
       "steps mentioned above needs to be performed after every boot."
-    cis_benchmark: {
+     cis_benchmark: {
       profile_level: 2
       severity: LOW
     }
@@ -4219,5 +4268,353 @@ benchmark_configs: {
       "    }"
       "  }"
       "}}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-default-deny-firewall-policy-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure IPv6 default deny firewall policy"
+    description:
+      "A default deny all policy on connections ensures that any "
+      "unconfigured network usage will be rejected."
+    rationale:
+      "With a default accept policy the firewall will accept any "
+      "packet that is not configured to be denied. "
+      "It is easier to white list acceptable usage than "
+      "to black list unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy: \n"
+      "```# ip6tables -P INPUT DROP \n"
+      "# ip6tables -P OUTPUT DROP \n"
+      "# ip6tables -P FORWARD DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/ip6tables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-P\\\\s+INPUT\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"ip6tables\\\\s+-P\\\\s+INPUT\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-P\\\\s+OUTPUT\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"ip6tables\\\\s+-P\\\\s+OUTPUT\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-P\\\\s+FORWARD\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"ip6tables\\\\s+-P\\\\s+FORWARD\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-loopback-traffic-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure IPv6 loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic. "
+      "Configure all other interfaces to deny traffic to the loopback network (::1)."
+    rationale:
+      "Loopback traffic is generated between processes on machine and "
+      "is typically critical to operation of the system. "
+      "The loopback interface is the only place that loopback network (::1) "
+      "traffic should be seen, all other interfaces should ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules: \n"
+      "```# ip6tables -A INPUT -i lo -j ACCEPT \n"
+      "# ip6tables -A OUTPUT -o lo -j ACCEPT \n"
+      "# ip6tables -A INPUT -s ::1 -j DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/ip6tables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_STRICT_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-i\\\\s+lo\\\\s+-j\\\\s+[a-zA-Z]+\\\\s+.*\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-i\\\\s+lo\\\\s+-j\\\\s+ACCEPT\\\\s+.*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-o\\\\s+lo\\\\s+-j\\\\s+[a-zA-Z]+\\\\s+.*\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-o\\\\s+lo\\\\s+-j\\\\s+ACCEPT\\\\s+.*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+[a-zA-Z]+\\\\s+.*\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+DROP\\\\s+.*\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
+  }
+}
+benchmark_configs: {
+  id: "ipv6-outbound-established-connections-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure IPv6 outbound and established connections are configured"
+    description:
+      "Configure the firewall rules for new outbound, and established IPv6 connections."
+    rationale:
+      "If rules are not in place for new outbound, and established connections all "
+      "packets will be dropped by the default policy preventing network usage."
+    remediation:
+      "Configure iptables in accordance with site policy. "
+      "The following commands will implement a policy to "
+      "allow all outbound connections and all established connections: \n"
+      "```# ip6tables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "# ip6tables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "# ip6tables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "# ip6tables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT \n"
+      "# ip6tables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT \n"
+      "# ip6tables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/ip6tables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|,){1,3}\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|,){1,3}\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|,){1,3}\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+ESTABLISHED\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+ESTABLISHED\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+ESTABLISHED\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/ip6tables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|RELATED|,){3,5}\\\\s+-j\\\\s+ACCEPT\\\\s+-w\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|RELATED|,){3,5}\\\\s+-j\\\\s+ACCEPT\\\\s+-w\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
+  }
+}
+benchmark_configs: {
+  id: "default-deny-firewall-policy-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure default deny firewall policy"
+    description:
+      "A default deny all policy on connections ensures that "
+      "any unconfigured network usage will be rejected."
+    rationale:
+      "With a default accept policy the firewall will accept "
+      "any packet that is not configured to be denied. "
+      "It is easier to white list acceptable usage than to black list unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy: \n"
+      "```# iptables -P INPUT DROP \n"
+      "# iptables -P OUTPUT DROP \n"
+      "# iptables -P FORWARD DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/iptables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-P\\\\s+INPUT\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"iptables\\\\s+-P\\\\s+INPUT\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-P\\\\s+OUTPUT\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"iptables\\\\s+-P\\\\s+OUTPUT\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-P\\\\s+FORWARD\\\\s+[a-zA-Z]+\\\\s+-w\\\\s*\""
+    "           expected_regex: \"iptables\\\\s+-P\\\\s+FORWARD\\\\s+(DROP|REJECT)\\\\s+-w\\\\s*\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
+  }
+}
+benchmark_configs: {
+  id: "loopback-traffic-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic. "
+      "Configure all other interfaces to deny traffic to the loopback network (127.0.0.0/8)."
+    rationale:
+      "Loopback traffic is generated between processes on machine and "
+      "is typically critical to operation of the system. "
+      "The loopback interface is the only place that loopback network "
+      "(127.0.0.0/8) traffic should be seen, all other interfaces should "
+      "ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules: \n"
+      "```# iptables -A INPUT -i lo -j ACCEPT \n"
+      "# iptables -A OUTPUT -o lo -j ACCEPT \n"
+      "# iptables -A INPUT -s 127.0.0.0/8 -j DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/iptables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_STRICT_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-i\\\\s+lo\\\\s+-j\\\\s+[a-zA-Z]+\\\\s+.*\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-i\\\\s+lo\\\\s+-j\\\\s+ACCEPT\\\\s+.*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-o\\\\s+lo\\\\s+-j\\\\s+[a-zA-Z]+\\\\s+.*\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-o\\\\s+lo\\\\s+-j\\\\s+ACCEPT\\\\s+.*\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+[a-zA-Z]+\\\\s+.*\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+DROP\\\\s+.*\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
+  }
+}
+benchmark_configs: {
+  id: "outbound-established-connections-configured-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure outbound and established connections are configured"
+    description:
+      "Configure the firewall rules for new outbound, and established connections."
+    rationale:
+      "If rules are not in place for new outbound, and established "
+      "connections all packets will be dropped by the default policy preventing network usage."
+    remediation:
+      "Configure iptables in accordance with site policy. "
+      "The following commands will implement a policy to "
+      "allow all outbound connections and all established connections: \n"
+      "```# iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "# iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "# iptables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "# iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT \n"
+      "# iptables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT \n"
+      "# iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+    "generic:{"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/iptables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|,){1,3}\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|,){1,3}\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|,){1,3}\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-p\\\\s+tcp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+ESTABLISHED\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-p\\\\s+udp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+ESTABLISHED\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-p\\\\s+icmp\\\\s+-m\\\\s+state\\\\s+--state\\\\s+ESTABLISHED\\\\s+-j\\\\s+ACCEPT\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    " check_alternatives:{"
+    "   file_checks:{"
+    "     files_to_check:{single_file:{path:\"/usr/share/cloud/iptables-setup\"}}"
+    "     content_entry:{"
+    "         match_type: ALL_MATCH_ANY_ORDER"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|RELATED|,){3,5}\\\\s+-j\\\\s+ACCEPT\\\\s+-w\""
+    "         }"
+    "         match_criteria: {"
+    "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+OUTPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+[A-Za-z,]+\\\\s+-j\\\\s+[A-Za-z]+\\\\s+-w\""
+    "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+OUTPUT\\\\s+-m\\\\s+state\\\\s+--state\\\\s+(NEW|ESTABLISHED|RELATED|,){3,5}\\\\s+-j\\\\s+ACCEPT\\\\s+-w\""
+    "         }"
+    "     }"
+    "   }"
+    " }"
+    "}"
   }
 }
