@@ -12635,6 +12635,8 @@ benchmark_configs: {
       "scan_type_specific:{"
       " instance_scanning: {"
       "  check_alternatives:{"
+      # Looking for security label in file /proc/[PID]/attr/curren
+      # as documented at https://www.kernel.org/doc/Documentation/ABI/testing/procfs-attr-current
       "    file_checks:{"
       "      files_to_check:{"
       "       files_in_dir:{"
