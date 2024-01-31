@@ -1,7 +1,7 @@
 benchmark_configs: {
   id: "elasticsearch-xpack"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure XPack Security Module is enabled"
     description:
       "This check verifies whether the XPack security module is enabled in Elasticsearch."
@@ -72,7 +72,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-homefolder-owner"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch Configuration Files has Correct Owner"
     description:
       "This check verifies that each file in the Elasticsearch home folder is owned by the user \"elasticsearch\". "
@@ -133,7 +133,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-configuration-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch Configuration has Correct Permissions"
     description:
       "This check verifies that the Elasticsearch configuration file has the correct permissions. "
@@ -196,7 +196,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-usergroup"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure a separate user and group exist for ElasticSearch"
     description:
       "This check verifies that a dedicated user and group are created specifically for running ElasticSearch."
@@ -251,7 +251,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-runasroot"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch is running with a non-root user"
     description:
       "This check verifies that Elasticsearch is running with a dedicated non-root user account. "
@@ -293,7 +293,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-logs-permissions"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch Logs have Correct Permissions"
     description:
       "This check verifies that the Elasticsearch log files have the permissions set to 600. "
@@ -363,7 +363,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-networkinterfaces"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch does not listen on all network interfaces"
     description:
       "This check verifies that Elasticsearch is not configured to listen on all network interfaces. "
@@ -431,7 +431,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-clocksync"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure clocks are synchronized on all nodes"
     description:
       "Checks whether the clocks on all nodes are in sync. "
@@ -478,7 +478,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-http-ssl"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure encrypted communication with clients"
     description:
       "This check verifies whether the X-Pack security module is configured to enable encrypted communication with clients in ElasticSearch."
@@ -546,7 +546,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-transport-ssl"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure encrypted communication with nodes"
     description:
       "This check verifies whether the X-Pack security module is configured to enable encrypted communication between Elasticsearch nodes. "
@@ -615,7 +615,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-auditing"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch has auditing enabled"
     description:
       "This check verifies whether the X-Pack security module is configured to enable auditing in ElasticSearch."
@@ -684,7 +684,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-httpfilter"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure ElasticSearch has http filter enabled"
     description:
       "This check verifies that the HTTP filter is enabled in ElasticSearch."
@@ -751,7 +751,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "elasticsearch-no-anonymous-access"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure Anonymous Access is not enabled"
     description:
       "This check verifies that anonymous access is not enabled in Elasticsearch. "

@@ -1,4 +1,4 @@
-version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
 benchmark_id: "elasticsearch-xpack"
 benchmark_id: "elasticsearch-homefolder-owner"
 benchmark_id: "elasticsearch-configuration-permissions"

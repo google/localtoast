@@ -1,7 +1,7 @@
 benchmark_configs: {
   id: "elasticsearch-default-superuser"
   compliance_note: {
-    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "" }
+    version: { cpe_uri: "cpe:/a:elastic:elasticsearch" version: "1.0.0" benchmark_document: "Google-developed benchmark for ElasticSearch" }
     title: "Ensure the elasticsearch and superuser roles are separate"
     description:
       "The default installation of ElasticSearch includes a superuser role named elastic. This "
