@@ -4711,6 +4711,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .rhost files"
     description:
       "While no .rhosts files are shipped by default, users can easily "
@@ -9246,51 +9248,6 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "no-users-have-rhosts-files"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure no users have .rhosts files"
-    description: "While no .rhosts files are shipped by default, users can easily create them."
-    rationale:
-      "This action is only meaningful if . rhosts support is permitted in the file /etc/pam.cont.\n"
-      "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.cont, they "
-      "may have been brought over from other systems and could contain information useful to "
-      "an attacker for those other systems."
-    remediation:
-      "Making global modifications to users' files without alerting the user community can result "
-      "in unexpected outages and unhappy users. Therefore, it is recommended that a monitoring "
-      "policy be established to report user .rhosts files and determine the action to be taken in "
-      "accordance with site policy.\n"
-      "The following script will remove .rhosts files from interactive users' home directories\n"
-      "#!/bin/bash\n"
-      "awk -F: '($1!~/(root|halt|sync|shutdown|nfsnobody)/ &&\n"
-      "$71~/~(\\/usr)?2\\/sbin\\/nologin (\\/)?$/ && $7!~/(\\/usr)?\\/bin\\/false(\\/)?$/) {\n"
-      "print $6 }' /etc/passwd |\n"
-      "if [ -d \"$dir\" ]; then\n"
-      "file=\"$dir/.rhosts\"\n"
-      "while read -r dir; do\n"
-      "[ ! -h \"$file\" ] && [ -f \"$file\" ] && rm -r \"$file\"\n"
-      "done"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"$home/.rhosts\"}}"
-      "    existence:{should_exist:false}"
-      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
-      "  }"
-      " }"
       "}"
   }
 }
