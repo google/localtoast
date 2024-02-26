@@ -1,3 +1,9 @@
+1.1.7:
+* L1+L2 benchmarks for Rocky Linux
+* L2 benchmarks for distro-independent Linux and COS
+* Documentation for building Localtoast with SQL scanning capabilities
+* Small fixes in COS benchmarks
+
 1.1.6:
 * Add support for CassandraDB, ElasticSearch, and CentOS7
 * Miscellaneous benchmark fixes

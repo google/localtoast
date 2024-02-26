@@ -15,4 +15,4 @@
 package scannerlib
 
 // ScannerVersion is the current version of the scanner that's displayed in the scan results.
-const ScannerVersion = "1.1.6"
+const ScannerVersion = "1.1.7"
