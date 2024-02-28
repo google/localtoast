@@ -1,0 +1,9 @@
+version: { cpe_uri: "cpe:/a:apache:cassandra:3.11" version: "1.0.0" benchmark_document: "CIS Apache Cassandra 3.11" }
+benchmark_id: "cassandra-usergroup"
+benchmark_id: "cassandra-authentication"
+benchmark_id: "cassandra-authorization"
+benchmark_id: "cassandra-internodeencryption"
+benchmark_id: "cassandra-logginglevel"
+benchmark_id: "cassandra-networkinterfaces"
+benchmark_id: "cassandra-auditing"
+benchmark_id: "cassandra-clientencryption"
