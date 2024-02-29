@@ -60,6 +60,39 @@ func ApplyOptOutConfig(fileSet *ipb.FileSet, config *apb.OptOutConfig) {
 		append(fileSet.GetFilesInDir().GetOptOutPathRegexes(), config.GetTraversalOptoutRegexes()...)
 }
 
+// ApplyReplacementConfig applies the path replacement settings from a
+// ReplacementConfig to a FileSet.
+func ApplyReplacementConfig(fileSet *ipb.FileSet, config *apb.ReplacementConfig) {
+	if config == nil {
+		return
+	}
+	for prefix, replacement := range config.PathPrefixReplacements {
+		applyPathPrefixReplacement(fileSet, prefix, replacement)
+	}
+}
+
+func applyPathPrefixReplacement(fileSet *ipb.FileSet, prefix, replacement string) {
+	switch {
+	case fileSet.GetSingleFile() != nil:
+		fileSet.GetSingleFile().Path = replacePrefix(fileSet.GetSingleFile().GetPath(), prefix, replacement)
+	case fileSet.GetFilesInDir() != nil:
+		fileSet.GetFilesInDir().DirPath = replacePrefix(fileSet.GetFilesInDir().GetDirPath(), prefix, replacement)
+	}
+}
+
+func replacePrefix(str, prefix, replacement string) string {
+	if !strings.HasSuffix(prefix, "/") {
+		prefix += "/"
+	}
+	if !strings.HasSuffix(replacement, "/") {
+		replacement += "/"
+	}
+	if !strings.HasPrefix(str, prefix) {
+		return str
+	}
+	return replacement + strings.TrimPrefix(str, prefix)
+}
+
 // WalkFunc is the type of the function called by WalkFiles to visit each file
 // or directory in the FileSet. If the function returns an error, WalkFiles
 // stops and returns the same error.

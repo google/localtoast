@@ -119,7 +119,7 @@ func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api
 		benchmarkCheckDuration: scanConfig.GetBenchmarkCheckTimeout().AsDuration(),
 	}
 
-	fileCheckBatches, err := createFileCheckBatchesFromConfig(ctx, benchmarks, scanConfig.GetOptOutConfig(), timeout, api)
+	fileCheckBatches, err := createFileCheckBatchesFromConfig(ctx, benchmarks, scanConfig.GetOptOutConfig(), scanConfig.GetReplacementConfig(), timeout, api)
 	if err != nil {
 		return nil, err
 	}

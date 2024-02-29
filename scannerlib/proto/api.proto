@@ -31,6 +31,8 @@ message ScanConfig {
   google.protobuf.Duration benchmark_check_timeout = 2;
   // A list of files to opt out of being displayed in the scan results.
   OptOutConfig opt_out_config = 3;
+  // A list of replacements to apply to the benchmark config used.
+  ReplacementConfig replacement_config = 5;
   repeated BenchmarkConfig benchmark_configs = 4;
 }
 
@@ -42,6 +44,11 @@ message OptOutConfig {
   // Skip the files/directories when traversing the filesystem recursively if
   // they match a regex in the list.
   repeated string traversal_optout_regexes = 3;
+}
+
+message ReplacementConfig {
+  // Replace paths starting with the specified prefixes.
+  map<string, string> path_prefix_replacements = 1;
 }
 
 message BenchmarkConfig {

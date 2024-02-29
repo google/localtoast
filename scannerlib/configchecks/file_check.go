@@ -119,7 +119,7 @@ type fileCheckBatchMap map[fileCheckBatchCommonProps][]*fileCheck
 // createFileCheckBatchesFromConfig parses the benchmark config and creates the
 // file check batches defined by it.
 func createFileCheckBatchesFromConfig(
-	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, timeout *timeoutOptions, fs scanapi.Filesystem) ([]*FileCheckBatch, error) {
+	ctx context.Context, benchmarks []*benchmark, optOut *apb.OptOutConfig, replacement *apb.ReplacementConfig, timeout *timeoutOptions, fs scanapi.Filesystem) ([]*FileCheckBatch, error) {
 	batchMap := make(fileCheckBatchMap)
 
 	for _, b := range benchmarks {
@@ -133,6 +133,7 @@ func createFileCheckBatchesFromConfig(
 					batchMap,
 					fs,
 					optOut,
+					replacement,
 					b.id,
 					alt.id,
 				}
@@ -166,6 +167,7 @@ type addFileCheckToBatchMapOptions struct {
 	batchMap      fileCheckBatchMap
 	fs            scanapi.Filesystem
 	optOut        *apb.OptOutConfig
+	replacement   *apb.ReplacementConfig
 	benchmarkID   string
 	alternativeID int
 }
@@ -180,6 +182,7 @@ func addFileCheckToBatchMap(ctx context.Context, options addFileCheckToBatchMapO
 		for _, filesToCheck := range fc.GetFilesToCheck() {
 			filesToCheck := repeatconfig.ApplyRepeatConfigToFile(filesToCheck, repeatConfig)
 			fileset.ApplyOptOutConfig(filesToCheck, options.optOut)
+			fileset.ApplyReplacementConfig(filesToCheck, options.replacement)
 
 			fileSetAsBytes, err := proto.MarshalOptions{Deterministic: true}.Marshal(filesToCheck)
 			if err != nil {

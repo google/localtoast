@@ -29,6 +29,8 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/testing/protocmp"
 	"github.com/google/localtoast/scanapi"
 	"github.com/google/localtoast/scannerlib/fileset"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
@@ -651,6 +653,89 @@ func TestTimeout(t *testing.T) {
 			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, timeout, func(walkedPath string, isDir bool) error { return nil })
 			if err == nil {
 				t.Fatalf("fileset.WalkFiles(%v) didn't return an error, expected one", tc.fileSet)
+			}
+		})
+	}
+}
+
+func TestApplyReplacementConfig(t *testing.T) {
+	replacements := map[string]string{"/old": "/new"}
+	testCases := []struct {
+		name    string
+		config  *apb.ReplacementConfig
+		fileSet *ipb.FileSet
+		want    *ipb.FileSet
+	}{
+		{
+			name:   "Replace prefix in SingleFile",
+			config: &apb.ReplacementConfig{PathPrefixReplacements: replacements},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/old/path"}},
+			},
+			want: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/new/path"}},
+			},
+		},
+		{
+			name:   "Replace prefix in FilesInDir",
+			config: &apb.ReplacementConfig{PathPrefixReplacements: replacements},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{DirPath: "/old/path"}},
+			},
+			want: &ipb.FileSet{
+				FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{DirPath: "/new/path"}},
+			},
+		},
+		{
+			name:   "Replacements with leading slashes",
+			config: &apb.ReplacementConfig{PathPrefixReplacements: map[string]string{"/old/": "/new/"}},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/old/path"}},
+			},
+			want: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/new/path"}},
+			},
+		},
+		{
+			name:   "Don't replace if prefix not found",
+			config: &apb.ReplacementConfig{PathPrefixReplacements: replacements},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/some/path"}},
+			},
+			want: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/some/path"}},
+			},
+		},
+		{
+			name:   "Don't replace if not prefix",
+			config: &apb.ReplacementConfig{PathPrefixReplacements: replacements},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/some/old/path"}},
+			},
+			want: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/some/old/path"}},
+			},
+		},
+		{
+			name:   "Don't replace if only part of the file matches",
+			config: &apb.ReplacementConfig{PathPrefixReplacements: replacements},
+			fileSet: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/old-path/file"}},
+			},
+			want: &ipb.FileSet{
+				FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: "/old-path/file"}},
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := proto.Clone(tc.fileSet).(*ipb.FileSet)
+			fileset.ApplyReplacementConfig(got, tc.config)
+			if diff := cmp.Diff(tc.want, got, protocmp.Transform()); diff != "" {
+				t.Errorf(
+					"fileset.ApplyReplacementConfig(%v, %v) unexpected results, diff (-want +got):\n%s", tc.fileSet, tc.config, diff,
+				)
 			}
 		})
 	}

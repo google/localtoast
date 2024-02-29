@@ -22,7 +22,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"sort"
+	"strings"
 	"testing"
 
 	dpb "google.golang.org/protobuf/types/known/durationpb"
@@ -551,6 +553,45 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 				t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
 			}
 		})
+	}
+}
+
+func TestReplacementConfigApplied(t *testing.T) {
+	testPath := []*ipb.FileSet{&ipb.FileSet{
+		FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: unreadableFilePath}},
+	}}
+	fileCheck := &ipb.FileCheck{
+		FilesToCheck: testPath,
+		CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: testFileContent}},
+	}
+	// Replace file from instruction with a readable file.
+	prefix := strings.TrimSuffix(unreadableFilePath, path.Base(unreadableFilePath))
+	replacement := strings.TrimSuffix(testFilePath, path.Base(testFilePath))
+	replacementConfig := &apb.ReplacementConfig{PathPrefixReplacements: map[string]string{prefix: replacement}}
+	// The check should succeed after the file gets replaced.
+	wantResult := &apb.ComplianceResult{
+		Id:                   "id",
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+	}
+
+	scanInstruction := testconfigcreator.NewFileScanInstruction([]*ipb.FileCheck{fileCheck})
+	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+	scanConfig := &apb.ScanConfig{
+		BenchmarkConfigs:  []*apb.BenchmarkConfig{config},
+		ReplacementConfig: replacementConfig,
+	}
+	check := createFileCheckBatchFromScanConfig(t, "id", scanConfig, newFakeAPI())
+	resultMap, err := check.Exec()
+	if err != nil {
+		t.Fatalf("check.Exec() returned an error: %v", err)
+	}
+	result, gotSingleton := singleComplianceResult(resultMap)
+	if !gotSingleton {
+		t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+	}
+
+	if diff := cmp.Diff(wantResult, result, protocmp.Transform()); diff != "" {
+		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
 	}
 }
 
