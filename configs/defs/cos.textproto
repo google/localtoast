@@ -2509,16 +2509,16 @@ benchmark_configs: {
       "  file_checks:{"
       "    files_to_check:{"
       "      files_in_dir:{"
-      "        dir_path:\"/etc/systemd/system\""
+      "        dir_path:\"/run/systemd/units\""
       "        recursive: true"
-      "        filename_regex: \"stackdriver-logging.service\""
+      "        filename_regex: \"invocation:stackdriver-logging.service\""
       "      }"
       "    }"
       "    files_to_check:{"
       "      files_in_dir:{"
-      "        dir_path:\"/etc/systemd/system\""
+      "        dir_path:\"/run/systemd/units\""
       "        recursive: true"
-      "        filename_regex: \"fluent-bit.service\""
+      "        filename_regex: \"invocation:fluent-bit.service\""
       "      }"
       "    }"
       "    existence:{should_exist: true}"
@@ -4316,6 +4316,127 @@ benchmark_configs: {
       "   }"
       " }"
       "}"
+  }
+}
+benchmark_configs: {
+  id: "configure-ipv6-loopback-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure IPv6 loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic. "
+      "Configure all other interfaces to deny traffic to the loopback network (::1)."
+    rationale:
+      "Loopback traffic is generated between processes on machine and "
+      "is typically critical to operation of the system. "
+      "The loopback interface is the only place that loopback network (::1) "
+      "traffic should be seen, all other interfaces should ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules: \n"
+      "```# ip6tables -A INPUT -i lo -j ACCEPT \n"
+      "# ip6tables -A OUTPUT -o lo -j ACCEPT \n"
+      "# ip6tables -A INPUT -s ::1 -j DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      " check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/var/run/ip6tables-conf-cis-2\"}}"
+      "     content_entry:{"
+      "         match_type: ALL_MATCH_ANY_ORDER"
+      "         match_criteria: {"
+      "           filter_regex: \"ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+[a-zA-Z]+.*\""
+      "           expected_regex: \"ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+DROP.*\""
+      "         }"
+      "     }"
+      "   }"
+      " }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/share/google/security\""
+      "        filename_regex: \".*\\\\.sh\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      # Use a null byte as the delimiter to be able to match multi-line commands.
+      "        delimiter: \"\\0\""
+      "        match_criteria: {"
+      "          filter_regex: \".*ip6tables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+[a-zA-Z]+.*\""
+      "          expected_regex: \".*ip6tables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+DROP.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+benchmark_configs: {
+  id: "configure-loopback-cos"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    title: "Ensure loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic. "
+      "Configure all other interfaces to deny traffic to the loopback network (127.0.0.0/8)."
+    rationale:
+      "Loopback traffic is generated between processes on machine and "
+      "is typically critical to operation of the system. "
+      "The loopback interface is the only place that loopback network "
+      "(127.0.0.0/8) traffic should be seen, all other interfaces should "
+      "ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules: \n"
+      "```# iptables -A INPUT -i lo -j ACCEPT \n"
+      "# iptables -A OUTPUT -o lo -j ACCEPT \n"
+      "# iptables -A INPUT -s 127.0.0.0/8 -j DROP```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      " check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/var/run/iptables-conf-cis-2\"}}"
+      "     content_entry:{"
+      "         match_type: ALL_MATCH_ANY_ORDER"
+      "         match_criteria: {"
+      "           filter_regex: \"iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-s\\\\s+127.0.0.0/8\\\\s+-j\\\\s+[a-zA-Z]+.*\""
+      "           expected_regex: \"iptables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-s\\\\s+127.0.0.0/8\\\\s+-j\\\\s+DROP.*\""
+      "         }"
+      "     }"
+      "   }"
+      " }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/usr/share/google/security\""
+      "        filename_regex: \".*\\\\.sh\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      # Use a null byte as the delimiter to be able to match multi-line commands.
+      "        delimiter: \"\\0\""
+      "        match_criteria: {"
+      "          filter_regex: \".*iptables\\\\s+-[A-Z]\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+[a-zA-Z]+.*\""
+      "          expected_regex: \".*iptables\\\\s+-(A|I)\\\\s+INPUT\\\\s+-s\\\\s+::1\\\\s+-j\\\\s+DROP.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 benchmark_configs: {
