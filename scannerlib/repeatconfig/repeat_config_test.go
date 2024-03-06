@@ -222,6 +222,59 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 				},
 			},
 		},
+		{
+			desc: "SYS_UID_MIN and SYS_UID_MAX present but UID_MIN is not",
+			passwd: "systemuser1:x:120:120::/home/systemuser1:/bin/bash\n" +
+				"systemuser2:x:456:456::/home/systemuser2:/bin/bash\n" +
+				"normaluser:x:5000:5000::/home/normaluser:/bin/bash",
+			loginDefs: "SYS_UID_MIN    101\n" +
+				"SYS_UID_MAX    999",
+			want: []*repeatconfig.RepeatConfig{
+				&repeatconfig.RepeatConfig{
+					TokenReplacements: []*repeatconfig.TokenReplacement{
+						{TextToReplace: "$user", ReplaceWith: "systemuser1"},
+						{TextToReplace: "$uid", ReplaceWith: "120"},
+						{TextToReplace: "$gid", ReplaceWith: "120"},
+						{TextToReplace: "$home", ReplaceWith: "/home/systemuser1"},
+					},
+				},
+				&repeatconfig.RepeatConfig{
+					TokenReplacements: []*repeatconfig.TokenReplacement{
+						{TextToReplace: "$user", ReplaceWith: "systemuser2"},
+						{TextToReplace: "$uid", ReplaceWith: "456"},
+						{TextToReplace: "$gid", ReplaceWith: "456"},
+						{TextToReplace: "$home", ReplaceWith: "/home/systemuser2"},
+					},
+				},
+			},
+		},
+		{
+			desc: "All SYS_UID_MIN, SYS_UID_MAX, and UID_MIN present",
+			passwd: "systemuser1:x:120:120::/home/systemuser1:/bin/bash\n" +
+				"systemuser2:x:456:456::/home/systemuser2:/bin/bash\n" +
+				"normaluser:x:2000:2000::/home/normaluser:/bin/bash",
+			loginDefs: "UID_MIN    5000\n" +
+				"SYS_UID_MIN    101\n" +
+				"SYS_UID_MAX    999",
+			want: []*repeatconfig.RepeatConfig{
+				&repeatconfig.RepeatConfig{
+					TokenReplacements: []*repeatconfig.TokenReplacement{
+						{TextToReplace: "$user", ReplaceWith: "systemuser1"},
+						{TextToReplace: "$uid", ReplaceWith: "120"},
+						{TextToReplace: "$gid", ReplaceWith: "120"},
+						{TextToReplace: "$home", ReplaceWith: "/home/systemuser1"},
+					},
+				},
+				&repeatconfig.RepeatConfig{
+					TokenReplacements: []*repeatconfig.TokenReplacement{
+						{TextToReplace: "$user", ReplaceWith: "systemuser2"},
+						{TextToReplace: "$uid", ReplaceWith: "456"},
+						{TextToReplace: "$gid", ReplaceWith: "456"},
+						{TextToReplace: "$home", ReplaceWith: "/home/systemuser2"},
+					},
+				},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
