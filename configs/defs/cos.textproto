@@ -2514,6 +2514,9 @@ benchmark_configs: {
       "        filename_regex: \"invocation:stackdriver-logging.service\""
       "      }"
       "    }"
+      "  }"
+      "} check_alternatives:{"
+      "  file_checks:{"
       "    files_to_check:{"
       "      files_in_dir:{"
       "        dir_path:\"/run/systemd/units\""
@@ -2523,8 +2526,7 @@ benchmark_configs: {
       "    }"
       "    existence:{should_exist: true}"
       "  }"
-      " }"
-      "}"
+      "}}"
   }
 }
 benchmark_configs: {
