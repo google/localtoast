@@ -86,7 +86,7 @@ func TestSingleFile(t *testing.T) {
 		FilePath: &ipb.FileSet_SingleFile_{SingleFile: &ipb.FileSet_SingleFile{Path: expectedPath}},
 	}
 
-	err := fileset.WalkFiles(context.Background(), fileSet, &fakeDirectoryReader{}, time.Time{}, func(walkedPath string, isDir bool) error {
+	err := fileset.WalkFiles(context.Background(), fileSet, &fakeDirectoryReader{}, time.Time{}, func(walkedPath string, isDir bool, traversingDir bool) error {
 		if expectedPath != walkedPath {
 			t.Errorf("fileset.WalkFiles(%v) expected to walk on path %s, got %s",
 				fileSet, expectedPath, walkedPath)
@@ -99,8 +99,9 @@ func TestSingleFile(t *testing.T) {
 }
 
 type traversal struct {
-	Path  string
-	IsDir bool
+	Path          string
+	IsDir         bool
+	TraversingDir bool
 }
 
 func TestFilesInDir(t *testing.T) {
@@ -118,12 +119,12 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root", IsDir: true},
-				{Path: "/root/file1.txt", IsDir: false},
-				{Path: "/root/file2.gif", IsDir: false},
-				{Path: "/root/symlink", IsDir: false},
-				{Path: "/root/subdir", IsDir: true},
-				{Path: "/root/subdir/file3.txt", IsDir: false},
+				{Path: "/root", IsDir: true, TraversingDir: true},
+				{Path: "/root/file1.txt", IsDir: false, TraversingDir: true},
+				{Path: "/root/file2.gif", IsDir: false, TraversingDir: true},
+				{Path: "/root/symlink", IsDir: false, TraversingDir: true},
+				{Path: "/root/subdir", IsDir: true, TraversingDir: true},
+				{Path: "/root/subdir/file3.txt", IsDir: false, TraversingDir: true},
 			},
 		},
 		{
@@ -136,10 +137,10 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root/file1.txt", IsDir: false},
-				{Path: "/root/file2.gif", IsDir: false},
-				{Path: "/root/symlink", IsDir: false},
-				{Path: "/root/subdir/file3.txt", IsDir: false},
+				{Path: "/root/file1.txt", IsDir: false, TraversingDir: true},
+				{Path: "/root/file2.gif", IsDir: false, TraversingDir: true},
+				{Path: "/root/symlink", IsDir: false, TraversingDir: true},
+				{Path: "/root/subdir/file3.txt", IsDir: false, TraversingDir: true},
 			},
 		},
 		{
@@ -152,8 +153,8 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root", IsDir: true},
-				{Path: "/root/subdir", IsDir: true},
+				{Path: "/root", IsDir: true, TraversingDir: true},
+				{Path: "/root/subdir", IsDir: true, TraversingDir: true},
 			},
 		},
 		{
@@ -166,11 +167,11 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root", IsDir: true},
-				{Path: "/root/file1.txt", IsDir: false},
-				{Path: "/root/file2.gif", IsDir: false},
-				{Path: "/root/subdir", IsDir: true},
-				{Path: "/root/subdir/file3.txt", IsDir: false},
+				{Path: "/root", IsDir: true, TraversingDir: true},
+				{Path: "/root/file1.txt", IsDir: false, TraversingDir: true},
+				{Path: "/root/file2.gif", IsDir: false, TraversingDir: true},
+				{Path: "/root/subdir", IsDir: true, TraversingDir: true},
+				{Path: "/root/subdir/file3.txt", IsDir: false, TraversingDir: true},
 			},
 		},
 		{
@@ -182,11 +183,11 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root", IsDir: true},
-				{Path: "/root/file1.txt", IsDir: false},
-				{Path: "/root/file2.gif", IsDir: false},
-				{Path: "/root/symlink", IsDir: false},
-				{Path: "/root/subdir", IsDir: true},
+				{Path: "/root", IsDir: true, TraversingDir: true},
+				{Path: "/root/file1.txt", IsDir: false, TraversingDir: true},
+				{Path: "/root/file2.gif", IsDir: false, TraversingDir: true},
+				{Path: "/root/symlink", IsDir: false, TraversingDir: true},
+				{Path: "/root/subdir", IsDir: true, TraversingDir: true},
 			},
 		},
 		{
@@ -199,8 +200,8 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root/file1.txt", IsDir: false},
-				{Path: "/root/subdir/file3.txt", IsDir: false},
+				{Path: "/root/file1.txt", IsDir: false, TraversingDir: true},
+				{Path: "/root/subdir/file3.txt", IsDir: false, TraversingDir: true},
 			},
 		},
 		{
@@ -213,10 +214,10 @@ func TestFilesInDir(t *testing.T) {
 				}},
 			},
 			expectedTraversal: []*traversal{
-				{Path: "/root", IsDir: true},
-				{Path: "/root/file1.txt", IsDir: false},
-				{Path: "/root/file2.gif", IsDir: false},
-				{Path: "/root/symlink", IsDir: false},
+				{Path: "/root", IsDir: true, TraversingDir: true},
+				{Path: "/root/file1.txt", IsDir: false, TraversingDir: true},
+				{Path: "/root/file2.gif", IsDir: false, TraversingDir: true},
+				{Path: "/root/symlink", IsDir: false, TraversingDir: true},
 			},
 		},
 		{
@@ -252,7 +253,7 @@ func TestFilesInDir(t *testing.T) {
 			// The directory is still traversed so that the checks can report
 			// non-compliance.
 			expectedTraversal: []*traversal{
-				{Path: "/non-existent", IsDir: true},
+				{Path: "/non-existent", IsDir: true, TraversingDir: true},
 			},
 		},
 	}
@@ -260,8 +261,8 @@ func TestFilesInDir(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
 			gotTraversal := []*traversal{}
-			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, time.Time{}, func(walkedPath string, isDir bool) error {
-				gotTraversal = append(gotTraversal, &traversal{Path: walkedPath, IsDir: isDir})
+			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, time.Time{}, func(walkedPath string, isDir bool, traversingDir bool) error {
+				gotTraversal = append(gotTraversal, &traversal{walkedPath, isDir, traversingDir})
 				return nil
 			})
 			if err != nil {
@@ -296,7 +297,7 @@ func TestTraverseFilesystemWithInfiniteLoop(t *testing.T) {
 		DirPath:   "/",
 		Recursive: true,
 	}}}
-	err := fileset.WalkFiles(context.Background(), files, &infiniteLoopFSReader{}, time.Time{}, func(walkedPath string, isDir bool) error { return nil })
+	err := fileset.WalkFiles(context.Background(), files, &infiniteLoopFSReader{}, time.Time{}, func(walkedPath string, isDir bool, traversingDir bool) error { return nil })
 	if err == nil {
 		t.Fatalf("fileset.WalkFiles(%v) didn't return an error", files)
 	}
@@ -483,8 +484,8 @@ func TestProcessPath(t *testing.T) {
 				tc.fileSet,
 				&fakeProcessPathReader{pidToName: tc.pidToName, pidToCLIArgs: tc.pidToCLIArgs},
 				time.Time{},
-				func(path string, isDir bool) error {
-					got = append(got, &traversal{path, isDir})
+				func(path string, isDir bool, traversingDir bool) error {
+					got = append(got, &traversal{path, isDir, traversingDir})
 					return nil
 				},
 			)
@@ -516,8 +517,8 @@ func TestProcessPathRemovedAfterQuerying(t *testing.T) {
 		fileSet,
 		&fakeProcessPathReader{pidToName: map[int]string{1: "foo"}, removeFilesAfterQuery: true},
 		time.Time{},
-		func(path string, isDir bool) error {
-			got = append(got, &traversal{path, isDir})
+		func(path string, isDir bool, traversingDir bool) error {
+			got = append(got, &traversal{path, isDir, traversingDir})
 			return nil
 		},
 	)
@@ -596,8 +597,8 @@ func TestUnixEnvVarPaths(t *testing.T) {
 				tc.fileSet,
 				&fakeDirectoryReader{},
 				time.Time{},
-				func(path string, isDir bool) error {
-					got = append(got, &traversal{path, isDir})
+				func(path string, isDir bool, traversingDir bool) error {
+					got = append(got, &traversal{path, isDir, traversingDir})
 					return nil
 				},
 			)
@@ -650,7 +651,7 @@ func TestTimeout(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
 			timeout := time.Now().Add(-1 * time.Second)
-			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, timeout, func(walkedPath string, isDir bool) error { return nil })
+			err := fileset.WalkFiles(context.Background(), tc.fileSet, &fakeDirectoryReader{}, timeout, func(walkedPath string, isDir bool, traversingDir bool) error { return nil })
 			if err == nil {
 				t.Fatalf("fileset.WalkFiles(%v) didn't return an error, expected one", tc.fileSet)
 			}

@@ -635,14 +635,44 @@ func TestResultsForDifferentAlternativesAggregatedSeparately(t *testing.T) {
 	}
 }
 
+type dirWithUnreadableFile struct{}
+
+func (dirWithUnreadableFile) OpenFile(ctx context.Context, filePath string) (io.ReadCloser, error) {
+	return nil, os.ErrNotExist
+}
+
+func (dirWithUnreadableFile) OpenDir(ctx context.Context, filePath string) (scanapi.DirReader, error) {
+	return scanapi.SliceToDirReader([]*apb.DirContent{
+		{Name: path.Base(testFilePath), IsDir: false},
+	}), nil
+}
+
+func (dirWithUnreadableFile) FilePermissions(ctx context.Context, filePath string) (*apb.PosixPermissions, error) {
+	return nil, errors.New("not implemented")
+}
+
+func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (int, error) {
+	return 0, errors.New("not implemented")
+}
+
+func (dirWithUnreadableFile) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+	return "", errors.New("not implemented")
+}
+
+func (dirWithUnreadableFile) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
+	return ipb.SQLCheck_DB_UNSPECIFIED, errors.New("not implemented")
+}
+
 func TestFileExistenceCheckComplianceResults(t *testing.T) {
 	testCases := []struct {
 		desc           string
+		api            scanapi.ScanAPI
 		fileCheck      *ipb.FileCheck
 		expectedResult *apb.ComplianceResult
 	}{
 		{
 			desc: "File exists and should",
+			api:  newFakeAPI(),
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -654,6 +684,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 		},
 		{
 			desc: "File doesn't exist and shouldn't",
+			api:  newFakeAPI(),
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(nonExistentFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
@@ -665,6 +696,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 		},
 		{
 			desc: "File doesn't exist but should",
+			api:  newFakeAPI(),
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(nonExistentFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
@@ -683,6 +715,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 		},
 		{
 			desc: "File in directory doesn't exist but it should",
+			api:  newFakeAPI(),
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{&ipb.FileSet{
 					FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{
@@ -713,6 +746,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 		},
 		{
 			desc: "File exists but it shouldn't",
+			api:  newFakeAPI(),
 			fileCheck: &ipb.FileCheck{
 				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath)},
 				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
@@ -729,11 +763,28 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 				},
 			},
 		},
+		{
+			desc: "File exists but unreadable",
+			api:  &dirWithUnreadableFile{},
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{&ipb.FileSet{
+					FilePath: &ipb.FileSet_FilesInDir_{FilesInDir: &ipb.FileSet_FilesInDir{
+						DirPath:   testDirPath,
+						Recursive: false,
+					}},
+				}},
+				CheckType: &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id:                   "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
+			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, tc.api)
 			resultMap, err := check.Exec()
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)

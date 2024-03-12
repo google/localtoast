@@ -55,8 +55,8 @@ type FileCheckBatch struct {
 // Exec executes the file checks batched by the FileCheckBatch.
 func (b *FileCheckBatch) Exec() (ComplianceMap, error) {
 	err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
-		func(path string, isDir bool) error {
-			return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, b.fs)
+		func(path string, isDir bool, traversingDir bool) error {
+			return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, traversingDir, b.fs)
 		})
 	if err != nil {
 		return nil, err
@@ -260,14 +260,14 @@ func newFileCheckers(fileChecks []*fileCheck) (*fileCheckers, error) {
 	return result, nil
 }
 
-func (c *fileCheckers) execChecksOnFile(ctx context.Context, path string, isDir bool, fs scanapi.Filesystem) error {
+func (c *fileCheckers) execChecksOnFile(ctx context.Context, path string, isDir bool, traversingDir bool, fs scanapi.Filesystem) error {
 	f, openError := c.openFileForCheckExec(ctx, path, fs)
 	if f != nil {
 		defer f.Close()
 	}
 
 	for _, checker := range c.existenceFileCheckers {
-		if err := checker.exec(path, openError); err != nil {
+		if err := checker.exec(path, openError, isDir, traversingDir); err != nil {
 			return err
 		}
 	}
@@ -355,10 +355,18 @@ func newExistenceFileChecker(fc *fileCheck) *existenceFileChecker {
 	return &existenceFileChecker{fc: fc, foundFile: ""}
 }
 
-func (c *existenceFileChecker) exec(path string, openError error) error {
-	exists, err := fileExists(openError)
-	if err != nil {
-		return err
+func (c *existenceFileChecker) exec(path string, openError error, isDir bool, traversingDir bool) error {
+	exists := false
+	// If this file was listed while traversing a directory
+	// we know it exists without needing to open it.
+	if traversingDir && !isDir {
+		exists = true
+	} else {
+		var err error
+		exists, err = fileExists(openError)
+		if err != nil {
+			return err
+		}
 	}
 	if exists {
 		c.foundFile = path
