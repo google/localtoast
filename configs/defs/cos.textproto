@@ -2514,6 +2514,7 @@ benchmark_configs: {
       "        filename_regex: \"invocation:stackdriver-logging.service\""
       "      }"
       "    }"
+      "    existence:{should_exist: true}"
       "  }"
       "} check_alternatives:{"
       "  file_checks:{"
