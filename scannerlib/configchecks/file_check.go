@@ -39,6 +39,9 @@ import (
 // MaxNonCompliantFiles is the maximum number of non-compliant files to be displayed for a single finding.
 const MaxNonCompliantFiles = 10
 
+const PipelineToken = "%%pipeline%%"
+
+
 // FileCheckBatch is an implementation of scanner.Check that performs various
 // combined file checks on a set of files. By batching the checks together, we
 // can avoid opening and reading the files multiple times.
@@ -53,13 +56,21 @@ type FileCheckBatch struct {
 }
 
 // Exec executes the file checks batched by the FileCheckBatch.
-func (b *FileCheckBatch) Exec() (ComplianceMap, error) {
+func (b *FileCheckBatch) Exec(prvRes string) (ComplianceMap, string, error) {
+
+	if b.filesToCheck.GetSingleFile() != nil{
+
+		if b.filesToCheck.GetSingleFile().Path == PipelineToken {
+			b.filesToCheck.GetSingleFile().Path = prvRes
+		}
+	}
+
 	err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool, traversingDir bool) error {
 			return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, traversingDir, b.fs)
 		})
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	b.fileCheckers.execChecksAfterFileTraversal(b.filesToCheck)
 	return aggregateComplianceResults(b.fileChecks)
@@ -508,7 +519,7 @@ func (c *contentFileChecker) exec(path string, content []byte) error {
 
 // aggregateComplianceResults merges the non-compliant files of the
 // specified fileChecks for each check alternative.
-func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) {
+func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, string, error) {
 	result := make(map[int]*apb.ComplianceResult) // Key: The CheckAlternative ID.
 	for _, fc := range fileChecks {
 		nonCompliantFiles := fc.nonCompliantFiles
@@ -550,7 +561,7 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 		}
 	}
 
-	return result, nil
+	return result, "", nil
 }
 
 // openFileForReading opens the specified path and returns a ReadCloser.

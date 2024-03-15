@@ -30,7 +30,7 @@ import (
 // (e.g. checking for the existence of a given file).
 type BenchmarkCheck interface {
 	// Exec executes the checks defined by the interface implementation.
-	Exec() (ComplianceMap, error)
+	Exec(string) (ComplianceMap, string, error)
 	// BenchmarkIDs returns the IDs of the benchmarks associated with this check.
 	BenchmarkIDs() []string
 	String() string
@@ -129,6 +129,9 @@ func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api
 	}
 
 	checks := make([]BenchmarkCheck, 0, len(fileCheckBatches)+len(sqlChecks))
+	for _, c := range sqlChecks {
+		checks = append(checks, c)
+	}
 	for _, b := range fileCheckBatches {
 		checks = append(checks, b)
 	}

@@ -22,21 +22,33 @@ import (
 )
 
 // Query executes a SQL query and returns the number of rows in the result.
-func Query(ctx context.Context, db *sql.DB, query string) (int, error) {
+func Query(ctx context.Context, db *sql.DB, query string) (int, [][]string, error) {
 	if db == nil {
-		return 0, errors.New("no database specified. Please provide one using the --database flag")
+		return 0, nil, errors.New("no database specified. Please provide one using the --database flag")
 	}
 	rows, err := db.Query(query)
 	if err != nil {
-		return 0, err
+		return 0, nil, err
 	}
 	defer rows.Close()
 	n := 0
+
+	// Storing SQL Query results in a string array
+	var result [][]string
+	cols, _ := rows.Columns()
+	pointers := make([]interface{}, len(cols))
+	container := make([]string, len(cols))
+	for i, _ := range pointers {
+		pointers[i] = &container[i]
+	}
 	for rows.Next() {
 		n++
+		rows.Scan(pointers...)
+		result = append(result, container)
 	}
+
 	if rows.Err() != nil {
-		return 0, rows.Err()
+		return 0, nil, rows.Err()
 	}
-	return n, nil
+	return n, result, nil
 }
