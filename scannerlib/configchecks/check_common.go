@@ -135,9 +135,6 @@ func CreateChecksFromConfig(ctx context.Context, scanConfig *apb.ScanConfig, api
 	for _, b := range fileCheckBatches {
 		checks = append(checks, b)
 	}
-	for _, c := range sqlChecks {
-		checks = append(checks, c)
-	}
 	return checks, nil
 }
 
