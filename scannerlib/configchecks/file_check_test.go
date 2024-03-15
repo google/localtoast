@@ -655,8 +655,8 @@ func (dirWithUnreadableFile) FilePermissions(ctx context.Context, filePath strin
 	return nil, errors.New("not implemented")
 }
 
-func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (int, error) {
-	return 0, errors.New("not implemented")
+func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
+	return 0, nil, errors.New("not implemented")
 }
 
 func (dirWithUnreadableFile) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
