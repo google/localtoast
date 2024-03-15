@@ -217,7 +217,9 @@ func TestMySQLCheckComplianceResults(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			check := createMySQLCheck(t, "id", []*ipb.SQLCheck{tc.sqlCheck}, newFakeAPI())
-			resultMap, err := check.Exec()
+
+			var pVal string
+			resultMap, _, err := check.Exec(pVal)
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -256,8 +258,9 @@ func TestMySQLCustomNonComplianceMessage(t *testing.T) {
 		t.Fatalf("Expected 1 check to be created, got %d", len(newchecks))
 	}
 
+	var pVal string
 	newcheck := newchecks[0]
-	resultMap, err := newcheck.Exec()
+	resultMap, _, err := newcheck.Exec(pVal)
 	if err != nil {
 		t.Fatalf("newcheck.Exec() returned an error: %v", err)
 	}
@@ -282,7 +285,8 @@ func TestMySQLCheckPropagatesError(t *testing.T) {
 		Query:          fakeQueryError,
 		ExpectResults:  true,
 	}}, newFakeAPI())
-	_, err := check.Exec()
+	var pVal string
+	_, _, err := check.Exec(pVal)
 	if err == nil {
 		t.Errorf("check.Exec() didn't return an error")
 	}
