@@ -557,7 +557,8 @@ func TestGroupCriteria(t *testing.T) {
 				t.Fatalf("Created %d checks, expected only 1", len(checks))
 			}
 
-			resultMap, err := checks[0].Exec()
+			var pVal string
+			resultMap, _, err := checks[0].Exec(pVal)
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}

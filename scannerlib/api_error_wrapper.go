@@ -54,12 +54,12 @@ func (w *apiErrorWrapper) FilePermissions(ctx context.Context, path string) (*ap
 	return p, err
 }
 
-func (w *apiErrorWrapper) SQLQuery(ctx context.Context, query string) (int, error) {
-	l, err := w.api.SQLQuery(ctx, query)
+func (w *apiErrorWrapper) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
+	l, res, err := w.api.SQLQuery(ctx, query)
 	if err != nil {
 		err = fmt.Errorf("api.SQLQuery(%q): %w", query, err)
 	}
-	return l, err
+	return l, res, err
 }
 
 func (w *apiErrorWrapper) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
