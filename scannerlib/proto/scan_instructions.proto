@@ -272,6 +272,4 @@ message SQLCheck {
   string non_compliance_msg = 4;
   // Only needed for ElasticSearch database, perform regex match on response.
   string filter_regex = 5;
-  // (Optional) the query result
-  string query_result = 6;
 }
