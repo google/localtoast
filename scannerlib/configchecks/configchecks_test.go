@@ -137,12 +137,7 @@ func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, [][]string, err
 	case fakeQueryNoRows:
 		return 0, nil, nil
 	case fakeQueryOneRow:
-		var result [][]string
-		container := make([]string, 1)
-		container = append(container, "testValue")
-		result = append(result, container)
-
-		return 1, result, nil
+		return 1, [][]string{{"testValue"}}, nil
 	case fakeQueryError:
 		return 0, nil, errors.New(queryErrorMsg)
 	default:
