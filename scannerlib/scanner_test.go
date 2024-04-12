@@ -65,12 +65,7 @@ func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (int, [][]str
 	case testQueryNoRows:
 		return 0, nil, nil
 	case testQueryOneRow:
-		var result [][]string
-		container := make([]string, 1)
-		container = append(container, "testValue")
-		result = append(result, container)
-	
-		return 1, result, nil
+		return 1, [][]string{{"testValue"}}, nil
 	default:
 		return 0, nil, fmt.Errorf("the query %q is not supported by fakeAPIProvider", query)
 	}
