@@ -272,9 +272,7 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 				t.Fatalf("Created %d checks, expected only 1", len(checks))
 			}
 
-			var pVal string
-
-			resultMap, _, err := checks[0].Exec(pVal)
+			resultMap, _, err := checks[0].Exec("TEST_VALUE")
 			if err != nil {
 				t.Fatalf("checks[0].Exec() returned an error: %v", err)
 			}
