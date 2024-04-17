@@ -39,6 +39,7 @@ import (
 // MaxNonCompliantFiles is the maximum number of non-compliant files to be displayed for a single finding.
 const MaxNonCompliantFiles = 10
 
+// Wildcard token value to be used in Scan configurations which will be replaced with the previous check result at runtime
 const PipelineToken = "%%pipeline%%"
 
 

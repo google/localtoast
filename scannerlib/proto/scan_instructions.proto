@@ -198,6 +198,7 @@ message GroupCriterion {
 message FileSet {
   // A single file.
   message SingleFile {
+    // Path to file. This value can be replaced with the previous check result if the PipelineToken is used in the Scan config
     string path = 1;
   }
 
