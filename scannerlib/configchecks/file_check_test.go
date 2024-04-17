@@ -427,8 +427,7 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
-			var pVal string
-			resultMap, _, err := check.Exec(pVal)
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -541,8 +540,7 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 				OptOutConfig:     tc.optOutConfig,
 			}
 			check := createFileCheckBatchFromScanConfig(t, "id", scanConfig, newFakeAPI())
-			var pVal string
-			resultMap, _, err := check.Exec(pVal)
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -583,8 +581,7 @@ func TestReplacementConfigApplied(t *testing.T) {
 		ReplacementConfig: replacementConfig,
 	}
 	check := createFileCheckBatchFromScanConfig(t, "id", scanConfig, newFakeAPI())
-	var pVal string
-	resultMap, _, err := check.Exec(pVal)
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -628,8 +625,7 @@ func TestResultsForDifferentAlternativesAggregatedSeparately(t *testing.T) {
 	}
 	check := checks[0]
 
-	var pVal string 
-	resultMap, _, err := check.Exec(pVal)
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -789,8 +785,7 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, tc.api)
-			var pVal string
-			resultMap, _, err := check.Exec(pVal)
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -811,11 +806,10 @@ func TestFileExistenceCheckPipelinedInput(t *testing.T) {
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
 	}}, newFakeAPI())
-	var pVal string = testFilePath
 
 	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
 
-	resultMap, _, err := check.Exec(pVal);
+	resultMap, _, err := check.Exec(testFilePath);
 
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
@@ -836,14 +830,13 @@ func TestFileNotExistenceCheckPipelinedInput(t *testing.T) {
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
 	}}, newFakeAPI())
-	var pVal string = nonExistentFilePath
 
 	expectedResult := &apb.ComplianceResult{
 		Id:                   "id",
 		ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 	}
 
-	resultMap, _, err := check.Exec(pVal);
+	resultMap, _, err := check.Exec(nonExistentFilePath);
 
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
@@ -864,15 +857,14 @@ func TestPipelinedInputExpectedButNotProvided(t *testing.T) {
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
 	}}, newFakeAPI())
-	//The default propagated value is an empty string
-	var pVal string = ""
 
 	expectedResult := &apb.ComplianceResult{
 		Id:                   "id",
 		ComplianceOccurrence: &cpb.ComplianceOccurrence{},
 	}
 
-	resultMap, _, err := check.Exec(pVal);
+	//The default propagated value is an empty string
+	resultMap, _, err := check.Exec("");
 
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
@@ -892,11 +884,10 @@ func TestPipelinedInputNotExpectedButProvided(t *testing.T) {
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFileContent)},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
 	}}, newFakeAPI())
-	var pVal string = nonExistentFilePath
 
 	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
 
-	resultMap, _, err := check.Exec(pVal);
+	resultMap, _, err := check.Exec(nonExistentFilePath);
 
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
@@ -917,8 +908,7 @@ func TestFileExistenceCheckPropagatesError(t *testing.T) {
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(unreadableFilePath)},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
 	}}, newFakeAPI())
-	var pVal string
-	if _, _, err := check.Exec(pVal); err == nil {
+	if _, _, err := check.Exec(""); err == nil {
 		t.Errorf("check.Exec() didn't return an error")
 	}
 }
@@ -934,8 +924,7 @@ func TestFileExistenceWithWrappedError(t *testing.T) {
 	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
 
 	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, newFakeAPI(withOpenFileFunc(openFileFunc)))
-	var pVal string
-	resultMap, _, err := check.Exec(pVal)
+	resultMap, _, err := check.Exec("")
 
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
@@ -1176,8 +1165,7 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 				CheckType:    &ipb.FileCheck_Permission{Permission: tc.permissionCheck},
 			}}, newFakeAPI())
 
-			var pVal string
-			resultMap, _, err := check.Exec(pVal)
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -1305,8 +1293,7 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
 			check := createFileCheckBatch(t, "id", tc.fileChecks, newFakeAPI())
-			var pVal string
-			resultMap, _, err := check.Exec(pVal)
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -1394,8 +1381,7 @@ func TestGzippedFileUnzipped(t *testing.T) {
 		}
 
 	check := createFileCheckBatch(t, "id", fileChecks, newFakeAPI(withFileContent(gzipFileContent)))
-	var pVal string 
-	resultMap, _, err := check.Exec(pVal)
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -1582,8 +1568,7 @@ func TestLongCheckResultsPruned(t *testing.T) {
 	}
 	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, &manyFilesAPI{})
 
-	var pVal string
-	resultMap, _, err := check.Exec(pVal)
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
