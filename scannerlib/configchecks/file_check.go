@@ -57,6 +57,7 @@ type FileCheckBatch struct {
 }
 
 // Exec executes the file checks batched by the FileCheckBatch.
+// The method takes as input the Previous check result output as string, if any
 func (b *FileCheckBatch) Exec(prvRes string) (ComplianceMap, string, error) {
 
 	if b.filesToCheck.GetSingleFile() != nil{
