@@ -42,9 +42,13 @@ func Query(ctx context.Context, db *sql.DB, query string) (int, [][]string, erro
 		pointers[i] = &container[i]
 	}
 	for rows.Next() {
+		//storing only the first row
+		if n == 0 {
+			rows.Scan(pointers...)
+			result = append(result, container)
+		}
+
 		n++
-		rows.Scan(pointers...)
-		result = append(result, container)
 	}
 
 	if rows.Err() != nil {
