@@ -39,9 +39,6 @@ import (
 // MaxNonCompliantFiles is the maximum number of non-compliant files to be displayed for a single finding.
 const MaxNonCompliantFiles = 10
 
-// Wildcard token value to be used in Scan configurations which will be replaced with the previous check result at runtime
-const PipelineToken = "%%pipeline%%"
-
 
 // FileCheckBatch is an implementation of scanner.Check that performs various
 // combined file checks on a set of files. By batching the checks together, we
@@ -60,12 +57,7 @@ type FileCheckBatch struct {
 // The method takes as input the Previous check result output as string, if any
 func (b *FileCheckBatch) Exec(prvRes string) (ComplianceMap, string, error) {
 
-	if b.filesToCheck.GetSingleFile() != nil{
-
-		if b.filesToCheck.GetSingleFile().Path == PipelineToken {
-			b.filesToCheck.GetSingleFile().Path = prvRes
-		}
-	}
+	fileset.ApplyPipelineTokenReplacement(b.filesToCheck, prvRes)
 
 	err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool, traversingDir bool) error {

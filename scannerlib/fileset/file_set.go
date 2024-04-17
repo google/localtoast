@@ -36,6 +36,9 @@ import (
 
 const maxTraversalDepth = 100
 
+// Wildcard token value to be used in Scan configurations which will be replaced with the previous check result at runtime
+const PipelineToken = "%%pipeline%%"
+
 var (
 	procDirMatcher     = regexp.MustCompile(`^\d+$`)
 	procEnvironMatcher = regexp.MustCompile("^(.*)=(.*)$")
@@ -68,6 +71,16 @@ func ApplyReplacementConfig(fileSet *ipb.FileSet, config *apb.ReplacementConfig)
 	}
 	for prefix, replacement := range config.PathPrefixReplacements {
 		applyPathPrefixReplacement(fileSet, prefix, replacement)
+	}
+}
+
+// ApplyPipelineTokenReplacement replaces the File Path if the wildcard is set
+func ApplyPipelineTokenReplacement(fileSet *ipb.FileSet, prvRes string) {
+	if fileSet.GetSingleFile() != nil{
+
+		if fileSet.GetSingleFile().Path == PipelineToken {
+			fileSet.GetSingleFile().Path = prvRes
+		}
 	}
 }
 
