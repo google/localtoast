@@ -801,104 +801,79 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 	}
 }
 
-func TestFileExistenceCheckPipelinedInput(t *testing.T) {
-	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{&ipb.FileCheck{
-		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
-		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
-	}}, newFakeAPI())
-
-	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
-
-	resultMap, _, err := check.Exec(testFilePath);
-
-	if err != nil {
-		t.Fatalf("check.Exec() returned an error: %v", err)
+func TestFileWithPipelining(t *testing.T) {
+	testCases := []struct {
+		desc           string
+		fileCheck      *ipb.FileCheck
+		expectedResult *apb.ComplianceResult
+		fileToCheck	   string
+	}{
+		{
+			desc: "file exists with pipelined input",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck:     []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
+				CheckType:        &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+ 			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: testFilePath,
+		},
+		{
+			desc: "file not exists with pipelined input",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck:     []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
+				CheckType:        &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+ 			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: nonExistentFilePath,
+		},
+		{
+			desc: "pipeline input expected but not provided",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck:     []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
+				CheckType:        &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+ 			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: "",
+		},
+		{
+			desc: "pipeline input not expected but provided",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck:     []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFileContent)},
+				CheckType:        &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+ 			},
+			expectedResult: &apb.ComplianceResult{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: nonExistentFilePath,
+		},
 	}
 
-	result, gotSingleton := singleComplianceResult(resultMap)
-	if !gotSingleton {
-		t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
-	}
-	if diff := cmp.Diff(expectedResult, result, protocmp.Transform()); diff != "" {
-		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
-	}
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
+			resultMap, _, err := check.Exec(tc.fileToCheck)
+			if err != nil {
+				t.Fatalf("check.Exec() returned an error: %v", err)
+			}
+			result, gotSingleton := singleComplianceResult(resultMap)
+			if !gotSingleton {
+				t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+			}
 
-}
-
-func TestFileNotExistenceCheckPipelinedInput(t *testing.T) {
-	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{&ipb.FileCheck{
-		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
-		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
-	}}, newFakeAPI())
-
-	expectedResult := &apb.ComplianceResult{
-		Id:                   "id",
-		ComplianceOccurrence: &cpb.ComplianceOccurrence{},
-	}
-
-	resultMap, _, err := check.Exec(nonExistentFilePath);
-
-	if err != nil {
-		t.Fatalf("check.Exec() returned an error: %v", err)
-	}
-
-	result, gotSingleton := singleComplianceResult(resultMap)
-	if !gotSingleton {
-		t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
-	}
-	if diff := cmp.Diff(expectedResult, result, protocmp.Transform()); diff != "" {
-		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
-	}
-
-}
-
-func TestPipelinedInputExpectedButNotProvided(t *testing.T) {
-	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{&ipb.FileCheck{
-		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
-		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
-	}}, newFakeAPI())
-
-	expectedResult := &apb.ComplianceResult{
-		Id:                   "id",
-		ComplianceOccurrence: &cpb.ComplianceOccurrence{},
-	}
-
-	//The default propagated value is an empty string
-	resultMap, _, err := check.Exec("");
-
-	if err != nil {
-		t.Fatalf("check.Exec() returned an error: %v", err)
-	}
-
-	result, gotSingleton := singleComplianceResult(resultMap)
-	if !gotSingleton {
-		t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
-	}
-	if diff := cmp.Diff(expectedResult, result, protocmp.Transform()); diff != "" {
-		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
-	}
-}
-
-func TestPipelinedInputNotExpectedButProvided(t *testing.T) {
-	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{&ipb.FileCheck{
-		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFileContent)},
-		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
-	}}, newFakeAPI())
-
-	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
-
-	resultMap, _, err := check.Exec(nonExistentFilePath);
-
-	if err != nil {
-		t.Fatalf("check.Exec() returned an error: %v", err)
-	}
-
-	result, gotSingleton := singleComplianceResult(resultMap)
-	if !gotSingleton {
-		t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
-	}
-	if diff := cmp.Diff(expectedResult, result, protocmp.Transform()); diff != "" {
-		t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+			if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
+				t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+			}
+		})
 	}
 }
 
