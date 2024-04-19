@@ -38,6 +38,7 @@ func TestSQLCheck(t *testing.T) {
 		want        int
 		expectError bool
 		errorMsg    string
+		expectStr	string
 	}{
 		{
 			desc:  "SQLCheck one row returned",
@@ -56,6 +57,18 @@ func TestSQLCheck(t *testing.T) {
 			expectError: true,
 			errorMsg:    fakedb.ErrorMsg,
 		},
+		{
+			desc:  "SQLCheck one row returned check string value",
+			query: fakedb.QueryOneRow,
+			want:  1,
+			expectStr: "fakeValue",
+		},
+		{
+			desc:  "SQLCheck no rows returned expect no string value",
+			query: fakedb.QueryNoRows,
+			want:  0,
+			expectStr: "",
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
@@ -64,8 +77,9 @@ func TestSQLCheck(t *testing.T) {
 				t.Errorf("fakedb.Open had an unexpected error: %v", err)
 			}
 			var got int
+			var strRes [][]string
 
-			got, _,  err = sqlquerier.Query(context.Background(), db, tc.query)
+			got, strRes,  err = sqlquerier.Query(context.Background(), db, tc.query)
 			if err != nil {
 				if !tc.expectError {
 					t.Errorf("sqlquerier.Query(ctx, db, %q) had an unexpected error: %v", tc.query, err)
@@ -76,6 +90,9 @@ func TestSQLCheck(t *testing.T) {
 			}
 			if got != tc.want {
 				t.Errorf("sqlquerier.Query(ctx, db, %q) returned wrong result: want %d rows, got %d rows", tc.query, tc.want, got)
+			}
+			if len(tc.expectStr) > 0 && tc.expectStr != strRes[0][0]{
+				t.Errorf("sqlquerier.Query(ctx, db, %q) returned wrong string value: want %q value, got %q", tc.query, tc.expectStr, strRes[0][0])
 			}
 		})
 	}
