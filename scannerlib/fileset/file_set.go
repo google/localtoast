@@ -36,7 +36,7 @@ import (
 
 const maxTraversalDepth = 100
 
-// Wildcard token value to be used in Scan configurations which will be replaced with the previous check result at runtime
+// Wildcard token value to be used in Scan instructions which will be replaced with the previous check result at runtime
 const PipelineToken = "%%pipeline%%"
 
 var (
