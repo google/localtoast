@@ -242,6 +242,14 @@ func TestBenchmarkDocumentInScanResults(t *testing.T) {
 		t.Fatalf("scannerlib.Scan(%v) had unexpected error: %v", config, err)
 	}
 
+	if len(result.GetCompliantBenchmarks()) != 1 {
+		t.Fatalf("scannerlib.Scan(%v): Want 1 compliant benchmark, got %d", config, len(result.GetCompliantBenchmarks()))
+	}
+	gotDoc := result.GetCompliantBenchmarks()[0].GetComplianceOccurrence().GetVersion().GetBenchmarkDocument()
+	if gotDoc != document {
+		t.Errorf("scannerlib.Scan(%v) compliance results expected to contain document %q, got %q", config, document, gotDoc)
+	}
+
 	if result.GetBenchmarkDocument() != document {
 		t.Errorf("scannerlib.Scan(%v) expected to return document %q, got %q", config, document, result.GetBenchmarkDocument())
 	}

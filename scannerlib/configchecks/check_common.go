@@ -21,6 +21,7 @@ import (
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
+	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	"github.com/google/localtoast/scanapi"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -149,6 +150,26 @@ func ValidateScanInstructions(config *apb.BenchmarkConfig) error {
 		if len(alt.proto.GetFileChecks()) == 0 && len(alt.proto.GetSqlChecks()) == 0 {
 			return fmt.Errorf("alternative #%d in benchmark %s doesn't have any checks", i, config.GetId())
 		}
+	}
+	return nil
+}
+
+// AddBenchmarkVersionToResults fills out the compliance_occurrence.version field of the
+// given compliance results based on the original benchmark config.
+func AddBenchmarkVersionToResults(results []*apb.ComplianceResult, configs []*apb.BenchmarkConfig) error {
+	idToVersion := make(map[string]*cpb.ComplianceVersion)
+	for _, c := range configs {
+		if len(c.GetComplianceNote().GetVersion()) != 1 {
+			return fmt.Errorf("benchmark config has multiple versions set: %v", c)
+		}
+		idToVersion[c.GetId()] = c.GetComplianceNote().GetVersion()[0]
+	}
+	for _, r := range results {
+		version, ok := idToVersion[r.GetId()]
+		if !ok {
+			return fmt.Errorf("got compliance result with ID not in original benchmark config: %q", r.GetId())
+		}
+		r.GetComplianceOccurrence().Version = version
 	}
 	return nil
 }

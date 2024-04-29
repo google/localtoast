@@ -3,10 +3,10 @@ rm -rf scannerlib/proto/*_go_proto
 
 # Install and prepare Grafeas.
 if [ ! -e scannerlib/proto/v1 ]; then
-  wget --no-verbose https://github.com/grafeas/grafeas/archive/0163b5bb2ff5afbf059ddf472fb4d128faae85e3.tar.gz
-  tar -xf 0163b5bb2ff5afbf059ddf472fb4d128faae85e3.tar.gz
-  mv grafeas-0163b5bb2ff5afbf059ddf472fb4d128faae85e3/proto/v1 scannerlib/proto
-  rm -r *0163b5bb2ff5afbf059ddf472fb4d128faae85e3*
+  wget --no-verbose https://github.com/grafeas/grafeas/archive/220ed72376f81d0dd5233839d22c5627eb8d9494.tar.gz
+  tar -xf 220ed72376f81d0dd5233839d22c5627eb8d9494.tar.gz
+  mv grafeas-220ed72376f81d0dd5233839d22c5627eb8d9494/proto/v1 scannerlib/proto
+  rm -r *220ed72376f81d0dd5233839d22c5627eb8d9494*
 fi
 
 sed -i 's\option go_package = ".*";\option go_package = "github.com/google/localtoast/scannerlib/proto/compliance_go_proto";\g' scannerlib/proto/v1/compliance.proto
