@@ -1,0 +1,1483 @@
+benchmark_configs: {
+  id: "mysql-daemon-least-privilege"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Use dedicated least privileged account for MySQL daemon/service"
+    description:
+      "As with any service installed on a host, it can be provided with its "
+      "own user context. Providing a dedicated user to the service provides "
+      "the ability to precisely constrain the service within the larger host "
+      "context."
+    rationale:
+      "Utilizing a least privilege account for MySQL to execute as may reduce "
+      "the impact of a MySQL-born vulnerability. A restricted account will be "
+      "unable to access resources unrelated to MySQL, such as operating "
+      "system configurations."
+    remediation:
+      "Create a user which is only used for running MySQL and directly related "
+      "processes. This user must not have administrative rights to the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      process_path:{"
+      "        proc_name:\"mysqld\""
+      "      }"
+      "    }"
+      "    permission:{"
+      "      user: {name: \"mysql\" should_own: true}"
+      "      group: {name: \"mysql\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-pwd-not-in-environ"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Verify that the MYSQL_PWD environment variable is not in use"
+    description:
+      "MySQL can read a default database password from an environment variable "
+      "called MYSQL_PWD."
+    rationale:
+      "The use of the MYSQL_PWD environment variable implies the clear text "
+      "storage of MySQL credentials. Avoiding this may increase assurance that "
+      "the confidentiality of MySQL credentials is preserved."
+    remediation:
+      "Check which users and/or scripts are setting MYSQL_PWD and change them "
+      "to use a more secure method."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      process_path:{"
+      "        proc_name:\"mysqld\""
+      "        file_name:\"environ\""
+      "      }"
+      "    }"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      # Entries in /proc/*/environ are separated by null bytes.
+      "      delimiter: \"\\0\""
+      "      match_criteria: {"
+      "        filter_regex: \"MYSQL_PWD=.+\""
+      "        expected_regex: \"MYSQL_PWD=.+\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-pwd-not-in-profiles"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Verify that MYSQL_PWD is not set in users' profiles"
+    description:
+      "MySQL can read a default database password from an environment variable "
+      "called MYSQL_PWD."
+    rationale:
+      "The use of the MYSQL_PWD environment variable implies the clear text "
+      "storage of MySQL credentials. Avoiding this may increase assurance that "
+      "the confidentiality of MySQL credentials is preserved."
+    remediation:
+      "Check which users and/or scripts are setting MYSQL_PWD and change them "
+      "to use a more secure method."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home/.bashrc\"}}"
+      "    files_to_check:{single_file:{path:\"$home/.profile\"}}"
+      "    files_to_check:{single_file:{path:\"$home/.bash_profile\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/bashrc\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/profile.d\""
+      "      filename_regex: \".*\\\\.sh\""
+      "      recursive: true"
+      "    }}"
+      # Any use of the MYSQL_PWD variable should be avoided.
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".*MYSQL_PWD.*\""
+      "        expected_regex: \".*MYSQL_PWD.*\""
+      "      }"
+      "    }"
+      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "    non_compliance_msg: \"MYSQL_PWD is used in a profile file\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-datadir-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'datadir' has appropriate permissions"
+    description: "The data directory is the location of the MySQL databases."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL database. "
+      "If someone other than the MySQL user is allowed to read files from the "
+      "data directory he or she might be able to read data from the mysql.user "
+      "table which contains passwords. Additionally, the ability to create "
+      "files can lead to denial of service, or might otherwise allow someone "
+      "to gain access to specific data by manually creating a file with a view "
+      "definition."
+    remediation:
+      "Execute the following commands at a terminal prompt:\n"
+      "```\n"
+      "$ chmod 700 <datadir>\n"
+      "$ chown mysql:mysql <datadir>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT @@GLOBAL.datadir;\""
+      "    expect_results: true"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"%%pipeline\"}}"
+      "    permission:{"
+      "      clear_bits: 0077"
+      "      user: {name: \"mysql\" should_own: true}"
+      "      group: {name: \"mysql\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-log-bin-basename-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'log_bin_basename' files have appropriate permissions"
+    description:
+      "MySQL can operate using a variety of log files, each used for different "
+      "purposes. These are the binary log, error log, slow query log, relay "
+      "log, and general log. Because these are files on the host operating "
+      "system, they are subject to the permissions structure provided by the "
+      "host and may be accessible by users other than the MySQL user."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL logs."
+    remediation:
+      "Execute the following commands for each log file location requiring "
+      "corrected permissions:\n"
+      "```\n"
+      "$ chmod 660 <log_file>\n"
+      "$ chown mysql:mysql <log file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      # No need to check the files if binary logs are disabled.
+      # TODO(b/199379782): Query value of log_bin_basename via SQL in case
+      # binary logs are enabled. Filestore has no binary logs.
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'log_bin' AND (Value = 'OFF' OR Value = '');\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"log_bin is enabled. TODO(b/199379782): implement the file permission check\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-log-error-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'log_error' has appropriate permissions"
+    description:
+      "MySQL can operate using a variety of log files, each used for different "
+      "purposes. These are the binary log, error log, slow query log, relay "
+      "log, and general log. Because these are files on the host operating "
+      "system, they are subject to the permissions structure provided by the "
+      "host and may be accessible by users other than the MySQL user."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL logs."
+    remediation:
+      "Execute the following commands for each log file location requiring "
+      "corrected permissions:\n"
+      "```\n"
+      "$ chmod 660 <log_file>\n"
+      "$ chown mysql:mysql <log file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT @@GLOBAL.general_log_file\""
+      "    expect_results: true"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"%%pipeline%%\"}}"
+      "    permission:{"
+      "      clear_bits: 0117"
+      "      user: {name: \"mysql\" should_own: true}"
+      "      group: {name: \"mysql\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-slow-query-log-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'slow_query_log' has appropriate permissions"
+    description:
+      "MySQL can operate using a variety of log files, each used for different "
+      "purposes. These are the binary log, error log, slow query log, relay "
+      "log, and general log. Because these are files on the host operating "
+      "system, they are subject to the permissions structure provided by the "
+      "host and may be accessible by users other than the MySQL user."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL logs."
+    remediation:
+      "Execute the following commands for each log file location requiring "
+      "corrected permissions:\n"
+      "```\n"
+      "$ chmod 660 <log_file>\n"
+      "$ chown mysql:mysql <log file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      # No need to check the files if slow query logs are disabled.
+      # Filestore has no slow query logs.
+      # slow query logs are enabled, and check file permissions.
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'slow_query_log' AND (Value = 'OFF' OR Value = '');\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"slow_query_log is enabled.\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-slowquerylog-error-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'log_error' has appropriate permissions"
+    description:
+      "MySQL can operate using a variety of log files, each used for different "
+      "purposes. These are the binary log, error log, slow query log, relay "
+      "log, and general log. Because these are files on the host operating "
+      "system, they are subject to the permissions structure provided by the "
+      "host and may be accessible by users other than the MySQL user."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL logs."
+    remediation:
+      "Execute the following commands for each log file location requiring "
+      "corrected permissions:\n"
+      "```\n"
+      "$ chmod 660 <log_file>\n"
+      "$ chown mysql:mysql <log file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT @@GLOBAL.slow_query_log_file\""
+      "    expect_results: true"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"%%pipeline%%\"}}"
+      "    permission:{"
+      "      clear_bits: 0117"
+      "      user: {name: \"mysql\" should_own: true}"
+      "      group: {name: \"mysql\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-relay-log-basename-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'relay_log_basename' files have appropriate permissions"
+    description:
+      "MySQL can operate using a variety of log files, each used for different "
+      "purposes. These are the binary log, error log, slow query log, relay "
+      "log, and general log. Because these are files on the host operating "
+      "system, they are subject to the permissions structure provided by the "
+      "host and may be accessible by users other than the MySQL user."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL logs."
+    remediation:
+      "Execute the following commands for each log file location requiring "
+      "corrected permissions:\n"
+      "```\n"
+      "$ chmod 660 <log_file>\n"
+      "$ chown mysql:mysql <log file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      # No need to check the files if relay logs are disabled.
+      # Filestore has no relay logs.
+      # relay logs are enabled, and check file permissions.
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'relay_log' AND (Value = 'OFF' OR Value = '');\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"relay_log is enabled. TODO(b/199379782): implement the file permission check\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-general-query-log-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'general_log_file' has appropriate permissions"
+    description:
+      "MySQL can operate using a variety of log files, each used for different "
+      "purposes. These are the binary log, error log, slow query log, relay "
+      "log, and general log. Because these are files on the host operating "
+      "system, they are subject to the permissions structure provided by the "
+      "host and may be accessible by users other than the MySQL user."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL logs."
+    remediation:
+      "Execute the following commands for each log file location requiring "
+      "corrected permissions:\n"
+      "```\n"
+      "$ chmod 660 <log_file>\n"
+      "$ chown mysql:mysql <log file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      # No need to check the files if general query logs are disabled.
+      # Filestore has no general query logs.
+      # general query logs are enabled, and check file permissions.
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'general_log' AND (Value = 'OFF' OR Value = '');\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"general_log is enabled.\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-ssl-keys-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure SSL key files have appropriate permissions"
+    description:
+      "When configured to use SSL/TLS, MySQL relies on key files, which are "
+      "stored on the host's filesystem. These key files are subject to the "
+      "host's permissions structure."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL database and "
+      "the communication with the client. If the contents of the SSL key file "
+      "is known to an attacker he or she might impersonate the server. This "
+      "be used for a man-in-the-middle attack. Depending on the SSL cipher "
+      "suite the key might also be used to decipher previously captured "
+      "network traffic."
+    remediation:
+      "Execute the following commands at a terminal prompt using the value of "
+      "the SQL ssh_key variable:\n"
+      "```\n"
+      "$ chmod 400 <ssl_key>\n"
+      "$ chown mysql:mysql <ssl_key>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT @@GLOBAL.ssl_key;\""
+      "    expect_results: true"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"%%pipeline\"}}"
+      "    permission:{"
+      "      clear_bits: 0377"
+      "      user: {name: \"mysql\" should_own: true}"
+      "      group: {name: \"mysql\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-plugin-dir-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure plugin directory has appropriate permissions"
+    description:
+      "The plugin directory is the location of the MySQL plugins. Plugins are "
+      "storage engines or used defined functions (UDFs)."
+    rationale:
+      "Limiting the accessibility of these objects will protect the "
+      "confidentiality, integrity, and availability of the MySQL database. If "
+      "someone can modify plugins then these plugins might be loaded when the "
+      "server starts and the code will get executed."
+    remediation:
+      "Execute the following commands at a terminal prompt using the value of "
+      "the SQL plugin_dir variable:\n"
+      "```\n"
+      "$ chmod 775 <plugin_dir>\n"
+      "$ chown mysql:mysql <plugin_dir>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT @@GLOBAL.plugin_dir;\""
+      "    expect_results: true"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"%%pipeline%%\"}}"
+      "    permission:{"
+      "      clear_bits: 0002"
+      "      user: {name: \"mysql\" should_own: true}"
+      "      group: {name: \"mysql\" should_own: true}"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT @@GLOBAL.plugin_dir;\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"a test database exists\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"%%pipeline%%\"}}"
+      "    files_to_check:{single_file:{path:\"%%pipeline%%\"}}"
+      "    permission:{"
+      "      clear_bits: 0002"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-test-database"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure the 'test' database is not installed"
+    description:
+      "The default MySQL installation comes with an unused database called test. "
+      "It is recommended that the test database be dropped."
+    rationale:
+      "The test database can be accessed by all users and can be used to consume "
+      "system resources. Dropping the test database will reduce the attack "
+      "surface of the MySQL server."
+    remediation:
+      "Execute the following SQL statement to drop the test database: `DROP "
+      "DATABASE 'test';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW DATABASES LIKE 'test';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"a test database exists\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-local-infile-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'local_infile' is disabled"
+    description:
+      "The local_infile parameter dictates whether files located on the MySQL "
+      "client's computer can be loaded or selected via `LOAD DATA INFILE` or "
+      "`SELECT local_file`."
+    rationale:
+      "Disabling local_infile reduces an attacker's ability to read sensitive "
+      "files off the affected server via a SQL injection vulnerability."
+    remediation:
+      "Add the following line to the [mysqld] section of the MySQL config file "
+      "and restart the MySQL service:\n"
+      "```\n"
+      "local-infile=0"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'local_infile' AND Value = 'OFF';\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"local_infile is enabled\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-skip-grant-tables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'mysqld' is not started with '--skip-grant-tables'"
+    description: "This option causes mysqld to start without using the privilege system."
+    rationale:
+      "If this option is used, all clients of the affected server will have "
+      "unrestricted access to all databases."
+    remediation:
+      "Open the MySQL configuration file (e.g. \"my.cnf\") and set:\n"
+      "```\n"
+      "skip-grant-tables = FALSE"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/my.cnf\"}}"
+      "    files_to_check:{files_in_dir:{dir_path:\"/etc/my.cnf.d\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"skip_grant_tables\\\\s*=\\\\s*.*\""
+      "        expected_regex: \"skip_grant_tables\\\\s*=\\\\s*.(true|TRUE|yes|YES)\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-skip-symbolic-links-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure '--skip-symbolic-links' is enabled"
+    description:
+      "The symbolic-links and skip-symbolic-links options for MySQL determine "
+      "whether symbolic link support is available. When use of symbolic links "
+      "are enabled, they have different effects depending on the host "
+      "platform. When symbolic links are disabled, then symbolic links stored "
+      "in files or entries in tables are not used by the database."
+    rationale:
+      "Prevents sym links being used for database files. This is especially "
+      "important when MySQL is executing as root as arbitrary files may be "
+      "overwritten. The symbolic-links option might allow someone to direct "
+      "actions by the MySQL server to other files and/or directories."
+    remediation:
+      "Open the MySQL configuration file (e.g. \"my.cnf\") and set:\n"
+      "```\n"
+      "skip-symbolic-links = YES"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'have_symlink' AND (Value = 'OFF' OR Value = 'DISABLED');\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"symbolic-links is enabled\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-daemon-memcached-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure the 'daemon_memcached' plugin is disabled"
+    description:
+      "The InnoDB memcached plugin allows users to access data stored in "
+      "InnoDB with the memcached protocol."
+    rationale:
+      "By default the plugin doesn't do authentication, which means that "
+      "anyone with access to the TCP/IP port of the plugin can access and "
+      "modify the data. However, not all data is exposed by default."
+    remediation:
+      "Issue the following command in the MySQL command-line client:\n"
+      "```\n"
+      "> uninstall plugin daemon_memcached;\n"
+      "```\n"
+      "This uninstalls the memcached plugin from the MySQL server."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT * FROM information_schema.plugins WHERE PLUGIN_NAME='daemon_memcached';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"the daemon_memcached plugin is enabled\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-secure-file-priv-not-empty"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'secure_file_priv' is not empty"
+    description:
+      "The secure_file_priv option restricts the paths used by `LOAD DATA "
+      "INFILE` or `SELECT local_file`. It is recommended that this option be "
+      "set to a file system location that contains only resources expected to "
+      "be loaded by MySQL."
+    rationale:
+      "Setting secure_file_priv reduces an attacker's ability to read "
+      "sensitive files off the affected server via a SQL injection "
+      "vulnerability."
+    remediation:
+      "Add the following line to the [mysqld] section of the MySQL config file "
+      "and restart the MySQL service:\n"
+      "```\n"
+      "secure_file_priv=<path_to_load_directory>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'secure_file_priv' AND Value != '';\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"secure_file_priv is not set\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-admins-have-full-access"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure only administrative users have full database access"
+    description:
+      "The mysql.user and mysql.db tables list a variety of privileges that "
+      "can be granted (or denied) to MySQL users. Some of the privileges of "
+      "concern include: select_priv, insert_priv, update_priv, delete_priv, "
+      "drop_priv, and so on. Typically, these privileges should not be "
+      "available to every MySQL user and often are reserved for administrative "
+      "use only."
+    rationale:
+      "Limiting the accessibility of the 'mysql' database will protect the "
+      "confidentiality, integrity and availability of the data house within "
+      "MySQL. A user which has direct access to mysql.* might view password "
+      "hashes, change permissions, or alter or destroy information "
+      "intentionally or unintentionally."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, use the REVOKE statement to remove "
+      "privileges as appropriate"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE \""
+      "           \"  ((Select_priv = 'Y')\""
+      "           \"  OR (Insert_priv = 'Y')\""
+      "           \"  OR (Update_priv = 'Y')\""
+      "           \"  OR (Delete_priv = 'Y')\""
+      "           \"  OR (Create_priv = 'Y')\""
+      "           \"  OR (Drop_priv = 'Y'))\""
+      "           \"  AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with high database privileges in mysql.user\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.db \""
+      "           \"WHERE \""
+      "           \"  db = 'mysql'\""
+      "           \"  AND ((Select_priv = 'Y')\""
+      "           \"  OR (Insert_priv = 'Y')\""
+      "           \"  OR (Update_priv = 'Y')\""
+      "           \"  OR (Delete_priv = 'Y')\""
+      "           \"  OR (Create_priv = 'Y')\""
+      "           \"  OR (Drop_priv = 'Y'))\""
+      "           \"  AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with high database privileges in mysql.db\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-admins-have-file-priv"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'file_priv' is not set to 'Y' for non-administrative users"
+    description:
+      "The FILE privilege found in the mysql.user table is used to allow "
+      "or disallow a user from reading and writing files on the server host. "
+      "Any user with the file_priv right granted has the ability to read files "
+      "from the local file system that are readable by the MySQL server (this "
+      "includes world-readable files) and write files to the local file system "
+      "where the MySQL server has write access."
+    rationale:
+      "The FILE privilege allows MySQL users to read files from disk and to "
+      "write files to disk. This may be leveraged by an attacker to further "
+      "compromise MySQL. It should be noted that the MySQL server should not "
+      "overwrite existing files."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, issue the following SQL statement: "
+      "`REVOKE FILE ON *.* from '<user>';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE File_priv = 'Y' AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with FILE privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-admins-have-super-priv"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'super_priv' is not set to 'Y' for non-administrative users"
+    description:
+      "The SUPER privilege found in the mysql.user table governs the use "
+      "of a variety of MySQL features. These features include: CHANGE MASTER "
+      "TO, KILL, the mysqladmin kill option, PURGE BINARY LOGS, SET GLOBAL, "
+      "the mysqladmin debug option, loggin control, and more."
+    rationale:
+      "The SUPER privilege allows principals to perform many actions, "
+      "including view and terminate currently executing MySQL statements "
+      "(including statements used to manage passwords). This privilege also "
+      "provides the ability to configure MySQL, such as enable/disable "
+      "logging, alter data, disable/enable features. Limiting the accounts "
+      "that have the SUPER privilege reduces the chances that an attacker can "
+      "exploit these capabilities."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, issue the following SQL statement: "
+      "`REVOKE SUPER ON *.* from '<user>';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE Super_priv = 'Y' AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with SUPER privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-admins-have-shutdown-priv"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'shutdown_priv' is not set to 'Y' for non-administrative users"
+    description:
+      "The SHUTDOWN privilege simply enables use of the shutdown option to the "
+      "mysqladmin command, which allows a user the ability to shut down the "
+      "MySQL server."
+    rationale:
+      "The SHUTDOWN privilege allows principals to shutdown MySQL. This may be "
+      "leveraged by an attacker to negatively impact the availability of MySQL."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, issue the following SQL statement: "
+      "`REVOKE SHUTDOWN ON *.* from '<user>';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE Shutdown_priv = 'Y' AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with SHUTDOWN privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-admins-have-create-user-priv"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'create_user_priv' is not set to 'Y' for non-administrative users"
+    description:
+      "The CREATE USER privilege governs the right of a given user to add or "
+      "remove users, change existing users' names, or revoke existing users' "
+      "privileges."
+    rationale:
+      "Reducing the number of users granted the CREATE USER right minimizes "
+      "the number of users able to add/drop users, alter existing users' "
+      "names, and manipulate existing users' privileges."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, issue the following SQL statement: "
+      "`REVOKE CREATE USER ON *.* from '<user>';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE Create_user_priv = 'Y' AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with CREATE USER privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-admins-have-grant-priv"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'grant_priv' is not set to 'Y' for non-administrative users"
+    description:
+      "The GRANT OPTION privilege exists in different contexts (mysql.user, "
+      "mysql.db) for the purpose of governing the ability of a privileged user "
+      "to manipulate the privileges of other users."
+    rationale:
+      "The GRANT OPTION privilege allows a principal to grant other principals "
+      "additional privilege. This may be used by an attacker to compromise "
+      "MySQL."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, issue the following SQL statement: "
+      "`REVOKE GRANT OPTION ON *.* from '<user>';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE Grant_priv = 'Y' AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found non-administrative users with GRANT OPTION privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-only-non-slave-have-repl-slave-priv"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'grant_priv' is not set to 'Y' for non-administrative users"
+    description:
+      "The REPLICATION SLAVE privilege governs whether a given user (in the "
+      "context of the master server) can request updates that have been made "
+      "on the master server."
+    rationale:
+      "The REPLICATION SLAVE privilege allows a principal to fetch binlog "
+      "files containing all data changing statementes and/or changes in table "
+      "data from the master. This may be used by an attacker to read/fetch "
+      "sensitive data from MySQL."
+    remediation:
+      "1. Enumerate non-administrative users resulting from the audit "
+      "procedure\n"
+      "2. For each non-administrative user, issue the following SQL statement: "
+      "`REVOKE REPLICATION SLAVE ON *.* from '<user>';`"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      # We have to explicitly set which users are slave or non-slave.
+      # For Filestore we don't expect any slave users.
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.user \""
+      "           \"WHERE Repl_slave_priv = 'Y' AND user != 'root';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found unexpected users with REPLICATION SLAVE privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-limited-dml-ddl-grants"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure DML/DDL grants are limited to specific databases and users"
+    description:
+      "DML/DDL includes the set of privileges used to modify or create data "
+      "structures. This includes INSERT, SELECT, UPDATE, DELETE, DROP, CREATE, "
+      "and ALTER privileges."
+    rationale:
+      "INSERT, SELECT, UPDATE, DELETE, DROP, CREATE, and ALTER are powerful "
+      "privileges in any database. Such privileges should be limited only to "
+      "those users requiring such rights. By limiting the users with these "
+      "rights and ensuring that they are limited to specific databases, the "
+      "attack surface of the database is reduced."
+    remediation:
+      "1. Enumerate the unauthorized users, hosts, and databases found in the "
+      "audit procedure\n"
+      "2. For each user, issue the following SQL statements:\n"
+      "```\n"
+      "REVOKE SELECT ON <host>.<database> FROM <user>;\n"
+      "REVOKE INSERT ON <host>.<database> FROM <user>;\n"
+      "REVOKE UPDATE ON <host>.<database> FROM <user>;\n"
+      "REVOKE DELETE ON <host>.<database> FROM <user>;\n"
+      "REVOKE CREATE ON <host>.<database> FROM <user>;\n"
+      "REVOKE DROP ON <host>.<database> FROM <user>;\n"
+      "REVOKE ALTER ON <host>.<database> FROM <user>;\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      # Despite being scored, this check depends strongly on the specific setup,
+      # forcing us to hardcode expected users and databases.
+      # For Filestore, we only know of one legitimate non-root user.
+      "    query: \"SELECT user \""
+      "           \"FROM mysql.db \""
+      "           \"WHERE \""
+      "           \"  ((Select_priv = 'Y')\""
+      "           \"  OR (Insert_priv = 'Y')\""
+      "           \"  OR (Update_priv = 'Y')\""
+      "           \"  OR (Delete_priv = 'Y')\""
+      "           \"  OR (Create_priv = 'Y')\""
+      "           \"  OR (Drop_priv = 'Y'))\""
+      "           \"  AND user != 'root' AND user != 'emanage';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"found unexpected users with DML/DDL privileges\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-log-error-not-empty"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'log_error' is not empty"
+    description:
+      "The error log contains information about events such as mysqld starting "
+      "and stopping, when a table needs to be checked or repaired, and, "
+      "depending on the host operating system, stack traces when mysqld fails."
+    rationale:
+      "Enabling error logging may increase the ability to detect malicious "
+      "attempts against MySQL, and other critical messages, such as if the "
+      "error log is not enabled then connection errors might go unnoticed."
+    remediation:
+      "Add the following line to the MySQL config file and restart the MySQL "
+      "service:\n"
+      "```\n"
+      "log-error=<path_to_log_file>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'log_error' AND Value = '';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"log_error is not set\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-log-raw-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'log-raw' is set to 'OFF'"
+    description:
+      "The log-raw MySQL option determines whether passwords are rewritten by "
+      "the server so as not to appear in log files as plain text. If log-raw "
+      "is enabled, then passwords are written to the various log files "
+      "(general query log, slow query log, and binary log) in plain text."
+    rationale:
+      "With raw logging of passwords enabled someone with access to the log "
+      "files might see plain text passwords."
+    remediation:
+      "Open the MySQL configuration file (e.g. \"my.cnf\") and set:\n"
+      "```\n"
+      "log-raw = OFF\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/my.cnf\"}}"
+      "    files_to_check:{files_in_dir:{dir_path:\"/etc/my.cnf.d\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"log-raw\\\\s*=\\\\s*.*\""
+      "        expected_regex: \"log-raw\\\\s*=\\\\s*.(on|ON)\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"log-raw is enabled\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-old-passwords-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'old_passwords' is not set to '1' or 'ON'"
+    description:
+      "The old_passwords variable controls the password hashing method used by "
+      "the PASSWORD() function and for the IDENTIFIED BY clause of the CREATE "
+      "USER and GRANT statements."
+    rationale:
+      "The mysql_old_password plugin leverages an algorithm that can be "
+      "quickly brute forced using an offline dictionary attack. See "
+      "CVE-2003-1480 for additional details."
+    remediation:
+      "Configure MySQL to leverage the mysql_native_password or "
+      "sha256_password plugins instead."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES \""
+      "           \"WHERE Variable_name = 'old_passwords' \""
+      "           \"      AND (Value = 1 OR Value = 'ON');\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"the mysql_old_password plugin is enabled\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-secure-auth-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'secure_auth' is set to 'ON'"
+    description:
+      "The secure_auth option dictates whether the server will deny "
+      "connections by clients that attempt to use accounts that have their "
+      "password stored in the mysql_old_password format."
+    rationale:
+      "Enabling this option will prevent all use of passwords employing the "
+      "old format (and hence insecure communication over the network)."
+    remediation:
+      "Add the following line to the MySQL config file under the [mysqld] "
+      "section, and restart the MySQL service:\n"
+      "```\n"
+      "secure_auth=ON\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES \""
+      "           \"WHERE Variable_name = 'secure_auth' AND Value = 'ON';\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"secure_auth is not enabled\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-passwords-in-config"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure passwords are not stored in the global configuration"
+    description:
+      "The [client] section of the MySQL configuration file allows setting a "
+      "user and password to be used. Verify the `password` option is not used "
+      "in the global configuration file (my.cnf)."
+    rationale:
+      "The use of the `password` parameter may negatively impact the "
+      "confidentiality of the user's password."
+    remediation:
+      "Use the mysql_config_editor to store authentication credentials in "
+      ".mylogin.cnf in encrypted form. If not possible, use the user-specific "
+      "options file, .my.cnf, and restrict file access permissions to the user "
+      "identity."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/my.cnf\"}}"
+      "    files_to_check:{files_in_dir:{dir_path:\"/etc/my.cnf.d\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"password\\\\s*=.*\""
+      "        expected_regex: \"password\\\\s*=.*\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"a password is stored in the configuration files\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-auto-create-user"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure 'sql_mode' contains 'NO_AUTO_CREATE_USER'"
+    description:
+      "NO_AUTO_CREATE_USER is an option for sql_mode that prevents a GRANT "
+      "statement from automatically creating a user when authentication "
+      "information is not provided."
+    rationale:
+      "Blank passwords negate the benefits provided by authentication "
+      "mechanisms. Without this setting an administrative user might "
+      "accidentally create a user without a password."
+    remediation:
+      "Open the MySQL configuration file (\"my.cnf\") and add "
+      "NO_AUTO_CREATE_USER to the `sql_mode` setting."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT * \""
+      "           \"FROM (\""
+      "           \"  SELECT @@global.sql_mode AS sql_mode) AS sm \""
+      "           \"WHERE sql_mode LIKE '%NO_AUTO_CREATE_USER%';\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the global sql_mode variable does not have \""
+      "                        \"NO_AUTO_CREATE_USER set\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT * \""
+      "           \"FROM (\""
+      "           \"  SELECT @@session.sql_mode AS sql_mode) AS sm \""
+      "           \"WHERE sql_mode LIKE '%NO_AUTO_CREATE_USER%';\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the session sql_mode variable does not have \""
+      "                        \"NO_AUTO_CREATE_USER set\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-blank-passwords"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure passwords are set for all MySQL accounts"
+    description: "Blank passwords allow a user to login without using a password."
+    rationale:
+      "Without a password only knowing the username and the list of allowed "
+      "hosts will allow someone to connect to the server and assume the "
+      "identity of the user. This, in effect, bypasses authentication "
+      "mechanisms."
+    remediation:
+      "For each user with no password, set a password with the following "
+      "statement:\n"
+      "```\n"
+      "`SET PASSWORD FOR <user>@'<host>' = PASSWORD('<plaintext password>')\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT User FROM mysql.user \" "
+      "           \"WHERE \""
+      "           \"  (plugin IN \""
+      "           \"    ('mysql_native_password', 'mysql_old_password','')\""
+      "           \"    AND (LENGTH(Password) = 0 OR Password IS NULL))\""
+      "           \"  OR (\""
+      "           \"    plugin='sha256_password'\""
+      "           \"    AND LENGTH(authentication_string) = 0);\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"users with blank password exist\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-password-policy-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure password policy is in place"
+    description:
+      "Password complexity includes password characteristics such as length, "
+      "case, and character sets."
+    rationale:
+      "Complex passwords help mitigate dictionary, brute forcing, and other "
+      "password attacks. This recommendation prevents users from choosing "
+      "weak passwords which can be easily guessed."
+    remediation:
+      "Add to the global configuration:\n"
+      "```\n"
+      "plugin-load=validate_password.so\n"
+      "validate-password=FORCE_PLUS_PERMANENT\n"
+      "validate_password_length=14\n"
+      "validate_password_mixed_case_count=1\n"
+      "validate_password_number_count=1\n"
+      "validate_password_special_char_count=1\n"
+      "validate_password_policy=MEDIUM\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name LIKE 'validate_password%'\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"no password policy is set\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'validate_password_length' AND Value >= 14\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the password policy does not require at least 14 characters\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'validate_password_mixed_case' AND Value >= 1\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the password policy does not require mixed case\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'validate_password_number_count' AND Value >= 1\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the password policy does not require numbers\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'validate_password_special_char_count' AND Value >= 1\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the password policy does not require special chars\""
+      "  }"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SHOW VARIABLES WHERE Variable_name = 'validate_password_policy' AND (Value = 'MEDIUM' OR Value = 'STRONG')\""
+      "    expect_results: true"
+      "    non_compliance_msg: \"the password policy is too weak\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-wildcard-hostnames"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure no users have wildcard hostnames"
+    description:
+      "MySQL can make use of host wildcards when granting permissions to users "
+      "on specific databases. For example, you may grant a privilege to "
+      "'<user>'@'%'."
+    rationale:
+      "Avoiding the use of wildcards within hostnames helps control the "
+      "specific locations from which a given user may connect to and interact "
+      "with the database."
+    remediation:
+      "Enumerate all users with a wildcard hostname, then either ALTER the "
+      "user's host to be specific or DROP the user."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT host FROM mysql.user WHERE host = '%';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"users with a wildcard hostname exist\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "mysql-no-anonymous-accounts"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/a:mariadb:mariadb:5.5.60" version: "1.1.0" benchmark_document: "CIS Oracle MySQL Community Server 5.6" }
+    title: "Ensure no anonymous accounts exist"
+    description:
+      "Anonymous accounts are users with empty usernames (''). Anonymous "
+      "accounts have no passwords, so anyone can use them to connect to the "
+      "MySQL server."
+    rationale:
+      "Removing anonymous accounts will help ensure that only identified and "
+      "trusted principals are capable of interacting with MySQL."
+    remediation:
+      "Enumerate all anonymous users, then DROP them or assign them a name."
+      "Note: as an alternative, you may execute the mysql_secure_installation "
+      "utility."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  sql_checks:{"
+      "    target_database: DB_MYSQL"
+      "    query: \"SELECT user FROM mysql.user WHERE user = '';\""
+      "    expect_results: false"
+      "    non_compliance_msg: \"anonymous accounts exist\""
+      "  }"
+      "}}"
+  }
+}

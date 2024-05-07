@@ -427,7 +427,7 @@ func TestFileCustomNonComplianceMessage(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
-			resultMap, err := check.Exec()
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -540,7 +540,7 @@ func TestFilesInOptOutConfigRedacted(t *testing.T) {
 				OptOutConfig:     tc.optOutConfig,
 			}
 			check := createFileCheckBatchFromScanConfig(t, "id", scanConfig, newFakeAPI())
-			resultMap, err := check.Exec()
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -581,7 +581,7 @@ func TestReplacementConfigApplied(t *testing.T) {
 		ReplacementConfig: replacementConfig,
 	}
 	check := createFileCheckBatchFromScanConfig(t, "id", scanConfig, newFakeAPI())
-	resultMap, err := check.Exec()
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -625,7 +625,7 @@ func TestResultsForDifferentAlternativesAggregatedSeparately(t *testing.T) {
 	}
 	check := checks[0]
 
-	resultMap, err := check.Exec()
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -651,8 +651,8 @@ func (dirWithUnreadableFile) FilePermissions(ctx context.Context, filePath strin
 	return nil, errors.New("not implemented")
 }
 
-func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (int, error) {
-	return 0, errors.New("not implemented")
+func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
+	return 0, nil, errors.New("not implemented")
 }
 
 func (dirWithUnreadableFile) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
@@ -785,7 +785,83 @@ func TestFileExistenceCheckComplianceResults(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, tc.api)
-			resultMap, err := check.Exec()
+			resultMap, _, err := check.Exec("")
+			if err != nil {
+				t.Fatalf("check.Exec() returned an error: %v", err)
+			}
+			result, gotSingleton := singleComplianceResult(resultMap)
+			if !gotSingleton {
+				t.Fatalf("check.Exec() expected to return 1 result, got %d", len(resultMap))
+			}
+
+			if diff := cmp.Diff(tc.expectedResult, result, protocmp.Transform()); diff != "" {
+				t.Errorf("check.Exec() returned unexpected diff (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestFileWithPipelining(t *testing.T) {
+	testCases := []struct {
+		desc           string
+		fileCheck      *ipb.FileCheck
+		expectedResult *apb.ComplianceResult
+		fileToCheck    string
+	}{
+		{
+			desc: "file exists with pipelined input",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id:                   "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: testFilePath,
+		},
+		{
+			desc: "file not exists with pipelined input",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id:                   "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: nonExistentFilePath,
+		},
+		{
+			desc: "pipeline input expected but not provided",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(pipelineFileToken)},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id:                   "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: "",
+		},
+		{
+			desc: "pipeline input not expected but provided",
+			fileCheck: &ipb.FileCheck{
+				FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFileContent)},
+				CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
+			},
+			expectedResult: &apb.ComplianceResult{
+				Id:                   "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+			},
+			fileToCheck: nonExistentFilePath,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.desc, func(t *testing.T) {
+			check := createFileCheckBatch(t, "id", []*ipb.FileCheck{tc.fileCheck}, newFakeAPI())
+			resultMap, _, err := check.Exec(tc.fileToCheck)
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -806,7 +882,7 @@ func TestFileExistenceCheckPropagatesError(t *testing.T) {
 		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(unreadableFilePath)},
 		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: true}},
 	}}, newFakeAPI())
-	if _, err := check.Exec(); err == nil {
+	if _, _, err := check.Exec(""); err == nil {
 		t.Errorf("check.Exec() didn't return an error")
 	}
 }
@@ -822,7 +898,7 @@ func TestFileExistenceWithWrappedError(t *testing.T) {
 	expectedResult := &apb.ComplianceResult{Id: "id", ComplianceOccurrence: &cpb.ComplianceOccurrence{}}
 
 	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, newFakeAPI(withOpenFileFunc(openFileFunc)))
-	resultMap, err := check.Exec()
+	resultMap, _, err := check.Exec("")
 
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
@@ -1063,7 +1139,7 @@ func TestPermissionCheckComplianceResults(t *testing.T) {
 				CheckType:    &ipb.FileCheck_Permission{Permission: tc.permissionCheck},
 			}}, newFakeAPI())
 
-			resultMap, err := check.Exec()
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -1191,7 +1267,7 @@ func TestFileContentCheckComplianceResults(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
 			check := createFileCheckBatch(t, "id", tc.fileChecks, newFakeAPI())
-			resultMap, err := check.Exec()
+			resultMap, _, err := check.Exec("")
 			if err != nil {
 				t.Fatalf("check.Exec() returned an error: %v", err)
 			}
@@ -1238,7 +1314,8 @@ func TestTraversalOptOut(t *testing.T) {
 	}
 
 	// The non-existent directory should be skipped and not cause an error.
-	if _, err := checks[0].Exec(); err != nil {
+	var pVal string
+	if _, _, err := checks[0].Exec(pVal); err != nil {
 		t.Errorf("check.Exec() returned an error: %v", err)
 	}
 }
@@ -1278,7 +1355,7 @@ func TestGzippedFileUnzipped(t *testing.T) {
 		}
 
 	check := createFileCheckBatch(t, "id", fileChecks, newFakeAPI(withFileContent(gzipFileContent)))
-	resultMap, err := check.Exec()
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -1345,7 +1422,8 @@ func TestRepeatConfigApplied(t *testing.T) {
 			config, len(checks))
 	}
 
-	resultMap1, err := checks[0].Exec()
+	var pVal string
+	resultMap1, _, err := checks[0].Exec(pVal)
 	if err != nil {
 		t.Fatalf("checks[0].Exec() returned an error: %v", err)
 	}
@@ -1354,7 +1432,8 @@ func TestRepeatConfigApplied(t *testing.T) {
 		t.Fatalf("checks[0].Exec() expected to return 1 result, got %d", len(resultMap1))
 	}
 
-	resultMap2, err := checks[1].Exec()
+	var pVal2 string
+	resultMap2, _, err := checks[1].Exec(pVal2)
 	if err != nil {
 		t.Fatalf("checks[1].Exec() returned an error: %v", err)
 	}
@@ -1406,7 +1485,8 @@ func TestRepeatConfigCreationFails(t *testing.T) {
 			config, len(checks))
 	}
 
-	resultMap, err := checks[0].Exec()
+	var pVal string
+	resultMap, _, err := checks[0].Exec(pVal)
 	if err != nil {
 		t.Fatalf("checks[0].Exec() returned an error: %v", err)
 	}
@@ -1438,8 +1518,8 @@ func (manyFilesAPI) FilePermissions(ctx context.Context, filePath string) (*apb.
 	return &apb.PosixPermissions{User: "root"}, nil
 }
 
-func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (int, error) {
-	return 0, errors.New("not implemented")
+func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
+	return 0, nil, errors.New("not implemented")
 }
 
 func (manyFilesAPI) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
@@ -1462,7 +1542,7 @@ func TestLongCheckResultsPruned(t *testing.T) {
 	}
 	check := createFileCheckBatch(t, "id", []*ipb.FileCheck{fileCheck}, &manyFilesAPI{})
 
-	resultMap, err := check.Exec()
+	resultMap, _, err := check.Exec("")
 	if err != nil {
 		t.Fatalf("check.Exec() returned an error: %v", err)
 	}
@@ -1550,7 +1630,8 @@ func TestTimeout(t *testing.T) {
 			if err != nil {
 				t.Fatalf("configchecks.CreateChecksFromConfig([%v]) returned an error: %v", config, err)
 			}
-			_, err = checks[0].Exec()
+			var pVal string
+			_, _, err = checks[0].Exec(pVal)
 			if err != nil && err.Error() != "scan timed out" {
 				t.Fatalf("check.Exec() with {ScanTimeout: %v, BenchmarkCheckTimeout: %v} returned an unexpected error: %v",
 					tc.scanTimeout.AsDuration(), tc.benchmarkCheckTimeout.AsDuration(), err)

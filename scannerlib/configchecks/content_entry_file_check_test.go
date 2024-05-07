@@ -272,7 +272,7 @@ func TestFileContentEntryCheckComplianceResults(t *testing.T) {
 				t.Fatalf("Created %d checks, expected only 1", len(checks))
 			}
 
-			resultMap, err := checks[0].Exec()
+			resultMap, _, err := checks[0].Exec("TEST_VALUE")
 			if err != nil {
 				t.Fatalf("checks[0].Exec() returned an error: %v", err)
 			}
@@ -355,7 +355,9 @@ func TestFileContentEntryFileDoesntExist(t *testing.T) {
 				t.Fatalf("Created %d checks, want only 1", len(checks))
 			}
 
-			resultMap, err := checks[0].Exec()
+			var pVal string
+
+			resultMap, _, err := checks[0].Exec(pVal)
 			if err != nil {
 				t.Fatalf("checks[0].Exec() returned an error: %v", err)
 			}
@@ -409,7 +411,9 @@ func TestFileContentEntryCheckOnDirectory(t *testing.T) {
 		t.Fatalf("Created %d checks, expected only 1", len(checks))
 	}
 
-	resultMap, err := checks[0].Exec()
+	var pVal string
+
+	resultMap, _, err := checks[0].Exec(pVal)
 	if err != nil {
 		t.Fatalf("checks[0].Exec() returned an error: %v", err)
 	}
@@ -471,7 +475,9 @@ func TestFileContentEntryCheckFilesInOptOutConfigRedacted(t *testing.T) {
 		t.Fatalf("Created %d checks, expected only 1", len(checks))
 	}
 
-	resultMap, err := checks[0].Exec()
+	var pVal string
+
+	resultMap, _, err := checks[0].Exec(pVal)
 	if err != nil {
 		t.Fatalf("checks[0].Exec() returned an error: %v", err)
 	}

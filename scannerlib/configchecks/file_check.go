@@ -53,13 +53,17 @@ type FileCheckBatch struct {
 }
 
 // Exec executes the file checks batched by the FileCheckBatch.
-func (b *FileCheckBatch) Exec() (ComplianceMap, error) {
+// The method takes as input the Previous check result output as string, if any
+func (b *FileCheckBatch) Exec(prvRes string) (ComplianceMap, string, error) {
+
+	fileset.ApplyPipelineTokenReplacement(b.filesToCheck, prvRes)
+
 	err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
 		func(path string, isDir bool, traversingDir bool) error {
 			return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, traversingDir, b.fs)
 		})
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	b.fileCheckers.execChecksAfterFileTraversal(b.filesToCheck)
 	return aggregateComplianceResults(b.fileChecks)
@@ -325,7 +329,7 @@ func newFileCheckBatch(
 		benchmarkIDMap[fc.benchmarkID] = true
 	}
 	benchmarkIDs := make([]string, 0, len(benchmarkIDMap))
-	for id, _ := range benchmarkIDMap {
+	for id := range benchmarkIDMap {
 		benchmarkIDs = append(benchmarkIDs, id)
 	}
 
@@ -508,7 +512,7 @@ func (c *contentFileChecker) exec(path string, content []byte) error {
 
 // aggregateComplianceResults merges the non-compliant files of the
 // specified fileChecks for each check alternative.
-func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) {
+func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, string, error) {
 	result := make(map[int]*apb.ComplianceResult) // Key: The CheckAlternative ID.
 	for _, fc := range fileChecks {
 		nonCompliantFiles := fc.nonCompliantFiles
@@ -550,7 +554,7 @@ func aggregateComplianceResults(fileChecks []*fileCheck) (ComplianceMap, error) 
 		}
 	}
 
-	return result, nil
+	return result, "", nil
 }
 
 // openFileForReading opens the specified path and returns a ReadCloser.

@@ -60,14 +60,14 @@ func (fakeAPIProvider) OpenDir(ctx context.Context, path string) (scanapi.DirRea
 func (fakeAPIProvider) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
 	return nil, errors.New("not implemented")
 }
-func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (int, error) {
+func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
 	switch query {
 	case testQueryNoRows:
-		return 0, nil
+		return 0, nil, nil
 	case testQueryOneRow:
-		return 1, nil
+		return 1, [][]string{{"testValue"}}, nil
 	default:
-		return 0, fmt.Errorf("the query %q is not supported by fakeAPIProvider", query)
+		return 0, nil, fmt.Errorf("the query %q is not supported by fakeAPIProvider", query)
 	}
 }
 func (fakeAPIProvider) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {

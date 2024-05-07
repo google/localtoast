@@ -90,7 +90,7 @@ func (s *fakeStmt) Query(args []driver.Value) (driver.Rows, error) {
 	case QueryNoRows:
 		return &fakeRows{rowsLeft: 0}, nil
 	case QueryOneRow:
-		return &fakeRows{rowsLeft: 1}, nil
+		return &fakeRows{rowsLeft: 1, columns: []string{"fakeColumn"}}, nil
 	case QueryError:
 		return nil, errors.New(ErrorMsg)
 	default:
@@ -102,19 +102,21 @@ func (s *fakeStmt) Query(args []driver.Value) (driver.Rows, error) {
 // We only care about the number of returned rows, so we don't model their content.
 type fakeRows struct {
 	rowsLeft int
+	columns  []string
 }
 
 // Close is a fake implementation for the driver.Rows interface.
 func (*fakeRows) Close() error { return nil }
 
 // Columns is a fake implementation for the driver.Rows interface.
-func (*fakeRows) Columns() []string { return nil }
+func (r *fakeRows) Columns() []string { return r.columns }
 
 // Next is a fake implementation for the driver.Rows interface.
 // The function iterates through the number of known rows, but returns no values.
 func (r *fakeRows) Next(dst []driver.Value) error {
 	if r.rowsLeft > 0 {
 		r.rowsLeft--
+		dst[0] = "fakeValue"
 		return nil
 	}
 	return io.EOF

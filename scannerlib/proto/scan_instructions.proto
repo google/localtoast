@@ -198,6 +198,8 @@ message GroupCriterion {
 message FileSet {
   // A single file.
   message SingleFile {
+    // Path to file. If the wildcard %%pipeline%% is used, the value is replaced
+    // with the previous check result
     string path = 1;
   }
 

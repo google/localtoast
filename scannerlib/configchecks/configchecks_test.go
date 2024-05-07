@@ -34,6 +34,7 @@ import (
 const (
 	testDirPath         = "/dir"
 	testFilePath        = "/dir/file"
+	pipelineFileToken   = "%%pipeline%%"
 	testFileContent     = "File content"
 	emptyTestFilePath   = "/dir/empty_file"
 	unreadableFilePath  = "/path/to/unreadable/file"
@@ -131,16 +132,16 @@ func (fakeAPI) FilePermissions(ctx context.Context, filePath string) (*apb.Posix
 	}
 }
 
-func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, error) {
+func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
 	switch query {
 	case fakeQueryNoRows:
-		return 0, nil
+		return 0, nil, nil
 	case fakeQueryOneRow:
-		return 1, nil
+		return 1, [][]string{{"testValue"}}, nil
 	case fakeQueryError:
-		return 0, errors.New(queryErrorMsg)
+		return 0, nil, errors.New(queryErrorMsg)
 	default:
-		return 0, fmt.Errorf("the query %q is not supported by fakeAPI", query)
+		return 0, nil, fmt.Errorf("the query %q is not supported by fakeAPI", query)
 	}
 }
 

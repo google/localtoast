@@ -106,8 +106,14 @@ func validateBenchmarkConfigs(configs []*apb.BenchmarkConfig) error {
 func executeChecks(checks []configchecks.BenchmarkCheck) ([]*apb.ComplianceResult, map[string][]error) {
 	compliancePerAlternative := make(configchecks.ComplianceMap)
 	benchmarkErrors := make(map[string][]error)
+	var prvRes string
 	for _, check := range checks {
-		checkResults, err := check.Exec()
+		checkResults, res, err := check.Exec(prvRes)
+
+		if len(res) > 0 {
+			prvRes = res
+		}
+
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error while executing check %s: %v\n", check, err)
 		}
