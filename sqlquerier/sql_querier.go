@@ -22,13 +22,13 @@ import (
 )
 
 // Query executes a SQL query and returns the number of rows in the result.
-func Query(ctx context.Context, db *sql.DB, query string) (int, [][]string, error) {
+func Query(ctx context.Context, db *sql.DB, query string) ([][]string, error) {
 	if db == nil {
-		return 0, nil, errors.New("no database specified. Please provide one using the --database flag")
+		return nil, errors.New("no database specified. Please provide one using the --database flag")
 	}
 	rows, err := db.Query(query)
 	if err != nil {
-		return 0, nil, err
+		return nil, err
 	}
 	defer rows.Close()
 	n := 0
@@ -52,7 +52,7 @@ func Query(ctx context.Context, db *sql.DB, query string) (int, [][]string, erro
 	}
 
 	if rows.Err() != nil {
-		return 0, nil, rows.Err()
+		return nil, rows.Err()
 	}
-	return n, result, nil
+	return result, nil
 }

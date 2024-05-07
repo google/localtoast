@@ -25,7 +25,7 @@ import (
 
 func TestSQLCheckWithNoDatabaseFlag(t *testing.T) {
 	q := "query"
-	_, _, err := sqlquerier.Query(context.Background(), nil, q)
+	_, err := sqlquerier.Query(context.Background(), nil, q)
 	if err == nil {
 		t.Errorf("sqlquerier.Query(context.Background(), nil, %q) expected to return an error but got none", q)
 	}
@@ -79,7 +79,9 @@ func TestSQLCheck(t *testing.T) {
 			var got int
 			var strRes [][]string
 
-			got, strRes,  err = sqlquerier.Query(context.Background(), db, tc.query)
+			strRes,  err = sqlquerier.Query(context.Background(), db, tc.query)
+			got = len(strRes)
+
 			if err != nil {
 				if !tc.expectError {
 					t.Errorf("sqlquerier.Query(ctx, db, %q) had an unexpected error: %v", tc.query, err)

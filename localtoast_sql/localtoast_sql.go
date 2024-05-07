@@ -89,7 +89,8 @@ func (a *localScanAPIProvider) SQLQuery(ctx context.Context, query string) (int,
 		return 0, nil, err
 	}
 	if dbtype == ipb.SQLCheck_DB_MYSQL {
-		return sqlquerier.Query(ctx, a.sqldb, query)
+		r, e := sqlquerier.Query(ctx, a.sqldb, query)
+		return len(r), r, e
 	}
 	if dbtype == ipb.SQLCheck_DB_CASSANDRA {
 		r, e := cqlquerier.Query(ctx, a.cqldb, query)
