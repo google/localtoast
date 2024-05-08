@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"io"
 	"regexp"
+	"sync"
 
 	"github.com/google/localtoast/scannerlib/fileset"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -27,6 +28,7 @@ import (
 
 var (
 	regexCache = make(map[string]*regexp.Regexp)
+	mutex = &sync.Mutex{}
 )
 
 // contentEntryFileChecker performs checks about whether files have specific entries in their content.
@@ -54,6 +56,8 @@ func (m *matchCriterion) String() string {
 // compiledRegex returns the (potentially cached) compiled regex pattern.
 // It assumes that the regex can be successfully compiled without errors.
 func compiledRegex(pattern string) *regexp.Regexp {
+	mutex.Lock()
+	defer mutex.Unlock()
 	if re, ok := regexCache[pattern]; ok {
 		return re
 	}
@@ -63,6 +67,8 @@ func compiledRegex(pattern string) *regexp.Regexp {
 }
 
 func clearRegexCache() {
+	mutex.Lock()
+	defer mutex.Unlock()
 	regexCache = make(map[string]*regexp.Regexp)
 }
 
