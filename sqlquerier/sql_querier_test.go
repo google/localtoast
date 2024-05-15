@@ -35,39 +35,25 @@ func TestSQLCheck(t *testing.T) {
 	testCases := []struct {
 		desc        string
 		query       string
-		want        int
+		want        string
 		expectError bool
 		errorMsg    string
-		expectStr   string
 	}{
 		{
 			desc:  "SQLCheck one row returned",
 			query: fakedb.QueryOneRow,
-			want:  1,
+			want:  "fakeValue",
 		},
 		{
 			desc:  "SQLCheck no rows returned",
 			query: fakedb.QueryNoRows,
-			want:  0,
+			want:  "",
 		},
 		{
 			desc:        "SQLCheck propagates errors",
 			query:       fakedb.QueryError,
-			want:        0,
 			expectError: true,
 			errorMsg:    fakedb.ErrorMsg,
-		},
-		{
-			desc:      "SQLCheck one row returned check string value",
-			query:     fakedb.QueryOneRow,
-			want:      1,
-			expectStr: "fakeValue",
-		},
-		{
-			desc:      "SQLCheck no rows returned expect no string value",
-			query:     fakedb.QueryNoRows,
-			want:      0,
-			expectStr: "",
 		},
 	}
 	for _, tc := range testCases {
@@ -76,11 +62,8 @@ func TestSQLCheck(t *testing.T) {
 			if err != nil {
 				t.Errorf("fakedb.Open had an unexpected error: %v", err)
 			}
-			var got int
-			var strRes [][]string
 
-			strRes, err = sqlquerier.Query(context.Background(), db, tc.query)
-			got = len(strRes)
+			got, err := sqlquerier.Query(context.Background(), db, tc.query)
 
 			if err != nil {
 				if !tc.expectError {
@@ -90,11 +73,8 @@ func TestSQLCheck(t *testing.T) {
 					t.Errorf("sqlquerier.Query(ctx, db, %q) returned the wrong error: want %q, got %v", tc.query, tc.errorMsg, err)
 				}
 			}
-			if got != tc.want {
-				t.Errorf("sqlquerier.Query(ctx, db, %q) returned wrong result: want %d rows, got %d rows", tc.query, tc.want, got)
-			}
-			if len(tc.expectStr) > 0 && tc.expectStr != strRes[0][0] {
-				t.Errorf("sqlquerier.Query(ctx, db, %q) returned wrong string value: want %q value, got %q", tc.query, tc.expectStr, strRes[0][0])
+			if tc.want != got {
+				t.Errorf("sqlquerier.Query(ctx, db, %q) returned wrong string value: want %q value, got %q", tc.query, tc.want, got)
 			}
 		})
 	}

@@ -651,11 +651,7 @@ func (dirWithUnreadableFile) FilePermissions(ctx context.Context, filePath strin
 	return nil, errors.New("not implemented")
 }
 
-func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
-	return 0, nil, errors.New("not implemented")
-}
-
-func (dirWithUnreadableFile) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+func (dirWithUnreadableFile) SQLQuery(ctx context.Context, query string) (string, error) {
 	return "", errors.New("not implemented")
 }
 
@@ -1518,11 +1514,7 @@ func (manyFilesAPI) FilePermissions(ctx context.Context, filePath string) (*apb.
 	return &apb.PosixPermissions{User: "root"}, nil
 }
 
-func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
-	return 0, nil, errors.New("not implemented")
-}
-
-func (manyFilesAPI) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
+func (manyFilesAPI) SQLQuery(ctx context.Context, query string) (string, error) {
 	return "", errors.New("not implemented")
 }
 

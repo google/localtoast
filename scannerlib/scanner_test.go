@@ -60,18 +60,15 @@ func (fakeAPIProvider) OpenDir(ctx context.Context, path string) (scanapi.DirRea
 func (fakeAPIProvider) FilePermissions(ctx context.Context, path string) (*apb.PosixPermissions, error) {
 	return nil, errors.New("not implemented")
 }
-func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
+func (fakeAPIProvider) SQLQuery(ctx context.Context, query string) (string, error) {
 	switch query {
 	case testQueryNoRows:
-		return 0, nil, nil
+		return "", nil
 	case testQueryOneRow:
-		return 1, [][]string{{"testValue"}}, nil
+		return "testValue", nil
 	default:
-		return 0, nil, fmt.Errorf("the query %q is not supported by fakeAPIProvider", query)
+		return "", fmt.Errorf("the query %q is not supported by fakeAPIProvider", query)
 	}
-}
-func (fakeAPIProvider) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
-	return "", errors.New("not implemented")
 }
 func (fakeAPIProvider) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {
 	return ipb.SQLCheck_DB_MYSQL, nil
@@ -314,7 +311,7 @@ func TestNonCompliantFileCheckResultsAreAggregated(t *testing.T) {
 					Id: "id",
 					ComplianceOccurrence: &cpb.ComplianceOccurrence{
 						NonCompliantFiles:   []*cpb.NonCompliantFile{},
-						NonComplianceReason: fmt.Sprintf("Expected no results for query %q, but got 1 rows.\nExpected results for query %q, but got none.", testQueryOneRow, testQueryNoRows),
+						NonComplianceReason: fmt.Sprintf("Expected no results for query %q, but got some.\nExpected results for query %q, but got none.", testQueryOneRow, testQueryNoRows),
 					},
 				},
 			},

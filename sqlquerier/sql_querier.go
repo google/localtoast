@@ -21,38 +21,24 @@ import (
 	"errors"
 )
 
-// Query executes a SQL query and returns the number of rows in the result.
-func Query(ctx context.Context, db *sql.DB, query string) ([][]string, error) {
+// Query executes a SQL query and returns the first row in the result.
+func Query(ctx context.Context, db *sql.DB, query string) (string, error) {
 	if db == nil {
-		return nil, errors.New("no database specified. Please provide one using the --database flag")
+		return "", errors.New("no database specified. Please provide one using the --database flag")
 	}
 	rows, err := db.Query(query)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer rows.Close()
-	n := 0
 
-	// Storing SQL Query results in a string array
-	var result [][]string
-	cols, _ := rows.Columns()
-	pointers := make([]any, len(cols))
-	container := make([]string, len(cols))
-	for i := range pointers {
-		pointers[i] = &container[i]
-	}
-	for rows.Next() {
-		// Storing only the first row
-		if n == 0 {
-			rows.Scan(pointers...)
-			result = append(result, container)
-		}
-
-		n++
+	result := ""
+	if rows.Next() {
+		rows.Scan(&result)
 	}
 
 	if rows.Err() != nil {
-		return nil, rows.Err()
+		return "", rows.Err()
 	}
 	return result, nil
 }

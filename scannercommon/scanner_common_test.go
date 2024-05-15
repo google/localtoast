@@ -53,12 +53,7 @@ func (testAPIProvider) FilePermissions(ctx context.Context, filePath string) (*a
 	return localfilereader.FilePermissions(ctx, path.Join(testDirPath, filePath))
 }
 
-func (testAPIProvider) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
-	return 0, nil, errors.New("not implemented")
-}
-
-func (testAPIProvider) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
-	// This is intentionally not implemented for the scanner version without SQL.
+func (testAPIProvider) SQLQuery(ctx context.Context, query string) (string, error) {
 	return "", errors.New("not implemented")
 }
 

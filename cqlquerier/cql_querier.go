@@ -8,18 +8,20 @@ import (
 	"github.com/gocql/gocql"
 )
 
-// Query executes a CQL query and returns the number of rows in the result.
-func Query(ctx context.Context, db *gocql.Session, query string) (int, error) {
+// Query executes a CQL query and returns the first row in the result.
+func Query(ctx context.Context, db *gocql.Session, query string) (string, error) {
 	if db == nil {
-		return 0, errors.New("no cassandra database specified. Please provide one using the --cassandra flag")
+		return "", errors.New("no cassandra database specified. Please provide one using the --cassandra flag")
 	}
 	scanner := db.Query(query).Iter().Scanner()
-	n := 0
-	for scanner.Next() {
-		n++
+	result := ""
+	if scanner.Next() {
+		if err := scanner.Scan(&result); err != nil {
+			return "", err
+		}
+		if err := scanner.Err(); err != nil {
+			return "", err
+		}
 	}
-	if err := scanner.Err(); err != nil {
-		return 0, err
-	}
-	return n, nil
+	return result, nil
 }

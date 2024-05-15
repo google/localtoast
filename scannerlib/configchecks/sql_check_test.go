@@ -208,7 +208,7 @@ func TestMySQLCheckComplianceResults(t *testing.T) {
 			expectedResult: &apb.ComplianceResult{
 				Id: "id",
 				ComplianceOccurrence: &cpb.ComplianceOccurrence{
-					NonComplianceReason: fmt.Sprintf("Expected no results for query %q, but got 1 rows.", fakeQueryOneRow),
+					NonComplianceReason: fmt.Sprintf("Expected no results for query %q, but got some.", fakeQueryOneRow),
 				},
 			},
 		},

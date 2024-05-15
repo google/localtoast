@@ -132,21 +132,17 @@ func (fakeAPI) FilePermissions(ctx context.Context, filePath string) (*apb.Posix
 	}
 }
 
-func (fakeAPI) SQLQuery(ctx context.Context, query string) (int, [][]string, error) {
+func (fakeAPI) SQLQuery(ctx context.Context, query string) (string, error) {
 	switch query {
 	case fakeQueryNoRows:
-		return 0, nil, nil
+		return "", nil
 	case fakeQueryOneRow:
-		return 1, [][]string{{"testValue"}}, nil
+		return "testValue", nil
 	case fakeQueryError:
-		return 0, nil, errors.New(queryErrorMsg)
+		return "", errors.New(queryErrorMsg)
 	default:
-		return 0, nil, fmt.Errorf("the query %q is not supported by fakeAPI", query)
+		return "", fmt.Errorf("the query %q is not supported by fakeAPI", query)
 	}
-}
-
-func (fakeAPI) SQLQueryWithResponse(ctx context.Context, query string) (string, error) {
-	return "", errors.New("not implemented")
 }
 
 func (r *fakeAPI) SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error) {

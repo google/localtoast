@@ -47,10 +47,9 @@ type Filesystem interface {
 
 // SQLQuerier is an interface that supports SQL queries to a target SQL database.
 type SQLQuerier interface {
-	// SQLQuery executes SQL queries to a target SQL database and returns the number of result rows and the result as string.
-	SQLQuery(ctx context.Context, query string) (int, [][]string, error)
-	// SQLQueryWithResponse execute Query and returns the Response as string
-	SQLQueryWithResponse(ctx context.Context, query string) (string, error)
+	// SQLQuery executes SQL queries to a target SQL database and returns first result
+	// row as a string.
+	SQLQuery(ctx context.Context, query string) (string, error)
 	// Returns the supported database type
 	SupportedDatabase() (ipb.SQLCheck_SQLDatabase, error)
 }
