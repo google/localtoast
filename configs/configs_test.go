@@ -23,12 +23,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/testing/protocmp"
 	"bitbucket.org/creachadair/stringset"
-	cpb "github.com/google/localtoast/scannerlib/proto/compliance_go_proto"
 	spb "github.com/google/localtoast/scannerlib/proto/severity_go_proto"
 	apb "github.com/google/localtoast/scannerlib/proto/api_go_proto"
 	ipb "github.com/google/localtoast/scannerlib/proto/scan_instructions_go_proto"
@@ -219,24 +216,18 @@ func TestProfileLevelOverridesUseExistingIDs(t *testing.T) {
 }
 
 func TestConfigDefContainsUniqueNoteDefinitions(t *testing.T) {
+	notePresent := make(map[string]bool)
 	for filePath, configBytes := range scanConfigDefs {
-		noteIdsToConfigs := make(map[string][]*apb.BenchmarkConfig)
 		config := &apb.ScanConfig{}
 		if err := prototext.Unmarshal(configBytes, config); err != nil {
 			t.Errorf("error reading %s: %v", filePath, err)
 		}
 		for _, benchmarkConfig := range config.GetBenchmarkConfigs() {
 			noteID := benchmarkConfig.GetId()
-
-			if configs, present := noteIdsToConfigs[noteID]; present {
-				for _, priorBenchmarkConfig := range configs {
-					if diff := cmp.Diff(priorBenchmarkConfig, benchmarkConfig, protocmp.Transform(), protocmp.IgnoreFields(&cpb.ComplianceNote{}, "version")); diff == "" {
-						t.Errorf("%s: Benchmark ID %q has the exact definition specified multiple times", filePath, noteID)
-					}
-				}
-				noteIdsToConfigs[noteID] = append(configs, benchmarkConfig)
+			if _, present := notePresent[noteID]; present {
+				t.Errorf("%s: Benchmark ID %q specified multiple times", filePath, noteID)
 			} else {
-				noteIdsToConfigs[noteID] = []*apb.BenchmarkConfig{benchmarkConfig}
+				notePresent[noteID] = true
 			}
 		}
 	}
