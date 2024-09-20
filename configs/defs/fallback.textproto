@@ -1223,7 +1223,9 @@ benchmark_configs: {
       "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
       "options) for the /home partition. See the fstab(5) manual page for "
       "more information.\n"
-      "# mount -o remount,nodev /home"
+      "```\n"
+      "# mount -o remount,nodev /home\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1722,6 +1724,7 @@ benchmark_configs: {
       "# crontab -u root -e\n"
       "```\n"
       "Add the following line to the crontab:\n"
+      "```\n"
       "0 5 * * * /usr/sbin/aide --check\n"
       "```\n"
     cis_benchmark: {
@@ -5712,7 +5715,7 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/dccp.conf \n"
       "and add the following line: \n"
-      "```install dccp /bin/true```"
+      "```\ninstall dccp /bin/true\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -5832,7 +5835,7 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/sctp.conf \n"
       "and add the following line: \n"
-      "```install sctp /bin/true```"
+      "```\ninstall sctp /bin/true\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -5914,7 +5917,7 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/rds.conf \n"
       "and add the following line: \n"
-      "```install rds /bin/true```"
+      "```\ninstall rds /bin/true\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -5995,7 +5998,7 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/tipc.conf \n"
       "and add the following line: \n"
-      "```install tipc /bin/true```"
+      "```\ninstall tipc /bin/true\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6130,7 +6133,7 @@ benchmark_configs: {
     rationale: "If wireless is not to be used, wireless devices can be disabled to reduce the potential attack surface."
     remediation:
       "Run the following command to disable any wireless interfaces: \n"
-      "```# ip link set <interface> down```\n "
+      "```\n# ip link set <interface> down```\n "
       "Disable any wireless interfaces in your network configuration."
     cis_benchmark: {
       profile_level: 2
@@ -6176,12 +6179,12 @@ benchmark_configs: {
       "disabled to reduce the attack surface of the system."
     remediation:
       "Edit /etc/default/grub and add ipv6.disable=1 to the GRUB_CMDLINE_LINUX parameters: \n"
-      "```GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"```\n "
+      "```\nGRUB_CMDLINE_LINUX=\"ipv6.disable=1\"```\n "
       "Depending or your distribution, run the appropriate following command to "
       "update the grub2 configuration: \n"
-      "```# grub2-mkconfig –o /boot/grub2/grub.cfg```\n "
+      "```\n# grub2-mkconfig –o /boot/grub2/grub.cfg\n```\n "
       "or \n"
-      "```# update-grub```"
+      "```\n# update-grub\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6246,7 +6249,7 @@ benchmark_configs: {
       "so that they do not impact the system and audit data is not lost."
     remediation:
       "Set the following parameter in /etc/audit/auditd.conf in accordance with site policy: "
-      "```max_log_file = <MB>``` \n"
+      "```\nmax_log_file = <MB>\n```\n \n"
       "Notes: The max_log_file parameter is measured in megabytes. \n"
       "Other methods of log rotation may be appropriate based on site policy. "
       "One example is time-based rotation strategies which don't have native support in auditd configurations. "
@@ -6289,9 +6292,9 @@ benchmark_configs: {
       "nonrepudiation exceeds the benefit of the system's availability."
     remediation:
       "Set the following parameters in /etc/audit/auditd.conf: \n"
-      "```space_left_action = email \n"
+      "```\nspace_left_action = email \n"
       "action_mail_acct = root \n"
-      "admin_space_left_action = halt```"
+      "admin_space_left_action = halt\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6341,7 +6344,7 @@ benchmark_configs: {
       "history exceed the cost of storing the audit history."
     remediation:
       "Set the following parameter in /etc/audit/auditd.conf: \n"
-      "```max_log_file_action = keep_logs```"
+      "```\nmax_log_file_action = keep_logs\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6382,9 +6385,9 @@ benchmark_configs: {
       "information to allow them to determine if unauthorized access to their system is occurring."
     remediation:
       "Run the following command to Install auditd \n"
-      "```# yum install audit audit-libs \n"
+      "```\n# yum install audit audit-libs \n"
       "# apt-get install auditd audispd-plugins \n"
-      "# zipper install audit audit-libs```"
+      "# zipper install audit audit-libs\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6434,7 +6437,7 @@ benchmark_configs: {
       "information to allow them to determine if unauthorized access to their system is occurring."
     remediation:
       "Run one of the following commands to enable auditd : \n"
-      "```# chkconfig auditd on \n"
+      "```\n# chkconfig auditd on \n"
       "# systemctl enable auditd \n"
       "# update-rc.d auditd enable \n"
       "Notes: Additional methods of enabling a service exist. "
@@ -6478,11 +6481,11 @@ benchmark_configs: {
       "so that potential malicious activity cannot go undetected."
     remediation:
       "For grub2 based systems edit /etc/default/grub and add audit=1 to GRUB_CMDLINE_LINUX:\n"
-      "```GRUB_CMDLINE_LINUX=\"audit=1\"```\n"
+      "```\nGRUB_CMDLINE_LINUX=\"audit=1\"```\n"
       "Run the following command to update the grub2 configuration: \n"
-      "```# grub2-mkconfig -o /boot/grub2/grub.cfg```\n"
+      "```\n# grub2-mkconfig -o /boot/grub2/grub.cfg\n```\n"
       " or \n"
-      "```# update-grub```\n"
+      "```\n# update-grub\n```\n"
       "For grub based systems edit /boot/grub/menu.lst to "
       "include audit=1 on all kernel lines.\n"
       "Notes:\n"
@@ -6558,17 +6561,17 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k timechange``` \n"
+      "```\n-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k timechange\n```\n \n"
       "-a always,exit -F arch=b32 -S clock_settime -k time-change \n"
-      "-w /etc/localtime -p wa -k time-change ```\n"
+      "-w /etc/localtime -p wa -k time-change \n```\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change \n"
+      "```\n-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change \n"
       "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change \n"
       "-a always,exit -F arch=b64 -S clock_settime -k time-change \n"
       "-a always,exit -F arch=b32 -S clock_settime -k time-change \n"
-      "-w /etc/localtime -p wa -k time-change ```\n"
+      "-w /etc/localtime -p wa -k time-change \n```\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -6703,11 +6706,11 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /etc/group -p wa -k identity \n"
+      "```\n-w /etc/group -p wa -k identity \n"
       "-w /etc/passwd -p wa -k identity \n"
       "-w /etc/gshadow -p wa -k identity \n"
       "-w /etc/shadow -p wa -k identity \n"
-      "-w /etc/security/opasswd -p wa -k identity``` \n"
+      "-w /etc/security/opasswd -p wa -k identity\n```\n \n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -6827,21 +6830,21 @@ benchmark_configs: {
       "directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules "
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale \n"
+      "```\n-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale \n"
       "-w /etc/issue -p wa -k system-locale \n"
       "-w /etc/issue.net -p wa -k system-locale \n"
       "-w /etc/hosts -p wa -k system-locale \n"
-      "-w /etc/sysconfig/network -p wa -k system-locale``` \n"
+      "-w /etc/sysconfig/network -p wa -k system-locale\n```\n \n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ "
       "directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale \n"
+      "```\n-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale \n"
       "-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale \n"
       "-w /etc/issue -p wa -k system-locale \n"
       "-w /etc/issue.net -p wa -k system-locale \n"
       "-w /etc/hosts -p wa -k system-locale \n"
-      "-w /etc/sysconfig/network -p wa -k system-locale``` \n"
+      "-w /etc/sysconfig/network -p wa -k system-locale\n```\n \n"
       "Notes: /etc/sysconfig/network is common to Red Hat and SUSE based distributions. \n"
       "You should expand or replace this coverage to any network configuration "
       "files on your system such as /etc/network on Debian based distributions. \n"
@@ -6944,14 +6947,14 @@ benchmark_configs: {
       "On systems using SELinux Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /etc/selinux/ -p wa -k MAC-policy \n"
+      "```\n-w /etc/selinux/ -p wa -k MAC-policy \n"
       "-w /usr/share/selinux/ -p wa -k MAC-policy \n"
       "On systems using AppArmor Edit or create a file in the /etc/audit/rules.d/ "
       "directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /etc/apparmor/ -p wa -k MAC-policy -w \n"
-      "/etc/apparmor.d/ -p wa -k MAC-policy ```"
+      "```\n-w /etc/apparmor/ -p wa -k MAC-policy -w \n"
+      "/etc/apparmor.d/ -p wa -k MAC-policy \n```"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7026,9 +7029,9 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /var/log/faillog -p wa -k logins \n"
+      "```\n-w /var/log/faillog -p wa -k logins \n"
       "-w /var/log/lastlog -p wa -k logins \n"
-      "-w /var/log/tallylog -p wa -k logins``` \n"
+      "-w /var/log/tallylog -p wa -k logins\n```\n \n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7117,7 +7120,7 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /var/run/utmp -p wa -k session \n"
+      "```\n-w /var/run/utmp -p wa -k session \n"
       "-w /var/log/wtmp -p wa -k logins \n"
       "-w /var/log/btmp -p wa -k logins \n"
       "Notes: \n"
@@ -7211,22 +7214,22 @@ benchmark_configs: {
       "the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "```\n-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr "
-      "-F auid>=500 -F auid!=4294967295 -k perm_mod``` \n"
+      "-F auid>=500 -F auid!=4294967295 -k perm_mod\n```\n \n"
       "For 64 bit systems Edit or create a file in "
       "the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "```\n-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr "
       "-F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S "
-      "lremovexattr -S fremovexattr -F auid>=500 -F auid!=4294967295 -k perm_mod``` \n"
+      "lremovexattr -S fremovexattr -F auid>=500 -F auid!=4294967295 -k perm_mod\n```\n \n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7315,15 +7318,15 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
-      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access ```\n"
+      "```\n-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n```\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "```\n-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
       "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
       "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n"
-      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access ```\n"
+      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n```\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7405,7 +7408,7 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /var/log/sudo.log -p wa -k actions``` \n"
+      "```\n-w /var/log/sudo.log -p wa -k actions\n```\n \n"
       "Notes: \n"
       "The system must be configured with sudisabled (See Item 5.6 Ensure access to the su "
       "command is restricted) to force all command execution through sudo. "
@@ -7483,17 +7486,17 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /sbin/insmod -p x -k modules \n"
+      "```\n-w /sbin/insmod -p x -k modules \n"
       "-w /sbin/rmmod -p x -k modules \n"
       "-w /sbin/modprobe -p x -k modules \n"
-      "-a always,exit -F arch=b32 -S init_module -S delete_module -k modules``` \n"
+      "-a always,exit -F arch=b32 -S init_module -S delete_module -k modules\n```\n \n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /sbin/insmod -p x -k modules \n"
+      "```\n-w /sbin/insmod -p x -k modules \n"
       "-w /sbin/rmmod -p x -k modules \n"
       "-w /sbin/modprobe -p x -k modules \n"
-      "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules``` \n"
+      "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules\n```\n \n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7584,7 +7587,7 @@ benchmark_configs: {
       "administrators of an attempt to make unauthorized audit changes."
     remediation:
       "Edit or create the file /etc/audit/rules.d/99-finalize.rules and add the line \n"
-      "```-e 2``` \n"
+      "```\n-e 2\n```\n \n"
       "at the end of the file \n"
       "Notes: \n"
       "This setting will ensure reloading the auditd config to set active settings requires a system reboot."
@@ -8583,7 +8586,7 @@ benchmark_configs: {
       "Note that even if X11 forwarding is disabled, users can always install their own forwarders."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows: \n"
-      "```X11Forwarding no```"
+      "```\nX11Forwarding no\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -9481,7 +9484,7 @@ benchmark_configs: {
       "Cybercriminals or malware could exploit SSH to hide their unauthorized communications, or to exfiltrate stolen data from the target network"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows: \n"
-      "```AllowTcpForwarding no```"
+      "```\nAllowTcpForwarding no\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -10396,7 +10399,7 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/bashrc and /etc/profile files (and the appropriate files for any other shell "
       "supported on your system) and add or edit any umask parameters as follows: \n"
-      "```TMOUT=900``` \n"
+      "```\nTMOUT=900\n```\n \n"
       "Notes: \n"
       "The audit and remediation in this recommendation apply to bash and shell. "
       "If other shells are supported on the system, it is recommended that their configuration files also are checked. "
@@ -12454,9 +12457,9 @@ benchmark_configs: {
       "Discretionary Access Control system will be available."
     remediation:
       "Install SELinux or apparmor using the appropriate package manager or manual installation:\n"
-      "```# yum install libselinux\n"
+      "```\n# yum install libselinux\n"
       "# apt-get install libselinux1\n"
-      "# zypper install libselinux```\n"
+      "# zypper install libselinux\n```\n"
       "The previous commands install SELinux, use the appropriate package if AppArmor is desired. "
     cis_benchmark: {
       profile_level: 2
@@ -12538,12 +12541,12 @@ benchmark_configs: {
       "remove all instances of selinux=0 and enforcing=0 on all kernel lines.\n"
       "For grub2 based systems edit /etc/default/grub and "
       "remove all instances of selinux=0 and enforcing=0 from all CMDLINE_LINUX parameters:\n"
-      "```GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"\n"
+      "```\nGRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"\n"
       "GRUB_CMDLINE_LINUX=\"\"```\n"
       "Run the following command to update the grub2 configuration:\n"
-      "```# update-grub```\n"
+      "```\n# update-grub\n```\n"
       "or\n"
-      "```# grub2-mkconfig -o /boot/grub2/guub.cfg```\n"
+      "```\n# grub2-mkconfig -o /boot/grub2/guub.cfg\n```\n"
       "Notes: This recommendation is designed around the grub bootloader, "
       "if LILO or another bootloader is in use in your environment enact equivalent settings."
     cis_benchmark: {
@@ -12588,7 +12591,7 @@ benchmark_configs: {
       "the controls it provides are in effect at all times."
     remediation:
       "Edit the /etc/selinux/config file to set the SELINUX parameter: \n"
-      "```SELINUX=enforcing```"
+      "```\nSELINUX=enforcing\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -12631,7 +12634,7 @@ benchmark_configs: {
       "This item is intended to ensure that at least the default recommendations are met."
     remediation:
       "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter: \n"
-      "```SELINUXTYPE=targeted```\n"
+      "```\nSELINUXTYPE=targeted\n```\n"
       "Notes: If your organization requires stricter policies, "
       "ensure that they are set in the /etc/selinux/config file."
     cis_benchmark: {
@@ -12705,9 +12708,9 @@ benchmark_configs: {
       "vulnerable code running on the system."
     remediation:
       "Uninstall mcstrans using the appropriate package manager or manual installation: \n"
-      "```yum remove mcstrans \n"
+      "```\nyum remove mcstrans \n"
       "apt-get remove mcstrans \n"
-      "zypper remove mcstrans```"
+      "zypper remove mcstrans\n```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -12795,10 +12798,10 @@ benchmark_configs: {
       "For grub based systems edit /boot/grub/menu.lst and remove all instances of apparmor=0 on all kernel lines. \n"
       "For grub2 based systems edit /etc/default/grub and remove all instances "
       "of apparmor=0 from all CMDLINE_LINUX parameters: \n"
-      "```GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\" \n"
-      "GRUB_CMDLINE_LINUX=\"\" ```\n"
+      "```\nGRUB_CMDLINE_LINUX_DEFAULT=\"quiet\" \n"
+      "GRUB_CMDLINE_LINUX=\"\" \n```\n"
       "Run the following command to update the grub2 configuration: \n"
-      "```# update-grub```\n "
+      "```\n# update-grub\n```\n "
       "Notes: This recommendation is designed around the grub bootloader, "
       "if LILO or another bootloader is in use in your environment enact equivalent settings. \n"
       "Replace /boot/grub/menu.lst with the appropriate grub configuration file for your environment."
@@ -12845,7 +12848,7 @@ benchmark_configs: {
       "This item is intended to ensure that any policies that exist on the system are activated."
     remediation:
       "Run the following command to set all profiles to enforce mode: \n"
-      "```# enforce /etc/apparmor.d/*```\n "
+      "```\n# enforce /etc/apparmor.d/*\n```\n "
       "Any unconfined processes may need to have a profile created or activated for them and then be restarted."
     cis_benchmark: {
       profile_level: 2
@@ -12896,12 +12899,12 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts``` \n"
+      "```\n-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts\n```\n \n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n"
-      "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts ```\n"
+      "```\n-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n"
+      "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n```\n"
       "Notes: \n"
       "This tracks successful and unsuccessful mount commands. "
       "File system mounts do not have to come from external media and "
@@ -12982,12 +12985,12 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules "
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete```\n"
+      "```\n-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete\n```\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
-      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete ```\n"
+      "```\n-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
+      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n```\n"
       "Notes: \n"
       "At a minimum, configure the audit system to collect file deletion events for all users and root. \n"
       "Reloading the auditd config to set active settings may require a system reboot."
@@ -13066,8 +13069,8 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```-w /etc/sudoers -p wa -k scope \n"
-      "-w /etc/sudoers.d/ -p wa -k scope ```\n"
+      "```\n-w /etc/sudoers -p wa -k scope \n"
+      "-w /etc/sudoers.d/ -p wa -k scope \n```\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {

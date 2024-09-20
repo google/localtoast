@@ -87,10 +87,12 @@ benchmark_configs: {
       "To remediate this issue, follow these steps:\n"
       "1. Identify the Elasticsearch home folder location in your environment.\n"
       "2. Run the following command to change the owner of the Elasticsearch home folder and its contents to \"elasticsearch\":\n"
-      "```chown -R elasticsearch:elasticsearch <ES_HOME>```\n"
+      "```\n"
+      "chown -R elasticsearch:elasticsearch <ES_HOME>\n```\n"
       "   Replace <ES_HOME> with the actual path to the Elasticsearch home folder.\n"
       "3. Verify that the ownership has been changed successfully by running the following command:\n"
-      "```ls -l <ES_HOME>```\n"
+      "```\n"
+      "ls -l <ES_HOME>\n```\n"
       "   The command should display \"elasticsearch elasticsearch\" as the owner and group for all files and directories within the Elasticsearch home folder.\n"
     cis_benchmark: {
       profile_level: 1

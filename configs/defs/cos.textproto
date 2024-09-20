@@ -2493,13 +2493,16 @@ benchmark_configs: {
     remediation:
       "Stackdriver-logging Agent \n"
       "Run the following command to enable stackdriver-logging : \n"
-      "```# systemctl start stackdriver-logging```\n "
+      "```\n"
+      "# systemctl start stackdriver-logging\n```\n "
       "Fluent-bit Logging \n"
       "Run the following command to enable fluent-bit : \n"
-      "```# systemctl start fluent-bit```\n "
+      "```\n"
+      "# systemctl start fluent-bit\n```\n "
       "Works for Both \n"
       "Simply update the instance metadata to enable logging as follows: \n"
-      "```# gcloud compute instances add-metadata <instance-name> \\ --zone <compute-zone> \\ --metadata google-logging-enabled=true```"
+      "```\n"
+      "# gcloud compute instances add-metadata <instance-name> \\ --zone <compute-zone> \\ --metadata google-logging-enabled=true\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -4315,9 +4318,10 @@ benchmark_configs: {
       "to black list unacceptable usage."
     remediation:
       "Run the following commands to implement a default DROP policy: \n"
-      "```# ip6tables -P INPUT DROP \n"
+      "```\n"
+      "# ip6tables -P INPUT DROP \n"
       "# ip6tables -P OUTPUT DROP \n"
-      "# ip6tables -P FORWARD DROP```"
+      "# ip6tables -P FORWARD DROP\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -4363,9 +4367,10 @@ benchmark_configs: {
       "traffic should be seen, all other interfaces should ignore traffic on this network as an anti-spoofing measure."
     remediation:
       "Run the following commands to implement the loopback rules: \n"
-      "```# ip6tables -A INPUT -i lo -j ACCEPT \n"
+      "```\n"
+      "# ip6tables -A INPUT -i lo -j ACCEPT \n"
       "# ip6tables -A OUTPUT -o lo -j ACCEPT \n"
-      "# ip6tables -A INPUT -s ::1 -j DROP```"
+      "# ip6tables -A INPUT -s ::1 -j DROP\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -4424,9 +4429,10 @@ benchmark_configs: {
       "ignore traffic on this network as an anti-spoofing measure."
     remediation:
       "Run the following commands to implement the loopback rules: \n"
-      "```# iptables -A INPUT -i lo -j ACCEPT \n"
+      "```\n"
+      "# iptables -A INPUT -i lo -j ACCEPT \n"
       "# iptables -A OUTPUT -o lo -j ACCEPT \n"
-      "# iptables -A INPUT -s 127.0.0.0/8 -j DROP```"
+      "# iptables -A INPUT -s 127.0.0.0/8 -j DROP\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -4482,12 +4488,13 @@ benchmark_configs: {
       "Configure iptables in accordance with site policy. "
       "The following commands will implement a policy to "
       "allow all outbound connections and all established connections: \n"
-      "```# ip6tables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "```\n"
+      "# ip6tables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
       "# ip6tables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
       "# ip6tables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
       "# ip6tables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT \n"
       "# ip6tables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT \n"
-      "# ip6tables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT```"
+      "# ip6tables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -4560,9 +4567,10 @@ benchmark_configs: {
       "It is easier to white list acceptable usage than to black list unacceptable usage."
     remediation:
       "Run the following commands to implement a default DROP policy: \n"
-      "```# iptables -P INPUT DROP \n"
+      "```\n"
+      "# iptables -P INPUT DROP \n"
       "# iptables -P OUTPUT DROP \n"
-      "# iptables -P FORWARD DROP```"
+      "# iptables -P FORWARD DROP\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -4606,12 +4614,13 @@ benchmark_configs: {
       "Configure iptables in accordance with site policy. "
       "The following commands will implement a policy to "
       "allow all outbound connections and all established connections: \n"
-      "```# iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
+      "```\n"
+      "# iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
       "# iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
       "# iptables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT \n"
       "# iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT \n"
       "# iptables -A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT \n"
-      "# iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT```"
+      "# iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT\n```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW

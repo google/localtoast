@@ -1168,7 +1168,7 @@ benchmark_configs: {
       "access to another user."
     remediation:
       "If the currently configured time out is larger than 15 minutes, edit the file listed in the audit "
-      "section with ```visudo -f <PATH TO FILE>``` and modify the entry ```timestamp_timeout=``` to 15 "
+      "section with \n```\nvisudo -f <PATH TO FILE>\n```\n and modify the entry \n```\ntimestamp_timeout=\n```\n to 15 "
       "minutes or less as per your site policy. The value is in minutes. This particular entry may "
       "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
       "1. Same line\n"

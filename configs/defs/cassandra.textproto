@@ -9,9 +9,9 @@ benchmark_configs: {
       "This mitigates the potential impact of malware to the system."
     remediation:
       "Create a group for cassandra (if it does not already exist): \n"
-      "```sudo groupadd cassandra```\n"
+      "```\nsudo groupadd cassandra\n```\n"
       "Create a user which is only used for running Cassandra and its related processes.\n"
-      "```sudo useradd -m -d /home/cassandra -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra```\n"
+      "```\nsudo useradd -m -d /home/cassandra -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra\n```\n"
       "Replacing <USERID_NUMBER> with a number not already used on the server."
     cis_benchmark: {
       profile_level: 1
@@ -239,7 +239,7 @@ benchmark_configs: {
     remediation:
       "To remediate this setting:\n"
       "1. Edit the logback-test.xml if present; otherwise, edit the logback.xml\n"
-      "```<configuration scan=\"true\">\n"
+      "```\n<configuration scan=\"true\">\n"
       "  <appender name=\"STDOUT\" class=\"ch.qos.logback.core.ConsoleAppender\">\n"
       "    <filter class=\"ch.qos.logback.classic.filter.ThresholdFilter\">\n"
       "      <level>INFO</level>\n"
@@ -252,7 +252,7 @@ benchmark_configs: {
       "    <appender-ref ref=\"STDOUT\" />\n"
       "  </root>\n"
       "  <logger name=\"org.cisecurity.workbench\" level=\"WARN\"/>\n"
-      "</configuration>```\n"
+      "</configuration>\n```\n"
       "2. Restart the Apache Cassandra"
     cis_benchmark: {
       profile_level: 1
@@ -345,9 +345,9 @@ benchmark_configs: {
       "run with a user with least privilege."
     remediation:
       "Create a group for cassandra (if it does not already exist):\n"
-      "```sudo groupadd cassandra```\n"
+      "```\nsudo groupadd cassandra\n```\n"
       "Create a user which is only used for running Cassandra and its related processes.\n"
-      "```sudo useradd -m -d <DIRECTORY_WHERE_CASSANDRA_INSTALLED> -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra```\n"
+      "```\nsudo useradd -m -d <DIRECTORY_WHERE_CASSANDRA_INSTALLED> -s /bin/bash -g cassandra -u <USERID_NUMBER> cassandra\n```\n"
       "Replacing <DIRECTORY_WHERE_CASSANDRA_INSTALLED> with the full path of where Cassandra binaries are installed.\n"
       "Replacing <USERID_NUMBER> with a number not already used on the server."
     cis_benchmark: {
@@ -392,9 +392,9 @@ benchmark_configs: {
       "Enable the Cassandra Auditing feature. Note that on the Open Source version this feature is available only starting from version 4.\n"
       "Open the dse.yaml file in a text editor\n"
       "In the audit_logging_options section, set enabled to true.\n"
-      "```# Audit logging options\n"
+      "```\n# Audit logging options\n"
       "audit_logging_options:\n"
-      "enabled: true```\n"
+      "enabled: true\n```\n"
       "You must also define where you want logging to go, add either of the following lines:\n"
       "Set the logger option to either CassandraAuditWriter, which logs to a table, or SLF4JAuditWriter, which logs to the SLF4J logger."
     cis_benchmark: {
@@ -440,8 +440,8 @@ benchmark_configs: {
       "1. Stop the Cassandra database.\n"
       "2. If not done so already, build out your keystore and truststore.\n"
       "3. Modify cassandra.yaml file to modify/add entries under `client_encryption_options`:\n"
-      "```set enabled: true\n"
-      "set optional: false```\n"
+      "```\nset enabled: true\n"
+      "set optional: false\n```\n"
       "This will force all connections to be encrypted between client and node on the cluster.\n"
       "4. Start the Cassandra database."
     cis_benchmark: {
