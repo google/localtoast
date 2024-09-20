@@ -1485,7 +1485,7 @@ benchmark_configs: {
       "```\n"
       "printf \"install udf /bin/false "
       "blacklist udf "
-      "\" >> /etc/modprobe.d/udf.conf "
+      "\" >> /etc/modprobe.d/udf.conf\n"
       "```\n"
       "Run the following command to unload the udf module:\n"
       "```\n"
@@ -2161,7 +2161,7 @@ benchmark_configs: {
       "```\n"
       "printf \"\n"
       "install dccp /bin/true\n"
-      "\" >> /etc/modprobe.d/dccp.conf"
+      "\" >> /etc/modprobe.d/dccp.conf\n"
       "```\n"
       "Run the following command to unload the sctp module:\n"
       "```\n"
@@ -2352,6 +2352,7 @@ benchmark_configs: {
       "Run the following command to add audit=1 to GRUB_CMDLINE_LINUX:\n"
       "```\n"
       "# grubby --update-kernel ALL --args 'audit=1'\n"
+      "```"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
