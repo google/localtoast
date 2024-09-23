@@ -22,13 +22,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/cramfs.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install cramfs /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the cramfs module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod cramfs\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -111,13 +111,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/freevxfs.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install freevxfs /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the freevxfs module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod freevxfs\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -199,13 +199,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/jffs2.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install jffs2 /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the jffs2 module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod jffs2\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -287,13 +287,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/hfs.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install hfs /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the hfs module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod hfs\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -375,13 +375,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/hfsplus.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install hfsplus /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the hfsplus module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod hfsplus\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -464,13 +464,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/squashfs.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install squashfs /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the squashfs module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod squashfs\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -555,13 +555,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/udf.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install udf /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the udf module:\n"
-      "```\n"
+      "\n```\n"
       "# rmmod udf\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -644,20 +644,20 @@ benchmark_configs: {
       "options) for the /tmp partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nodev /tmp\n"
-      "```\n"
+      "```\n\n"
       "or\n"
       "Edit the config file in /usr/lib/systemd/system/tmp.mount.d to add "
       "nodev to the /tmp mount options:\n"
-      "```\n"
+      "\n```\n"
       "[Mount]\n"
       "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to remount /tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nodev /tmp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -712,20 +712,20 @@ benchmark_configs: {
       "options) for the /tmp partition. See the fstab(5) manual page for "
       "more information."
       "Run the following command to remount /tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nosuid /tmp\n"
-      "```\n"
+      "```\n\n"
       "or\n"
       "Edit the config file in /usr/lib/systemd/system/tmp.mount.d to add "
       "nosuid to the /tmp mount options:\n"
-      "```\n"
+      "\n```\n"
       "[Mount]\n"
       "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to remount /tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nosuid /tmp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -780,20 +780,20 @@ benchmark_configs: {
       "options) for the /tmp partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,noexec /tmp\n"
-      "```\n"
+      "```\n\n"
       "or\n"
       "Edit the config file in /usr/lib/systemd/system/tmp.mount.d to add "
       "noexec to the /tmp mount options:\n"
-      "```\n"
+      "\n```\n"
       "[Mount]\n"
       "Options=mode=1777,strictatime,noexec,nodev,nosuid\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to remount /tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,noexec /tmp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -848,9 +848,9 @@ benchmark_configs: {
       "options) for the /var/tmp partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /var/tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nodev /var/tmp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -905,9 +905,9 @@ benchmark_configs: {
       "options) for the /var/tmp partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /var/tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nosuid /var/tmp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -962,9 +962,9 @@ benchmark_configs: {
       "options) for the /var/tmp partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /var/tmp:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,noexec /var/tmp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1223,7 +1223,7 @@ benchmark_configs: {
       "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
       "options) for the /home partition. See the fstab(5) manual page for "
       "more information.\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nodev /home\n"
       "```"
     cis_benchmark: {
@@ -1280,9 +1280,9 @@ benchmark_configs: {
       "options) for the /dev/shm partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /dev/shm:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nodev /dev/shm\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1337,9 +1337,9 @@ benchmark_configs: {
       "options) for the /dev/shm partition. See the fstab(5) manual page for "
       "more information.\n"
       "Run the following command to remount /dev/shm:\n"
-      "```\n"
+      "\n```\n"
       "# mount -o remount,nosuid /dev/shm\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1392,9 +1392,9 @@ benchmark_configs: {
     remediation:
       "Make sure the /usr/lib/systemd/system/dev-shm-remount.service file "
       "remounts the /dev/shm partition with noexec:\n"
-      "```\n"
+      "\n```\n"
       "ExecStart=/bin/mount -o remount,noexec /dev/shm\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1446,11 +1446,11 @@ benchmark_configs: {
     remediation:
       "Set the sticky bit on all world-writable directories, for example by "
       "running the following command:\n"
-      "```\n"
+      "\n```\n"
       "# df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' "
       "-xdev -type d \\( -perm -0002 -a ! -perm -1000 \\) 2>/dev/null | xargs -I "
       "'{}' chmod a+t '{}'\n"
-      "```\n"
+      "```\n\n"
       "Then verify that no world-writable non-sticky directories remain by "
       "re-running the file display command.\n"
     cis_benchmark: {
@@ -1506,11 +1506,11 @@ benchmark_configs: {
       "they lacked permissions to mount it themselves."
     remediation:
       "Run one of the following commands to disable autofs:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig autofs off\n"
       "# systemctl disable autofs\n"
       "# update-rc.d autofs disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1556,13 +1556,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf\n"
       "Example: vim /etc/modprobe.d/usb-storage.conf\n"
       "and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "install usb-storage /bin/true\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to unload the usb-storage module:\n"
-      "```\n"
+      "\n```\n"
       "rmmod usb-storage\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1645,19 +1645,19 @@ benchmark_configs: {
     remediation:
       "install AIDE using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "# yum install aide\n"
       "# dnf install aide\n"
       "# apt-get install aide\n"
       "# zypper install aide\n"
       "# emerge aide\n"
-      "```\n"
+      "```\n\n"
       "Configure AIDE as appropriate for your environment. Consult the AIDE "
       "documentation for options.\n"
       "Initialize AIDE:\n"
-      "```\n"
+      "\n```\n"
       "# aide --init\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1710,23 +1710,23 @@ benchmark_configs: {
       "fashion."
     remediation:
       "Run the following commands:\n"
-      "```\n"
+      "\n```\n"
       "# cp ./config/aidecheck.service /etc/systemd/system/aidecheck.service\n"
       "# cp ./config/aidecheck.timer /etc/systemd/system/aidecheck.timer\n"
       "# chmod 0644 /etc/systemd/system/aidecheck.*\n"
       "# systemctl reenable aidecheck.timer\n"
       "# systemctl restart aidecheck.timer\n"
       "# systemctl daemon-reload\n"
-      "```\n"
+      "```\n\n"
       "or\n"
       "Run the following command:\n"
-      "```\n"
+      "\n```\n"
       "# crontab -u root -e\n"
-      "```\n"
+      "```\n\n"
       "Add the following line to the crontab:\n"
-      "```\n"
+      "\n```\n"
       "0 5 * * * /usr/sbin/aide --check\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1775,15 +1775,15 @@ benchmark_configs: {
     remediation:
       "Run the following commands to set permissions on your grub "
       "configuration:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /boot/grub2/grub.cfg\n"
       "# chmod og-rwx /boot/grub2/grub.cfg\n"
-      "```\n"
+      "```\n\n"
       "OR\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /boot/grub/grub.cfg\n"
       "# chmod og-rwx /boot/grub/grub.cfg\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1840,48 +1840,48 @@ benchmark_configs: {
       "security (e.g. turning off SELinux at boot time)."
     remediation:
       "For grub based systems create an encrypted password with grub-md5-crypt:\n"
-      "```\n"
+      "\n```\n"
       "# grub-crypt\n"
       "Password: <password>\n"
       "Retype Password: <password>\n"
       "<encrypted-password>\n"
-      "```\n"
+      "```\n\n"
       "Copy and paste the <encrypted-password> into the global section of "
       "/boot/grub/menu.lst:\n"
-      "```\n"
+      "\n```\n"
       "password <encrypted-password>\n"
-      "```\n"
+      "```\n\n"
       "For grub2 based systems\n"
       "Create an encrypted password with grub2-setpassword:\n"
-      "```\n"
+      "\n```\n"
       "# grub2-setpassword\n"
       "Enter password: <password>\n"
       "Confirm password: <password>\n"
-      "```\n"
+      "```\n\n"
       "OR\n"
       "create an encrypted password with grub-mkpasswd-pbkdf2:\n"
-      "```\n"
+      "\n```\n"
       "# grub-mkpasswd-pbkdf2\n"
       "Enter password: <password>\n"
       "Reenter password: <password>\n"
       "Your PBKDF2 is <encrypted-password>\n"
-      "```\n"
+      "```\n\n"
       "Add the following into /etc/grub.d/00_header or a custom /etc/grub.d "
       "configuration file:\n"
-      "```\n"
+      "\n```\n"
       "cat <<EOF\n"
       "set superusers=\"<username>\"\n"
       "password_pbkdf2 <username> <encrypted-password>\n"
       "EOF\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to update the grub2 configuration:\n"
-      "```\n"
+      "\n```\n"
       "# grub2-mkconfig -o /boot/grub2/grub.cfg\n"
-      "```\n"
+      "```\n\n"
       "OR\n"
-      "```\n"
+      "\n```\n"
       "# update-grub\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1947,9 +1947,9 @@ benchmark_configs: {
     remediation:
       "Run the following command and follow the prompts to set a password for "
       "the root user:\n"
-      "```\n"
+      "\n```\n"
       "# passwd root\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2037,27 +2037,27 @@ benchmark_configs: {
       "dumping core."
     remediation:
       "Add the following line to /etc/security/limits.conf or a /etc/security/limits.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "* hard core 0\n"
-      "```\n"
+      "```\n\n"
       "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "fs.suid_dumpable = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to set the active kernel parameter:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w fs.suid_dumpable=0\n"
-      "```\n"
+      "```\n\n"
       "If systemd-coredump is installed:\n"
       "edit /etc/systemd/coredump.conf and add/modify the following lines:\n"
-      "```\n"
+      "\n```\n"
       "Storage=none\n"
       "ProcessSizeMax=0\n"
-      "```\n"
+      "```\n\n"
       "Run the command:\n"
-      "```\n"
+      "\n```\n"
       "systemctl daemon-reload\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2255,13 +2255,13 @@ benchmark_configs: {
     remediation:
       "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* "
       "file:\n"
-      "```\n"
+      "\n```\n"
       "kernel.randomize_va_space = 2\n"
-      "```\n"
+      "```\n\n"
       "Run the following command to set the active kernel parameter:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w kernel.randomize_va_space=2\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2338,16 +2338,16 @@ benchmark_configs: {
       "a common library such as libc."
     remediation:
       "Run the following command to restore binaries to normal:\n"
-      "```\n"
+      "\n```\n"
       "# prelink -ua\n"
-      "```\n"
+      "```\n\n"
       "Uninstall prelink using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "# yum remove prelink\n"
       "# apt-get remove prelink\n"
       "# zypper remove prelink\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2525,10 +2525,10 @@ benchmark_configs: {
       "modified by unauthorized users with incorrect or misleading information."
     remediation:
       "Run the following commands to set permissions on /etc/motd:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/motd\n"
       "# chmod 644 /etc/motd\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2574,10 +2574,10 @@ benchmark_configs: {
       "information."
     remediation:
       "Run the following commands to set permissions on /etc/issue:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/issue\n"
       "# chmod 644 /etc/issue\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2623,10 +2623,10 @@ benchmark_configs: {
       "information."
     remediation:
       "Run the following commands to set permissions on /etc/issue.net:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/issue.net\n"
       "# chmod 644 /etc/issue.net\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2674,12 +2674,12 @@ benchmark_configs: {
     remediation:
       "Edit or create the file /etc/gdm3/greeter.dconf-defaults and add the "
       "following:\n"
-      "```\n"
+      "\n```\n"
       "[org/gnome/login-screen]\n"
       "banner-message-enable=true\n"
       "banner-message-text='Authorized uses only. All activity may be "
       "monitored and reported.'\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3362,11 +3362,11 @@ benchmark_configs: {
       "daemon be disabled."
     remediation:
       "Run one of the following commands to disable xinetd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig xinetd off\n"
       "# systemctl disable xinetd\n"
       "# update-rc.d xinetd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3411,13 +3411,13 @@ benchmark_configs: {
       "On physical systems or virtual systems where host based time "
       "synchronization is not available install NTP or chrony using the "
       "appropriate package manager or manual installation:\n"
-      "```\n"
+      "\n```\n"
       "# yum install ntp\n"
       "# dnf install ntp\n"
       "# apt-get install ntp\n"
       "# zypper install ntp\n"
       "# emerge ntp\n"
-      "```\n"
+      "```\n\n"
       "The previous commands install NTP, use the appropriate package if "
       "chrony is desired. On virtual systems where host based time "
       "synchronization is available consult your virtualization software "
@@ -3525,24 +3525,24 @@ benchmark_configs: {
       "ensuring time synchronization is working properly."
     remediation:
       "Add or edit restrict lines in /etc/ntp.conf to match the following:\n"
-      "```\n"
+      "\n```\n"
       "restrict -4 default kod nomodify notrap nopeer noquery\n"
       "restrict -6 default kod nomodify notrap nopeer noquery\n"
-      "```\n"
+      "```\n\n"
       "Add or edit server or pool lines to /etc/ntp.conf as appropriate:\n"
-      "```\n"
+      "\n```\n"
       "server <remote-server>\n"
-      "```\n"
+      "```\n\n"
       "Configure ntp to run as the ntp user by adding or editing one of the following files as\n"
       "appropriate for your distribution:\n"
-      "```\n"
+      "\n```\n"
       "/etc/sysconfig/ntpd :\n"
       "OPTIONS=\"-u ntp:ntp\"\n"
       "/etc/sysconfig/ntp :\n"
       "NTPD_OPTIONS=\"-u ntp:ntp\"\n"
       "/etc/init.d/ntp:\n"
       "RUNASUSER=ntp\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3599,9 +3599,9 @@ benchmark_configs: {
       "chrony is in use on the system."
     remediation:
       "Add or edit server or pool lines to /etc/chrony.conf as appropriate:\n"
-      "```\n"
+      "\n```\n"
       "server <remote-server>\n"
-      "```\n"
+      "```\n\n"
       "Configure chrony to run as the chrony user by configuring the appropriate\n"
       "startup script for your distribution. Startup scripts are typically stored in\n"
       "etc/init.d or /etc/systemd"
@@ -3713,11 +3713,11 @@ benchmark_configs: {
     remediation:
       "Based on your system configuration, run the appropriate one of the "
       "following commands to enable cron:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig crond on\n"
       "# systemctl enable crond\n"
       "# update-rc.d crond enable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3779,11 +3779,11 @@ benchmark_configs: {
     remediation:
       "Remove the X Windows System packages using the appropriate package "
       "manager or manual installation:\n"
-      "```\n"
+      "\n```\n"
       "yum remove xorg-x11*\n"
       "apt-get remove xserver-xorg*\n"
       "zypper remove xorg-x11*\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3819,11 +3819,11 @@ benchmark_configs: {
       "reduce the potential attack surface"
     remediation:
       "Run one of the following commands to disable avahi-daemon:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig avahi-daemon off\n"
       "# systemctl disable avahi-daemon\n"
       "# update-rc.d avahi-daemon disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3859,11 +3859,11 @@ benchmark_configs: {
       "potential attack surface."
     remediation:
       "Run one of the following commands to disable cups:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig cups off\n"
       "# systemctl disable cups\n"
       "# update-rc.d cups disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3897,11 +3897,11 @@ benchmark_configs: {
       "attack surface."
     remediation:
       "Run one of the following commands to disable dhcpd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig dhcpd off\n"
       "# systemctl disable dhcpd\n"
       "# update-rc.d dhcpd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3936,11 +3936,11 @@ benchmark_configs: {
       "attack surface."
     remediation:
       "Run one of the following commands to disable slapd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig slapd off\n"
       "# systemctl disable slapd\n"
       "# update-rc.d slapd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3975,14 +3975,14 @@ benchmark_configs: {
       "surface."
     remediation:
       "Run one of the following commands to disable nfs and rpcbind:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig nfs off\n"
       "# chkconfig rpcbind off\n"
       "# systemctl disable nfs\n"
       "# systemctl disable rpcbind\n"
       "# update-rc.d nfs disable\n"
       "# update-rc.d rpcbind disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4026,11 +4026,11 @@ benchmark_configs: {
       "attack surface."
     remediation:
       "Run one of the following commands to disable named:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig named off\n"
       "# systemctl disable named\n"
       "# update-rc.d named disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4066,11 +4066,11 @@ benchmark_configs: {
       "the package be deleted to reduce the potential attack surface."
     remediation:
       "Run one of the following commands to disable vsftpd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig vsftpd off\n"
       "# systemctl disable vsftpd\n"
       "# update-rc.d vsftpd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4102,11 +4102,11 @@ benchmark_configs: {
       "attack surface."
     remediation:
       "Run one of the following commands to disable httpd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig httpd off\n"
       "# systemctl disable httpd\n"
       "# update-rc.d httpd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4138,11 +4138,11 @@ benchmark_configs: {
       "attack surface."
     remediation:
       "Run one of the following commands to disable dovecot:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig dovecot off\n"
       "# systemctl disable dovecot\n"
       "# update-rc.d dovecot disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4180,11 +4180,11 @@ benchmark_configs: {
       "attack surface."
     remediation:
       "Run one of the following commands to disable smb:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig smb off\n"
       "# systemctl disable smb\n"
       "# update-rc.d smb disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4217,11 +4217,11 @@ benchmark_configs: {
       "squid proxy be deleted to reduce the potential attack surface."
     remediation:
       "Run one of the following commands to disable squid:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig squid off\n"
       "# systemctl disable squid\n"
       "# update-rc.d squid disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4259,11 +4259,11 @@ benchmark_configs: {
       "disallow SNMP v1."
     remediation:
       "Run one of the following commands to disable snmpd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig snmpd off\n"
       "# systemctl disable snmpd\n"
       "# update-rc.d snmpd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4296,11 +4296,11 @@ benchmark_configs: {
       "for communication."
     remediation:
       "Run one of the following commands to disable rsyncd:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig rsyncd off\n"
       "# systemctl disable rsyncd\n"
       "# update-rc.d rsyncd disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4339,11 +4339,11 @@ benchmark_configs: {
       "services be used"
     remediation:
       "Run one of the following commands to disable ypserv:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig ypserv off\n"
       "# systemctl disable ypserv\n"
       "# update-rc.d ypserv disable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4383,11 +4383,11 @@ benchmark_configs: {
     remediation:
       "Uninstall ypbind using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "yum remove ypbind\n"
       "apt-get remove ypbind\n"
       "zypper remove ypbind\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4420,11 +4420,11 @@ benchmark_configs: {
     remediation:
       "Uninstall rsh using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "yum remove rsh\n"
       "apt-get remove rsh\n"
       "zypper remove rsh\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4456,11 +4456,11 @@ benchmark_configs: {
     remediation:
       "Uninstall talk using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "yum remove talk\n"
       "apt-get remove talk\n"
       "zypper remove talk\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4493,11 +4493,11 @@ benchmark_configs: {
     remediation:
       "Uninstall telnet using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "# yum remove telnet\n"
       "# apt-get remove telnet\n"
       "# zypper remove telnet\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4563,17 +4563,17 @@ benchmark_configs: {
       "therefore, never serve as a router."
     remediation:
       "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.ip_forward = 0\n"
       "net.ipv6.conf.all.forwarding = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.ip_forward=0\n"
       "# sysctl -w net.ipv6.conf.all.forwarding=0\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
       "# sysctl -w net.ipv6.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4657,16 +4657,16 @@ benchmark_configs: {
       "system set up by the attacker as opposed to a valid system."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.conf.all.send_redirects = 0\n"
       "net.ipv4.conf.default.send_redirects = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.conf.all.send_redirects=0\n"
       "# sysctl -w net.ipv4.conf.default.send_redirects=0\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4761,15 +4761,15 @@ benchmark_configs: {
       "protocols that did not allow this routing."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.conf.all.accept_source_route = 0\n"
       "net.ipv4.conf.default.accept_source_route = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.conf.all.accept_source_route=0\n"
       "# sysctl -w net.ipv4.conf.default.accept_source_route=0\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4858,21 +4858,21 @@ benchmark_configs: {
       "allow your system packets to be captured."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.conf.all.accept_redirects = 0\n"
       "net.ipv4.conf.default.accept_redirects = 0\n"
       "net.ipv6.conf.all.accept_redirects = 0\n"
       "net.ipv6.conf.default.accept_redirects = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.conf.all.accept_redirects=0\n"
       "# sysctl -w net.ipv4.conf.default.accept_redirects=0\n"
       "# sysctl -w net.ipv6.conf.all.accept_redirects=0\n"
       "# sysctl -w net.ipv6.conf.default.accept_redirects=0\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
       "# sysctl -w net.ipv6.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4975,16 +4975,16 @@ benchmark_configs: {
       "from routing table updates by possibly compromised known gateways."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.conf.all.secure_redirects = 0\n"
       "net.ipv4.conf.default.secure_redirects = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.conf.all.secure_redirects=0\n"
       "# sysctl -w net.ipv4.conf.default.secure_redirects=0\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5067,16 +5067,16 @@ benchmark_configs: {
       "packets to their system."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.conf.all.log_martians = 1\n"
       "net.ipv4.conf.default.log_martians = 1\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.conf.all.log_martians=1\n"
       "# sysctl -w net.ipv4.conf.default.log_martians=1\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5165,14 +5165,14 @@ benchmark_configs: {
       "significantly multiplied."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.icmp_echo_ignore_broadcasts = 1\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5246,14 +5246,14 @@ benchmark_configs: {
       "and attempt to fill up a log file system with many useless error messages."
     remediation:
       "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.icmp_ignore_bogus_error_responses = 1\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5334,16 +5334,16 @@ benchmark_configs: {
       "feature without breaking the routing."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.conf.all.rp_filter = 1\n"
       "net.ipv4.conf.default.rp_filter = 1\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.conf.all.rp_filter=1\n"
       "# sysctl -w net.ipv4.conf.default.rp_filter=1\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5436,14 +5436,14 @@ benchmark_configs: {
       "to keep accepting valid connections, even if under a denial of service attack."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv4.tcp_syncookies = 1\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv4.tcp_syncookies=1\n"
       "# sysctl -w net.ipv4.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5518,16 +5518,16 @@ benchmark_configs: {
       "to a trusted router) protects the system from bad routes."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
-      "```\n"
+      "\n```\n"
       "net.ipv6.conf.all.accept_ra = 0\n"
       "net.ipv6.conf.default.accept_ra = 0\n"
-      "```\n"
+      "```\n\n"
       "Run the following commands to set the active kernel parameters:\n"
-      "```\n"
+      "\n```\n"
       "# sysctl -w net.ipv6.conf.all.accept_ra=0\n"
       "# sysctl -w net.ipv6.conf.default.accept_ra=0\n"
       "# sysctl -w net.ipv6.route.flush=1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5612,10 +5612,10 @@ benchmark_configs: {
       "malicious actions."
     remediation:
       "Run the following commands to set permissions on /etc/hosts.allow:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/hosts.allow\n"
       "# chmod 644 /etc/hosts.allow\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5663,10 +5663,10 @@ benchmark_configs: {
       "malicious actions."
     remediation:
       "Run the following commands to set permissions on /etc/hosts.deny:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/hosts.deny\n"
       "# chmod 644 /etc/hosts.deny\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -5715,7 +5715,9 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/dccp.conf \n"
       "and add the following line: \n"
-      "```\ninstall dccp /bin/true\n```"
+      "\n```\n"
+      "install dccp /bin/true\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -5835,7 +5837,9 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/sctp.conf \n"
       "and add the following line: \n"
-      "```\ninstall sctp /bin/true\n```"
+      "```\n\n"
+      "install sctp /bin/true\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -5917,7 +5921,9 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/rds.conf \n"
       "and add the following line: \n"
-      "```\ninstall rds /bin/true\n```"
+      "```\n\n"
+      "install rds /bin/true\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -5998,7 +6004,9 @@ benchmark_configs: {
       "Edit or create a file in the /etc/modprobe.d/ directory ending in .conf \n"
       "Example: vim /etc/modprobe.d/tipc.conf \n"
       "and add the following line: \n"
-      "```\ninstall tipc /bin/true\n```"
+      "```\n\n"
+      "install tipc /bin/true\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6077,12 +6085,12 @@ benchmark_configs: {
     remediation:
       "install iptables using the appropriate package manager or manual "
       "installation:\n"
-      "```\n"
+      "\n```\n"
       "# yum install iptables\n"
       "# dnf install iptables\n"
       "# apt-get install iptables\n"
       "# zypper install iptables\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -6133,7 +6141,9 @@ benchmark_configs: {
     rationale: "If wireless is not to be used, wireless devices can be disabled to reduce the potential attack surface."
     remediation:
       "Run the following command to disable any wireless interfaces: \n"
-      "```\n# ip link set <interface> down```\n "
+      "```\n\n"
+      "# ip link set <interface> down\n"
+      "```\n\n"
       "Disable any wireless interfaces in your network configuration."
     cis_benchmark: {
       profile_level: 2
@@ -6179,12 +6189,18 @@ benchmark_configs: {
       "disabled to reduce the attack surface of the system."
     remediation:
       "Edit /etc/default/grub and add ipv6.disable=1 to the GRUB_CMDLINE_LINUX parameters: \n"
-      "```\nGRUB_CMDLINE_LINUX=\"ipv6.disable=1\"```\n "
+      "```\n\n"
+      "GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"\n"
+      "```\n\n"
       "Depending or your distribution, run the appropriate following command to "
       "update the grub2 configuration: \n"
-      "```\n# grub2-mkconfig –o /boot/grub2/grub.cfg\n```\n "
+      "```\n\n"
+      "# grub2-mkconfig –o /boot/grub2/grub.cfg\n"
+      "```\n "
       "or \n"
-      "```\n# update-grub\n```"
+      "```\n\n"
+      "# update-grub\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6249,7 +6265,9 @@ benchmark_configs: {
       "so that they do not impact the system and audit data is not lost."
     remediation:
       "Set the following parameter in /etc/audit/auditd.conf in accordance with site policy: "
-      "```\nmax_log_file = <MB>\n```\n \n"
+      "```\n\n"
+      "max_log_file = <MB>\n"
+      "```\n\n"
       "Notes: The max_log_file parameter is measured in megabytes. \n"
       "Other methods of log rotation may be appropriate based on site policy. "
       "One example is time-based rotation strategies which don't have native support in auditd configurations. "
@@ -6292,9 +6310,11 @@ benchmark_configs: {
       "nonrepudiation exceeds the benefit of the system's availability."
     remediation:
       "Set the following parameters in /etc/audit/auditd.conf: \n"
-      "```\nspace_left_action = email \n"
+      "```\n\n"
+      "space_left_action = email \n"
       "action_mail_acct = root \n"
-      "admin_space_left_action = halt\n```"
+      "admin_space_left_action = halt\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6344,7 +6364,9 @@ benchmark_configs: {
       "history exceed the cost of storing the audit history."
     remediation:
       "Set the following parameter in /etc/audit/auditd.conf: \n"
-      "```\nmax_log_file_action = keep_logs\n```"
+      "```\n\n"
+      "max_log_file_action = keep_logs\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6385,9 +6407,11 @@ benchmark_configs: {
       "information to allow them to determine if unauthorized access to their system is occurring."
     remediation:
       "Run the following command to Install auditd \n"
-      "```\n# yum install audit audit-libs \n"
+      "```\n\n"
+      "# yum install audit audit-libs \n"
       "# apt-get install auditd audispd-plugins \n"
-      "# zipper install audit audit-libs\n```"
+      "# zipper install audit audit-libs\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -6437,7 +6461,8 @@ benchmark_configs: {
       "information to allow them to determine if unauthorized access to their system is occurring."
     remediation:
       "Run one of the following commands to enable auditd : \n"
-      "```\n# chkconfig auditd on \n"
+      "```\n\n"
+      "# chkconfig auditd on \n"
       "# systemctl enable auditd \n"
       "# update-rc.d auditd enable \n"
       "Notes: Additional methods of enabling a service exist. "
@@ -6481,11 +6506,17 @@ benchmark_configs: {
       "so that potential malicious activity cannot go undetected."
     remediation:
       "For grub2 based systems edit /etc/default/grub and add audit=1 to GRUB_CMDLINE_LINUX:\n"
-      "```\nGRUB_CMDLINE_LINUX=\"audit=1\"```\n"
+      "```\n\n"
+      "GRUB_CMDLINE_LINUX=\"audit=1\"\n"
+      "```\n\n"
       "Run the following command to update the grub2 configuration: \n"
-      "```\n# grub2-mkconfig -o /boot/grub2/grub.cfg\n```\n"
+      "```\n\n"
+      "# grub2-mkconfig -o /boot/grub2/grub.cfg\n"
+      "```\n\n"
       " or \n"
-      "```\n# update-grub\n```\n"
+      "```\n\n"
+      "# update-grub\n"
+      "```\n\n"
       "For grub based systems edit /boot/grub/menu.lst to "
       "include audit=1 on all kernel lines.\n"
       "Notes:\n"
@@ -6561,17 +6592,22 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k timechange\n```\n \n"
+      "\n```\n"
+      "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k timechange\n"
+      "```\n\n"
       "-a always,exit -F arch=b32 -S clock_settime -k time-change \n"
-      "-w /etc/localtime -p wa -k time-change \n```\n"
+      "-w /etc/localtime -p wa -k time-change \n"
+      "```\n\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change \n"
+      "\n```\n"
+      "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change \n"
       "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change \n"
       "-a always,exit -F arch=b64 -S clock_settime -k time-change \n"
       "-a always,exit -F arch=b32 -S clock_settime -k time-change \n"
-      "-w /etc/localtime -p wa -k time-change \n```\n"
+      "-w /etc/localtime -p wa -k time-change\n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -6706,11 +6742,13 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /etc/group -p wa -k identity \n"
+      "\n```\n"
+      "-w /etc/group -p wa -k identity \n"
       "-w /etc/passwd -p wa -k identity \n"
       "-w /etc/gshadow -p wa -k identity \n"
       "-w /etc/shadow -p wa -k identity \n"
-      "-w /etc/security/opasswd -p wa -k identity\n```\n \n"
+      "-w /etc/security/opasswd -p wa -k identity\n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -6830,21 +6868,25 @@ benchmark_configs: {
       "directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules "
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale \n"
-      "-w /etc/issue -p wa -k system-locale \n"
-      "-w /etc/issue.net -p wa -k system-locale \n"
-      "-w /etc/hosts -p wa -k system-locale \n"
-      "-w /etc/sysconfig/network -p wa -k system-locale\n```\n \n"
-      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ "
-      "directory ending in .rules \n"
-      "Example: vi /etc/audit/rules.d/audit.rules \n"
-      "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale \n"
+      "```\n\n"
       "-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale \n"
       "-w /etc/issue -p wa -k system-locale \n"
       "-w /etc/issue.net -p wa -k system-locale \n"
       "-w /etc/hosts -p wa -k system-locale \n"
-      "-w /etc/sysconfig/network -p wa -k system-locale\n```\n \n"
+      "-w /etc/sysconfig/network -p wa -k system-locale\n"
+      "```\n\n"
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ "
+      "directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```\n\n"
+      "-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale \n"
+      "-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale \n"
+      "-w /etc/issue -p wa -k system-locale \n"
+      "-w /etc/issue.net -p wa -k system-locale \n"
+      "-w /etc/hosts -p wa -k system-locale \n"
+      "-w /etc/sysconfig/network -p wa -k system-locale\n"
+      "```\n\n"
       "Notes: /etc/sysconfig/network is common to Red Hat and SUSE based distributions. \n"
       "You should expand or replace this coverage to any network configuration "
       "files on your system such as /etc/network on Debian based distributions. \n"
@@ -6947,14 +6989,18 @@ benchmark_configs: {
       "On systems using SELinux Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /etc/selinux/ -p wa -k MAC-policy \n"
+      "\n```\n"
+      "-w /etc/selinux/ -p wa -k MAC-policy \n"
       "-w /usr/share/selinux/ -p wa -k MAC-policy \n"
+      "```\n\n"
       "On systems using AppArmor Edit or create a file in the /etc/audit/rules.d/ "
       "directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /etc/apparmor/ -p wa -k MAC-policy -w \n"
-      "/etc/apparmor.d/ -p wa -k MAC-policy \n```"
+      "\n```\n"
+      "-w /etc/apparmor/ -p wa -k MAC-policy -w \n"
+      "/etc/apparmor.d/ -p wa -k MAC-policy \n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7029,9 +7075,11 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /var/log/faillog -p wa -k logins \n"
+      "```\n\n"
+      "-w /var/log/faillog -p wa -k logins \n"
       "-w /var/log/lastlog -p wa -k logins \n"
-      "-w /var/log/tallylog -p wa -k logins\n```\n \n"
+      "-w /var/log/tallylog -p wa -k logins\n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7120,9 +7168,11 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /var/run/utmp -p wa -k session \n"
+      "```\n\n"
+      "-w /var/run/utmp -p wa -k session \n"
       "-w /var/log/wtmp -p wa -k logins \n"
       "-w /var/log/btmp -p wa -k logins \n"
+      "```\n\n"
       "Notes: \n"
       "The last command can be used to read /var/log/wtmp (last with no parameters) "
       "and /var/run/utmp (last -f /var/run/utmp) \nReloading the auditd config to set "
@@ -7214,22 +7264,26 @@ benchmark_configs: {
       "the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "```\n\n"
+      "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr "
-      "-F auid>=500 -F auid!=4294967295 -k perm_mod\n```\n \n"
+      "-F auid>=500 -F auid!=4294967295 -k perm_mod\n"
+      "```\n\n"
       "For 64 bit systems Edit or create a file in "
       "the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "```\n\n"
+      "-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr "
       "-F auid>=500 -F auid!=4294967295 -k perm_mod \n"
       "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S "
-      "lremovexattr -S fremovexattr -F auid>=500 -F auid!=4294967295 -k perm_mod\n```\n \n"
+      "lremovexattr -S fremovexattr -F auid>=500 -F auid!=4294967295 -k perm_mod\n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7318,12 +7372,14 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "```\n\n"
+      "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
       "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n```\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
+      "```\n\n"
+      "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
       "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access \n"
       "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n"
       "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access \n```\n"
@@ -7408,7 +7464,9 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /var/log/sudo.log -p wa -k actions\n```\n \n"
+      "```\n\n"
+      "-w /var/log/sudo.log -p wa -k actions\n"
+      "```\n\n"
       "Notes: \n"
       "The system must be configured with sudisabled (See Item 5.6 Ensure access to the su "
       "command is restricted) to force all command execution through sudo. "
@@ -7486,17 +7544,21 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /sbin/insmod -p x -k modules \n"
+      "```\n\n"
+      "-w /sbin/insmod -p x -k modules \n"
       "-w /sbin/rmmod -p x -k modules \n"
       "-w /sbin/modprobe -p x -k modules \n"
-      "-a always,exit -F arch=b32 -S init_module -S delete_module -k modules\n```\n \n"
+      "-a always,exit -F arch=b32 -S init_module -S delete_module -k modules\n"
+      "```\n\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /sbin/insmod -p x -k modules \n"
+      "```\n\n"
+      "-w /sbin/insmod -p x -k modules \n"
       "-w /sbin/rmmod -p x -k modules \n"
       "-w /sbin/modprobe -p x -k modules \n"
-      "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules\n```\n \n"
+      "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules\n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
@@ -7587,7 +7649,9 @@ benchmark_configs: {
       "administrators of an attempt to make unauthorized audit changes."
     remediation:
       "Edit or create the file /etc/audit/rules.d/99-finalize.rules and add the line \n"
-      "```\n-e 2\n```\n \n"
+      "```\n\n"
+      "-e 2\n"
+      "```\n\n"
       "at the end of the file \n"
       "Notes: \n"
       "This setting will ensure reloading the auditd config to set active settings requires a system reboot."
@@ -7654,9 +7718,9 @@ benchmark_configs: {
       "prevent sudden, unexpected filesystem impacts."
     remediation:
       "Edit the /etc/systemd/journald.conf file and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "Compress=yes\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -7699,9 +7763,9 @@ benchmark_configs: {
       "of a system even after a system crash or reboot."
     remediation:
       "Edit the /etc/systemd/journald.conf file and add the following line:\n"
-      "```\n"
+      "\n```\n"
       "Storage=persistent\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -7740,9 +7804,9 @@ benchmark_configs: {
       "to ensure that sensitive data is archived and protected."
     remediation:
       "Run the following commands to set permissions on all existing log files:\n"
-      "```\n"
+      "\n```\n"
       "find /var/log -type f -exec chmod g-wx,o-rwx \"{}\" + -o -type d -exec chmod gw,o-rwx \"{}\" +\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -7851,11 +7915,11 @@ benchmark_configs: {
     remediation:
       "Based on your system configuration, run the appropriate one of the "
       "following commands to enable cron:\n"
-      "```\n"
+      "\n```\n"
       "# chkconfig crond on\n"
       "# systemctl enable crond\n"
       "# update-rc.d crond enable\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -7897,10 +7961,10 @@ benchmark_configs: {
       "privileged access."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/crontab:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/crontab\n"
       "# chmod og-rwx /etc/crontab\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -7950,10 +8014,10 @@ benchmark_configs: {
       "controls."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/cron.hourly:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/cron.hourly\n"
       "# chmod og-rwx /etc/cron.hourly\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8003,10 +8067,10 @@ benchmark_configs: {
       "controls."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/cron.daily:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/cron.daily\n"
       "# chmod og-rwx /etc/cron.daily\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8056,10 +8120,10 @@ benchmark_configs: {
       "controls."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/cron.weekly:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/cron.weekly\n"
       "# chmod og-rwx /etc/cron.weekly\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8109,10 +8173,10 @@ benchmark_configs: {
       "controls."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/cron.monthly:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/cron.monthly\n"
       "# chmod og-rwx /etc/cron.monthly\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8164,10 +8228,10 @@ benchmark_configs: {
       "controls."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/cron.d:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/cron.d\n"
       "# chmod og-rwx /etc/cron.d\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8222,7 +8286,7 @@ benchmark_configs: {
       "Run the following commands to remove /etc/cron.deny and /etc/at.deny "
       "and create and set permissions and ownership for /etc/cron.allow and "
       "/etc/at.allow:\n"
-      "```\n"
+      "\n```\n"
       "# rm /etc/cron.deny\n"
       "# rm /etc/at.deny\n"
       "# touch /etc/cron.allow\n"
@@ -8231,7 +8295,7 @@ benchmark_configs: {
       "# chmod og-rwx /etc/at.allow\n"
       "# chown root:root /etc/cron.allow\n"
       "# chown root:root /etc/at.allow\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8283,10 +8347,10 @@ benchmark_configs: {
       "by nonprivileged users."
     remediation:
       "Run the following commands to set ownership and permissions on /etc/ssh/sshd_config:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/ssh/sshd_config\n"
       "# chmod og-rwx /etc/ssh/sshd_config\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8388,8 +8452,10 @@ benchmark_configs: {
     remediation:
       "Run the following commands to set permissions and ownership on the SSH host\n"
       "public key files\n"
+      "\n```\n"
       "# find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod 0644 {} \\;\n"
-      "#find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \\;"
+      "# find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \\;\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8428,9 +8494,9 @@ benchmark_configs: {
     rationale: "SSH v1 suffers from insecurities that do not affect SSH v2."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "Protocol 2\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8477,13 +8543,13 @@ benchmark_configs: {
       "important security information."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "LogLevel VERBOSE\n"
-      "```\n"
+      "```\n\n"
       "OR\n"
-      "```\n"
+      "\n```\n"
       "LogLevel INFO\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8537,9 +8603,9 @@ benchmark_configs: {
       "recommended setting is 4, set the number based on site policy."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "MaxAuthTries 4\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8586,7 +8652,9 @@ benchmark_configs: {
       "Note that even if X11 forwarding is disabled, users can always install their own forwarders."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows: \n"
-      "```\nX11Forwarding no\n```"
+      "\n```\n"
+      "X11Forwarding no\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -8640,9 +8708,9 @@ benchmark_configs: {
       "with ssh."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "IgnoreRhosts yes\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8697,9 +8765,9 @@ benchmark_configs: {
       "additional layer of protection."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "HostbasedAuthentication no\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8753,9 +8821,9 @@ benchmark_configs: {
       "in the event of a security incident"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "PermitRootLogin no\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8794,9 +8862,9 @@ benchmark_configs: {
       "reduces the probability of unauthorized access to the system"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "PermitEmptyPasswords no\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8849,9 +8917,9 @@ benchmark_configs: {
       "an execution path that has ssh executing trojan'd programs)"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "PermitUserEnvironment no\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -8924,9 +8992,9 @@ benchmark_configs: {
       "Edit the /etc/ssh/sshd_config file add/modify the Ciphers line to contain a\n"
       "comma separated list of the site approved ciphers\n"
       "Example:\n"
-      "```\n"
+      "\n```\n"
       "Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9016,9 +9084,9 @@ benchmark_configs: {
       "Edit the /etc/ssh/sshd_config file and add/modify the MACs line to "
       "contain a comma separated list of the site approved MACs\n"
       "Example:\n"
-      "```\n"
+      "\n```\n"
       "MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9126,9 +9194,9 @@ benchmark_configs: {
       "Edit the /etc/ssh/sshd_config file add/modify the KexAlgorithms line to\n"
       "contain a comma separated list of the site approved key exchange algorithms\n"
       "Example:\n"
-      "```\n"
+      "\n```\n"
       "KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellmangroup14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffiehellman-group-exchange-sha256\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9191,10 +9259,10 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameters according to "
       "site policy:\n"
-      "```\n"
+      "\n```\n"
       "ClientAliveInterval 300\n"
       "ClientAliveCountMax 0\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9263,9 +9331,9 @@ benchmark_configs: {
       "site policy."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "LoginGraceTime 60\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9344,12 +9412,12 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/ssh/sshd_config file to set one or more of the parameter "
       "as follows:\n"
-      "```\n"
+      "\n```\n"
       "AllowUsers <userlist>\n"
       "AllowGroups <grouplist>\n"
       "DenyUsers <userlist>\n"
       "DenyGroups <grouplist>\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9391,9 +9459,9 @@ benchmark_configs: {
       "the computer system."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "Banner /etc/issue.net\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9437,9 +9505,9 @@ benchmark_configs: {
       "to the server"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "UsePAM yes\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9484,7 +9552,9 @@ benchmark_configs: {
       "Cybercriminals or malware could exploit SSH to hide their unauthorized communications, or to exfiltrate stolen data from the target network"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows: \n"
-      "```\nAllowTcpForwarding no\n```"
+      "\n```\n"
+      "AllowTcpForwarding no\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -9533,9 +9603,9 @@ benchmark_configs: {
       "prevent overwhelming the daemon."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "maxstartups 10:30:60\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9575,9 +9645,9 @@ benchmark_configs: {
       "protect availability of sshd logins and prevent overwhelming the daemon."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
-      "```\n"
+      "\n```\n"
       "MaxSessions 4\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9642,20 +9712,20 @@ benchmark_configs: {
       "appropriate /etc/pam.d/ configuration file and add or modify the "
       "pam_cracklib.so or pam_pwquality.so lines to include the required "
       "options:\n"
-      "```\n"
+      "\n```\n"
       "password required pam_cracklib.so try_first_pass retry=3 minlen=14 dcredit=-1\n"
       "ucredit=-1 ocredit=-1 lcredit=-1\n"
       "password requisite pam_pwquality.so try_first_pass retry=3\n"
-      "```\n"
+      "```\n\n"
       "If pam_pwquality.so is in use also configure settings in "
       "/etc/security/pwquality.conf:\n"
-      "```\n"
+      "\n```\n"
       "minlen = 14\n"
       "dcredit = -1\n"
       "ucredit = -1\n"
       "ocredit = -1\n"
       "lcredit = -1\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9712,13 +9782,13 @@ benchmark_configs: {
       "documentation for details. If no tooling is provided edit the "
       "appropriate /etc/pam.d/ configuration file and add or modify the "
       "pam_tally2.so or pam_faillock.so lines as appropriate:\n"
-      "```\n"
+      "\n```\n"
       "auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900\n"
       "auth required pam_faillock.so preauth audit silent deny=5 unlock_time=900\n"
       "auth sufficient pam_unix.so\n"
       "auth [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900\n"
       "auth sufficient pam_faillock.so authsucc audit deny=5 unlock_time=900\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9767,10 +9837,10 @@ benchmark_configs: {
       "your documentation for details. If no tooling is provided edit the "
       "appropriate /etc/pam.d/ configuration file and add or modify the "
       "pam_pwhistory.so or pam_unix.so lines to include the remember option:\n"
-      "```\n"
+      "\n```\n"
       "password required pam_pwhistory.so remember=5\n"
       "password sufficient pam_unix.so remember=5\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9826,9 +9896,9 @@ benchmark_configs: {
       "details. If no tooling is provided edit the appropriate /etc/pam.d/ "
       "configuration file and add or modify the pam_unix.so lines to include "
       "the sha512 option:\n"
-      "```\n"
+      "\n```\n"
       "password sufficient pam_unix.so sha512\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9877,13 +9947,13 @@ benchmark_configs: {
     remediation:
       "Set the PASS_MAX_DAYS parameter to conform to site policy in "
       "/etc/login.defs:\n"
-      "```\n"
+      "\n```\n"
       "PASS_MAX_DAYS 365\n"
-      "```\n"
+      "```\n\n"
       "Modify user parameters for all users with a password set to match:\n"
-      "```\n"
+      "\n```\n"
       "# chage --maxdays 365 <user>\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9948,13 +10018,13 @@ benchmark_configs: {
       "circumvent password reuse controls."
     remediation:
       "Set the PASS_MIN_DAYS parameter to 7 in /etc/login.defs:\n"
-      "```\n"
+      "\n```\n"
       "PASS_MIN_DAYS 7\n"
-      "```\n"
+      "```\n\n"
       "Modify user parameters for all users with a password set to match:\n"
-      "```\n"
+      "\n```\n"
       "# chage --mindays 7 <user>\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10018,13 +10088,13 @@ benchmark_configs: {
       "password or write it down where it may be discovered."
     remediation:
       "Set the PASS_WARN_AGE parameter to 7 in /etc/login.defs:\n"
-      "```\n"
+      "\n```\n"
       "PASS_WARN_AGE 7\n"
-      "```\n"
+      "```\n\n"
       "Modify user parameters for all users with a password set to match:\n"
-      "```\n"
+      "\n```\n"
       "# chage --warndays 7 <user>\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10088,13 +10158,13 @@ benchmark_configs: {
     remediation:
       "Run the following command to set the default password inactivity "
       "period to 30 days:\n"
-      "```\n"
+      "\n```\n"
       "# useradd -D -f 30\n"
-      "```\n"
+      "```\n\n"
       "Modify user parameters for all users with a password set to match:\n"
-      "```\n"
+      "\n```\n"
       "# chage --inactive 30 <user>\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10205,21 +10275,21 @@ benchmark_configs: {
     remediation:
       "Run the commands appropriate for your distribution:\n"
       "Set the shell for any accounts returned by the audit to nologin:\n"
-      "```\n"
+      "\n```\n"
       "# usermod -s $(which nologin) <user>\n"
-      "```\n"
+      "```\n\n"
       "Lock any non root accounts returned by the audit:\n"
-      "```\n"
+      "\n```\n"
       "# usermod -L <user>\n"
-      "```\n"
+      "```\n\n"
       "The following command will set all system accounts to a non login shell:\n"
-      "```\n"
+      "\n```\n"
       "awk -F: '($1!=\"root\" && $1!=\"sync\" && $1!=\"shutdown\" && $1!=\"halt\" && $1!~/^\\+/ && $3<'\"$(awk '/^\\s*UID_MIN/{print $2}' /etc/login.defs)\"' && $7!=\"'\"$(which nologin)\"'\" && $7!=\"/bin/false\") {print $1}' /etc/passwd | while read user do usermod -s $(which nologin) $user done\n"
-      "```\n"
+      "```\n\n"
       "The following command will automatically lock not root system accounts:\n"
-      "```\n"
+      "\n```\n"
       "awk -F: '($1!=\"root\" && $1!~/^\\+/ && $3<'\"$(awk '/^\\s*UID_MIN/{print $2}' /etc/login.defs)\"') {print $1}' /etc/passwd | xargs -I '{}' passwd -S '{}' | awk '($2!=\"L\" && $2!=\"LK\") {print $1}' | while read user do usermod -L $user done\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10290,9 +10360,9 @@ benchmark_configs: {
       "accidentally becoming accessible to non-privileged users."
     remediation:
       "Run the following command to set the root user default group to GID 0:\n"
-      "```\n"
+      "\n```\n"
       "# usermod -g 0 root\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10342,9 +10412,9 @@ benchmark_configs: {
       "Edit the /etc/bashrc, /etc/profile and /etc/profile.d/*.sh files (and "
       "the appropriate files for any other shell supported on your system) and "
       "add or edit any umask parameters as follows:\n"
-      "```\n"
+      "\n```\n"
       "umask 027\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10399,7 +10469,9 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/bashrc and /etc/profile files (and the appropriate files for any other shell "
       "supported on your system) and add or edit any umask parameters as follows: \n"
-      "```\nTMOUT=900\n```\n \n"
+      "\n```\n"
+      "TMOUT=900\n"
+      "```\n\n"
       "Notes: \n"
       "The audit and remediation in this recommendation apply to bash and shell. "
       "If other shells are supported on the system, it is recommended that their configuration files also are checked. "
@@ -10493,14 +10565,14 @@ benchmark_configs: {
       "record that a user executed the su program."
     remediation:
       "Add the following line to the /etc/pam.d/su file:\n"
-      "```\n"
+      "\n```\n"
       "auth required pam_wheel.so use_uid\n"
-      "```\n"
+      "```\n\n"
       "Create a comma separated list of users in the wheel statement in the\n"
       "/etc/group file:\n"
-      "```\n"
+      "\n```\n"
       "wheel:x:10:root,<user list>\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10563,10 +10635,10 @@ benchmark_configs: {
       "actions."
     remediation:
       "Run the following command to set permissions on /etc/passwd:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/passwd\n"
       "# chmod 644 /etc/passwd\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10615,10 +10687,10 @@ benchmark_configs: {
     remediation:
       "Run the one of the following chown commands as appropriate and the chmod to\n"
       "set permissions on /etc/shadow:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/shadow\n"
       "# chmod o-rwx,g-wx /etc/shadow\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10673,10 +10745,10 @@ benchmark_configs: {
       "many non-privileged programs."
     remediation:
       "Run the following command to set permissions on /etc/group:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/group\n"
       "# chmod 644 /etc/group\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10725,11 +10797,11 @@ benchmark_configs: {
     remediation:
       "Run the one of the following chown commands as appropriate and the chmod to\n"
       "set permissions on /etc/gshadow:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/gshadow\n"
       "# chown root:shadow /etc/gshadow\n"
       "# chmod o-rwx,g-rw /etc/gshadow\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10788,10 +10860,10 @@ benchmark_configs: {
       "actions."
     remediation:
       "Run the following command to set permissions on /etc/passwd-:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/passwd-\n"
       "# chmod u-x,go-wx /etc/passwd-\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10844,11 +10916,11 @@ benchmark_configs: {
     remediation:
       "Run the one of the following chown commands as appropriate and the "
       "chmod to set permissions on /etc/shadow- :\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/shadow-\n"
       "# chown root:shadow /etc/shadow-\n"
       "# chmod o-rwx,g-rw /etc/shadow-\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10908,10 +10980,10 @@ benchmark_configs: {
       "could be changed either inadvertently or through malicious actions."
     remediation:
       "Run the following command to set permissions on /etc/group-:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/group-\n"
       "# chmod u-x,go-wx /etc/group-\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10958,11 +11030,11 @@ benchmark_configs: {
     remediation:
       "Run the one of the following chown commands as appropriate and the "
       "chmod to set permissions on /etc/gshadow-:\n"
-      "```\n"
+      "\n```\n"
       "# chown root:root /etc/gshadow-\n"
       "# chown root:shadow /etc/gshadow-\n"
       "# chmod o-rwx,g-rw /etc/gshadow-\n"
-      "```\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -11336,9 +11408,9 @@ benchmark_configs: {
       "If any accounts in the /etc/shadow file do not have a password, run the\n"
       "following command to lock the account until it can be determined why it does\n"
       "not have a password:\n"
-      "```\n"
+      "\n```\n"
       "# passwd -l <username>\n"
-      "```\n"
+      "```\n\n"
       "Also, check to see if the account is logged in and investigate what it is\n"
       "being used for to determine if it needs to be forced off."
     cis_benchmark: {
@@ -12457,9 +12529,11 @@ benchmark_configs: {
       "Discretionary Access Control system will be available."
     remediation:
       "Install SELinux or apparmor using the appropriate package manager or manual installation:\n"
-      "```\n# yum install libselinux\n"
+      "\n```\n"
+      "# yum install libselinux\n"
       "# apt-get install libselinux1\n"
-      "# zypper install libselinux\n```\n"
+      "# zypper install libselinux\n"
+      "```\n\n"
       "The previous commands install SELinux, use the appropriate package if AppArmor is desired. "
     cis_benchmark: {
       profile_level: 2
@@ -12541,12 +12615,18 @@ benchmark_configs: {
       "remove all instances of selinux=0 and enforcing=0 on all kernel lines.\n"
       "For grub2 based systems edit /etc/default/grub and "
       "remove all instances of selinux=0 and enforcing=0 from all CMDLINE_LINUX parameters:\n"
-      "```\nGRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"\n"
-      "GRUB_CMDLINE_LINUX=\"\"```\n"
+      "\n```\n"
+      "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"\n"
+      "GRUB_CMDLINE_LINUX=\"\"\n"
+      "```\n\n"
       "Run the following command to update the grub2 configuration:\n"
-      "```\n# update-grub\n```\n"
+      "\n```\n"
+      "# update-grub\n"
+      "```\n\n"
       "or\n"
-      "```\n# grub2-mkconfig -o /boot/grub2/guub.cfg\n```\n"
+      "\n```\n"
+      "# grub2-mkconfig -o /boot/grub2/guub.cfg\n"
+      "```\n\n"
       "Notes: This recommendation is designed around the grub bootloader, "
       "if LILO or another bootloader is in use in your environment enact equivalent settings."
     cis_benchmark: {
@@ -12591,7 +12671,9 @@ benchmark_configs: {
       "the controls it provides are in effect at all times."
     remediation:
       "Edit the /etc/selinux/config file to set the SELINUX parameter: \n"
-      "```\nSELINUX=enforcing\n```"
+      "\n```\n"
+      "SELINUX=enforcing\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -12634,7 +12716,9 @@ benchmark_configs: {
       "This item is intended to ensure that at least the default recommendations are met."
     remediation:
       "Edit the /etc/selinux/config file to set the SELINUXTYPE parameter: \n"
-      "```\nSELINUXTYPE=targeted\n```\n"
+      "\n```\n"
+      "SELINUXTYPE=targeted\n"
+      "```\n\n"
       "Notes: If your organization requires stricter policies, "
       "ensure that they are set in the /etc/selinux/config file."
     cis_benchmark: {
@@ -12708,9 +12792,11 @@ benchmark_configs: {
       "vulnerable code running on the system."
     remediation:
       "Uninstall mcstrans using the appropriate package manager or manual installation: \n"
-      "```\nyum remove mcstrans \n"
+      "\n```\n"
+      "yum remove mcstrans \n"
       "apt-get remove mcstrans \n"
-      "zypper remove mcstrans\n```"
+      "zypper remove mcstrans\n"
+      "```\n\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -12798,10 +12884,12 @@ benchmark_configs: {
       "For grub based systems edit /boot/grub/menu.lst and remove all instances of apparmor=0 on all kernel lines. \n"
       "For grub2 based systems edit /etc/default/grub and remove all instances "
       "of apparmor=0 from all CMDLINE_LINUX parameters: \n"
-      "```\nGRUB_CMDLINE_LINUX_DEFAULT=\"quiet\" \n"
+      "\n```\n"
+      "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\" \n"
       "GRUB_CMDLINE_LINUX=\"\" \n```\n"
       "Run the following command to update the grub2 configuration: \n"
-      "```\n# update-grub\n```\n "
+      "```\n\n"
+      "# update-grub\n```\n "
       "Notes: This recommendation is designed around the grub bootloader, "
       "if LILO or another bootloader is in use in your environment enact equivalent settings. \n"
       "Replace /boot/grub/menu.lst with the appropriate grub configuration file for your environment."
@@ -12848,7 +12936,9 @@ benchmark_configs: {
       "This item is intended to ensure that any policies that exist on the system are activated."
     remediation:
       "Run the following command to set all profiles to enforce mode: \n"
-      "```\n# enforce /etc/apparmor.d/*\n```\n "
+      "\n```\n"
+      "# enforce /etc/apparmor.d/*\n"
+      "```\n\n"
       "Any unconfined processes may need to have a profile created or activated for them and then be restarted."
     cis_benchmark: {
       profile_level: 2
@@ -12899,12 +12989,16 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts\n```\n \n"
+      "\n```\n"
+      "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts\n"
+      "```\n\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n"
-      "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n```\n"
+      "\n```\n"
+      "-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n"
+      "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n"
+      "```\n\n"
       "Notes: \n"
       "This tracks successful and unsuccessful mount commands. "
       "File system mounts do not have to come from external media and "
@@ -12985,12 +13079,16 @@ benchmark_configs: {
       "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules "
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete\n```\n"
+      "\n```\n"
+      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete\n"
+      "```\n\n"
       "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
-      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n```\n"
+      "\n```\n"
+      "-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
+      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
+      "```\n\n"
       "Notes: \n"
       "At a minimum, configure the audit system to collect file deletion events for all users and root. \n"
       "Reloading the auditd config to set active settings may require a system reboot."
@@ -13069,8 +13167,10 @@ benchmark_configs: {
       "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
       "Example: vi /etc/audit/rules.d/audit.rules \n"
       "and add the following lines: \n"
-      "```\n-w /etc/sudoers -p wa -k scope \n"
-      "-w /etc/sudoers.d/ -p wa -k scope \n```\n"
+      "\n```\n"
+      "-w /etc/sudoers -p wa -k scope \n"
+      "-w /etc/sudoers.d/ -p wa -k scope \n"
+      "```\n\n"
       "Notes: \n"
       "Reloading the auditd config to set active settings may require a system reboot."
     cis_benchmark: {
