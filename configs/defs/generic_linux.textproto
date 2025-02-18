@@ -1433,6 +1433,82 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "separate-partition-home"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }	   
+    title: "Ensure separate partition exists for /home"
+    description: "The /home directory is used to support disk storage needs of local users."
+    rationale:
+      "The default installation only creates a single / partition. Since the /home directory "
+      "contains user generated data, there is a risk of resource exhaustion. It will essentially "
+      "have the whole disk available to fill up and impact the system as a whole. In addition, "
+      "other operations on the system could fill up the disk unrelated to /home and impact all "
+      "local users.\n"
+      "Configuring /home as its own file system allows an administrator to set additional mount "
+      "options such as noexec/nosuid/nodev. These options limit an attacker's ability to "
+      "create exploits on the system. In the case of /home options such as "
+      "usrquota/grpquota may be considered to limit the impact that users can have on each "
+      "other with regards to disk resource exhaustion. Other options allow for specific "
+      "behavior. See man mount for exact details regarding filesystem-independent and "
+      "filesystem-specific options.\n"
+      "As /home contains user data, care should be taken to ensure the security and integrity "
+      "of the data and mount point."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /home.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /home .* - .*\""
+      "          expected_regex: \".* /home .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/home.*\""
+      "          expected_regex: \".*/home.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/home.*\""
+      "          expected_regex: \".*/home.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
 benchmark_configs: {
   id: "home-nodev"
   compliance_note: {
