@@ -8119,6 +8119,48 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-systemd-timesyncd-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    title: "Ensure a single time synchronization daemon is in use"
+    description:
+      "systemd-timesyncd is a daemon that has been added for synchronizing the system "
+      "clock across the network"
+    rationale:
+      "systemd-timesyncd needs to be enabled and running in order to synchronize the system "
+      "to a timeserver.\n"
+      "Time synchronization is important to support time sensitive security mechanisms and to "
+      "ensure log files have consistent time records across the enterprise to aid in forensic "
+      "investigations"
+    remediation:
+      "- IF - systemd-timesyncd is in use on the system, run the following commands:\n"
+      "Run the following command to unmask systemd-timesyncd.service:\n"
+      "# systemctl unmask systemd-timesyncd.service\n"
+      "Run the following command to enable and start systemd-timesyncd.service:\n"
+      "# systemctl --now enable systemd-timesyncd.service\n"
+      "- OR -\n"
+      "If another time synchronization service is in use on the system, run the following "
+      "command to stop and mask systemd-timesyncd:\n"
+      "# systemctl --now mask systemd-timesyncd.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/systemd-timesyncd\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"systemd-timesyncd is not active.\""
+      "    }"
+      "}"
+    "}"
+  }
+}
+
+
 benchmark_configs: {
   id: "time-synchronization-in-use"
   compliance_note: {
