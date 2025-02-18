@@ -13418,6 +13418,66 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-audit-tools-owner-configured"
+  compliance_note: {
+    title: "Ensure audit tools owner is configured"
+    description: "Audit tools must be owned by the root user to ensure their integrity and prevent unauthorized access "
+    "or modifications.\n"
+    rationale: "Protecting audit tools from unauthorized access or modification is critical to maintaining the integrity "
+    "of the audit system and ensuring accurate logging of events."
+    remediation:
+      "Run the following command to set the correct ownership for the audit tools:\n"
+      "```bash\n"
+      "chown root:root /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/auditctl\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/aureport\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/ausearch\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/autrace\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/auditd\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/augenrules\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "ensure-audit-configuration-files-mode-configured"
   compliance_note: {
     title: "Ensure audit configuration files mode is configured"
