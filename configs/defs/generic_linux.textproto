@@ -6736,6 +6736,60 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-local-interactive-user-home-dir-configured"
+  compliance_note: {
+    title: "Ensure local interactive user home directories are configured"
+    description:
+      "The user home directory is space defined for the particular user to set local environment "
+      "variables and to store personal files. While the system administrator can establish "
+      "secure permissions for users' home directories, the users can easily override these.\n"
+      "Users can be defined in /etc/passwd without a home directory or with a home directory "
+      "that does not actually exist."
+    rationale:
+      "Since the user is accountable for files stored in the user home directory, the user must "
+      "be the owner of the directory. Group or world-writable user home directories may enable "
+      "malicious users to steal or modify other users' data or to gain another user's system "
+      "privileges. If the user's home directory does not exist or is unassigned, the user will be "
+      "placed in \"/\" and will not be able to write any files or have local environment variables "
+      "set."
+    remediation:
+      "If a local interactive users' home directory is undefined and/or doesn't exist, follow local "
+      "site policy and perform one of the following:\n"
+      "• Lock the user account\n"
+      "• Remove the user from the system\n"
+      "• create a directory for the user. If undefined, edit /etc/passwd and add the "
+      "absolute path to the directory to the last field of the user.\n"
+      "Run the following script to:\n"
+      "• Remove excessive permissions from local interactive users home directories\n"
+      "• Update the home directory's owner"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"        
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    repeat_config: {type: FOR_EACH_USER_WITH_LOGIN"
+      "      opt_out: {wildcard: \"$home\", value: \"/bin\"}}"
+      "    permission:{"
+      "      set_bits: 0700"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"$user\" should_own: true}"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    repeat_config: {type: FOR_EACH_USER_WITH_LOGIN}"
+      "    existence:{should_exist:true}"
+      "  }"
+      "}}"
+  }
+}
+
+
 benchmark_configs: {
   id: "home-dirs-750-or-more-restrictive"
   compliance_note: {
