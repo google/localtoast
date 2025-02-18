@@ -3450,6 +3450,8 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     title: "Ensure local login warning banner is configured properly"
     description:
       "The contents of the /etc/issue file are displayed to users prior to "
@@ -3481,18 +3483,26 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
-      "    content:{content:\"\"}"
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "        content_entry:{"
+      "          match_type: NONE_MATCH"
+      "          match_criteria: {"
+      "            filter_regex: \"((.*\\\\\\\\m.*)|(.*\\\\\\\\r.*)|(.*\\\\\\\\s.*)|(.*\\\\\\\\v.*))\""
+      "            expected_regex: \"((.*\\\\\\\\m.*)|(.*\\\\\\\\r.*)|(.*\\\\\\\\s.*)|(.*\\\\\\\\v.*))\""
+      "          }"
+      "        }"
+      "     }"
       "  }"
+      "  check_alternatives:{"
+      "	   file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "      existence:{should_exist:false}"
+      "	   }"
+      "  }" 
       "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
-      "    existence:{should_exist:false}"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
