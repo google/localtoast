@@ -3404,6 +3404,46 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "ensure-apparmor-profiles-enforce-complain"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    title: "Ensure all AppArmor Profiles are in enforce or complain mode"
+    description:
+      "AppArmor profiles define what resources applications are able to access."
+    rationale:
+      "Security configuration requirements vary from site to site.\n"
+      "Some sites may mandate a policy that is stricter than the default policy, which is perfectly acceptable.\n"
+      "This item is intended to ensure that any policies that exist on the system are activated."
+    remediation:
+      "Run the following command to set all profiles to enforce mode: \n"
+      "```\n"
+      "# enforce /etc/apparmor.d/*\n"
+      "```\n "
+      "Any unconfined processes may need to have a profile created or activated for them and then be restarted."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/sys/kernel/security/apparmor/profiles\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\(\\\\w+\\\\)\""
+      "                        expected_regex: \".*\\\\(enforce|complain\\\\)\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
 
 benchmark_configs: {
   id: "local-login-warning-configured"
