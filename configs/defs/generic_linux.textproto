@@ -12985,6 +12985,56 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-gdm-screen-locks-cannot-be-overridden"
+  compliance_note: {
+    title: "Ensure GDM screen locks cannot be overridden"
+    description:
+      "GNOME Desktop Manager can lock down specific settings by using the lockdown mode in dconf to prevent users from changing specific settings."
+    rationale:
+      "Locking down settings prevents unauthorized changes to critical session lock settings, reducing the risk of unauthorized access."
+    remediation:
+      "1. To prevent the user from overriding these settings, create the file /etc/dconf/db/local.d/locks/screensaver with the following content:\n"
+      "```\n"
+      "# Lock desktop screensaver settings\n"
+      "/org/gnome/desktop/session/idle-delay\n"
+      "/org/gnome/desktop/screensaver/lock-delay\n"
+      "```\n"
+      "2. Update the system databases:\n"
+      "```\n"
+      "# dconf update\n"
+      "```\n"
+      "Note: Users must log out and back in again before the system-wide settings take effect."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/screensaver\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"/org/gnome/desktop/session/idle-delay\""
+      "        expected_regex: \"/org/gnome/desktop/session/idle-delay\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/screensaver\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"/org/gnome/desktop/screensaver/lock-delay\""
+      "        expected_regex: \"/org/gnome/desktop/screensaver/lock-delay\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "ensure-gdm-screen-locks-when-user-is-idle"
   compliance_note: {
     title: "Ensure GDM screen locks when the user is idle"
