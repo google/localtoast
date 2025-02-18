@@ -13418,6 +13418,86 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-audit-configuration-files-mode-configured"
+  compliance_note: {
+    title: "Ensure audit configuration files mode is configured"
+    description: "Audit configuration files must be configured with mode 0640 or more restrictive to prevent unauthorized "
+    "access and protect the integrity of the audit system."
+    rationale: "Restricting access to audit configuration files ensures that only authorized personnel can modify the "
+    "settings, preventing the disabling of critical auditing or misconfigurations that may impact performance or "
+    "investigation efforts."
+    remediation:
+      "Run the following command to set permissions on audit configuration files:\n"
+      "```bash\n"
+      "find /etc/audit/ -type f \\\\( -name '*.conf' -o -name '*.rules' \\\\) -exec chmod u-x,g-wx,o-rwx {} +\n"
+      "```\n"
+  cis_benchmark: {
+    profile_level: 2
+    severity: MEDIUM
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "      file_checks:{"
+    "        files_to_check:{files_in_dir:{"
+    "          dir_path:\"/etc/audit/\""
+    "          recursive: false"
+    "          files_only: true"
+    "          filename_regex: \".*\\\\.(conf|rules)\""
+    "        }}"
+    "        permission:{"
+    "          set_bits: 0640"
+    "          clear_bits: 0137"
+    "          bits_should_match: BOTH_SET_AND_CLEAR"
+    "        }"
+    "      }"
+    "    }"
+    "}"
+  }
+}
+benchmark_configs: {
+  id: "ensure-audit-tools-mode-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    title: "Ensure audit tools mode is configured"
+    description:
+      "Audit tools must be configured with mode 0755 or more restrictive to protect the integrity of audit tools and prevent unauthorized access."
+    rationale:
+      "Protecting audit tools ensures the integrity of audit information and prevents unauthorized operations on log data."
+    remediation:
+      "Run the following command to set permissions on audit tools:\n"
+      "```bash\n"
+      "chmod go-w \\\\/sbin/auditctl \\\\/sbin/aureport \\\\/sbin/ausearch \\\\/sbin/autrace \\\\/sbin/auditd \\\\/sbin/augenrules\n"
+      "```\n"
+  cis_benchmark: {
+    profile_level: 2
+    severity: MEDIUM
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "      file_checks:{"
+    "        files_to_check:{"
+    "          files_in_dir:{"
+    "            dir_path:\"/sbin\""
+    "            recursive: false"
+    "            files_only: true"
+    "            filename_regex: \"auditctl|aureport|ausearch|autrace|auditd|augenrules\""
+    "          }"
+    "        }"
+    "        permission:{"
+    "          set_bits: 0755"
+    "          clear_bits: 0022"
+    "          bits_should_match: BOTH_SET_AND_CLEAR"
+    "        }"
+    "        non_compliance_msg: \"Audit tools are not configured with mode 0755 or more restrictive.\""
+    "        file_display_command: \"ls -l /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\""
+    "      }"
+    "    }"
+    "}"
+  }
+}
+
+benchmark_configs: {
   id: "ensure-privileged-commands-are-collected"
   compliance_note: {
     title: "Ensure use of privileged commands are collected"
