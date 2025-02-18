@@ -7290,6 +7290,64 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ufw-default-deny-policy"
+  compliance_note: {
+    title: "Ensure ufw default deny firewall policy"
+    description: 
+      "A default deny policy on connections ensures that any unconfigured network usage will be rejected."
+    rationale: 
+      "With a default accept policy, the firewall will accept any packet that is not configured to be denied. It is "
+      "easier to whitelist acceptable usage than to blacklist unacceptable usage."
+    remediation: 
+      "To implement a default deny policy, run:\n"
+      "```\n"
+      "# ufw default deny incoming\n"
+      "# ufw default deny outgoing\n"
+      "# ufw default deny routed\n"
+      "```\n"
+      "Note: Ensure necessary rules for specific services or protocols (e.g., HTTP, HTTPS, DNS) are added before applying "
+      "the default deny policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ufw/ufw.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"DEFAULT_INPUT_POLICY=deny\""
+      "          expected_regex: \"DEFAULT_INPUT_POLICY=deny\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ufw/ufw.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"DEFAULT_OUTPUT_POLICY=deny\""
+      "          expected_regex: \"DEFAULT_OUTPUT_POLICY=deny\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ufw/ufw.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"DEFAULT_ROUTED_POLICY=deny\""
+      "          expected_regex: \"DEFAULT_ROUTED_POLICY=deny\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "ufw-open-ports-rules-configured"
   compliance_note: {
     title: "Ensure ufw is uninstalled or disabled with nftables"
