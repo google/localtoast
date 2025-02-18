@@ -4423,6 +4423,47 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "sshd-banner-configured"
+  compliance_note: {
+    title: "Ensure sshd Banner is configured"
+    description:
+      "The Banner parameter specifies a file whose contents must be sent to the remote user "
+      "before authentication is permitted. By default, no banner is displayed."
+    rationale:
+      "Banners are used to warn connecting users of the particular site's policy regarding "
+      "connection. Presenting a warning message prior to the normal user login may assist the "
+      "prosecution of trespassers on the computer system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the Banner parameter above any Include and "
+      "Match entries as follows:\n\n"
+      "Banner /etc/issue.net\n\n"
+      "Note: First occurrence of an option takes precedence, Match set statements "
+      "withstanding. If Include locations are enabled, used, and order of precedence is "
+      "understood in your environment, the entry may be created in a file in Include location."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*Banner\\\\s+/etc/issue\\\\.net$\""
+      "          expected_regex: \"\\\\s*Banner\\\\s+/etc/issue\\\\.net$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
 benchmark_configs: {
   id: "ssh-x11-forwarding-disabled"
   compliance_note: {
