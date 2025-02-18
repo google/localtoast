@@ -13244,6 +13244,36 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ufw-is-installed"
+  compliance_note: {
+    title: "Ensure ufw is installed"
+    description:
+      "The Uncomplicated Firewall (ufw) is a frontend for iptables and is particularly well-suited for host-based firewalls. "
+      "It provides a framework for managing Netfilter and a command-line interface for firewall configuration."
+    rationale:
+      "A firewall utility is required to configure the Linux kernel's Netfilter framework, providing protection against "
+      "internal threats and malicious mobile code."
+    remediation:
+      "To install Uncomplicated Firewall (ufw), run:\n"
+      "```\n"
+      "# apt install ufw\n"
+      "```\n"
+      "Note: Only one firewall utility should be installed and configured. UFW depends on the iptables package."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist:true}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "ufw-uninstalled-or-disabled-with-nftables"
   compliance_note: {
     title: "Ensure ufw is uninstalled or disabled with nftables"
