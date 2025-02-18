@@ -9906,6 +9906,67 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "nftables-base-chains-exist"
+  compliance_note: {
+    title: "Ensure nftables Base Chains Exist"
+    description: 
+      "Chains are containers for rules in nftables. Base chains are entry points for packets from the networking stack, "
+      "and their absence can result in packets not being processed as intended."
+    rationale: 
+      "Base chains with appropriate hooks ensure that packets flowing through input, forward, and output chains are "
+      "processed as expected, providing the foundation for proper firewall functionality."
+    remediation: 
+      "Run the following command to create the base chains:\n"
+      "```\n"
+      "# nft create chain inet <table name> <base chain name> { type filter hook <(input|forward|output)> priority 0 ; }\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "# nft create chain inet filter input { type filter hook input priority 0 ; }\n"
+      "# nft create chain inet filter forward { type filter hook forward priority 0 ; }\n"
+      "# nft create chain inet filter output { type filter hook output priority 0 ; }\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*type filter hook input priority 0;$\""
+      "          expected_regex: \"\\\\s*type filter hook input priority 0;$\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*type filter hook forward priority 0;$\""
+      "          expected_regex: \"\\\\s*type filter hook forward priority 0;$\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*type filter hook output priority 0;$\""
+      "          expected_regex: \"\\\\s*type filter hook output priority 0;$\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "nftables-default-deny-policy"
   compliance_note: {
     title: "Ensure nftables default deny firewall policy"
