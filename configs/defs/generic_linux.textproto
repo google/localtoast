@@ -12422,6 +12422,84 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "rsyslog-log-creation-file-configured"
+  compliance_note: {
+    title: "Ensure rsyslog log file creation mode is configured"
+    description:
+      "rsyslog will create logfiles that do not already exist on the system.\n"
+      "The global() configuration object umask, available in rsyslog 8.26.0+, sets the "
+      "rsyslogd process’ umask. If not specified, the system-provided default is used. The "
+      "value given must always be a 4-digit octal number, with the initial digit being zero.\n"
+      "The legacy $umask parameter sets the rsyslogd process' umask. If not specified, the "
+      "system-provided default is used. The value given must always be a 4-digit octal "
+      "number, with the initial digit being zero.\n"
+      "The legacy $FileCreateMode parameter allows the setting of the mode with which "
+      "rsyslogd creates new files. If not specified, the value 0644 is used. The value given "
+      "must always be a 4-digit octal number, with the initial digit being zero. Please note that "
+      "the actual permission depend on rsyslogd process umask. If in doubt, use $umask "
+      "0000 right at the beginning of the configuration file to remove any restrictions.\n"
+      "The legacy $FileCreateMode may be specified multiple times. If so, it specifies the "
+      "creation mode for all selector lines that follow until the next $FileCreateMode "
+      "parameter. Order of lines is vitally important."
+    rationale:
+      "It is important to ensure that log files have the correct permissions to ensure that "
+      "sensitive data is archived and protected."
+    remediation:
+      "Edit either /etc/rsyslog.conf or a dedicated .conf file in /etc/rsyslog.d/ and set "
+      "$FileCreateMode to 0640 or more restrictive:\n"
+      "$FileCreateMode 0640\n"
+      "Example script to create a drop-in configuration file in the default include location:\n"
+      "#!/usr/bin/env bash\n"
+      "{\n"
+      "[ ! -d \"/etc/rsyslog.d/\" ] && mkdir /etc/rsyslog.d/\n"
+      "printf '%s\n' \"\" \"\\\\$FileCreateMode 0640\" >> /etc/rsyslog.d/60-rsyslog.conf\n"
+      "}\n"
+      "Reload the service:\n"
+      "# systemctl reload-or-restart rsyslog"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
 benchmark_configs: {
   id: "rsyslog-configured-to-send-logs-to-remote-host"
   compliance_note: {
