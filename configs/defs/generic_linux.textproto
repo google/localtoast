@@ -3312,7 +3312,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-      "}"
   }
 }
 
@@ -8506,40 +8505,65 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dhcp-server-disabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure DHCP Server is not enabled"
+    title: "Ensure dhcp server services are not in use"
     description:
-      "The Dynamic Host Configuration Protocol (DHCP) is a service that "
-      "allows machines to be dynamically assigned IP addresses."
+      "The Dynamic Host Configuration Protocol (DHCP) is a service that allows machines to "
+      "be dynamically assigned IP addresses. There are two versions of the DHCP protocol "
+      "DHCPv4 and DHCPv6. At startup the server may be started for one or the other via the -4 "
+      "or -6 arguments."
     rationale:
-      "Unless a system is specifically set up to act as a DHCP server, it is "
-      "recommended that this service be deleted to reduce the potential "
-      "attack surface."
+      "Unless a system is specifically set up to act as a DHCP server, it is recommended that "
+      "this package be removed to reduce the potential attack surface."
     remediation:
-      "Run one of the following commands to disable dhcpd:\n"
-      "```\n"
-      "# chkconfig dhcpd off\n"
-      "# systemctl disable dhcpd\n"
-      "# update-rc.d dhcpd disable\n"
-      "```\n"
+      "Run the following commands to stop isc-dhcp-server.service and isc-dhcp-"
+      "server6.service and remove the isc-dhcp-server package:\n"
+      "# systemctl stop isc-dhcp-server.service isc-dhcp-server6.service\n"
+      "# apt purge isc-dhcp-server\n"
+      "- OR -\n"
+      "- IF - the isc-dhcp-server package is required as a dependency:\n"
+      "Run the following commands to stop and mask isc-dhcp-server.service and isc-"
+      "dhcp-server6.service:\n"
+      "# systemctl stop isc-dhcp-server.service isc-dhcp-server6.service\n"
+      "# systemctl mask isc-dhcp-server isc-dhcp-server6.service"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
     }
     scan_instructions:
-      "generic:{check_alternatives:{"
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"dhcpd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
       "  file_checks:{"
       "    files_to_check:{files_in_dir:{"
       "      dir_path:\"/etc/systemd/system\""
       "      recursive: true"
-      "      filename_regex: \"dhcpd.service\""
+      "      filename_regex: \"(isc-dhcp-server|dhcpd).service\""
       "    }}"
       "    existence:{should_exist: false}"
-      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dhcpd\""
-      "    file_display_command: \"find /etc/systemd/system -name dhcpd.service\""
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables isc-dhcp-server\""
+      "    file_display_command: \"find /etc/systemd/system -name 'isc-dhcp-server.service'\""
       "  }"
       "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"(isc-dhcp-server|dhcpd).service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables isc-dhcp-server\""
+      "    file_display_command: \"find /etc/systemd/system -name 'isc-dhcp-server.service'\""
+      "  }"
+      "}}"
+      "}"
   }
 }
 benchmark_configs: {
