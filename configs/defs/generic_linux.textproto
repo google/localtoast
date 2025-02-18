@@ -9366,6 +9366,67 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "nftables-loopback-traffic-configured"
+  compliance_note: {
+    title: "Ensure nftables Loopback Traffic is Configured"
+    description: 
+      "Configuring loopback traffic ensures that internal communication between processes on the machine is "
+      "maintained while preventing spoofing attacks by dropping loopback traffic on other interfaces."
+    rationale: 
+      "The loopback interface is critical for system operation as it handles communication within the system "
+      "itself. Blocking loopback traffic on non-loopback interfaces prevents potential spoofing attacks."
+    remediation: 
+      "Run the following commands to configure loopback traffic rules:\n"
+      "```\n"
+      "# nft add rule inet filter input iif lo accept\n"
+      "# nft add rule inet filter input ip saddr 127.0.0.0/8 counter drop\n"
+      "```\n"
+      "If IPv6 is enabled on the system, run:\n"
+      "```\n"
+      "# nft add rule inet filter input ip6 saddr ::1 counter drop\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*iif \\\"lo\\\" accept\""
+      "          expected_regex: \"\\\\s*iif \\\"lo\\\" accept\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*ip saddr 127\\\\.0\\\\.0\\\\.0/8 counter.*drop\""
+      "          expected_regex: \"\\\\s*ip saddr 127\\\\.0\\\\.0\\\\.0/8 counter.*drop\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*ip6 saddr ::1 counter.*drop\""
+      "          expected_regex: \"\\\\s*ip6 saddr ::1 counter.*drop\""
+      "        }"
+      "      }"
+      "  }"
+      "}}"
+  }
+}
+
+
+benchmark_configs: {
   id: "snmp-server-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
