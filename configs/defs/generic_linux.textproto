@@ -9296,6 +9296,74 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "ufw-loopback-traffic-configured"
+  compliance_note: {
+    title: "Ensure ufw loopback traffic is configured"
+    description: 
+      "Configure the loopback interface to accept traffic and configure all other interfaces to "
+      "deny traffic to the loopback network (127.0.0.0/8 for IPv4 and ::1/128 for IPv6)."
+    rationale: 
+      "Loopback traffic is critical to system operation and should only be allowed on the loopback "
+      "interface. Denying loopback traffic on other interfaces is an anti-spoofing measure."
+    remediation: 
+      "To implement the loopback rules, run:\n"
+      "```\n"
+      "# ufw allow in on lo\n"
+      "# ufw allow out on lo\n"
+      "# ufw deny in from 127.0.0.0/8\n"
+      "# ufw deny in from ::1\n"
+      "```\n"
+      "Note: Ensure ufw rules are applied in the correct order to achieve the desired effect."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-i lo.*\""
+      "        expected_regex: \".*ACCEPT.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-o lo.*\""
+      "        expected_regex: \".*ACCEPT.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-s 127.0.0.0/8.*\""
+      "        expected_regex: \".*DROP.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user6.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-s ::1.*\""
+      "        expected_regex: \".*DROP.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
 
 benchmark_configs: {
   id: "snmp-server-disabled"
