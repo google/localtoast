@@ -11917,6 +11917,83 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-using-single-firewall"
+  compliance_note: {
+    title: "Ensure a single firewall configuration utility is in use"
+    description:
+      "In Linux security, employing a single, effective firewall configuration utility ensures that "
+      "only legitimate traffic gets processed, reducing the system’s exposure to potential "
+      "threats. The choice between ufw, nftables, and iptables depends on organizational "
+      "needs."
+    rationale:
+      "Proper configuration of a single firewall utility minimizes cyber threats and protects "
+      "services and data, while avoiding vulnerabilities like open ports or exposed services.\n"
+      "Standardizing on a single tool simplifies management, reduces errors, and fortifies "
+      "security across Linux systems."
+    remediation:
+      "Remediating to a single firewall configuration is a complex process and involves several "
+      "steps. The following provides the basic steps to follow for a single firewall configuration:\n"
+      "1. Determine which firewall utility best fits organizational needs\n"
+      "2. Follow the recommendations in the subsequent subsection for the single firewall "
+      "to be used\n"
+      "Note: Review the firewall subsection overview for the selected firewall to be "
+      "used, it contains a script to "
+      "simplify this process.\n"
+      "3. Return to this recommendation to ensure a single firewall configuration utility is in "
+      "use"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist: false}"
+      "  }"  
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+
+
 benchmark_configs: {
   id: "nftables-rules-are-permanent"
   compliance_note: {
