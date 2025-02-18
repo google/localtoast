@@ -7515,6 +7515,61 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-disable-gnome-automount-removable-media-not-overridden"
+  compliance_note: {
+    title: "Ensure GDM disabling automatic mounting of removable media is not overridden"
+    description: 
+        "By default, GNOME automatically mounts removable media when inserted as a convenience to the user. Disabling "
+        "automounting enhances security by preventing unauthorized access to removable media. By using the lockdown mode "
+        "in dconf, you can prevent users from changing specific settings. To lock down a dconf key or subpath, create a "
+        "locks subdirectory in the keyfile directory. The files inside this directory contain a list of keys or subpaths "
+        "to lock. Just as with the keyfiles, you may add any number of files to this directory."
+    rationale: 
+        "With automounting enabled, anyone with physical access could attach a USB drive or disc and have its contents "
+        "available in the system even if they lacked permissions to mount it themselves."
+    remediation: 
+        "To disable automounting of removable media:\n"
+        "1. Create the file /etc/dconf/db/local.d/locks/00-media-automount with the following content:\n"
+        "```\n"
+        "[org/gnome/desktop/media-handling]\n"
+        "automount=false\n"
+        "automount-open=false\n"
+        "```\n"
+        "2. Update the system's databases:\n"
+        "```\n"
+        "# dconf update\n"
+        "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"automount=false\\\\s*\""
+      "          expected_regex: \"automount=false\\\\s*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"automount-open=false\\\\s*\""
+      "          expected_regex: \"automount-open=false\\\\s*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "disable-gnome-automount-removable-media"
   compliance_note: {
     title: "Ensure GDM disabling automatic mounting of removable media is disabled"
