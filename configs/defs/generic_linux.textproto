@@ -2716,6 +2716,81 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "separate-partition-var-log-audit"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:debian:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure separate partition exists for /var/log/audit"
+    description:
+      "The auditing daemon, auditd, stores log data in the /var/log/audit directory."
+    rationale:
+      "The default installation only creates a single / partition. Since the /var/log/audit "
+      "directory contains the audit.log file which can grow quite large, there is a risk of "
+      "resource exhaustion. It will essentially have the whole disk available to fill up and impact "
+      "the system as a whole. In addition, other operations on the system could fill up the disk "
+      "unrelated to /var/log/audit and cause auditd to trigger its space_left_action as "
+      "the disk is full. See man auditd.conf for details.\n"
+      "Configuring /var/log/audit as its own file system allows an administrator to set "
+      "additional mount options such as noexec/nosuid/nodev. These options limit an "
+      "attacker's ability to create exploits on the system. Other options allow for specific "
+      "behavior. See man mount for exact details regarding filesystem-independent and "
+      "filesystem-specific options.\n"
+      "As /var/log/audit contains audit logs, care should be taken to ensure the security "
+      "and integrity of the data and mount point."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var/log/audit.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var/log/audit .* - .*\""
+      "          expected_regex: \".* /var/log/audit .* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var/log/audit .*\""
+      "          expected_regex: \".*/var/log/audit .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var/log/audit .*\""
+      "          expected_regex: \".*/var/log/audit .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
 
 benchmark_configs: {
   id: "automounting-disabled"
