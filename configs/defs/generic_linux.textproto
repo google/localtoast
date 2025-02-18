@@ -6022,6 +6022,45 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "etc-passwd-passwords-not-empty"
+  compliance_note: {
+    title: " Ensure /etc/shadow password fields are not empty"
+    description: 
+      "An account with an empty password field means that anybody may log in as that user "
+      "without providing a password."
+    rationale: 
+      "All accounts must have passwords or be locked to prevent the account from being used "
+      "by an unauthorized user."
+    remediation: 
+      "If any accounts in the /etc/shadow file do not have a password, run the following "
+      "command to lock the account until it can be determined why it does not have a "
+      "password:\n"
+      "# passwd -l <username>\n"
+      "Also, check to see if the account is logged in and investigate what it is being used for to "
+      "determine if it needs to be forced off."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*:.*:.*\""
+      "          expected_regex: \".*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
 benchmark_configs: {
   id: "etc-passwd-permissions"
   compliance_note: {
