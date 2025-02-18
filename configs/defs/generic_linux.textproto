@@ -9425,6 +9425,66 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "nftables-default-deny-policy"
+  compliance_note: {
+    title: "Ensure nftables default deny firewall policy"
+    description: 
+      "Base chain policy is the default verdict that will be applied to packets reaching the end of the chain.\n"
+      "Setting a default deny policy helps ensure only explicitly allowed traffic is permitted."
+    rationale: 
+      "There are two policies: accept (Default) and drop. If the policy is set to accept, the "
+      "firewall will accept any packet that is not configured to be denied and the packet will"
+      "continue transversing the network stack.\n"
+      "It is easier to allow list acceptable usage than to deny list unacceptable usage."
+    remediation: 
+      "Run the following command for the base chains with the input, forward, and output "
+      "hooks to implement a default DROP policy:\n"
+      "# nft chain <table family> <table name> <chain name> { policy drop \\\\; }\n"
+      "Example:\n"
+      "# nft chain inet filter input { policy drop \\\\; }\n"
+      "# nft chain inet filter forward { policy drop \\\\; }\n"
+      "# nft chain inet filter output { policy drop \\\\; }\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*hook input\\\\s*.*policy drop;\""
+      "          expected_regex: \"[^#]*hook input\\\\s*.*policy drop;\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*hook forward\\\\s*.*policy drop;\""
+      "          expected_regex: \"[^#]*hook forward\\\\s*.*policy drop;\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*hook output\\\\s*.*policy drop;\""
+      "          expected_regex: \"[^#]*hook output\\\\s*.*policy drop;\""
+      "        }"
+      "      }"
+      "  }"
+      "}}"
+  }
+}
+
 
 benchmark_configs: {
   id: "snmp-server-disabled"
