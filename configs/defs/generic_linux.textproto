@@ -3042,7 +3042,6 @@ benchmark_configs: {
   }
 }
 
-
 benchmark_configs: {
   id: "automounting-disabled"
   compliance_note: {
@@ -5895,6 +5894,68 @@ benchmark_configs: {
       "    }"
       "    non_compliance_msg: \"there are non-locked system user accounts\""
       "    file_display_command: \"awk -F: '($1!=\\\"root\\\" && $1!~/^\\\\+/ && $3<'\\\"$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)\\\"') {print $1}' /etc/passwd | xargs -I '{}' passwd -S '{}' | awk '($2!=\\\"L\\\" && $2!=\\\"LK\\\") {print $1}'\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ptrace-scope-restricted"
+  compliance_note: {
+    title: "Ensure ptrace_scope is restricted"
+    description:
+      "This configuration ensures that the ptrace() system call is restricted to limit the ability of compromised "
+      "processes to attach to other processes running under the same user, enhancing system security."
+    rationale:
+      "Enabling restricted mode limits the ability of compromised processes to attach to other processes running "
+      "under the same user, reducing the scope of potential attacks."
+    remediation:
+      "Set the following parameter in `/etc/sysctl.conf` or a file in `/etc/sysctl.d/` ending in `.conf`:\n"
+      "```\n"
+      "kernel.yama.ptrace_scope = 1\n"
+      "```\n"
+      "Run the following command to set the active kernel parameter:\n"
+      "```\n"
+      "sysctl -w kernel.yama.ptrace_scope=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/kernel/yama/ptrace_scope\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/sysctl.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*.*\""
+      "          expected_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*1\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*.*\""
+      "          expected_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*1\""
+      "        }"
+      "      }"
+      "    }"
       "  }"
       "}}"
   }
