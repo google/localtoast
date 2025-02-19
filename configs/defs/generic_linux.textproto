@@ -496,7 +496,6 @@ benchmark_configs: {
   }
 }
 
-
 benchmark_configs: {
   id: "jffs2-mounting-disabled"
   compliance_note: {
@@ -629,8 +628,8 @@ benchmark_configs: {
       "unified view which allows a user to \"merge\" several mount points into a unified "
       "filesystem."
     rationale:
-      "The overlayfs has known CVE's: CVE-2023-32629, CVE-2023-2640, CVE-2023-"
-      "0386. Disabling the overlayfs reduces the local attack surface by removing support for "	
+      "The overlayfs has known CVE's: CVE-2023-32629, CVE-2023-2640, CVE-2023-0386.\n"
+      "Disabling the overlayfs reduces the local attack surface by removing support for "	
       "unnecessary filesystem types and mitigates potential risks associated with unauthorized "
       "execution of setuid files, enhancing the overall system security."
     remediation:
@@ -758,7 +757,7 @@ benchmark_configs: {
     rationale:
       "Removing support for unneeded filesystem types reduces the local attack "
       "surface of the system. If this filesystem type is not needed, disable "
-      "it.\n\n"
+      "it.\n"
       "Impact:\n"
       "As Snap packages utilizes squashfs as a compressed filesystem, "
       "disabling squashfs will cause Snap packages to fail.\n"
@@ -843,8 +842,8 @@ benchmark_configs: {
     description:
       "The udf filesystem type is the universal disk format used to implement "
       "ISO/IEC 13346 and ECMA-167 specifications. This is an open vendor "
-      "filesystem type for data storage on a broad range of media. This "
-      "filesystem type is necessary to support writing DVDs and newer optical "
+      "filesystem type for data storage on a broad range of media.\n"
+      "This filesystem type is necessary to support writing DVDs and newer optical "
       "disc formats."
     rationale:
       "Removing support for unneeded filesystem types reduces the local "
@@ -935,8 +934,8 @@ benchmark_configs: {
       "/etc/modprobe.d/ directory\n"
       "• Create a file ending in .conf with blacklist usb-storage in the "
       "/etc/modprobe.d/ directory\n"
-      "• Run modprobe -r usb-storage 2>/dev/null; rmmod usb-storage "
-      "2>/dev/null to remove usb-storage from the kernel\n"
+      "• Run: `modprobe -r usb-storage 2>/dev/null; rmmod usb-storage "
+      "2>/dev/null` to remove usb-storage from the kernel\n"
       "- IF - the usb-storage kernel module is not available on the system, or pre-compiled "
       "into the kernel, no remediation is necessary"
     cis_benchmark: {
@@ -1485,10 +1484,9 @@ benchmark_configs: {
   }
 }
 
-
 benchmark_configs: {
   id: "home-nodev"
-  compliance_note: {
+    compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -1504,7 +1502,9 @@ benchmark_configs: {
       "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
       "options) for the /home partition. See the fstab(5) manual page for "
       "more information.\n"
-      "# mount -o remount,nodev /home"
+      "```\n"
+      "# mount -o remount,nodev /home\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -1581,7 +1581,9 @@ benchmark_configs: {
       "Example:\n"
       "<device> /home <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /home with the configured options:\n"
-      "# mount -o remount /home"
+      "```\n"
+      "# mount -o remount /home\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2213,7 +2215,9 @@ benchmark_configs: {
       "Example:\n"
       "<device> /var/tmp <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/tmp with the configured options:\n"
+      "```\n"
       "# mount -o remount /var/tmp"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2290,7 +2294,9 @@ benchmark_configs: {
       "Example:\n"
       "<device> /var/tmp <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/tmp with the configured options:\n"
+      "```\n"
       "# mount -o remount /var/tmp"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2371,7 +2377,7 @@ benchmark_configs: {
       "Run the following command to remount /var/tmp:\n"
       "```\n"
       "# mount -o remount,noexec /var/tmp\n"
-      "```\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2595,7 +2601,9 @@ benchmark_configs: {
       "Example:\n"
       "<device> /var/log <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/log with the configured options:\n"
+      "```\n"
       "# mount -o remount /var/log"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2672,7 +2680,9 @@ benchmark_configs: {
       "Example:\n"
       "<device> /var/log <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/log with the configured options:\n"
+      "```\n"
       "# mount -o remount /var/log"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2814,7 +2824,7 @@ benchmark_configs: {
       "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
       "Since the /var/log/audit filesystem is not intended to support devices, set this option "
-      "to ensure that users cannot create a block or character special devices in"
+      "to ensure that users cannot create a block or character special devices in "
       "/var/log/audit."
     remediation:
       "- IF - a separate partition exists for /var/log/audit.\n"
@@ -2824,7 +2834,9 @@ benchmark_configs: {
       "<device> /var/log/audit <fstype>\n"
       "defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
-      "# mount -o remount /var/log/audit"
+      "```\n"
+      "# mount -o remount /var/log/audit\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2902,7 +2914,9 @@ benchmark_configs: {
       "<device> /var/log/audit <fstype>\n"
       "defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
-      "# mount -o remount /var/log/audit"
+      "```\n"
+      "# mount -o remount /var/log/audit\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -2981,7 +2995,9 @@ benchmark_configs: {
       "<device> /var/log/audit <fstype>\n"
       "defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
-      "# mount -o remount /var/log/audit"
+      "```\n"
+      "# mount -o remount /var/log/audit\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3069,7 +3085,7 @@ benchmark_configs: {
       "# chkconfig autofs off\n"
       "# systemctl disable autofs\n"
       "# update-rc.d autofs disable\n"
-      "```\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3334,7 +3350,9 @@ benchmark_configs: {
       "parameters to the GRUB_CMDLINE_LINUX= line\n"
       "GRUB_CMDLINE_LINUX=\"apparmor=1 security=apparmor\"\n"
       "Run the following command to update the grub2 configuration:\n"
+      "```\n"
       "# update-grub"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -3663,12 +3681,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure NFS and RPC are not enabled"
     description:
-      "The Network File System (NFS) is one of the first and most widely distributed\n"
-      "file systems in the UNIX environment. It provides the ability for systems to\n"
+      "The Network File System (NFS) is one of the first and most widely distributed "
+      "file systems in the UNIX environment. It provides the ability for systems to "
       "mount file systems of other servers through the network."
     rationale:
-      "If the system does not export NFS shares or act as an NFS client, it is\n"
-      "recommended that these services be disabled to reduce the remote attack\n"
+      "If the system does not export NFS shares or act as an NFS client, it is "
+      "recommended that these services be disabled to reduce the remote attack "
       "surface."
     remediation:
       "Run one of the following commands to disable nfs and rpcbind:\n"
@@ -3870,17 +3888,17 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure broadcast ICMP requests are ignored"
     description:
-      "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to\n"
-      "ignore all ICMP echo and timestamp requests to broadcast and multicast\n"
+      "Setting net.ipv4.icmp_echo_ignore_broadcasts to 1 will cause the system to "
+      "ignore all ICMP echo and timestamp requests to broadcast and multicast "
       "addresses."
     rationale:
-      "Accepting ICMP echo and timestamp requests with broadcast or multicast\n"
-      "destinations for your network could be used to trick your host into starting\n"
-      "or participating) in a Smurf attack. A Smurf attack relies on an attacker\n"
-      "sending large amounts of ICMP broadcast messages with a spoofed source\n"
-      "address. All hosts receiving this message and responding would send echo-reply\n"
-      "messages back to the spoofed address, which is probably not routable. If many\n"
-      "hosts respond to the packets, the amount of traffic on the network could be\n"
+      "Accepting ICMP echo and timestamp requests with broadcast or multicast "
+      "destinations for your network could be used to trick your host into starting "
+      "or participating) in a Smurf attack. A Smurf attack relies on an attacker "
+      "sending large amounts of ICMP broadcast messages with a spoofed source "
+      "address. All hosts receiving this message and responding would send echo-reply "
+      "messages back to the spoofed address, which is probably not routable. If many "
+      "hosts respond to the packets, the amount of traffic on the network could be "
       "significantly multiplied."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
@@ -3949,11 +3967,11 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure bogus ICMP responses are ignored"
     description:
-      "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from\n"
-      "logging bogus responses (RFC-1122 non-compliant) from broadcast reframes,\n"
+      "Setting icmp_ignore_bogus_error_responses to 1 prevents the kernel from "
+      "logging bogus responses (RFC-1122 non-compliant) from broadcast reframes,"
       "keeping file systems from filling up with useless log messages."
     rationale:
-      "Some routers (and some attackers) will send responses that violate RFC-1122\n"
+      "Some routers (and some attackers) will send responses that violate RFC-1122 "
       "and attempt to fill up a log file system with many useless error messages."
     remediation:
       "Set the following parameter in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
@@ -4022,18 +4040,18 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure Reverse Path Filtering is enabled"
     description:
-      "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1\n"
-      "forces the Linux kernel to utilize reverse path filtering on a received packet\n"
-      "to determine if the packet was valid. Essentially, with reverse path\n"
-      "filtering, if the return packet does not go out the same interface that the\n"
-      "corresponding source packet came from, the packet is dropped (and logged if\n"
+      "Setting net.ipv4.conf.all.rp_filter and net.ipv4.conf.default.rp_filter to 1 "
+      "forces the Linux kernel to utilize reverse path filtering on a received packet "
+      "to determine if the packet was valid. Essentially, with reverse path "
+      "filtering, if the return packet does not go out the same interface that the "
+      "corresponding source packet came from, the packet is dropped (and logged if "
       "log_martians is set)."
     rationale:
-      "Setting these flags is a good way to deter attackers from sending your system\n"
-      "bogus packets that cannot be responded to. One instance where this feature\n"
-      "breaks down is if asymmetrical routing is employed. This would occur when\n"
-      "using dynamic routing protocols (bgp, ospf, etc) on your system. If you are\n"
-      "using asymmetrical routing on your system, you will not be able to enable this\n"
+      "Setting these flags is a good way to deter attackers from sending your system "
+      "bogus packets that cannot be responded to. One instance where this feature "
+      "breaks down is if asymmetrical routing is employed. This would occur when "
+      "using dynamic routing protocols (bgp, ospf, etc) on your system. If you are "
+      "using asymmetrical routing on your system, you will not be able to enable this "
       "feature without breaking the routing."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
@@ -4113,21 +4131,21 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure TCP SYN Cookies is enabled"
     description:
-      "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally\n"
-      "until the half-open connection queue is full, at which time, the SYN cookie\n"
-      "functionality kicks in. SYN cookies work by not using the SYN queue at all.\n"
-      "Instead, the kernel simply replies to the SYN with a SYN|ACK, but will include\n"
-      "a specially crafted TCP sequence number that encodes the source and\n"
-      "destination IP address and port number and the time the packet was sent. A\n"
-      "legitimate connection would send the ACK packet of the three way handshake\n"
-      "with the specially crafted sequence number. This allows the system to verify\n"
-      "that it has received a valid response to a SYN cookie and allow the\n"
+      "When tcp_syncookies is set, the kernel will handle TCP SYN packets normally "
+      "until the half-open connection queue is full, at which time, the SYN cookie "
+      "functionality kicks in. SYN cookies work by not using the SYN queue at all. "
+      "Instead, the kernel simply replies to the SYN with a SYN|ACK, but will include "
+      "a specially crafted TCP sequence number that encodes the source and "
+      "destination IP address and port number and the time the packet was sent.\n"
+      "A legitimate connection would send the ACK packet of the three way handshake "
+      "with the specially crafted sequence number. This allows the system to verify "
+      "that it has received a valid response to a SYN cookie and allow the "
       "connection, even though there is no corresponding SYN in the queue."
     rationale:
-      "Attackers use SYN flood attacks to perform a denial of service attacked on a\n"
+      "Attackers use SYN flood attacks to perform a denial of service attacked on a "
       "system by sending many SYN packets without completing the three way handshake.\n"
-      "This will quickly use up slots in the kernel's half-open connection queue and\n"
-      "prevent legitimate connections from succeeding. SYN cookies allow the system\n"
+      "This will quickly use up slots in the kernel's half-open connection queue and "
+      "prevent legitimate connections from succeeding. SYN cookies allow the system "
       "to keep accepting valid connections, even if under a denial of service attack."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
@@ -4231,12 +4249,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald is configured to write logfiles to persistent disk"
     description:
-      "Data from journald may be stored in volatile memory or persisted locally on\n"
-      "the server. Logs in memory will be lost upon a system reboot. By persisting\n"
+      "Data from journald may be stored in volatile memory or persisted locally on "
+      "the server. Logs in memory will be lost upon a system reboot. By persisting "
       "logs to local disk on the server they are protected from loss."
     rationale:
-      "Writing log data to disk will provide the ability to forensically reconstruct\n"
-      "events which may have impacted the operations or security of a system even\n"
+      "Writing log data to disk will provide the ability to forensically reconstruct "
+      "events which may have impacted the operations or security of a system even "
       "after a system crash or reboot."
     remediation:
       "Edit the /etc/systemd/journald.conf file and add the following line:\n"
@@ -4465,18 +4483,20 @@ benchmark_configs: {
     title: "Ensure permissions on SSH private host key files are configured"
     description:
       "An SSH private key is one of two files used in SSH public key authentication.\n"
-      "In this authentication method, The possession of the private key is proof of\n"
-      "identity. Only a private key that corresponds to a public key will be able to\n"
-      "authenticate successfully. The private keys need to be stored and handled\n"
+      "In this authentication method, The possession of the private key is proof of "
+      "identity. Only a private key that corresponds to a public key will be able to "
+      "authenticate successfully. The private keys need to be stored and handled "
       "carefully, and no copies of the private key should be distributed."
     rationale:
-      "If an unauthorized user obtains the private SSH host key file, the host could\n"
+      "If an unauthorized user obtains the private SSH host key file, the host could "
       "be impersonated"
     remediation:
-      "Run the following commands to set ownership and permissions on the private SSH\n"
+      "Run the following commands to set ownership and permissions on the private SSH "
       "host key files\n"
+      "```\n"
       "# find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chown root:root {} \\;\n"
-      "# find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod 0600 {} \\;"
+      "# find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod 0600 {} \\;\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4516,19 +4536,21 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on SSH public host key files are configured"
     description:
-      "An SSH public key is one of two files used in SSH public key authentication.\n"
-      "In this authentication method, a public key is a key that can be used for\n"
-      "verifying digital signatures generated using a corresponding private key. Only\n"
-      "a public key that corresponds to a private key will be able to authenticate\n"
+      "An SSH public key is one of two files used in SSH public key authentication. "
+      "In this authentication method, a public key is a key that can be used for "
+      "verifying digital signatures generated using a corresponding private key. Only "
+      "a public key that corresponds to a private key will be able to authenticate "
       "successfully."
     rationale:
-      "If a public host key file is modified by an unauthorized user, the SSH service\n"
+      "If a public host key file is modified by an unauthorized user, the SSH service "
       "may be compromised."
     remediation:
-      "Run the following commands to set permissions and ownership on the SSH host\n"
+      "Run the following commands to set permissions and ownership on the SSH host "
       "public key files\n"
+      "```\n"
       "# find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod 0644 {} \\;\n"
-      "#find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \\;"
+      "#find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \\;\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -4605,18 +4627,18 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH LogLevel is appropriate"
     description:
-      "INFO level is the basic level that only records login activity of SSH users.\n"
-      "In many situations, such as Incident Response, it is important to determine\n"
-      "when a particular user was active on a system. The logout record can eliminate\n"
+      "INFO level is the basic level that only records login activity of SSH users. "
+      "In many situations, such as Incident Response, it is important to determine "
+      "when a particular user was active on a system. The logout record can eliminate "
       "those users who disconnected, which helps narrow the field.\n"
       "VERBOSE level\n"
-      "specifies that login and logout activity as well as the key fingerprint for\n"
-      "any SSH key used for login will be logged. This information is important for\n"
+      "specifies that login and logout activity as well as the key fingerprint for "
+      "any SSH key used for login will be logged. This information is important for "
       "SSH key management, especially in legacy environments."
     rationale:
-      "SSH provides several logging levels with varying amounts of verbosity. DEBUG\n"
-      "is specifically not recommended other than strictly for debugging SSH\n"
-      "communications since it provides so much data that it is difficult to identify\n"
+      "SSH provides several logging levels with varying amounts of verbosity. DEBUG "
+      "is specifically not recommended other than strictly for debugging SSH "
+      "communications since it provides so much data that it is difficult to identify "
       "important security information."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
@@ -5007,13 +5029,13 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH HostbasedAuthentication is disabled"
     description:
-      "The HostbasedAuthentication parameter specifies if authentication is allowed\n"
-      "through trusted hosts via the user of .rhosts, or /etc/hosts.equiv, along with\n"
-      "successful public key client host authentication. This option only applies to\n"
+      "The HostbasedAuthentication parameter specifies if authentication is allowed "
+      "through trusted hosts via the user of .rhosts, or /etc/hosts.equiv, along with "
+      "successful public key client host authentication. This option only applies to "
       "SSH Protocol Version 2."
     rationale:
-      "Even though the .rhosts files are ineffective if support is disabled in /etc\n"
-      "pam.conf, disabling the ability to use .rhosts files in SSH provides an\n"
+      "Even though the .rhosts files are ineffective if support is disabled in /etc "
+      "pam.conf, disabling the ability to use .rhosts files in SSH provides an "
       "additional layer of protection."
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
@@ -5070,9 +5092,9 @@ benchmark_configs: {
       "The PermitRootLogin parameter specifies if the root user can log in using ssh.\n"
       "The default is no."
     rationale:
-      "Disallowing root logins over SSH requires system admins to authenticate using\n"
-      "their own individual account, then escalating to root via sudo or su. This in\n"
-      "turn limits opportunity for non-repudiation and provides a clear audit trail\n"
+      "Disallowing root logins over SSH requires system admins to authenticate using "
+      "their own individual account, then escalating to root via sudo or su. This in "
+      "turn limits opportunity for non-repudiation and provides a clear audit trail "
       "in the event of a security incident"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
@@ -5113,10 +5135,10 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH PermitEmptyPasswords is disabled"
     description:
-      "The PermitEmptyPasswords parameter specifies if the SSH server allows login to\n"
+      "The PermitEmptyPasswords parameter specifies if the SSH server allows login to "
       "accounts with empty password strings."
     rationale:
-      "Disallowing remote shell access to accounts that have an empty password\n"
+      "Disallowing remote shell access to accounts that have an empty password "
       "reduces the probability of unauthorized access to the system"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
@@ -5170,11 +5192,11 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH PermitUserEnvironment is disabled"
     description:
-      "The PermitUserEnvironment option allows users to present environment options\n"
+      "The PermitUserEnvironment option allows users to present environment options "
       "to the ssh daemon."
     rationale:
-      "Permitting users the ability to set environment variables through the SSH\n"
-      "daemon could potentially allow users to bypass security controls (e.g. setting\n"
+      "Permitting users the ability to set environment variables through the SSH "
+      "daemon could potentially allow users to bypass security controls (e.g. setting "
       "an execution path that has ssh executing trojan'd programs)"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
@@ -5228,32 +5250,32 @@ benchmark_configs: {
     title: "Ensure only strong Ciphers are used"
     description: "This variable limits the ciphers that SSH can use during communication."
     rationale:
-      "Weak ciphers that are used for authentication to the cryptographic module\n"
-      "cannot be relied upon to provide confidentiality or integrity, and system data\n"
-      "may be compromised The DES, Triple DES, and Blowfish ciphers, as used in SSH,\n"
-      "have a birthday bound of approximately four billion blocks, which makes it\n"
-      "easier for remote attackers to obtain cleartext data via a birthday attack\n"
-      "against a long-duration encrypted session, aka a \"Sweet32\" attackThe RC4\n"
-      "algorithm as used in the TLS protocol and SSL protocol does not properly\n"
-      "combine state data with key data during the initialization phase, which makes\n"
-      "it easier for remote attackers to conduct plaintext-recovery attacks against\n"
-      "the initial bytes of a stream by sniffing network traffic that occasionally\n"
-      "relies on keys affected by the Invariance Weakness, and then using a brute\n"
+      "Weak ciphers that are used for authentication to the cryptographic module "
+      "cannot be relied upon to provide confidentiality or integrity, and system data "
+      "may be compromised The DES, Triple DES, and Blowfish ciphers, as used in SSH, "
+      "have a birthday bound of approximately four billion blocks, which makes it "
+      "easier for remote attackers to obtain cleartext data via a birthday attack "
+      "against a long-duration encrypted session, aka a \"Sweet32\" attackThe RC4 "
+      "algorithm as used in the TLS protocol and SSL protocol does not properly "
+      "combine state data with key data during the initialization phase, which makes "
+      "it easier for remote attackers to conduct plaintext-recovery attacks against "
+      "the initial bytes of a stream by sniffing network traffic that occasionally "
+      "relies on keys affected by the Invariance Weakness, and then using a brute "
       "force approach involving LSB values, aka the \"Bar Mitzvah\" issue.\n"
-      "The passwords used during an SSH session encrypted with RC4 can be recovered\n"
-      "by an attacker who is able to capture and replay the session Error handling in\n"
-      "the SSH protocol; Client and Server, when using a block cipher algorithm in\n"
-      "Cipher Block Chaining (CBC) mode, makes it easier for remote attackers to\n"
-      "recover certain plaintext data from an arbitrary block of ciphertext in an SSH\n"
+      "The passwords used during an SSH session encrypted with RC4 can be recovered "
+      "by an attacker who is able to capture and replay the session Error handling in "
+      "the SSH protocol; Client and Server, when using a block cipher algorithm in "
+      "Cipher Block Chaining (CBC) mode, makes it easier for remote attackers to "
+      "recover certain plaintext data from an arbitrary block of ciphertext in an SSH "
       "session via unknown vectors.\n"
-      "The mm_newkeys_from_blob function in monitor_wrap.c, when an AES-GCM cipher is\n"
-      "used, does not properly initialize memory for a MAC context data structure,\n"
-      "which allows remote authenticated users to bypass intended ForceCommand and\n"
-      "login-shell restrictions via packet data that provides a crafted callback\n"
+      "The mm_newkeys_from_blob function in monitor_wrap.c, when an AES-GCM cipher is "
+      "used, does not properly initialize memory for a MAC context data structure, "
+      "which allows remote authenticated users to bypass intended ForceCommand and "
+      "login-shell restrictions via packet data that provides a crafted callback "
       "address."
     remediation:
-      "Edit the /etc/ssh/sshd_config file add/modify the Ciphers line to contain a\n"
-      "comma separated list of the site approved ciphers\n"
+      "Edit the /etc/ssh/sshd_config file add/modify the Ciphers line to contain a "
+      "comma separated list of the site approved ciphers.\n"
       "Example:\n"
       "```\n"
       "Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr\n"
@@ -5442,18 +5464,18 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure only strong Key Exchange algorithms are used"
     description:
-      "Key exchange is any method in cryptography by which cryptographic keys are\n"
-      "exchanged between two parties, allowing use of a cryptographic algorithm. If\n"
-      "the sender and receiver wish to exchange encrypted messages, each must be\n"
+      "Key exchange is any method in cryptography by which cryptographic keys are "
+      "exchanged between two parties, allowing use of a cryptographic algorithm. If "
+      "the sender and receiver wish to exchange encrypted messages, each must be "
       "equipped to encrypt messages to be sent and decrypt messages received"
     rationale:
-      "Key exchange methods that are considered weak should be removed. A key\n"
-      "exchange method may be weak because too few bits are used, or the hashing\n"
-      "algorithm is considered too weak. Using weak algorithms could expose\n"
+      "Key exchange methods that are considered weak should be removed. A key "
+      "exchange method may be weak because too few bits are used, or the hashing "
+      "algorithm is considered too weak. Using weak algorithms could expose "
       "connections to man-in-the-middle attacks"
     remediation:
-      "Edit the /etc/ssh/sshd_config file add/modify the KexAlgorithms line to\n"
-      "contain a comma separated list of the site approved key exchange algorithms\n"
+      "Edit the /etc/ssh/sshd_config file add/modify the KexAlgorithms line to "
+      "contain a comma separated list of the site approved key exchange algorithms "
       "Example:\n"
       "```\n"
       "KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellmangroup14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffiehellman-group-exchange-sha256\n"
@@ -5678,15 +5700,15 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH PAM is enabled"
     description:
-      "UsePAM Enables the Pluggable Authentication Module interface. If set to “yes”\n"
-      "this will enable PAM authentication using ChallengeResponseAuthentication and\n"
-      "PasswordAuthentication in addition to PAM account and session module\n"
+      "UsePAM Enables the Pluggable Authentication Module interface. If set to “yes” "
+      "this will enable PAM authentication using ChallengeResponseAuthentication and "
+      "PasswordAuthentication in addition to PAM account and session module "
       "processing for all authentication types"
     rationale:
-      "When usePAM is set to yes, PAM runs through account and session types\n"
-      "properly. This is important if you want to restrict access to services based\n"
-      "off of IP, time or other factors of the account. Additionally, you can make\n"
-      "sure users inherit certain environment variables on login or disallow access\n"
+      "When usePAM is set to yes, PAM runs through account and session types "
+      "properly. This is important if you want to restrict access to services based "
+      "off of IP, time or other factors of the account. Additionally, you can make "
+      "sure users inherit certain environment variables on login or disallow access "
       "to the server"
     remediation:
       "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
@@ -6103,12 +6125,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password expiration warning days is 7 or more"
     description:
-      "The PASS_WARN_AGE parameter in /etc/login.defs allows an administrator to\n"
-      "notify users that their password will expire in a defined number of days. It\n"
+      "The PASS_WARN_AGE parameter in /etc/login.defs allows an administrator to "
+      "notify users that their password will expire in a defined number of days. It "
       "is recommended that the PASS_WARN_AGE parameter be set to 7 or more days."
     rationale:
-      "Providing an advance warning that a password will be expiring gives users time\n"
-      "to think of a secure password. Users caught unaware may choose a simple\n"
+      "Providing an advance warning that a password will be expiring gives users time "
+      "to think of a secure password. Users caught unaware may choose a simple "
       "password or write it down where it may be discovered."
     remediation:
       "Set the PASS_WARN_AGE parameter to 7 in /etc/login.defs:\n"
@@ -6242,11 +6264,11 @@ benchmark_configs: {
     title: "Ensure all users last password change date is in the past"
     description: "All users should have a password change date in the past."
     rationale:
-      "If a users recorded password change date is in the future then they could\n"
+      "If a users recorded password change date is in the future then they could "
       "bypass any set password expiration."
     remediation:
-      "Investigate any users with a password change date in the future and correct\n"
-      "them. Locking the account, expiring the password, or resetting the password\n"
+      "Investigate any users with a password change date in the future and correct "
+      "them. Locking the account, expiring the password, or resetting the password "
       "manually may be appropriate."
     cis_benchmark: {
       profile_level: 1
@@ -6593,10 +6615,10 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure default group for the root account is GID 0"
     description:
-      "The usermod command can be used to specify which group the root user belongs\n"
+      "The usermod command can be used to specify which group the root user belongs "
       "to. This affects permissions of files that are created by the root user."
     rationale:
-      "Using GID 0 for the root account helps prevent root -owned files from\n"
+      "Using GID 0 for the root account helps prevent root -owned files from "
       "accidentally becoming accessible to non-privileged users."
     remediation:
       "Run the following command to set the root user default group to GID 0:\n"
@@ -6636,11 +6658,11 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure root login is restricted to system console"
     description:
-      "The file /etc/securetty contains a list of valid terminals that may be logged\n"
+      "The file /etc/securetty contains a list of valid terminals that may be logged "
       "in directly as root."
     rationale:
-      "Since the system console has special properties to handle emergency\n"
-      "situations, it is important to ensure that the console is in a physically\n"
+      "Since the system console has special properties to handle emergency "
+      "situations, it is important to ensure that the console is in a physically "
       "secure location and that unauthorized consoles have not been defined."
     remediation:
       "Make sure /etc/securetty is empty or doesn't exist. If /etc/securetty is not empty, make "
@@ -6673,16 +6695,16 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure access to the su command is restricted"
     description:
-      "The su command allows a user to run a command or shell as another user. The\n"
-      "program has been superseded by sudo , which allows for more granular control\n"
-      "over privileged access. Normally, the su command can be executed by any user.\n"
-      "By uncommenting the pam_wheel.so statement in /etc/pam.d/su , the su command\n"
+      "The su command allows a user to run a command or shell as another user. The "
+      "program has been superseded by sudo , which allows for more granular control "
+      "over privileged access. Normally, the su command can be executed by any user.\n "
+      "By uncommenting the pam_wheel.so statement in /etc/pam.d/su , the su command "
       "will only allow users in the wheel group to execute su."
     rationale:
-      "Restricting the use of su , and using sudo in its place, provides system\n"
-      "administrators better control of the escalation of user privileges to execute\n"
-      "privileged commands. The sudo utility also provides a better logging and audit\n"
-      "mechanism, as it can log each command executed via sudo, whereas su can only\n"
+      "Restricting the use of su , and using sudo in its place, provides system "
+      "administrators better control of the escalation of user privileges to execute "
+      "privileged commands. The sudo utility also provides a better logging and audit "
+      "mechanism, as it can log each command executed via sudo, whereas su can only "
       "record that a user executed the su program."
     remediation:
       "Add the following line to the /etc/pam.d/su file:\n"
@@ -6779,13 +6801,13 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/passwd are configured"
     description:
-      "The /etc/passwd file contains user account information that is used by many\n"
-      "system utilities and therefore must be readable for these utilities to\n"
+      "The /etc/passwd file contains user account information that is used by many "
+      "system utilities and therefore must be readable for these utilities to "
       "operate."
     rationale:
-      "It is critical to ensure that the /etc/passwd file is protected from\n"
-      "unauthorized write access. Although it is protected by default, the file\n"
-      "permissions could be changed either inadvertently or through malicious\n"
+      "It is critical to ensure that the /etc/passwd file is protected from "
+      "unauthorized write access. Although it is protected by default, the file "
+      "permissions could be changed either inadvertently or through malicious "
       "actions."
     remediation:
       "Run the following command to set permissions on /etc/passwd:\n"
@@ -6827,16 +6849,16 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/shadow are configured"
     description:
-      "The /etc/shadow file is used to store the information about user accounts that\n"
-      "is critical to the security of those accounts, such as the hashed password and\n"
+      "The /etc/shadow file is used to store the information about user accounts that "
+      "is critical to the security of those accounts, such as the hashed password and "
       "other security information."
     rationale:
-      "If attackers can gain read access to the /etc/shadow file, they can easily run\n"
-      "a password cracking program against the hashed password to break it. Other\n"
-      "security information that is stored in the /etc/shadow file (such as\n"
+      "If attackers can gain read access to the /etc/shadow file, they can easily run "
+      "a password cracking program against the hashed password to break it. Other "
+      "security information that is stored in the /etc/shadow file (such as "
       "expiration) could also be useful to subvert the user accounts."
     remediation:
-      "Run the one of the following chown commands as appropriate and the chmod to\n"
+      "Run the one of the following chown commands as appropriate and the chmod to "
       "set permissions on /etc/shadow:\n"
       "```\n"
       "# chown root:root /etc/shadow\n"
@@ -6886,12 +6908,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/group are configured"
     description:
-      "The /etc/group file contains a list of all the valid groups defined in the\n"
-      "system. The command below allows read/write access for root and read access\n"
+      "The /etc/group file contains a list of all the valid groups defined in the "
+      "system. The command below allows read/write access for root and read access "
       "for everyone else."
     rationale:
-      "The /etc/group file needs to be protected from unauthorized changes by non\n"
-      "privileged users, but needs to be readable as this information is used with\n"
+      "The /etc/group file needs to be protected from unauthorized changes by non "
+      "privileged users, but needs to be readable as this information is used with "
       "many non-privileged programs."
     remediation:
       "Run the following command to set permissions on /etc/group:\n"
@@ -6933,16 +6955,16 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/gshadow are configured"
     description:
-      "The /etc/gshadow file is used to store the information about groups that is\n"
-      "critical to the security of those accounts, such as the hashed password and\n"
+      "The /etc/gshadow file is used to store the information about groups that is "
+      "critical to the security of those accounts, such as the hashed password and "
       "other security information."
     rationale:
-      "If attackers can gain read access to the /etc/gshadow file, they can easily\n"
-      "run a password cracking program against the hashed password to break it. Other\n"
-      "security information that is stored in the /etc/gshadow file (such as group\n"
+      "If attackers can gain read access to the /etc/gshadow file, they can easily "
+      "run a password cracking program against the hashed password to break it. Other "
+      "security information that is stored in the /etc/gshadow file (such as group "
       "administrators) could also be useful to subvert the group."
     remediation:
-      "Run the one of the following chown commands as appropriate and the chmod to\n"
+      "Run the one of the following chown commands as appropriate and the chmod to "
       "set permissions on /etc/gshadow:\n"
       "```\n"
       "# chown root:root /etc/gshadow\n"
@@ -6999,11 +7021,11 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure permissions on /etc/group- are configured"
     description:
-      "The /etc/group- file contains a backup list of all the valid groups defined in\n"
+      "The /etc/group- file contains a backup list of all the valid groups defined in "
       "the system."
     rationale:
-      "It is critical to ensure that the /etc/group- file is protected from\n"
-      "unauthorized access. Although it is protected by default, the file permissions\n"
+      "It is critical to ensure that the /etc/group- file is protected from "
+      "unauthorized access. Although it is protected by default, the file permissions "
       "could be changed either inadvertently or through malicious actions."
     remediation:
       "Run the following command to set permissions on /etc/group-:\n"
@@ -7177,19 +7199,19 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure password fields are not empty"
     description:
-      "An account with an empty password field means that anybody may log in as that\n"
+      "An account with an empty password field means that anybody may log in as that "
       "user without providing a password."
     rationale:
-      "All accounts must have passwords or be locked to prevent the account from\n"
+      "All accounts must have passwords or be locked to prevent the account from "
       "being used by an unauthorized user."
     remediation:
-      "If any accounts in the /etc/shadow file do not have a password, run the\n"
-      "following command to lock the account until it can be determined why it does\n"
+      "If any accounts in the /etc/shadow file do not have a password, run the "
+      "following command to lock the account until it can be determined why it does "
       "not have a password:\n"
       "```\n"
       "# passwd -l <username>\n"
       "```\n"
-      "Also, check to see if the account is logged in and investigate what it is\n"
+      "Also, check to see if the account is logged in and investigate what it is "
       "being used for to determine if it needs to be forced off."
     cis_benchmark: {
       profile_level: 1
@@ -7227,12 +7249,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
     description:
-      "The character + in various files used to be markers for systems to insert data\n"
-      "from NIS maps at a certain point in a system configuration file. These entries\n"
-      "are no longer required on most systems, but may exist in files that have been\n"
+      "The character + in various files used to be markers for systems to insert data "
+      "from NIS maps at a certain point in a system configuration file. These entries "
+      "are no longer required on most systems, but may exist in files that have been "
       "imported from other platforms."
     rationale:
-      "These entries may provide an avenue for attackers to gain privileged access on\n"
+      "These entries may provide an avenue for attackers to gain privileged access on "
       "the system."
     remediation: "Remove any legacy '+' entries from /etc/passwd if they exist."
     cis_benchmark: {
@@ -7271,9 +7293,9 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
     description:
-      "The character + in various files used to be markers for systems to insert data\n"
-      "from NIS maps at a certain point in a system configuration file. These entries\n"
-      "are no longer required on most systems, but may exist in files that have been\n"
+      "The character + in various files used to be markers for systems to insert data "
+      "from NIS maps at a certain point in a system configuration file. These entries "
+      "are no longer required on most systems, but may exist in files that have been "
       "imported from other platforms."
     rationale: "These entries may provide an avenue for attackers to gain privileged access on the system."
     remediation: "Remove any legacy '+' entries from /etc/shadow if they exist."
@@ -7313,12 +7335,12 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
     description:
-      "The character + in various files used to be markers for systems to insert data\n"
-      "from NIS maps at a certain point in a system configuration file. These entries\n"
-      "are no longer required on most systems, but may exist in files that have been\n"
+      "The character + in various files used to be markers for systems to insert data "
+      "from NIS maps at a certain point in a system configuration file. These entries "
+      "are no longer required on most systems, but may exist in files that have been "
       "imported from other platforms."
     rationale:
-      "These entries may provide an avenue for attackers to gain privileged access on\n"
+      "These entries may provide an avenue for attackers to gain privileged access on "
       "the system."
     remediation: "Remove any legacy '+' entries from /etc/group if they exist."
     cis_benchmark: {
@@ -7360,9 +7382,9 @@ benchmark_configs: {
     title: "Ensure root is the only UID 0 account"
     description: "Any account with UID 0 has superuser privileges on the system."
     rationale:
-      "This access must be limited to only the default root account and only from the\n"
-      "system console. Administrative access must be through an unprivileged account\n"
-      "using an approved mechanism as noted in Item 5.6 Ensure access to the su\n"
+      "This access must be limited to only the default root account and only from the "
+      "system console. Administrative access must be through an unprivileged account "
+      "using an approved mechanism as noted in Item 5.6 Ensure access to the su "
       "command is restricted."
     remediation: "Remove any users other than root with UID 0 or assign them a new UID if appropriate"
     cis_benchmark: {
@@ -7504,9 +7526,9 @@ benchmark_configs: {
     remediation:
       "Run the following command to configure the audit log directory to have a mode of "
       "\"0750\" or less permissive:\n"
-      "```"
-      "# chmod g-w,o-rwx \"$(dirname \"$(awk -F= '/^\\\\s*log_file\\\\s*/{print $2}'"
-      "/etc/audit/auditd.conf | xargs)\")\""
+      "```\n"
+      "# chmod g-w,o-rwx \"$(dirname \"$(awk -F= '/^\\\\s*log_file\\\\s*/{print $2}' "
+      "/etc/audit/auditd.conf | xargs)\")\"\n"
       "```"
     cis_benchmark: {
       profile_level: 1
@@ -7650,15 +7672,17 @@ benchmark_configs: {
   compliance_note: {
     title: "Ensure iptables firewall rules exist for all open ports"
     description: 
-      "Any ports that have been opened on non-loopback addresses need firewall rules to"
+      "Any ports that have been opened on non-loopback addresses need firewall rules to "
       "govern traffic."
     rationale: 
-      "Without a firewall rule configured for open ports default firewall policy will drop all"
+      "Without a firewall rule configured for open ports default firewall policy will drop all "
       "packets to these ports."
     remediation: 
-      "For each port identified in the audit which does not have a firewall rule establish a"
-      "proper rule for accepting inbound connections:"
-      "# iptables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT"
+      "For each port identified in the audit which does not have a firewall rule establish a "
+      "proper rule for accepting inbound connections:\n"
+      "```\n"
+      "# iptables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
@@ -7685,15 +7709,17 @@ benchmark_configs: {
   compliance_note: {
     title: "Ensure ip6tables firewall rules exist for all open ports"
     description: 
-      "Any ports that have been opened on non-loopback addresses need firewall rules to"
+      "Any ports that have been opened on non-loopback addresses need firewall rules to "
       "govern traffic."
     rationale: 
-      "Without a firewall rule configured for open ports default firewall policy will drop all"
+      "Without a firewall rule configured for open ports default firewall policy will drop all "
       "packets to these ports."
     remediation: 
-      "For each port identified in the audit which does not have a firewall rule establish a"
+      "For each port identified in the audit which does not have a firewall rule establish a "
       "proper rule for accepting inbound connections:\n"
-      "# ip6tables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT"
+      "```\n"
+      "# ip6tables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
@@ -7720,7 +7746,8 @@ benchmark_configs: {
   compliance_note: {
     title: "Ensure GDM is removed"
     description: 
-      "The GNOME Display Manager (GDM) is a program that manages graphical display servers and handles graphical user logins. If a Graphical User Interface (GUI) is not required, it should be removed to reduce the attack surface of the system."
+      "The GNOME Display Manager (GDM) is a program that manages graphical display servers and handles graphical user logins.\n"
+      "If a Graphical User Interface (GUI) is not required, it should be removed to reduce the attack surface of the system."
     rationale: 
       "Removing the GNOME Display manager will remove the Graphical User Interface (GUI) from the system."
     remediation: 
@@ -8373,15 +8400,15 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate UIDs exist"
     description:
-      "Although the useradd program will not let you create a duplicate User ID\n"
-      "UID), it is possible for an administrator to manually edit the /etc/passwd\n"
+      "Although the useradd program will not let you create a duplicate User ID "
+      "UID), it is possible for an administrator to manually edit the /etc/passwd "
       "file and change the UID field."
     rationale:
-      "Users must be assigned unique UIDs for accountability and to ensure\n"
+      "Users must be assigned unique UIDs for accountability and to ensure "
       "appropriate access protections."
     remediation:
-      "Based on the results of the audit script, establish unique UIDs and review all\n"
-      "files owned by the shared UIDs to determine which UID they are supposed to\n"
+      "Based on the results of the audit script, establish unique UIDs and review all "
+      "files owned by the shared UIDs to determine which UID they are supposed to "
       "belong to."
     cis_benchmark: {
       profile_level: 1
@@ -8425,13 +8452,13 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate GIDs exist"
     description:
-      "Although the groupadd program will not let you create a duplicate Group ID\n"
-      "GID), it is possible for an administrator to manually edit the /etc/group file\n"
+      "Although the groupadd program will not let you create a duplicate Group ID "
+      "GID), it is possible for an administrator to manually edit the /etc/group file "
       "and change the GID field."
     rationale: "User groups must be assigned unique GIDs for accountability and to ensure appropriate access protections."
     remediation:
-      "Based on the results of the audit script, establish unique GIDs and review all\n"
-      "files owned by the shared GID to determine which group they are supposed to\n"
+      "Based on the results of the audit script, establish unique GIDs and review all "
+      "files owned by the shared GID to determine which group they are supposed to "
       "belong to."
     cis_benchmark: {
       profile_level: 1
@@ -8475,18 +8502,18 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate user names exist"
     description:
-      "Although the useradd program will not let you create a duplicate user name, it\n"
-      "is possible for an administrator to manually edit the /etc/passwd file and\n"
+      "Although the useradd program will not let you create a duplicate user name, it "
+      "is possible for an administrator to manually edit the /etc/passwd file and "
       "change the user name."
     rationale:
-      "If a user is assigned a duplicate user name, it will create and have access to\n"
-      "files with the first UID for that username in /etc/passwd . For example, if\n"
-      "\"test4\" has a UID of 1000 and a subsequent \"test4\" entry has a UID of 2000\n"
-      "logging in as \"test4\" will use UID 1000. Effectively the UID is shared which\n"
+      "If a user is assigned a duplicate user name, it will create and have access to "
+      "files with the first UID for that username in /etc/passwd . For example, if "
+      "\"test4\" has a UID of 1000 and a subsequent \"test4\" entry has a UID of 2000 "
+      "logging in as \"test4\" will use UID 1000. Effectively the UID is shared which "
       "is a security problem."
     remediation:
-      "Based on the results of the audit script, establish unique user names for the\n"
-      "users. File ownerships will automatically reflect the change as long as the\n"
+      "Based on the results of the audit script, establish unique user names for the "
+      "users. File ownerships will automatically reflect the change as long as the "
       "users have unique UIDs."
     cis_benchmark: {
       profile_level: 1
@@ -8530,16 +8557,16 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no duplicate group names exist"
     description:
-      "Although the groupadd program will not let you create a duplicate group name,\n"
-      "it is possible for an administrator to manually edit the /etc/group file and\n"
+      "Although the groupadd program will not let you create a duplicate group name, "
+      "it is possible for an administrator to manually edit the /etc/group file and "
       "change the group name."
     rationale:
-      "If a group is assigned a duplicate group name, it will create and have access\n"
-      "to files with the first GID for that group in /etc/group . Effectively, the\n"
+      "If a group is assigned a duplicate group name, it will create and have access "
+      "to files with the first GID for that group in /etc/group . Effectively, the "
       "GID is shared, which is a security problem."
     remediation:
-      "Based on the results of the audit script, establish unique names for the user\n"
-      "groups. File group ownerships will automatically reflect the change as long as\n"
+      "Based on the results of the audit script, establish unique names for the user "
+      "groups. File group ownerships will automatically reflect the change as long as "
       "the groups have unique GIDs."
     cis_benchmark: {
       profile_level: 1
@@ -8582,17 +8609,17 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure shadow group is empty"
     description:
-      "The shadow group allows system programs which require access the ability to\n"
+      "The shadow group allows system programs which require access the ability to "
       "read the /etc/shadow file. No users should be assigned to the shadow group."
     rationale:
-      "Any users assigned to the shadow group would be granted read access to the\n"
-      "etc/shadow file. If attackers can gain read access to the /etc/shadow file,\n"
-      "they can easily run a password cracking program against the hashed passwords\n"
-      "to break them. Other security information that is stored in the /etc/shadow\n"
-      "file (such as expiration) could also be useful to subvert additional user\n"
+      "Any users assigned to the shadow group would be granted read access to the "
+      "etc/shadow file. If attackers can gain read access to the /etc/shadow file, "
+      "they can easily run a password cracking program against the hashed passwords "
+      "to break them. Other security information that is stored in the /etc/shadow "
+      "file (such as expiration) could also be useful to subvert additional user "
       "accounts."
     remediation:
-      "Remove all users from the shadow group, and change the primary group of any\n"
+      "Remove all users from the shadow group, and change the primary group of any "
       "users with shadow as their primary group."
     cis_benchmark: {
       profile_level: 1
@@ -9345,13 +9372,19 @@ benchmark_configs: {
     remediation:
       "- IF - systemd-timesyncd is in use on the system, run the following commands:\n"
       "Run the following command to unmask systemd-timesyncd.service:\n"
+      "```\n"
       "# systemctl unmask systemd-timesyncd.service\n"
+      "```\n"
       "Run the following command to enable and start systemd-timesyncd.service:\n"
+      "```\n"
       "# systemctl --now enable systemd-timesyncd.service\n"
+      "```\n"
       "- OR -\n"
       "If another time synchronization service is in use on the system, run the following "
       "command to stop and mask systemd-timesyncd:\n"
+      "```\n"
       "# systemctl --now mask systemd-timesyncd.service"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
@@ -9486,22 +9519,22 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure chrony is configured"
     description:
-      "chrony is a daemon which implements the Network Time Protocol (NTP) is\n"
-      "designed to synchronize system clocks across a variety of systems and use a\n"
-      "source that is highly accurate. More information on chrony can be found at\n"
-      "http://chrony.tuxfamily.org/. chrony can be configured to be a client and/or a\n"
+      "chrony is a daemon which implements the Network Time Protocol (NTP) is "
+      "designed to synchronize system clocks across a variety of systems and use a "
+      "source that is highly accurate. More information on chrony can be found at "
+      "http://chrony.tuxfamily.org/. chrony can be configured to be a client and/or a "
       "server."
     rationale:
-      "If chrony is in use on the system proper configuration is vital to ensuring\n"
-      "time synchronization is working properly. This recommendation only applies if\n"
+      "If chrony is in use on the system proper configuration is vital to ensuring "
+      "time synchronization is working properly. This recommendation only applies if "
       "chrony is in use on the system."
     remediation:
       "Add or edit server or pool lines to /etc/chrony.conf as appropriate:\n"
       "```\n"
       "server <remote-server>\n"
       "```\n"
-      "Configure chrony to run as the chrony user by configuring the appropriate\n"
-      "startup script for your distribution. Startup scripts are typically stored in\n"
+      "Configure chrony to run as the chrony user by configuring the appropriate "
+      "startup script for your distribution. Startup scripts are typically stored in "
       "etc/init.d or /etc/systemd"
     cis_benchmark: {
       profile_level: 1
@@ -9708,14 +9741,18 @@ benchmark_configs: {
     remediation:
       "Run the following commands to stop isc-dhcp-server.service and isc-dhcp-"
       "server6.service and remove the isc-dhcp-server package:\n"
+      "```\n"
       "# systemctl stop isc-dhcp-server.service isc-dhcp-server6.service\n"
       "# apt purge isc-dhcp-server\n"
+      "```\n"
       "- OR -\n"
       "- IF - the isc-dhcp-server package is required as a dependency:\n"
       "Run the following commands to stop and mask isc-dhcp-server.service and isc-"
       "dhcp-server6.service:\n"
+      "```\n"
       "# systemctl stop isc-dhcp-server.service isc-dhcp-server6.service\n"
       "# systemctl mask isc-dhcp-server isc-dhcp-server6.service"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -9909,13 +9946,17 @@ benchmark_configs: {
       "potential attack surface."
     remediation:
       "Run the following commands to stop dnsmasq.service and remove dnsmasq package:\n"
+      "```\n"
       "# systemctl stop dnsmasq.service\n"
       "# apt purge dnsmasq\n"
+      "```\n"
       "- OR -\n"
       "- IF - the dnsmasq package is required as a dependency:\n"
       "Run the following commands to stop and mask the dnsmasq.service:\n"
+      "```\n"
       "# systemctl stop dnsmasq.service\n"
-      "# systemctl mask dnsmasq.service"
+      "# systemctl mask dnsmasq.service\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10041,7 +10082,7 @@ benchmark_configs: {
       "    files_to_check:{files_in_dir:{"
       "      dir_path:\"/etc/systemd/system\""
       "      recursive: true"
-      "      filename_regex: \"(nginx|apache2).service\""
+      "      filename_regex: \"(nginx|apache2|httpd).service\""
       "    }}"
       "    existence:{should_exist: false}"
       "    non_compliance_msg: \"a config file in /etc/systemd/system enables (nginx|apache2)\""
@@ -10333,7 +10374,7 @@ benchmark_configs: {
       "/etc/modprobe.d/ directory\n"
       "• Create a file ending in .conf with blacklist tipc in the /etc/modprobe.d/ "
       "directory\n"
-      "• Run modprobe -r tipc 2>/dev/null; rmmod tipc 2>/dev/null to remove "
+      "• Run `modprobe -r tipc 2>/dev/null; rmmod tipc 2>/dev/null` to remove "
       "tipc from the kernel\n"
       "- IF - the tipc kernel module is not available on the system, or pre-compiled into the "
       "kernel, no remediation is necessary"
@@ -10457,7 +10498,7 @@ benchmark_configs: {
       "/etc/modprobe.d/ directory\n"
       "• Create a file ending in .conf with blacklist rds in the /etc/modprobe.d/ "
       "directory\n"
-      "• Run modprobe -r rds 2>/dev/null; rmmod rds 2>/dev/null to remove "
+      "• Run `modprobe -r rds 2>/dev/null; rmmod rds 2>/dev/null` to remove "
       "rds from the kernel\n"
       "- IF - the rds kernel module is not available on the system, or pre-compiled into the "
       "kernel, no remediation is necessary"
@@ -10584,7 +10625,7 @@ benchmark_configs: {
       "/etc/modprobe.d/ directory\n"
       "• Create a file ending in .conf with blacklist sctp in the /etc/modprobe.d/ "
       "directory\n"
-      "• Run modprobe -r sctp 2>/dev/null; rmmod sctp 2>/dev/null to remove "
+      "• Run `modprobe -r sctp 2>/dev/null; rmmod sctp 2>/dev/null` to remove "
       "sctp from the kernel\n"
       "- IF - the sctp kernel module is not available on the system, or pre-compiled into the "
       "kernel, no remediation is necessary"
@@ -10780,7 +10821,9 @@ benchmark_configs: {
       "of the system."
     remediation:
       "Run the following command to install nftables\n"
+      "```\n"
       "# yum install nftables"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -11080,11 +11123,15 @@ benchmark_configs: {
     remediation: 
       "Run the following command for the base chains with the input, forward, and output "
       "hooks to implement a default DROP policy:\n"
+      "```\n"
       "# nft chain <table family> <table name> <chain name> { policy drop \\\\; }\n"
+      "```\n"
       "Example:\n"
+      "```\n"
       "# nft chain inet filter input { policy drop \\\\; }\n"
       "# nft chain inet filter forward { policy drop \\\\; }\n"
       "# nft chain inet filter output { policy drop \\\\; }\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
@@ -11229,13 +11276,17 @@ benchmark_configs: {
     remediation:
       "Run the following commands to stop xinetd.service, and remove the xinetd "
       "package:\n"
+      "```\n"
       "# systemctl stop xinetd.service\n"
       "# apt purge xinetd\n"
+      "```\n"
       "-OR-\n"
       "-IF- the xinetd package is required as a dependency:\n"
       "Run the following commands to stop and mask the xinetd.service:\n"
+      "```\n"
       "# systemctl stop xinetd.service\n"
-      "# systemctl mask xinetd.service"
+      "# systemctl mask xinetd.service\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -11290,7 +11341,9 @@ benchmark_configs: {
       "- IF - a Graphical Desktop Manager or X-Windows server is not required and approved "
       "by local site policy:\n"
       "Run the following command to remove the X Windows Server package:\n"
-      "# apt purge xserver-common"
+      "```\n"
+      "# apt purge xserver-common\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 2
       severity: LOW
@@ -11380,10 +11433,10 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure rsync service is not enabled"
     description:
-      "The rsyncd service can be used to synchronize files between systems over\n"
+      "The rsyncd service can be used to synchronize files between systems over "
       "network links."
     rationale:
-      "The rsyncd service presents a security risk as it uses unencrypted protocols\n"
+      "The rsyncd service presents a security risk as it uses unencrypted protocols "
       "for communication."
     remediation:
       "Run one of the following commands to disable rsyncd:\n"
@@ -11424,7 +11477,7 @@ benchmark_configs: {
       "removed, it is best to ensure the clients are also removed to prevent "
       "users from inadvertently attempting to use these commands and "
       "therefore exposing their credentials. Note that removing the rsh "
-      "package removes the clients for rsh , rcp and rlogin ."
+      "package removes the clients for rsh , rcp and rlogin."
     remediation:
       "Uninstall rsh using the appropriate package manager or manual "
       "installation:\n"
@@ -11541,9 +11594,11 @@ benchmark_configs: {
     remediation:
       "Uninstall openldap-clients using the appropriate package manager or "
       "manual installation:"
+      "```\n"
       "# yum remove openldap-clients\n"
       "# apt-get remove openldap-clients\n"
-      "# zypper remove openldap-clients"
+      "# zypper remove openldap-clients\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -11655,15 +11710,15 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure ICMP redirects are not accepted"
     description:
-      "ICMP redirect messages are packets that convey routing information and tell\n"
-      "your host (acting as a router) to send packets via an alternate path. It is a\n"
-      "way of allowing an outside routing device to update your system routing\n"
-      "tables. By setting net.ipv4.conf.all.accept_redirects and net.ipv6.conf.all\n"
-      "accept_redirects to 0, the system will not accept any ICMP redirect messages,\n"
+      "ICMP redirect messages are packets that convey routing information and tell "
+      "your host (acting as a router) to send packets via an alternate path. It is a "
+      "way of allowing an outside routing device to update your system routing "
+      "tables. By setting net.ipv4.conf.all.accept_redirects and net.ipv6.conf.all "
+      "accept_redirects to 0, the system will not accept any ICMP redirect messages, "
       "and therefore, won't allow outsiders to update the system's routing tables."
     rationale:
-      "Attackers could use bogus ICMP redirect messages to maliciously alter the\n"
-      "system routing tables and get them to send packets to incorrect networks and\n"
+      "Attackers could use bogus ICMP redirect messages to maliciously alter the "
+      "system routing tables and get them to send packets to incorrect networks and "
       "allow your system packets to be captured."
     remediation:
       "Set the following parameters in /etc/sysctl.conf or a /etc/sysctl.d/* file:\n"
@@ -12372,7 +12427,7 @@ benchmark_configs: {
       "regular users from accessing this directory."
     rationale:
       "Granting write access to this directory for non-privileged users could "
-      "provide them the means for gaining unauthorized elevated privileges. "
+      "provide them the means for gaining unauthorized elevated privileges.\n"
       "Granting read access to this directory could give an unprivileged "
       "user insight in how to gain elevated privileges or circumvent auditing "
       "controls."
@@ -12408,7 +12463,7 @@ benchmark_configs: {
     description:
       "The /etc/cron.d directory contains system cron jobs that need to run in "
       "a similar manner to the hourly, daily weekly and monthly jobs from "
-      "/etc/crontab, but require more granular control as to when they run. "
+      "/etc/crontab, but require more granular control as to when they run.\n"
       "The files in this directory cannot be manipulated by the crontab "
       "command, but are instead edited by system administrators using a text "
       "editor. The commands below restrict read/write and search access to "
@@ -12780,8 +12835,8 @@ benchmark_configs: {
       "incorrectly written script or program that could potentially be the "
       "cause of a larger compromise to the system's integrity."
     remediation:
-      "Removing write access for the \"other\" category (chmod o-w <filename>)"
-      " is advisable, but always consult relevant vendor documentation to "
+      "Removing write access for the \"other\" category (chmod o-w <filename>) "
+      "is advisable, but always consult relevant vendor documentation to "
       "avoid breaking any application dependencies on a given file. If the "
       "permissions of a file can't be restricted, add it to the CIS scanner's "
       "exclusion list."
@@ -13090,7 +13145,7 @@ benchmark_configs: {
     title: "Ensure root PATH Integrity"
     description:
       "The root user can execute any command on the system and could be fooled "
-      "into executing programs unintentionally if the PATH is not set correctly"
+      "into executing programs unintentionally if the PATH is not set correctly."
     rationale:
       "Including the current working directory (.) or other writable directory "
       "in root's executable path makes it likely that an attacker can gain "
@@ -13249,7 +13304,9 @@ benchmark_configs: {
       "difficult to enable SELinux in the future\n"
       "Note: you can set individual domains to permissive mode while the system runs in enforcing "
       "mode. For example, to make the httpd_t domain permissive:\n"
+      "```\n"
       "# semanage permissive -a httpd_t"
+      "```\n"
     rationale:
       "Running SELinux in disabled mode is strongly discouraged; not only does the system avoid "
       "enforcing the SELinux policy, it also avoids labeling any persistent objects such as files, "
@@ -13257,9 +13314,13 @@ benchmark_configs: {
     remediation:
       "Run one of the following commands to set SELinux's running mode:\n"
       "To set SELinux mode to Enforcing:\n"
+      "```\n"
       "# setenforce 1\n"
+      "```\n"
       "To set SELinux mode to Permissive:\n"
+      "```\n"
       "# setenforce 0\n"
+      "```\n"
       "Edit the /etc/selinux/config file to set the SELINUX parameter:\n"
       "For Enforcing mode:\n"
       "SELINUX=enforcing\n"
@@ -13345,7 +13406,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM login banner is configured"
     description:
-      "GDM is the GNOME Display Manager which handles graphical login for GNOME based"
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based "
       "systems."
     rationale:
       "Warning messages inform users who are attempting to login to the system of their legal "
@@ -13358,14 +13419,18 @@ benchmark_configs: {
       "user-db:user\n"
       "system-db:gdm\n"
       "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
-      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically "
       "/etc/dconf/db/gdm.d/01-banner-message)\n"
+      "```\n"
       "[org/gnome/login-screen]\n"
       "banner-message-enable=true\n"
       "banner-message-text=\"'<banner message>'\n"
+      "```\n"
       "Example Banner Text: 'Authorized users only. All activity may be monitored and reported.'\n"
       "Run the following command to update the system databases:\n"
+      "```\n"
       "# dconf update"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -13437,16 +13502,22 @@ benchmark_configs: {
       "documentation to disable displaying the last logged on user."
     remediation:
       "Edit or create the file /etc/dconf/profile/gdmand add the following:\n"
+      "```\n"
       "user-db:user\n"
       "system-db:gdm\n"
       "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "```\n"
       "Edit or create the file /etc/dconf/db/gdm.d/ and add the following: (This is typically\n"
+      "```\n"
       "/etc/dconf/db/gdm.d/00-1ogin-screen)\n"
       "[org/gnome/login-screen]\n"
       "# Do not show the user list\n"
       "disable-user-list=true\n"
+      "```\n"
       "Run the following command to update the system databases:\n"
-      "# dconf update"
+      "```\n"
+      "# dconf update\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -13509,11 +13580,14 @@ benchmark_configs: {
       "steal the credentials of legitimate users by impersonating the XDMCP server."
     remediation:
       "Edit the file /etc/gdm/custom.conf and remove the line\n"
+      "```\n"
       "Enable=true\n"
-      "Default Value:\n"
-      "false \n"
+      "Default Value: false\n"
+      "```\n"
       "# This is denoted by no Enabled= entry in the file /etc/gdm/custom.conf in the\n"
+      "```\n"
       "# [xdmcp] section\n"
+      "```\n"
       "# References:\n"
       "# 1. https://help.gnome.org/admin/gdm/2.32/configuration.html.en\n"
     cis_benchmark: {
@@ -13567,9 +13641,13 @@ benchmark_configs: {
     remediation:
       "Edit /etc/postfix/main.ct and add the following line to the RECEIVING MAIL section. If\n"
       "the line already exists, change it to look like the line below:\n"
+      "```\n"
       "inet_interfaces = loopback-only\n"
+      "```\n"
       "Run the following command to restart postfix:\n"
+      "```\n"
       "# systemctl restart postfix"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -14301,7 +14379,9 @@ benchmark_configs: {
       "lost."
     remediation:
       "Run the following command to save any configuration to file:\n"
-      "# service iptables save"
+      "```\n"
+      "# service iptables save\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -14569,11 +14649,15 @@ benchmark_configs: {
     rationale: "Running both iptables and nftables may lead to conflict."
     remediation:
       "Run the following command to remove nftables:\n"
+      "```\n"
       "# apt purge nftables\n"
+      "```\n"
       "- OR -\n"
       "Run the following commands to stop and mask nftables.service:\n"
+      "```\n"
       "# systemctl stop nftables.service\n"
-      "# systemctl mask nftables.service"
+      "# systemctl mask nftables.service\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -14813,7 +14897,9 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and set $FilecreateMode to "
       "0640 or more restrictive:\n"
+      "```\n"  
       "$FileCreateMode 0640\n"
+      "```\n"
       "References:\n"
       "1. See the rsyslog.conf(5) man page for more information."
     cis_benchmark: {
@@ -14880,7 +14966,9 @@ benchmark_configs: {
       "$InputTCPServerRun\n"
       "```\n"
       "Reload the service:\n"
+      "```\n"
       "# systemctl reload-or-restart rsyslog"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -14973,8 +15061,10 @@ benchmark_configs: {
       "Merge and load the rules:\n"
       "# augenrules --load\n"
       "Check if reboot is required:\n"
-      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
-  
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi\n"
+      "```\n"
+      
   cis_benchmark: {
     profile_level: 2
     severity: LOW
@@ -15035,7 +15125,7 @@ benchmark_configs: {
     "of the audit system and ensuring accurate logging of events."
     remediation:
       "Run the following command to set the correct ownership for the audit tools:\n"
-      "```bash\n"
+      "```\n"
       "chown root:root /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\n"
       "```\n"
     cis_benchmark: {
@@ -15319,9 +15409,13 @@ benchmark_configs: {
       "find / -xdev -perm /6000 -type f 2>/dev/null | awk -v UID_MIN=${UID_MIN} '{ print \"-a always,exit -F path=\" $1 \" -F perm=x -F auid>=\" UID_MIN \" -F auid!=unset -k privileged\" }' > ${AUDIT_RULE_FILE}\n"
       "```\n"
       "Merge and load the rules:\n"
+      "```\n"
       "# augenrules --load\n"
+      "```\n"
       "Check if reboot is required:\n"
+      "```\n"
       "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
+      "```\n"
   cis_benchmark: {
     profile_level: 2
     severity: MEDIUM
@@ -15382,7 +15476,9 @@ benchmark_configs: {
       "printf '%s\n' \"\" \"\\\\$FileCreateMode 0640\" >> /etc/rsyslog.d/60-rsyslog.conf\n"
       "}\n"
       "Reload the service:\n"
-      "# systemctl reload-or-restart rsyslog"
+      "```\n"
+      "# systemctl reload-or-restart rsyslog\n"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -15442,18 +15538,24 @@ benchmark_configs: {
     remediation:
       "Edit the /etc/rsyslog.conf and /etc/rsyslog.d/*.conf files and add one of the following"
       "lines:\n"
+      "```\n"
       "<files to sent to the remote log server> action (type=\"omfwd\" target=\"<FQDN or"
       "ip of loghost>\" port=\"<port number>\" protocol=\"tcp\""
       "<number of re-tries>\"\n"
       "queue.type=\"LinkedList\"\n"
       "action.resumeRetryCount\n"
       "queue.size=<number of messages to queue>\")\n"
+      "```\n"
       "Example:\n"
+      "```\n"
       "*.* action (type=\"omfwd\" target=\"192.168.2.100\" port=\"514\" protocol=\"tcp\""
       "action.resumeRetryCount=\"100\""
       "queue. type=\"LinkedList\" queue.size=\"1000\")\n"
+      "```\n"
       "Run the following command to reload the rsys1og configuration:\n"
+      "```\n"
       "# systemctl restart rsyslog\n"
+      "```\n"
       "References:\n"
       "1. See the rsyslog.conf(5) man page for more information."
     cis_benchmark: {
@@ -15536,7 +15638,9 @@ benchmark_configs: {
       "stored on the local system."
     remediation:
       "Edit the /etc/systemd/journald.conf file and add the following line:\n"
+      "```\n"
       "ForwardToSyslog=yes\n"
+      "```\n"
       "References:\n"
       "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
       "mdjournaldconf"
@@ -15582,7 +15686,9 @@ benchmark_configs: {
       "impacts."
     remediation:
       "Edit the /etc/systemd/journald.cont file and add the following line:\n"
+      "```\n"
       "Compress=yes\n"
+      "```\n"
       "References:\n"
       "1. https://github.com/konstruktoid/hardening/blob/master/systemd.adoc#etcsyste"
       "mdjournaldconf"
@@ -15717,7 +15823,9 @@ benchmark_configs: {
       "entered within a configurable time limit. This limit is policy-specific."
     remediation:
       "first determine is LDAP functionality is required. If so, then install sudo-ldap, else install sudo.\n"
+      "```\n"
       "# apt install sudo"
+      "```\n"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -17883,11 +17991,11 @@ benchmark_configs: {
     remediation:
       "Run the following command to remove more permissive mode than 0640 from audit log "
       "files:\n"
-      "```"
-      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\""
-      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f -perm"
-      "/0137 -exec chmod u-x,g-wx,o-rwx {} +"
-      "```"
+      "```\n"
+      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\" "
+      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f -perm "
+      "/0137 -exec chmod u-x,g-wx,o-rwx {} +\n"
+      "```\n"
   cis_benchmark: {
     profile_level: 2
     severity: MEDIUM
@@ -17923,6 +18031,7 @@ benchmark_configs: {
     "compromising its confidentiality."
     remediation:
       "Run the following command to configure the audit log files to be group owned by adm:\n"
+      "```\n"
       "# find $(dirname $(awk -F\"=\" '/^\\\\s*log_file/ {print $2}'\n"
       "/etc/audit/auditd.conf | xargs)) -type f \\\\( ! -group adm -a ! -group root \\\\)"
       "-exec chgrp adm {} +\n"
@@ -17931,11 +18040,11 @@ benchmark_configs: {
       "/etc/audit/auditd.conf\n"
       "Run the following command to restart the audit daemon to reload the configuration file:\n"
       "```\n"
-      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\""
-      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f ! -user"
+      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\" "
+      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f ! -user "
       "root -exec chown root {} +"
-      "```"
       "# systemctl restart audit"
+      "```\n"
   cis_benchmark: {
     profile_level: 2
     severity: MEDIUM
