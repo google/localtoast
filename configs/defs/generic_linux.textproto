@@ -17007,3 +17007,45 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-cryptographic-mechanisms-audit-tools"
+  compliance_note: {
+    title: "Ensure cryptographic mechanisms are used to protect the integrity of audit tools"
+    description: 
+      "Audit tools include vendor-provided and open source tools needed to view and manipulate audit information. "
+      "Protecting their integrity ensures audit data remains secure and trustworthy."
+    rationale: 
+      "Attackers may modify or replace audit tools to hide or erase activity from logs. Cryptographic signatures enable "
+      "detection of unauthorized changes."
+    remediation: 
+      "Configure AIDE to monitor audit tool files with cryptographic integrity checks. Edit /etc/aide/aide.conf and add "
+      "or update the following entries:\n" 
+      "```\n"
+      "# Audit Tools\n" 
+      "/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
+      "/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
+      "/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
+      "/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
+      "/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
+      "/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/aide/aide.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"/sbin/(auditctl|auditd|ausearch|aureport|autrace|augenrules)\\\\s+p\\\\+i\\\\+n\\\\+u\\\\+g\\\\+s\\\\+b\\\\+acl\\\\+xattrs\\\\+sha512.*\""
+      "          expected_regex: \"/sbin/(auditctl|auditd|ausearch|aureport|autrace|augenrules)\\\\s+p\\\\+i\\\\+n\\\\+u\\\\+g\\\\+s\\\\+b\\\\+acl\\\\+xattrs\\\\+sha512.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
