@@ -17880,6 +17880,53 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "ensure-audit-log-group-configured"
+  compliance_note: {
+    title: "Ensure audit log files group owner is configured"
+    description: "Audit log files contain information about the system and system activity."
+    rationale: "Restricting access to audit configuration files ensures that only authorized personnel can modify "
+    "the settings, preventing the disabling of critical auditing or misconfigurations that may impact performance "
+    "or investigation efforts."
+    remediation:
+     "Run the following command to configure the audit log files to be group owned by adm:\n"
+     "```\n"
+     "# find $(dirname $(awk -F\"=\" '/^\\\\s*log_file/ {print $2}' "
+     "/etc/audit/auditd.conf | xargs)) -type f \\\\( ! -group adm -a ! -group root \\\\) "
+     "-exec chgrp adm {} +\n"
+     "```\n"
+     "Run the following command to set the log_group parameter in the audit configuration\n"
+     "file to log_group = adm:\n"
+     "```\n"
+     "# sed -ri 's/^\\\\s*#?\\\\s*log_group\\\\s*=\\\\s*\\\\S+(\\\\s*#.*)?.*$/log_group = adm\1/' "
+     "/etc/audit/auditd.conf\n"
+     "```\n"
+     "Run the following command to restart the audit daemon to reload the configuration file:\n"
+     "```\n"
+     "# systemctl restart audit\n"
+     "```"
+  cis_benchmark: {
+    profile_level: 2
+    severity: MEDIUM
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "    file_checks:{"
+    "      files_to_check:{single_file:{path:\"/var/log/audit/audit.log\"}}"
+    "      existence:{should_exist:true}"
+    "    }"
+    "      file_checks:{"
+    "        files_to_check:{single_file:{"
+    "          path:\"/var/log/audit/audit.log\""
+    "        }}"
+    "        permission:{"
+    "          group: {name: \"adm\" should_own: true}"
+    "        }"
+    "      }"
+    "    }"
+    "}"
+  }
+}
 
 
 benchmark_configs: {
