@@ -17139,3 +17139,38 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "audit-backlog-limit-sufficient"
+  compliance_note: {
+    title: "Ensure Audit Backlog Limit is Sufficient"
+    description: 
+      "This configuration ensures that the audit subsystem's queue for audit events has a sufficient backlog limit to "
+      "prevent loss of audit data during high activity periods."
+    rationale: 
+      "Setting a sufficient audit backlog limit minimizes the risk of losing critical audit data, enhancing the reliability "
+      "of audit records in detecting potential malicious activities."
+    remediation: 
+      "Edit `/etc/default/grub` to include `audit_backlog_limit=8192` or a higher value in the `GRUB_CMDLINE_LINUX` "
+      "configuration. Update the GRUB configuration with the command `update-grub`."
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\b(audit_backlog_limit=(8192|[89][0-9]{3,}|[1-9][0-9]{4,}))\\b.*\""
+      "          expected_regex: \"\\b(audit_backlog_limit=(8192|[89][0-9]{3,}|[1-9][0-9]{4,}))\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
