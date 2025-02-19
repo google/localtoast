@@ -17049,3 +17049,52 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-journald-forwardtosyslog-disabled"
+  compliance_note: {
+    title: "Ensure journald ForwardToSyslog is disabled"
+    description: 
+      "Data from journald should be kept within the service and not forwarded to other logging mechanisms."
+    rationale: 
+      "Logs should be handled exclusively by journald to prevent unnecessary forwarding and enhance security."
+    remediation: 
+      "Set the following parameter in the [Journal] section of /etc/systemd/journald.conf or a file in "
+      "/etc/systemd/journald.conf.d/ ending in .conf:\n" 
+      "```\n"
+      "[Journal]\n" 
+      "ForwardToSyslog=no\n\n" 
+      "```\n"
+      "After updating the configuration, reload or restart systemd-journald:\n\n" 
+      "```\n"
+      "# systemctl reload-or-restart systemd-journald\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/journald.conf.d/\", filename_regex:\".*\\\\.conf\", recursive:false}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*\\\\s*ForwardToSyslog\\\\s*=\\\\s*yes.*\""
+      "          expected_regex: \"[^#]*\\\\s*ForwardToSyslog\\\\s*=\\\\s*yes.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/journald.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*\\\\s*ForwardToSyslog\\\\s*=\\\\s*no.*\""
+      "          expected_regex:  \"[^#]*\\\\s*ForwardToSyslog\\\\s*=\\\\s*no.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
