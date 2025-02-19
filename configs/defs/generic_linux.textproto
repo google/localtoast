@@ -17388,3 +17388,39 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-ftp-client-not-installed"
+  compliance_note: {
+    title: "Ensure FTP client is not installed"
+    description: 
+      "FTP (File Transfer Protocol) is a traditional and widely used standard tool for transferring files between a server "
+      "and clients over a network. However, FTP does not protect the confidentiality of data or authentication credentials. \n"
+      "It is recommended to use SFTP if file transfer is required.\n"
+      "Unless the system needs to run as an FTP server, it is recommended to remove the FTP package to reduce the potential "
+      "attack surface."
+    rationale: 
+      "FTP does not protect data confidentiality or authentication credentials, making it vulnerable to interception. "
+      "Removing unnecessary FTP clients reduces potential security risks."
+    remediation: 
+      "Run the following command to uninstall FTP:\n"
+      "```\n"
+      "# apt purge ftp\n"
+      "```\n"
+      "Ensure alternative secure protocols like SFTP are used if file transfer is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ftp\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ftp\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/ftp\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/ftp\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
