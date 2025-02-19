@@ -17098,3 +17098,44 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-journald-storage-configured"
+  compliance_note: {
+    title: "Ensure journald Storage is configured"
+    description: 
+      "Data from journald may be stored in volatile memory or persisted locally on the server. Logs in memory will be "
+      "lost upon a system reboot. By persisting logs to local disk on the server, they are protected from loss due to a reboot."
+    rationale: 
+      "Writing log data to disk provides the ability to forensically reconstruct events which may have impacted the operations "
+      "or security of a system even after a system crash or reboot."
+    remediation: 
+      "Set the following parameter in the [Journal] section of /etc/systemd/journald.conf or a file in "
+      "/etc/systemd/journald.conf.d/ ending in .conf:\n" 
+      "```\n"
+      "[Journal]\n" 
+      "Storage=persistent\n" 
+      "```\n"
+      "After updating the configuration, reload or restart systemd-journald:\n" 
+      "```\n"
+      "# systemctl reload-or-restart systemd-journald\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/\", filename_regex:\".*\\\\.conf\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*\\\\s*Storage\\\\s*=\\\\s*(persistent|auto|volatile).*\""
+      "          expected_regex: \"[^#]*\\\\s*Storage\\\\s*=\\\\s*persistent\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
