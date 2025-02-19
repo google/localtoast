@@ -16494,3 +16494,40 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "password-dictionary-check-enabled"
+  compliance_note: {
+    title: "Ensure Password Dictionary Check is Enabled"
+    description: 
+      "The configuration ensures that passwords are checked against a dictionary to avoid the use of weak or predictable "
+      "passwords, enhancing password security."
+    rationale: 
+      "Using a policy to enable dictionary checks increases the security of passwords by reducing the chance of using "
+      "dictionary words or predictable combinations, mitigating brute-force attacks."
+    remediation: 
+      "Edit any file ending in `.conf` in `/etc/security/pwquality.conf.d/` or the file `/etc/security/pwquality.conf` "
+      "and ensure the following configuration is included:\n"
+      "```\n"
+      "dictcheck = 1"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bdictcheck\\\\s*=\\\\s*1.*\""
+      "          expected_regex: \"[^#]*\\\\bdictcheck\\\\s*=\\\\s*1.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
