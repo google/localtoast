@@ -15528,6 +15528,59 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-accounts-without-valid-shell-locked"
+  compliance_note: {
+    title: "Ensure accounts without a valid login shell are locked"
+    description:
+      "Accounts that are not intended for interactive login should have their login "
+      "shell set to nologin or a similar shell that prevents interactive sessions. "
+      "Additionally, these accounts should be locked to prevent potential misuse."
+    rationale:
+      "It is important to make sure that accounts not used by regular users are prevented "
+      "from being used for interactive sessions. Most distributions set these accounts to "
+      "an invalid password or nologin shell by default. Ensuring these accounts are locked "
+      "adds an additional layer of security."
+    remediation:
+      "Run the following command to lock any non-root accounts without a valid login shell "
+      "returned by the audit:\n"
+      "```\n"
+      "# usermod -L <user>\n"
+      "```\n"
+      "Alternatively, set the shell for accounts without valid shells to nologin:\n"
+      "```\n"
+      "# usermod -s $(which nologin) <user>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+      "    repeat_config:{type: FOR_EAC
+      "        filter_regex: \"$user:.*:.*:.*:.*:.*:(/bin/bash|/bin/sh|/bin/zsh|/bin/tcsh|/bin/csh)$\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"Some non-root accounts have valid login shells and are not locked.\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "    repeat_config:{type: FOR_EACH_USER_WITH_LOGIN}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"$user:.*:.*:.*:.*:.*:.*:.*:.*\""
+      "        expected_regex: \"(.*:.*[*!].*:.*:.*:.*:.*:.*:.*:.*)|(root:.*:.*:.*:.*:.*:.*:.*:.*)\""
+      "      }"
+      "    }"
+      "    non_compliance_msg: \"Some non-root accounts are not locked.\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "etc-shells-permissions"
   compliance_note: {
     title: "Ensure permissions on /etc/shells are configured"
