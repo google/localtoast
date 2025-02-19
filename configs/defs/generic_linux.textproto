@@ -16531,3 +16531,40 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "password-quality-check-enforced"
+  compliance_note: {
+    title: "Ensure Password Quality Checking is Enforced"
+    description: 
+      "The configuration ensures that the pam_pwquality module enforces password quality checks by rejecting passwords "
+      "that fail configured policies."
+    rationale: 
+      "Enforcing password quality checks reduces the risk of password compromise by ensuring all passwords meet "
+      "security policies."
+    remediation: 
+      "Edit any file ending in `.conf` in `/etc/security/pwquality.conf.d/` or the file `/etc/security/pwquality.conf` "
+      "to remove or comment out any line containing `enforcing = 0`:\n"
+      "```\n"
+      "# sed -ri 's/^\\h*enforcing\\h*=\\h*0/# &/' /etc/security/pwquality.conf\n"
+      "```\n"
+      "Remove the `enforcing=0` argument from the `pam_pwquality.so` module in PAM files if present."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\benforcing\\\\s*=\\\\s*0.*\""
+      "          expected_regex: \"[^#]*\\\\benforcing\\\\s*=\\\\s*0.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
