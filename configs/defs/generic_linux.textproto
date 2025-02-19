@@ -4202,6 +4202,62 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-sshd-ciphers-configured"
+  compliance_note: {
+    title: "Ensure sshd Ciphers are configured"
+    description: 
+      "This variable limits the ciphers that SSH can use during communication. The only strong ciphers currently FIPS 140 "
+      "compliant are:\n"
+      "- aes256-gcm@openssh.com\n"
+      "- aes128-gcm@openssh.com\n"
+      "- aes256-ctr\n"
+      "- aes192-ctr\n"
+      "- aes128-ctr."
+    rationale: 
+      "Weak ciphers cannot be relied upon to provide confidentiality or integrity. For example, Triple DES ciphers are "
+      "vulnerable to the \"Sweet32\" attack, and block cipher algorithms in CBC mode make systems susceptible to plain text "
+      "recovery attacks."
+    remediation: 
+      "Edit the `/etc/ssh/sshd_config` file and modify the Ciphers line to exclude weak ciphers. Use a comma-separated list "
+      "prefixed by `-` to explicitly deny ciphers:\n"
+      "```\n"
+      "Ciphers -3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc\n"
+      "```\n"
+      "Ensure no weak ciphers are configured."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*3des-cbc(,|$).*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*aes128-cbc(,|$).*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*aes192-cbc(,|$).*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*aes256-cbc(,|$).*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
 benchmark_configs: {
   id: "sshd-config-permissions"
   compliance_note: {
