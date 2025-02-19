@@ -17303,3 +17303,38 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-root-password-is-set"
+  compliance_note: {
+    title: "Ensure root password is set"
+    description: 
+      "There are a number of methods to access the root account directly. Without a password set, any user would be able "
+      "to gain access and control over the entire system."
+    rationale: 
+      "Access to root should be secured at all times."
+    remediation: 
+      "Run the following command to set a password for the root user:\n"
+      "```\n"
+      "# passwd root\n"
+      "```\n"
+      "Note: Ensure no automated processes rely on root access without authentication."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions: 
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_STRICT_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"root:[^!*]+:\""
+      "        expected_regex: \"root:[^!*]+:\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
