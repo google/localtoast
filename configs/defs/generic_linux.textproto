@@ -16707,3 +16707,37 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "pam-unix-remember-not-included"
+  compliance_note: {
+    title: "Ensure pam_unix Does Not Include remember"
+    description: 
+      "The configuration ensures that the pam_unix module does not include the `remember` argument, which stores passwords "
+      "using the MD5 hash. Instead, the pam_pwhistory module should be used for enhanced security."
+    rationale: 
+      "Removing the `remember` argument from pam_unix ensures stronger password hashing algorithms are used, providing "
+      "additional protection against password recovery attacks."
+    remediation: 
+      "Edit any `pam_unix` lines in `/etc/pam.d/common-password`, `/etc/pam.d/common-auth`, `/etc/pam.d/common-account`, "
+      "`/etc/pam.d/common-session`, and `/etc/pam.d/common-session-noninteractive` to remove the `remember` argument.\n"
+      "Ensure no `pam_unix.so` line includes the `remember` argument."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/pam.d/\", filename_regex:\"common-(password|auth|account|session|session-noninteractive)\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex:  \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_unix\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_unix\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
