@@ -3595,6 +3595,66 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "network-fs-service-disabled"
+  compliance_note: {
+    title: " Ensure network file system services are not in use"
+    description:
+      "The Network File System (NFS) is one of the first and most widely distributed file "
+      "systems in the UNIX environment. It provides the ability for systems to mount file "
+      "systems of other servers through the network."
+    rationale:
+      "If the system does not export NFS shares, it is recommended that the nfs-kernel-server "
+      "package be removed to reduce the remote attack surface."
+    remediation:
+      "Run the following command to stop nfs-server.service and remove nfs-kernel-"
+      "server package:\n"
+      "# systemctl stop nfs-server.service\n"
+      "# apt purge nfs-kernel-server\n"
+      "- OR -\n"
+      "- IF - the nfs-kernel-server package is required as a dependency:\n"
+      "Run the following commands to stop and mask the nfs-server.service:\n"
+      "# systemctl stop nfs-server.service\n"
+      "# systemctl mask nfs-server.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"nfs-kernel-server\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"nfs-kernel-server.(service|socket)\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables nfs-kernel-server\""
+      "    file_display_command: \"find /etc/systemd/system -name 'nfs-kernel-server.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"nfs-kernel-server.(service|socket)\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables nfs-kernel-server\""
+      "    file_display_command: \"find /etc/systemd/system -name 'nfs-kernel-server.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
 benchmark_configs: {
   id: "nfs-rpc-disabled"
   compliance_note: {
