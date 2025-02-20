@@ -10197,6 +10197,90 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "events-modifying-system-mac-collected"
+  compliance_note: {
+    title: "Ensure events that modify the system's Mandatory Access Controls are collected"
+    description:
+      "Monitor SELinux/AppArmor mandatory access controls. "
+      "The parameters below monitor any write access (potential additional, deletion or "
+      "modification of files in the directory) or attribute changes to the "
+      "/etc/selinux or /etc/apparmor and /etc/apparmor.d directories."
+    rationale:
+      "Changes to files in these directories could indicate that an unauthorized "
+      "user is attempting to modify access controls and change security contexts, "
+      "leading to a compromise of the system."
+    remediation:
+      "On systems using SELinux Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /etc/selinux/ -p wa -k MAC-policy \n"
+      "-w /usr/share/selinux/ -p wa -k MAC-policy \n"
+      "On systems using AppArmor Edit or create a file in the /etc/audit/rules.d/ "
+      "directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /etc/apparmor/ -p wa -k MAC-policy -w \n"
+      "/etc/apparmor.d/ -p wa -k MAC-policy ```"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/share/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/usr/share/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/share/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/usr/share/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
+      "                existence:{should_exist: false}"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "events-modifying-date-time-info-collected"
   compliance_note: {
     title: "Ensure events that modify date and time information are collected"
