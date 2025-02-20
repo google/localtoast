@@ -17718,6 +17718,81 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "sudolog-actions-collected"
+  compliance_note: {
+    title: "Ensure system administrator actions (sudolog) are collected"
+    description:
+      "Monitor the sudo log file. "
+      "If the system has been properly configured to disable the use of the su command "
+      "and force all administrators to have to log in first and then use sudo to execute "
+      "privileged commands, then all administrator commands will be logged to /var/log/sudo.log . "
+      "Any time a command is executed, an audit event will be triggered as the /var/log/sudo.log "
+      "file will be opened for write and the executed administration command will be written to the log."
+    rationale:
+      "Changes in /var/log/sudo.log indicate that an administrator has executed a "
+      "command or the log file itself has been tampered with. "
+      "Administrators will want to correlate the events written to the audit trail "
+      "with the records written to /var/log/sudo.log to verify if unauthorized commands have been executed."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /var/log/sudo.log -p wa -k actions``` \n"
+      "Notes: \n"
+      "The system must be configured with sudisabled (See Item 5.6 Ensure access to the su "
+      "command is restricted) to force all command execution through sudo. "
+      "This will not be effective on the console, as administrators can log in as root. \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/sudo.log.*-k\\\\s+actions\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/sudo.log\\\\s*-p\\\\s*wa\\\\s*-k\\\\s*actions\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/sudo.log.*-k\\\\s+actions\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/sudo.log\\\\s*-p\\\\s*wa\\\\s*-k\\\\s*actions\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
+      "                existence:{should_exist: false}"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "accounts-in-etc-passwd-use-shadowed-passwords"
   compliance_note: {
     title: "Ensure accounts in /etc/passwd use shadowed passwords"
