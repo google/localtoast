@@ -6940,7 +6940,7 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
-  id: "etc-passwd-passwords-not-empty"
+  id: "etc-shadow-passwords-not-empty"
   compliance_note: {
     title: " Ensure /etc/shadow password fields are not empty"
     description: 
