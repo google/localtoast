@@ -1944,114 +1944,6 @@ benchmark_configs: {
       "}}"
   }
 }
-benchmark_configs: {
-  id: "var-tmp-nodev"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure nodev option set on /var/tmp partition"
-    description:
-      "The nodev mount option specifies that the filesystem cannot contain "
-      "special devices."
-    rationale:
-      "Since the /var/tmp filesystem is not intended to support devices, set "
-      "this option to ensure that users cannot attempt to create block or "
-      "character special devices in /var/tmp."
-    remediation:
-      "Edit the /etc/fstab file and add nodev to the fourth field (mounting "
-      "options) for the /var/tmp partition. See the fstab(5) manual page for "
-      "more information.\n"
-      "Run the following command to remount /var/tmp:\n"
-      "```\n"
-      "# mount -o remount,nodev /var/tmp\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "    content_entry:{"
-      "      match_type: ALL_MATCH_ANY_ORDER"
-      "      match_criteria: {"
-      "        filter_regex: \".* /var/tmp .* - .*\""
-      "        expected_regex: \".* /var/tmp .*nodev.* - .*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".* /var/tmp .* - .*\""
-      "        expected_regex: \".* /var/tmp .* - .*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-      "}}"
-  }
-}
-benchmark_configs: {
-  id: "var-tmp-nosuid"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure nosuid option set on /var/tmp partition"
-    description:
-      "The nosuid mount option specifies that the filesystem cannot contain "
-      "setuid files."
-    rationale:
-      "Since the /var/tmp filesystem is only intended for temporary file "
-      "storage, set this option to ensure that users cannot create setuid "
-      "files in /var/tmp."
-    remediation:
-      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting "
-      "options) for the /var/tmp partition. See the fstab(5) manual page for "
-      "more information.\n"
-      "Run the following command to remount /var/tmp:\n"
-      "```\n"
-      "# mount -o remount,nosuid /var/tmp\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "    content_entry:{"
-      "      match_type: ALL_MATCH_ANY_ORDER"
-      "      match_criteria: {"
-      "        filter_regex: \".* /var/tmp .* - .*\""
-      "        expected_regex: \".* /var/tmp .*nosuid.* - .*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "        filter_regex: \".* /var/tmp .* - .*\""
-      "        expected_regex: \".* /var/tmp .* - .*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-      "}}"
-  }
-}
 
 benchmark_configs: {
   id: "var-nosuid"
@@ -2202,6 +2094,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nodev"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain special devices."
@@ -2281,6 +2175,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nosuid"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/tmp partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain setuid files."
