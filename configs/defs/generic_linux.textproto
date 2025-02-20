@@ -18074,6 +18074,62 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "auditd-installed"
+  compliance_note: {
+    title: "Ensure auditd is installed"
+    description:
+      "auditd is the userspace component to the Linux Auditing System. "
+      "It's responsible for writing audit records to the disk"
+    rationale:
+      "The capturing of system events provides system administrators with "
+      "information to allow them to determine if unauthorized access to their system is occurring."
+    remediation:
+      "Run the following command and verify auditd is installed: \n"
+      "```# dpkg-query -s auditd &>/dev/null && echo auditd is installed\n```"
+      "Run the following command to verify audispd-plugins is installed:\n"
+      "```# dpkg-query -s audispd-plugins &>/dev/null && echo audispd-plugins is installed\n```"
+      "Run the following command to Install auditd and audispd-plugins\n"
+      "```# apt install auditd audispd-plugins\n```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "ensure-audit-log-owner-configured"
   compliance_note: {
     title: "Ensure audit log files owner is configured"
