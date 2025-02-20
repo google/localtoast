@@ -14751,6 +14751,40 @@ benchmark_configs: {
   }
 }
 
+
+benchmark_configs: {
+  id: "ensure-password-unlock-time-is-configured"
+  compliance_note: {
+    title: "Ensure password unlock time is configured"
+    description:
+      "unlock_time=<n> - The access will be re-enabled after seconds after the lock out. The value 0 has the same meaning as value never - the access will not be re-enabled without resetting the faillock entries by the faillock(8) command."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against your systems."
+    remediation:
+      "Set password unlock time to conform to site policy. unlock_time should be 0 (never), or 900 seconds or greater. Edit /etc/security/faillock.conf and update or add the following line:\n"
+      "unlock_time = 900"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions: 
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"unlock_time\\\\s*=\\\\s*(0|[9][0-9]{2,}|[1-9][0-9]{3,})$\""
+      "          expected_regex: \"unlock_time\\\\s*=\\\\s*(0|[9][0-9]{2,}|[1-9][0-9]{3,})$\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
 benchmark_configs: {
   id: "ensure-single-logging-system"
   compliance_note: {
