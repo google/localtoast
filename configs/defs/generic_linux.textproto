@@ -18273,6 +18273,46 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "auditd-service-enabled"
+  compliance_note: {
+    title: "Ensure auditd service is enabled"
+    description: "Turn on the auditd daemon to record system events."
+    rationale:
+      "The capturing of system events provides system administrators with "
+      "information to allow them to determine if unauthorized access to their system is occurring."
+    remediation:
+      "Run the following commands to unmask, enable and start auditd: \n"
+      "```# systemctl unmask auditd \n"
+      "# systemctl enable auditd \n"
+      "# systemctl start auditd \n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"auditd.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/systemd/system/\"}}"
+      "     existence:{should_exist:false}"
+      "   }"
+      " }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "rpcbind-not-in-use"
   compliance_note: {
     title: "Ensure rpcbind services are not in use"
