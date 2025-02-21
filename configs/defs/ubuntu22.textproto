@@ -1,0 +1,50 @@
+benchmark_configs: {
+  id: "disable-apport-error-reporting"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Apport Error Reporting Service is disabled"
+    description: 
+      "The Apport Error Reporting Service automatically generates crash reports for debugging. Disabling this service "
+      "prevents collection of potentially sensitive data such as core dumps, stack traces, and log files."
+    rationale: 
+      "Apport collects potentially sensitive data, such as passwords, credit card numbers, serial numbers, and other "
+      "private material. Disabling it reduces the risk of exposing sensitive information."
+    remediation: 
+      "To disable Apport Error Reporting, follow these steps:\n"
+      "1. Edit `/etc/default/apport` and set the `enabled` parameter to `0`:\n"
+      "```\n"
+      "enabled=0\n"
+      "```\n"
+      "2. Run the following commands to stop and mask the Apport service:\n"
+      "```\n"
+      "# systemctl stop apport.service\n"
+      "# systemctl mask apport.service\n"
+      "```\n"
+      "3. Alternatively, remove the apport package entirely:\n"
+      "```\n"
+      "# apt purge apport\n"
+      "```\n"
+      "Ensure all steps are in compliance with organizational policies."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/default/apport\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"enabled=0\""
+      "          expected_regex: \"enabled=0\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/apport.service\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}}"
+  }
+}
