@@ -30,6 +30,10 @@ var (
 	umaskRe = regexp.MustCompile("^0?[0-7][0-7][0-7]$")
 )
 
+var (
+	swVersRe = regexp.MustCompile("^\d+.\d+.\d+-\d+\+.*$")
+)
+
 type groupCriteria struct {
 	regex    string
 	criteria []groupCriterion
@@ -223,6 +227,10 @@ type lessThanVersionMatcher struct {
 	cmpStr string
 }
 func (m *lessThanVersionMatcher) match(group string) bool {
+	if !swVersRe.MatchString(group) {
+		log.Printf("unable to parse %q as a software version", group)
+		return false
+	}
 	version := strings.ReplaceAll(m.cmpStr, "-", ".")
 	re := regexp.MustCompile("\\W+")
 	chunks_group := re.Split(group, -1)
@@ -250,6 +258,10 @@ type greaterThanVersionMatcher struct {
 	cmpStr string
 }
 func (m *greaterThanVersionMatcher) match(group string) bool {
+	if !swVersRe.MatchString(group) {
+		log.Printf("unable to parse %q as a software version", group)
+		return false
+	}
 	version := strings.ReplaceAll(m.cmpStr, "-", ".")
 	re := regexp.MustCompile("\\W+")
 	chunks_group := re.Split(group, -1)
