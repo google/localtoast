@@ -16020,6 +16020,58 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-accounts-without-valid-shell-locked"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure accounts without a valid login shell are locked"
+    description:
+      "Accounts that are not intended for interactive login should have their login "
+      "shell set to nologin or a similar shell that prevents interactive sessions. "
+      "Additionally, these accounts should be locked to prevent potential misuse."
+    rationale:
+      "It is important to make sure that accounts not used by regular users are prevented "
+      "from being used for interactive sessions. Most distributions set these accounts to "
+      "an invalid password or nologin shell by default. Ensuring these accounts are locked "
+      "adds an additional layer of security."
+    remediation:
+      "Run the following command to lock any non-root accounts without a valid login shell "
+      "returned by the audit:\n"
+      "```\n"
+      "# usermod -L <user>\n"
+      "```\n"
+      "Alternatively, set the shell for accounts without valid shells to nologin:\n"
+      "```\n"
+      "# usermod -s $(which nologin) <user>\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "      repeat_config:{type: FOR_EACH_USER_WITH_LOGIN"
+      "        opt_out: {wildcard: \"$shell\", value: \"/bin/sh\"}"
+      "        opt_out: {wildcard: \"$shell\", value: \"/bin/bash\"}"
+      "        opt_out: {wildcard: \"$shell\", value: \"/bin/zsh\"}"
+      "        opt_out: {wildcard: \"$shell\", value: \"/bin/tcsh\"}"
+      "        opt_out: {wildcard: \"$shell\", value: \"/bin/csh\"}"      
+      "    }"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"$user.*\""
+      "        expected_regex: \"$user:[^(!*|*)].*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "rsyslog-log-creation-file-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
