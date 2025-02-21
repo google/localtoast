@@ -59,6 +59,10 @@ func newGroupCriteria(regex string, numSubexp int, gcs []*ipb.GroupCriterion, ma
 				return nil, errors.New("GroupCriterion_UNIQUE and ContentEntryCheck_NONE_MATCH are incompatible")
 			}
 			m = &uniqueMatcher{seen: make(map[string]bool)}
+		case ipb.GroupCriterion_VERSION_LESS_THAN:
+			m = &lessThanVersionMatcher{cmpStr: gc.GetVersion()}
+		case ipb.GroupCriterion_VERSION_GREATER_THAN:
+			m = &greaterThanVersionMatcher{cmpStr: gc.GetVersion()}
 		default:
 			return nil, fmt.Errorf("unrecognized group criterion type %v", t)
 		}
@@ -214,4 +218,58 @@ func getCmpStr(gc *ipb.GroupCriterion) string {
 		return "today"
 	}
 	return strconv.Itoa(int(gc.GetConst()))
+}
+type lessThanVersionMatcher struct {
+	cmpStr string
+}
+func (m *lessThanVersionMatcher) match(group string) bool {
+	version := strings.ReplaceAll(m.cmpStr, "-", ".")
+	re := regexp.MustCompile("\\W+")
+	chunks_group := re.Split(group, -1)
+	chunks_version := re.Split(version,-1)
+	min_len := 0
+	if len(chunks_group) < len(chunks_version) {
+		min_len = len(chunks_group)
+	} else {
+		min_len = len(chunks_version)
+	}
+	for i:=0; i< min_len; i++ {
+		chunks_group[i] = fmt.Sprintf("%06s", chunks_group[i])
+		chunks_version[i] = fmt.Sprintf("%06s", chunks_version[i])
+		if chunks_group[i] == chunks_version[i] {
+			continue
+		}
+		return chunks_group[i] < chunks_version[i]
+	}
+	return false
+}
+func (m *lessThanVersionMatcher) String() string {
+	return "< " + m.cmpStr
+}
+type greaterThanVersionMatcher struct {
+	cmpStr string
+}
+func (m *greaterThanVersionMatcher) match(group string) bool {
+	version := strings.ReplaceAll(m.cmpStr, "-", ".")
+	re := regexp.MustCompile("\\W+")
+	chunks_group := re.Split(group, -1)
+	chunks_version := re.Split(version,-1)
+	min_len := 0
+	if len(chunks_group) < len(chunks_version) {
+		min_len = len(chunks_group)
+	} else {
+		min_len = len(chunks_version)
+	}
+	for i:=0; i< min_len; i++ {
+		chunks_group[i] = fmt.Sprintf("%06s", chunks_group[i])
+		chunks_version[i] = fmt.Sprintf("%06s", chunks_version[i])
+		if chunks_group[i] == chunks_version[i] {
+			continue
+		}
+		return chunks_group[i] > chunks_version[i]
+	}
+	return false
+}
+func (m *greaterThanVersionMatcher) String() string {
+	return "< " + m.cmpStr
 }

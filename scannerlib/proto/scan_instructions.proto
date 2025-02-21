@@ -181,6 +181,10 @@ message GroupCriterion {
     NO_LESS_RESTRICTIVE_UMASK = 2;
     // ...appears exactly once.
     UNIQUE = 3;
+    // ...is a software version < `comparison_value`.
+    VERSION_LESS_THAN = 4;
+    // ...is a software version < `comparison_value`.
+    VERSION_GREATER_THAN = 5;
   }
   Type type = 2;
 
@@ -191,6 +195,9 @@ message GroupCriterion {
     int32 const = 3;
     // ...the number of days since the epoch.
     Today today = 4;
+    // ...a constant string representing a software version.
+    string version = 5;
+    
   }
 }
 
