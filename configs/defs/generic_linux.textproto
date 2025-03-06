@@ -9645,3 +9645,63 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "dnsmasq-service-disabled"
+  compliance_note: {
+    title: "Ensure dnsmasq services are not in use"
+    description:
+      "dnsmasq is a lightweight tool that provides DNS caching, DNS forwarding and DHCP "
+      "(Dynamic Host Configuration Protocol) services."
+    rationale:
+      "Unless a system is specifically designated to act as a DNS caching, DNS forwarding "
+      "and/or DHCP server, it is recommended that the package be removed to reduce the "
+      "potential attack surface."
+    remediation:
+      "Run the following commands to stop dnsmasq.service and remove dnsmasq package:\n"
+      "# systemctl stop dnsmasq.service\n"
+      "# apt purge dnsmasq\n"
+      "- OR -\n"
+      "- IF - the dnsmasq package is required as a dependency:\n"
+      "Run the following commands to stop and mask the dnsmasq.service:\n"
+      "# systemctl stop dnsmasq.service\n"
+      "# systemctl mask dnsmasq.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"dnsmasq\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"dnsmasq.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dnsmasq\""
+      "    file_display_command: \"find /etc/systemd/system -name 'dnsmasq.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"dnsmasq.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dnsmasq\""
+      "    file_display_command: \"find /etc/systemd/system -name 'dnsmasq.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+
+
