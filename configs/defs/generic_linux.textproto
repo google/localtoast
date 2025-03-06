@@ -20470,3 +20470,50 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "system-warns-on-audit-logs-low-space"
+  compliance_note: {
+    title: "Ensure System Warns When Audit Logs Are Low on Space"
+    description: 
+      "This configuration ensures that the system is configured to warn or take appropriate actions when audit logs are "
+      "low on space, preserving the integrity and continuity of logging."
+    rationale: 
+      "Configuring the system to handle low audit log space helps prevent loss of critical audit data and enhances the "
+      "reliability of audit records in monitoring and detecting security events."
+    remediation: 
+      "Edit `/etc/audit/auditd.conf` to set the `space_left_action` parameter to `email`, `exec`, `single`, or `halt` "
+      "and the `admin_space_left_action` parameter to `single` or `halt`:\n"
+      "```\n"
+      "space_left_action = email\n"
+      "admin_space_left_action = single\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex:  \"[^#]*\\\\bspace_left_action\\\\s*=\\\\s*\\\\b(email|exec|single|halt)\\\\b.*\""
+      "          expected_regex: \"[^#]*\\\\bspace_left_action\\\\s*=\\\\s*\\\\b(email|exec|single|halt)\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\badmin_space_left_action\\\\s*=\\\\s*\\\\b(single|halt)\\\\b.*\""
+      "          expected_regex:  \"[^#]*\\\\badmin_space_left_action\\\\s*=\\\\s*\\\\b(single|halt)\\\\b.*\""
+      "        }"
+      "      }"
+      "  }"
+      "}}"
+  }
+}
