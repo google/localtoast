@@ -9558,3 +9558,52 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "ensure-password-failed-attempts-lockout-includes-root-account"
+  compliance_note: {
+    title: "Ensure password failed attempts lockout includes root account"
+    description: 
+      "even_deny_root - Root account can become locked as well as regular accounts. root_unlock_time=n - This option "
+      "implies even_deny_root option. Allow access after n seconds to root account after the account is locked. \n"
+      "In case the option is not specified the value is the same as of the unlock_time option."
+    rationale: 
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks "
+      "against your systems."
+    remediation: 
+      "Edit /etc/security/faillock.conf:\n"
+      "• Remove or update any line containing root_unlock_time, - OR - set it to a value of 60 or more\n"
+      "• Update or add the following line:\n"
+      "```\n"
+      "even_deny_root\n"
+      "```\n"
+      "\nRun the following command:\n"
+      "```\n"
+      "# grep -Pl '\\bpam_faillock\\.so\\h+([^#\\n\\r]+\\h+)?(even_deny_root|root_unlock_time)' /usr/share/pam-configs/*\n"
+      "```\n"
+      "Edit any returned files and remove the even_deny_root and root_unlock_time arguments from the pam_faillock.so line(s):"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions: 
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex:  \"[^#]*\\\\beven_deny_root.*\""
+      "        expected_regex:  \"[^#]*\\\\beven_deny_root.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#]*\\\\broot_unlock_time\\\\s*=\\\\s*[0-5]?\\\\d\\\\s*\""
+      "        expected_regex: \"[^#]*\\\\broot_unlock_time\\\\s*=\\\\s*[0-5]?\\\\d\\\\s*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
