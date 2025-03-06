@@ -9830,3 +9830,38 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "password-history-enforce-for-root"
+  compliance_note: {
+    title: "Ensure Password History is Enforced for the Root User"
+    description: 
+      "The configuration ensures that the pam_pwhistory module enforces password history for the root user as well, preventing root from reusing recent passwords."
+    rationale: 
+      "Requiring the root user not to reuse their passwords enhances overall system security by reducing the risk of password reuse attacks."
+    remediation: 
+      "Edit the `/etc/pam.d/common-password` file and ensure the `pam_pwhistory` module line includes:\n"
+      "```\n"
+      "enforce_for_root\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?enforce_for_root\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?enforce_for_root\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
