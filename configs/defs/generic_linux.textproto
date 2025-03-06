@@ -19989,3 +19989,42 @@ benchmark_configs: {
     "}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-audit-configuration-files-owner-configured"
+  compliance_note: {
+    title: "Ensure audit configuration files owner is configured"
+    description:
+      "Access to the audit configuration files could allow unauthorized personnel to prevent the "
+      "auditing of critical events.\n"
+      "Misconfigured audit configuration files may prevent the auditing of critical events or "
+      "impact the system's performance by overwhelming the audit log. Misconfiguration of the "
+      "audit configuration files may also make it more difficult to establish and investigate "
+      "events relating to an incident."
+    remediation:
+      "Run the following command to set permissions on audit configuration files:\n"
+      "```\n"
+      "find /etc/audit/ -type f \\\\( -name '*.conf' -o -name '*.rules' \\\\) -exec chmod u-x,g-wx,o-rwx {} +\n"
+      "```"
+  cis_benchmark: {
+    profile_level: 2
+    severity: MEDIUM
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "    file_checks:{"
+    "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+    "      existence:{should_exist:true}"
+    "    }"
+    "    file_checks:{"
+    "      files_to_check:{single_file:{"
+    "        path:\"/etc/audit/auditd.conf\""
+    "      }}"
+    "      permission:{"
+    "        user: {name: \"root\" should_own: true}"
+    "      }"
+    "    }"
+    "  }"
+    "}"
+  }
+}
