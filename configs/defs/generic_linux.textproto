@@ -10023,3 +10023,42 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "x-server-service-disabled"
+  compliance_note: {
+    title: "Ensure X window server services are not in use"
+    description:
+      "The X Window System provides a Graphical User Interface (GUI) where users can have "
+      "multiple windows in which to run programs and various add on. The X Windows system "
+      "is typically used on workstations where users login, but not on servers where users "
+      "typically do not login."
+    rationale:
+      "Unless your organization specifically requires graphical login access via X Windows, "
+      "remove it to reduce the potential attack surface."
+    remediation:
+      "- IF - a Graphical Desktop Manager or X-Windows server is not required and approved "
+      "by local site policy:\n"
+      "Run the following command to remove the X Windows Server package:\n"
+      "# apt purge xserver-common"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"Package: xserver-common.*\""
+      "        expected_regex: \"Package: xserver-common\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
