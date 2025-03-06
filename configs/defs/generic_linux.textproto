@@ -14287,3 +14287,44 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "nftables-table-exists"
+  compliance_note: {
+    title: "Ensure a nftables table exists"
+    description: 
+      "Tables hold chains in nftables. Each table only has one address family and only applies to packets of this family. "
+      "Without a table, nftables will not filter network traffic."
+    rationale: 
+      "nftables does not have any default tables. Without a table, nftables will not filter network traffic, leaving the "
+      "system unprotected."
+    remediation: 
+      "To create a table in nftables, run:\n"
+      "```\n"
+      "# nft create table inet <table name>\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "# nft create table inet filter\n"
+      "```\n"
+      "Note: Adding rules to a running nftables can cause loss of connectivity. Ensure proper configuration before "
+      "creating tables."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"table inet .*\""
+      "          expected_regex: \"table inet .*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
