@@ -19783,3 +19783,34 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "audit-processes-prior-to-auditd-enabled"
+  compliance_note: {
+    title: "Ensure Auditing for Processes That Start Prior to Auditd Is Enabled"
+    description: 
+      "This configuration ensures that audit events for processes that start prior to auditd are captured, enabling early detection of potential malicious activity."
+    rationale: 
+      "Auditing processes that start prior to auditd ensures comprehensive monitoring of all system activity, reducing the risk of undetected malicious activity."
+    remediation: 
+      "Edit `/etc/default/grub` to include `audit=1` in the `GRUB_CMDLINE_LINUX` configuration and update the GRUB configuration with the command `update-grub`."
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*\\\\s+audit=1\\b.*\""
+      "          expected_regex: \"\\\\s*linux.*\\\\s+audit=1\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
