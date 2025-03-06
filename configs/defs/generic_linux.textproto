@@ -13175,15 +13175,79 @@ benchmark_configs: {
       "# apt purge rpcbind\n"
       "```\n"
       "Note: If rpcbind is required for dependencies, ensure the socket and service are stopped and masked."
+      cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}}"
+  }
+}
+    
+
+benchmark_configs: {
+  id: "ensure-pam-faillock-enabled"
+  compliance_note: {
+    title: "Ensure pam_faillock module is enabled"
+    description:
+      "The pam_faillock.so module maintains a list of failed authentication attempts per user during a specified interval "
+      "and locks the account in case there were more than the configured number of consecutive failed authentications "
+      "(defined by the deny parameter in the faillock configuration). It stores the failure records into per-user files "
+      "in the tally directory."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute-force password attacks "
+      "against your systems."
+    remediation:
+      "Create two pam-auth-update profiles in /usr/share/pam-configs/:\n"
+      "First profile:\n"
+      "```\n"
+      "Name: Enable pam_faillock to deny access\n"
+      "Default: yes\n"
+      "Priority: 0\n"
+      "Auth-Type: Primary\n"
+      "Auth: [default=die] pam_faillock.so authfail\n\n"
+      "```\n"
+      "Second profile:\n"
+      "```\n"
+      "Name: Notify of failed login attempts and reset count upon success\n"
+      "Default: yes\n"
+      "Priority: 1024\n"
+      "Auth-Type: Primary\n"
+      "Auth: requisite pam_faillock.so preauth\n"
+      "Account-Type: Primary\n"
+      "Account: required pam_faillock.so\n\n"
+      "```\n"
+      "After creating the profiles, run the following commands to update PAM files:\n"
+      "```\n"
+      "# pam-auth-update --enable faillock\n"
+      "# pam-auth-update --enable faillock_notify"
+      "```"
+>>>>>>> 06a9f6a (added ensure-pam-faillock-enabled)
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
     }
     scan_instructions:
-      "generic:{check_alternatives:{"
+      "generic:{"
+      "  check_alternatives:{"
       "    file_checks:{"
-      "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
-      "      existence:{should_exist:false}"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/pam.d\""
+      "        filename_regex: \"common-(auth|account)\""
+      "        recursive: false"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "           filter_regex: \".*pam_faillock.so.*\""
+      "           expected_regex: \".*pam_faillock.so.*\""
+      "        }"
+      "      }"
       "    }"
       "}}"
   }
