@@ -13933,3 +13933,69 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-gdm-screen-locks-when-user-is-idle"
+  compliance_note: {
+    title: "Ensure GDM screen locks when the user is idle"
+    description:
+      "GNOME Desktop Manager can make the screen lock automatically whenever the user is idle for some amount of time."
+    rationale:
+      "Setting a lock-out value reduces the window of opportunity for unauthorized user access to another user's session "
+      "that has been left unattended."
+    remediation:
+      "Run the following commands to enable screen locks when the user is idle:\n"
+      "```\n"
+      "# gsettings set org.gnome.desktop.screensaver lock-delay 5\n"
+      "# gsettings set org.gnome.desktop.session idle-delay 900\n"
+      "```\n"
+      "- OR1. Create or edit the user profile in the /etc/dconf/profile/ and verify it includes the following:\n"
+      "```\n"
+      "  user-db:user\n"
+      "  system-db:{NAME_OF_DCONF_DATABASE}\n"
+      "```\n"
+      "Note: local is the name of a dconf database used in the examples.\n"
+      "2. Create the directory /etc/dconf/db/local.d/ if it doesn't already exist:\n"
+      "3. Create the key file /etc/dconf/db/local.d/00-screensaver to provide information for the local database:\n"
+      "Example key file:\n"
+      "```\n"
+      "# Specify the dconf path\n"
+      "[org/gnome/desktop/session]\n"
+      "idle-delay=uint32 180\n"
+      "[org/gnome/desktop/screensaver]\n"
+      "lock-delay=uint32 0\n"
+      "```\n"
+      "4. Run the following command to update the system databases:\n"
+      "```\n"
+      "# dconf update\n"
+      "```\n"
+      "5. Users must log out and back in again before the system-wide settings take effect."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/00-screensaver\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"idle-delay=uint32 180\""
+      "        expected_regex: \"idle-delay=uint32 180\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/00-screensaver\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"lock-delay=uint32 0\""
+      "        expected_regex: \"lock-delay=uint32 0\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
