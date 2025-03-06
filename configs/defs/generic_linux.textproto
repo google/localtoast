@@ -9865,3 +9865,40 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "password-history-enforce-use-authtok"
+  compliance_note: {
+    title: "Ensure pam_pwhistory Includes use_authtok"
+    description: 
+      "The configuration ensures that the pam_pwhistory module enforces the use_authtok argument, enabling multiple pam "
+      "modules to validate a new password before it is accepted."
+    rationale: 
+      "The use_authtok option ensures consistent password validation across multiple pam modules, enhancing security during "
+      "password changes."
+    remediation: 
+      "Edit the `/etc/pam.d/common-password` file and ensure the `pam_pwhistory` module line includes:\n"
+      "```\n"
+      "use_authtok\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?use_authtok\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?use_authtok\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
