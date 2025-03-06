@@ -9923,3 +9923,40 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "nftables-service-enabled"
+  compliance_note: {
+    title: "Ensure nftables service is enabled"
+    description: 
+      "The nftables service allows for the loading of nftables rulesets during boot, or starting on "
+      "the nftables service"
+    rationale:
+      "The nftables service restores the nftables rules from the rules files referenced in the "
+      "/etc/nftables.conf file during boot or the starting of the nftables service"
+    remediation:
+      "Run the following command to enable the nftables service:\n"
+      "```\n"
+      "# systemctl enable nftables "
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/lib/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+
+
+
