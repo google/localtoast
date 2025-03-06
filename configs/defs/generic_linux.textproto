@@ -14287,3 +14287,49 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-single-logging-system"
+  compliance_note: {
+    title: "Ensure only one logging system is in use"
+    description: 
+      "Best practices recommend that a single centralized logging system be used for log "
+      "management, choose a single service either rsyslog - OR - journald to be used as a "
+      "single centralized logging system."
+    rationale: 
+      "Configuring only one logging service either rsyslog - OR - journald avoids "
+      "redundancy, optimizes resources, simplifies configuration and management, and "
+      "ensures consistency."
+    remediation: 
+      "1. Determine whether to use journald - OR - rsyslog depending on site needs\n"
+      "2. Configure systemd-jounald.service\n"
+      "3. Configure only ONE either journald - OR - rsyslog and complete the "
+      "recommendations in that subsection\n"
+      "4. Return to this recommendation to ensure only one logging system is in use"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions: 
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.service\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/rsyslog.service\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.service\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/rsyslog.service\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
