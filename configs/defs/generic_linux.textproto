@@ -9884,3 +9884,92 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "sudo-authentication-timeout-is-configured-correctly"
+  compliance_note: {
+    title: "Ensure sudo authentication timeout is configured correctly"
+    description:
+      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there "
+      "are multiple administrative tasks to perform. The timeout can be modified to suit local "
+      "security policies."
+    rationale:
+      "Setting a timeout value reduces the window of opportunity for unauthorized privileged "
+      "access to another user."
+    remediation:
+      "If the currently configured time out is larger than 15 minutes, edit the file listed in the audit "
+      "section with "
+      "```\n"
+      "visudo -f <PATH TO FILE>"
+      "```\n "
+      "and modify the entry "
+      "```\n"
+      "timestamp_timeout="
+      "```\n "
+      "to 15 minutes or less as per your site policy. The value is in minutes. This particular entry may "
+      "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
+      "1. Same line\n"
+      "```\n"
+      "Defaults env_reset, timestamp timeout=15\n"
+      "```\n"
+      "2. Different lines\n"
+      "```\n"
+      "Defaults timestamp_ timeout=15\n"
+      "Defaults env_reset\n"
+      "```\n"
+      "References:\n"
+      "1. https://www.sudo.ws/man/1.9.0/sudoers.man.html"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "          expected_regex: \".*timestamp_timeout\\\\s*=\\\\s*(\\\\d+).*\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 16"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "          expected_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
