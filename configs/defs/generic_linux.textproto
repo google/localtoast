@@ -9634,3 +9634,63 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "separate-partition-shm"
+  compliance_note: {
+    title: "Ensure /dev/shm is a separate partition"
+    description:
+      "The /dev/shm directory is a world-writable directory that can function as shared memory "
+      "that facilitates inter-process communication (IPC)."
+    rationale:
+      "Making /dev/shm its own file system allows an administrator to set additional mount "
+      "options such as the noexec option on the mount, making /dev/shm useless for an "
+      "attacker to install executable code. It would also prevent an attacker from establishing a "
+      "hard link to a system setuid program and wait for it to be updated. Once the program "
+      "was updated, the hard link would be broken and the attacker would have his own copy "
+      "of the program. If the program happened to have a security vulnerability, the attacker "
+      "could continue to exploit the known flaw."
+    remediation:
+      "Modify /etc/fstab to ensure /dev/shm is configured as a separate partition with appropriate options:\n"
+      "```\n"
+      "tmpfs /dev/shm tmpfs defaults,rw,nosuid,nodev,noexec,relatime,size=2G 0 0\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria: {"
+      "            filter_regex: \".* /dev/shm .* - .*\""
+      "            expected_regex: \".* /dev/shm .*rw,nosuid,nodev,noexec.* - .*\""
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  },"
+      "  image_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/fstab\"}}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria: {"
+      "            filter_regex: \"tmpfs /dev/shm tmpfs .*\""
+      "            expected_regex: \"tmpfs /dev/shm tmpfs defaults,rw,nosuid,nodev,noexec,relatime,size=2G 0 0\""
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
