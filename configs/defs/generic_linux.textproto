@@ -10585,3 +10585,84 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "var-log-noexec"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:debian:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure noexec option set on /var/log partition"
+    description:
+      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    rationale:
+      "Since the /var/log filesystem is only intended for log files, set this option to ensure "
+      "that users cannot run executable binaries from /var/log."
+    remediation:
+      "- IF - a separate partition exists for /var/log.\n"
+      "Edit the /etc/fstab file and add noexec to the fourth field (mounting options) for the "
+      "/var/log partition.\n"
+      "Example:\n"
+      "<device> /var/log <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
+      "Run the following command to remount /var/log with the configured options:\n"
+      "# mount -o remount /var/log"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .*noexec.* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var/log .*\""
+      "          expected_regex: \".*noexec.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var/log .*\""
+      "          expected_regex: \".*noexec.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
