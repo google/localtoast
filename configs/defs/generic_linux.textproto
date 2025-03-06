@@ -9960,3 +9960,66 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "tftp-server-service-disabled"
+  compliance_note: {
+    title: "Ensure tftp server services are not in use"
+    description:
+      "Trivial File Transfer Protocol (TFTP) is a simple protocol for exchanging files between "
+      "two TCP/IP machines. TFTP servers allow connections from a TFTP Client for sending "
+      "and receiving files."
+    rationale:
+      "Unless there is a need to run the system as a TFTP server, it is recommended that the "
+      "package be removed to reduce the potential attack surface.\n"
+      "TFTP does not have built-in encryption, access control or authentication. This makes it "
+      "very easy for an attacker to exploit TFTP to gain access to files"
+    remediation:
+      "Run the following commands to stop tftpd-hpa.service, and remove the tftpd-hpa "
+      "package:\n"
+      "# systemctl stop tftpd-hpa.service\n"
+      "# apt purge tftpd-hpa\n"
+      "- OR -\n"
+      "- IF - the tftpd-hpa package is required as a dependency:\n"
+      "Run the following commands to stop and mask tftpd-hpa.service:\n"
+      "# systemctl stop tftpd-hpa.service\n"
+      "# systemctl mask tftpd-hpa.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"tftpd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"tftpd-hpa.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables tftpd-hpa\""
+      "    file_display_command: \"find /etc/systemd/system -name 'tftpd-hpa.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"tftpd-hpa.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables tftpd-hpa\""
+      "    file_display_command: \"find /etc/systemd/system -name 'tftpd-hpa.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+
+
