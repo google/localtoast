@@ -13894,3 +13894,77 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-chrony-running-as-user-chrony"
+  compliance_note: {
+    title: "Ensure chrony is running as user _chrony"
+    description:
+      "The chrony package is installed with a dedicated user account _chrony. This account is granted the access required "
+      "by the chronyd service."
+    rationale:
+      "The chronyd service should run with only the required privileges."
+    remediation:
+      "Add or edit the user line to /etc/chrony/chrony.conf or a file ending in .conf in /etc/chrony/conf.d/:\n"
+      "```\n"
+      "user _chrony\n"
+      "```\n"
+      "- OR - If another time synchronization service is in use on the system, remove chrony:\n"
+      "```\n"
+      "# apt purge chrony\n"
+      "# apt autoremove chrony\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/chrony/\", filename_regex:\".*\\\\.conf\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "          expected_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"The user configuration for chronyd is missing or incorrect.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      permission:{user:{name:\"_chrony\" should_own:true}}"
+      "      non_compliance_msg: \"chronyd is not running as the user _chrony.\""
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"chrony is not in use on this system.\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/chrony/\", filename_regex:\".*\\\\.conf\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "          expected_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
