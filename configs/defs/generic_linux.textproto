@@ -9744,3 +9744,52 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "sshd-access-configured"
+  compliance_note: {
+    title: "Ensure sshd access is configured"
+    description:
+      "There are several options available to limit which users and groups can access the "
+      "system via SSH. It is recommended that at least one of the following options be "
+      "leveraged:\n"
+      "- AllowUsers\n"
+      "- AllowGroups\n"
+      "- DenyUsers\n"
+      "- DenyGroups\n"
+      "These options restrict SSH access to specific users or groups, or deny access as required."
+    rationale:
+      "Restricting which users can remotely access the system via SSH will help ensure that "
+      "only authorized users access the system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set one or more of the parameters above any Include "
+      "and Match set statements as follows:\n\n"
+      "AllowUsers <userlist>\n"
+      "AND/OR\n"
+      "AllowGroups <grouplist>\n\n"
+      "Note:\n"
+      "- First occurrence of an option takes precedence, Match set statements notwithstanding.\n"
+      "- It is easier to manage an allow list than a deny list, as a deny list may overlook newly added users or groups."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*(AllowUsers|AllowGroups|DenyUsers|DenyGroups)\\\\s+.+$\""
+      "          expected_regex: \"\\\\s*(AllowUsers|AllowGroups|DenyUsers|DenyGroups)\\\\s+.+$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
