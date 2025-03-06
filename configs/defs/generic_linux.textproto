@@ -13820,3 +13820,36 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "disable-user-list-enabled"
+  compliance_note: {
+    title: "Ensure last logged in user display is disabled"
+    description:
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based "
+      "systems."
+    rationale:
+      "Warning messages inform users who are attempting to login to the system of their legal "
+      "status regarding the system and must include the name of the organization that owns.\n"
+      "the system and any monitoring policies that are in place. "
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/gdm.d/\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*disable-user-list=[a-z]+\""
+      "          expected_regex: \"\\\\s*disable-user-list=true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
