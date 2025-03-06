@@ -9712,3 +9712,51 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "ensure-root-umask-configured"
+  compliance_note: {
+    title: "Ensure root user umask is configured"
+    description: 
+      "The configuration ensures that the root user's umask is set to a secure value to enforce permissions for newly "
+      "created files and directories."
+    rationale: 
+      "Setting a secure umask ensures that newly created files and directories have restricted permissions, reducing "
+      "the risk of unauthorized access."
+    remediation: 
+      "Edit the `/root/.bash_profile` and `/root/.bashrc` files and ensure the following configuration is included:\n"
+      "```\n"
+      "umask 0027\n"
+      "```\n"
+      "Remove or comment out any other umask settings that are less restrictive."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/root/.bash_profile\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/root/.bashrc\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
