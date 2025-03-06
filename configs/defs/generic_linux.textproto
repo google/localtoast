@@ -9607,3 +9607,43 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "ensure-password-failed-attempts-lockout-is-configured"
+  compliance_note: {
+    title: "Ensure password failed attempts lockout is configured"
+    description:
+      "The deny=<n> option will deny access if the number of consecutive authentication failures for this user during "
+      "the recent interval exceeds."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against "
+      "your systems."
+    remediation:
+      "Set the deny option in /etc/security/faillock.conf to 5 or lower to restrict the number of consecutive authentication "
+      "failures allowed."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions: 
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"deny\\\\s*=\\\\s*(\\\\d+)\""
+      "        expected_regex: \"deny\\\\s*=\\\\s*(\\\\d+)\""
+      "        group_criteria:{"
+      "          group_index: 1"
+      "          type: LESS_THAN"
+      "          const: 6"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
