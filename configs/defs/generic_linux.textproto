@@ -13490,3 +13490,36 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "pam-unix-strong-hashing-algorithm"
+  compliance_note: {
+    title: "Ensure pam_unix Includes a Strong Password Hashing Algorithm"
+    description: 
+      "The configuration ensures that the pam_unix module uses a strong password hashing algorithm, such as SHA-512 or "
+      "yescrypt, to enhance password security."
+    rationale: 
+      "Using strong hashing algorithms like SHA-512 or yescrypt provides additional protection against password recovery "
+      "attacks by increasing the computational effort required to break the password hashes."
+    remediation: 
+      "Edit any `pam_unix` lines in `/etc/pam.d/common-password` to include either the `sha512` or `yescrypt` hashing "
+      "algorithm. Ensure the configuration meets local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\\\n\\\\r]*\\\\bpam_unix\\\\.so\\\\b.*\\\\b(sha512|yescrypt)\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\\\n\\\\r]*\\\\bpam_unix\\\\.so\\\\b.*\\\\b(sha512|yescrypt)\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
