@@ -10035,3 +10035,76 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "separate-partition-var-log"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    title: "Ensure separate partition exists for /var/log"
+    description:
+      "The /var/log directory is used by system services to store log data."
+    rationale:
+      "The default installation only creates a single / partition. Since the /var/log directory "
+      "contains log files which can grow quite large, there is a risk of resource exhaustion. It "
+      "will essentially have the whole disk available to fill up and impact the system as a whole.\n"
+      "Configuring /var/log as its own file system allows an administrator to set additional "
+      "mount options such as noexec/nosuid/nodev. These options limit an attackers ability "
+      "to create exploits on the system. Other options allow for specific behavior. See man "
+      "mount for exact details regarding filesystem-independent and filesystem-specific "
+      "options.\n"
+      "As /var/log contains log files, care should be taken to ensure the security and integrity "
+      "of the data and mount point."
+    remediation:
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var/log .\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var/log .* - .*\""
+      "          expected_regex: \".* /var/log .* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var/log .*\""
+      "          expected_regex: \".*/var/log .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var/log .*\""
+      "          expected_regex: \".*/var/log .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
