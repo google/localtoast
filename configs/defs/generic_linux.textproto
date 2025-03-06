@@ -9718,3 +9718,37 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "login-defs-strong-password-hashing"
+  compliance_note: {
+    title: "Ensure Strong Password Hashing Algorithm is Configured in /etc/login.defs"
+    description: 
+      "The configuration ensures that /etc/login.defs specifies a strong password hashing algorithm, such as SHA-512 or "
+      "YESCRYPT, to enhance group password security."
+    rationale: 
+      "Specifying strong hashing algorithms like SHA-512 or YESCRYPT in /etc/login.defs increases security by ensuring newly "
+      "created group passwords use secure hashing."
+    remediation: 
+      "Edit /etc/login.defs and set the ENCRYPT_METHOD parameter to SHA512 or YESCRYPT. Ensure consistency with PAM configuration."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bENCRYPT_METHOD\\\\s+\\\\b(SHA512|YESCRYPT)\\\\b.*\""
+      "          expected_regex: \"[^#]*\\\\bENCRYPT_METHOD\\\\s+\\\\b(SHA512|YESCRYPT)\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
