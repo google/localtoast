@@ -13385,3 +13385,41 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-pam-unix-enabled"
+  compliance_note: {
+    title: "Ensure pam_unix module is enabled"
+    description: 
+      "pam_unix is the standard Unix authentication module. It uses standard calls from the system's libraries to retrieve and set account information as well as authentication."
+    rationale: 
+      "The system should only provide access after performing authentication of a user."
+    remediation: 
+      "Run the following command to enable the pam_unix module:\n"
+      "# pam-auth-update --enable unix\n"
+      "\nNote: If a site-specific custom profile is being used in your environment to configure PAM that includes the configuration for the pam_faillock module, enable that module instead."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions: 
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/pam.d\""
+      "        filename_regex: \"common-(account|session|auth|password)\""
+      "        recursive: false"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*pam_unix.so.*\""
+      "          expected_regex: \".*pam_unix.so.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
