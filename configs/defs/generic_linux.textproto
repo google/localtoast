@@ -9665,3 +9665,50 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "ensure-privileged-commands-are-collected"
+  compliance_note: {
+    title: "Ensure use of privileged commands are collected"
+    description: "Monitor privileged programs with setuid and/or setgid bit set to detect unauthorized use."
+    rationale: "Monitoring privileged commands by non-privileged users helps identify potential unauthorized activities "
+    "and access attempts."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with the relevant rules:\n"
+      "```\n"
+      "# Identify all privileged commands and monitor their execution\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)\n"
+      "AUDIT_RULE_FILE=/etc/audit/rules.d/50-privileged.rules\n"
+      "find / -xdev -perm /6000 -type f 2>/dev/null | awk -v UID_MIN=${UID_MIN} '{ print \"-a always,exit -F path=\" $1 \" -F perm=x -F auid>=\" UID_MIN \" -F auid!=unset -k privileged\" }' > ${AUDIT_RULE_FILE}\n"
+      "```\n"
+      "Merge and load the rules:\n"
+      "# augenrules --load\n"
+      "Check if reboot is required:\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
+  cis_benchmark: {
+    profile_level: 2
+    severity: MEDIUM
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "      file_checks:{"
+    "        files_to_check:{files_in_dir:{"
+    "          dir_path:\"/etc/audit/rules.d\""
+    "          recursive: true"
+    "          files_only: true"
+    "          filename_regex: \".*\\\\.rules\""
+    "        }}"
+    "        content_entry:{"
+    "          match_type: ALL_MATCH_ANY_ORDER"
+    "          match_criteria:{"
+    "            filter_regex: \".*-a\\\\s+always,exit\\\\s+-F\\\\s+path=.*-k\\\\s+privileged\\\\s*\""
+    "            expected_regex: \"\\\\s*-a\\\\s+always,exit\\\\s+-F\\\\s+path=.*-F\\\\s+perm=x\\\\s+-F\\\\s+auid>=\\\\d+\\\\s+-F\\\\s+auid!=unset\\\\s+-k\\\\s+privileged\\\\s*\""
+    "          }"
+    "        }"
+    "      }"
+    "    }"
+    "}"
+  }
+}
+
+
+
