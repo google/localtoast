@@ -13587,3 +13587,67 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "disable-gnome-automount-removable-media"
+  compliance_note: {
+    title: "Ensure GDM disabling automatic mounting of removable media is disabled"
+    description:
+        "By default GNOME automatically mounts removable media when inserted as a "
+	"convenience to the user."
+    rationale:
+        "With automounting enabled anyone with physical access could attach a USB drive or "
+	"disc and have its contents available in system even if they lacked permissions to mount"
+	"it themselves."
+    remediation:
+        "- IF - A user profile exists run the following commands to ensure automatic mounting is "
+	"disabled:\n"
+	"```\n"
+	"# gsettings set org.gnome.desktop.media-handling automount false\n"
+	"# gsettings set org.gnome.desktop.media-handling automount-open false\n"
+	"Note:\n"
+	"• gsettings commands in this section MUST be done from a command window "
+	"on a graphical desktop or an error will be returned.\n"
+	"• The system must be restarted after all gsettings configurations have been set "
+	"in order for CIS-CAT Assessor to appropriately assess.\n"
+	"• If the dconf database is not updating correctly due to umask requirements "
+	"contain in the benchmark, then use (umask 0022 && gsetting set)\n"
+	"commands from above to temporarily set umask ensuring that any files or "
+	"directories created by gsettings will have the required permissions.\n"
+	"- OR/IF - A user profile does not exist:\n"
+	"1. Create a file /etc/dconf/db/local.d/00-media-automount with following\n"
+	"content:\n"
+	"```\n"
+	"[org/gnome/desktop/media-handling]\n"
+	"automount=false\n"
+	"automount-open=false\n"
+	"```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"automount=false\\\\s*\""
+      "          expected_regex: \"automount=false\\\\s*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"automount-open=false\\\\s*\""
+      "          expected_regex: \"automount-open=false\\\\s*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
