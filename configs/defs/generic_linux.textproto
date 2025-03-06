@@ -10747,3 +10747,56 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "var-nodev"
+  compliance_note: {
+    title: "Ensure nodev option set on /var partition"
+    description:
+      "The nodev mount option specifies that the filesystem cannot contain "
+      "special devices."
+    rationale:
+      "Since the /var filesystem is not intended to support devices, set "
+      "this option to ensure that users cannot attempt to create block or "
+      "character special devices in /var."
+    remediation:
+      "Run the following command to remount /var:\n"
+      "```\n"
+      "# mount -o remount,nodev /var\n"
+      "```\n"
+      "`/etc` is stateless on Container-Optimized OS. Therefore, `/etc` "
+      "cannot be used to make these changes persistent across reboots. The "
+      "steps mentioned above needs to be performed after every boot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .*nodev.* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \".* /var .* - .*\""
+      "        expected_regex: \".* /var .* - .*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
