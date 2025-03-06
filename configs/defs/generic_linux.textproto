@@ -10018,3 +10018,41 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "password-minimum-length-configured"
+  compliance_note: {
+    title: "Ensure Minimum Password Length is Configured"
+    description: 
+      "The configuration ensures that the minimum password length is enforced to enhance password security."
+    rationale: 
+      "Using a minimum password length policy helps to protect systems from password attacks by increasing the complexity "
+      "and reducing the predictability of passwords."
+    remediation: 
+      "Create or modify a `.conf` file in `/etc/security/pwquality.conf.d/` or edit `/etc/security/pwquality.conf` to "
+      "include the following configuration:\n"
+      "```\n"
+      "minlen = 14"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bminlen\\\\s*=\\\\s*14.*\""
+      "          expected_regex: \"[^#]*\\\\bminlen\\\\s*=\\\\s*14.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
