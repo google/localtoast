@@ -9760,3 +9760,51 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "reauthentication-for-privilege-escalation-not-disabled"
+  compliance_note: {
+    title: "Ensure re-authentication for privilege escalation is not disabled globally"
+    description:
+      "The operating system must be configured so that users must re-authenticate for privilege "
+      "escalation."
+    rationale:
+      "Without re-authentication, users may access resources or perform tasks for which they do "
+      "not have authorization.\n"
+      "When operating systems provide the capability to escalate a functional capability, it is "
+      "critical the user re-authenticate."
+    remediation:
+      "Configure the operating system to require users to reauthenticate for privilege escalation.\n"
+      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
+      "relevant sudoers file.\n"
+      "Remove any occurrences of !authenticate tags in the file(s)."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#].*\\\\!authenticate.*\""
+      "          expected_regex: \"[^#].*\\\\!authenticate.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
