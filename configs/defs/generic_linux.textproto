@@ -9876,3 +9876,44 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "sshd-gssapi-authentication-disabled"
+  compliance_note: {
+    title: "Ensure sshd GSSAPIAuthentication is disabled"
+    description:
+      "The GSSAPIAuthentication parameter specifies whether user authentication "
+      "based on GSSAPI is allowed. Disabling this option reduces the attack "
+      "surface of the system by avoiding exposure of the system's GSSAPI to remote hosts."
+    rationale:
+      "Allowing GSSAPI authentication through SSH exposes the system's GSSAPI to remote "
+      "hosts, increasing the attack surface. Disabling it minimizes potential risks."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file and set the following option:\n"
+      "```\n"
+      "GSSAPIAuthentication no\n"
+      "```\n"
+      "Ensure this is placed above any Include or Match entries."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*GSSAPIAuthentication\\\\s+.*$\""
+      "          expected_regex: \"\\\\s*GSSAPIAuthentication\\\\s+no$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
