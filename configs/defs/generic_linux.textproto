@@ -13227,7 +13227,6 @@ benchmark_configs: {
       "# pam-auth-update --enable faillock\n"
       "# pam-auth-update --enable faillock_notify"
       "```"
->>>>>>> 06a9f6a (added ensure-pam-faillock-enabled)
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
@@ -13252,3 +13251,72 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-pam-pwhistory-enabled"
+  compliance_note: {
+    title: "Ensure pam_pwhistory module is enabled"
+    description:
+      "The pam_pwhistory.so module saves the last passwords for each user in order to force password change history "
+      "and prevent users from alternating between the same passwords too frequently."
+    rationale:
+      "Use of unique, complex passwords helps to increase the time and resources required to compromise the password."
+    remediation:
+      "Run the following script to verify the pam_pwhistory.so line exists in a pam-auth-update profile:\n"
+      "```\n"
+      "# grep -P -- '\\bpam_pwhistory\\.so\\b' /usr/share/pam-configs/*\n\n"
+      "```\n"
+      "If similar output is returned, update the /etc/pam.d/common-password file:\n"
+      "```\n"
+      "# pam-auth-update --enable {PROFILE_NAME}\n\n"
+      "```\n"
+      "If not, create a pam-auth-update profile for pwhistory and enable it:\n"
+      "```\n"
+      "#!/usr/bin/env bash\n"
+      "{\n"
+      "arr=('Name: pwhistory password history checking' 'Default: yes' 'Priority: 1024' 'Password-Type: Primary' 'Password:' '\\trequisite\\tpam_pwhistory.so remember=24 enforce_for_root try_first_pass use_authtok')\n"
+      "printf '%s\\n' \"${arr[@]}\" > /usr/share/pam-configs/pwhistory\n"
+      "}"
+      "```\n"
+      "Run the following command to update /etc/pam.d/common-password with the pwhistory profile:\n"
+      "```\n"
+      "# pam-auth-update --enable pwhistory\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex:\"common-password\""
+      "      recursive:false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type:ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "        expected_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/usr/share/pam-configs/\""
+      "      filename_regex:\".*\""
+      "      recursive:false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type:ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "        expected_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
