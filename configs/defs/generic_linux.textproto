@@ -9615,3 +9615,87 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "ensure-sshd-clientalive-configured"
+  compliance_note: {
+    title: "Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured"
+    description:
+      "The two options ClientAliveInterval and ClientAliveCountMax control the timeout "
+      "of SSH sessions. The ClientAliveInterval option sets a timeout interval in seconds, "
+      "after which, if no data has been received from the client, sshd will send a message "
+      "to request a response. The ClientAliveCountMax option determines the number of such "
+      "messages sent before terminating the session. For example, with ClientAliveInterval "
+      "set to 15 seconds and ClientAliveCountMax set to 3, unresponsive SSH clients will "
+      "be disconnected after approximately 45 seconds."
+    rationale:
+      "In order to prevent resource exhaustion and ensure unresponsive SSH sessions are "
+      "properly terminated, appropriate values should be set for ClientAliveInterval and "
+      "ClientAliveCountMax. Idle connections could lead to resource exhaustion or be used "
+      "as a vector for a Denial of Service attack. Recommended values are site-dependent, "
+      "but typical settings are a timeout of 15-45 seconds."
+    remediation:
+      "Edit the `/etc/ssh/sshd_config` file to set the ClientAliveInterval and "
+      "ClientAliveCountMax parameters above any Include or Match entries according to "
+      "site policy. Example configuration:\n"
+      "```\n"
+      "ClientAliveInterval 15\n"
+      "ClientAliveCountMax 3\n"
+      "```\n"
+      "Ensure that any Match blocks are configured appropriately for specific users or "
+      "groups as needed."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveInterval .*\""
+      "          expected_regex: \"ClientAliveInterval (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 46"
+      "          }"
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveInterval .*\""
+      "          expected_regex: \"ClientAliveInterval (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 0"
+      "          }"
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveCountMax .*\""
+      "          expected_regex: \"ClientAliveCountMax (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 0"
+      "          }"
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveCountMax .*\""
+      "          expected_regex: \"ClientAliveCountMax (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 4"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
