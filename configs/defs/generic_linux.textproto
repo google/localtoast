@@ -12294,6 +12294,43 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-libpam-pwquality-installed"
+  compliance_note: {
+    title: 
+      "Ensure libpam-pwquality is installed"
+    description: 
+      "libpwquality provides common functions for password quality checking and scoring based on their apparent randomness. "
+      "It helps in strengthening passwords to reduce brute force attacks."
+    rationale: 
+      "Strong passwords reduce the risk of systems being hacked through brute force methods."
+    remediation: 
+      "Run the following command to install libpam-pwquality:\n"
+      "```\n"
+      "apt install libpam-pwquality\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions: 
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Package: libpam-pwquality\""
+      "          expected_regex: \"Package: libpam-pwquality\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "password-maxrepeat-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
