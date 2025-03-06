@@ -14109,3 +14109,61 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-single-time-sync-daemon"
+  compliance_note: {
+    title: "Ensure a single time synchronization daemon is in use"
+    description:
+      "System time should be synchronized between all systems in an environment. This is typically done by establishing "
+      "an authoritative time server or set of servers and having all systems synchronize their clocks to them."
+    rationale:
+      "Time synchronization is important to support time-sensitive security mechanisms and ensures log files have consistent "
+      "time records across the enterprise, which aids in forensic investigations."
+    remediation:
+      "On physical systems, and virtual systems where host-based time synchronization is not available:\n"
+      "1. Select one of the two time synchronization daemons; chrony or systemd-timesyncd.\n"
+      "   - To use chrony:\n"
+      "```\n"
+      "     # apt install chrony\n"
+      "     # systemctl stop systemd-timesyncd.service\n"
+      "     # systemctl mask systemd-timesyncd.service\n"
+      "```\n"
+      "   - To use systemd-timesyncd:\n"
+      "```\n"
+      "     # apt purge chrony\n"
+      "     # apt autoremove chrony\n"
+      "```\n"
+      "Avoid enabling both daemons simultaneously, as this may lead to unreliable results."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"chronyd is not active.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/systemd-timesyncd.service\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"systemd-timesyncd should be masked.\""
+      "    }"
+      "}"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/systemd-timesyncd\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"systemd-timesyncd is not active.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"chronyd is active while systemd-timesyncd is expected.\""
+      "    }"
+      "}"
+    "}"
+  }
+}
