@@ -19737,3 +19737,49 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "audit-log-storage-size-configured"
+  compliance_note: {
+    title: "Ensure audit log storage size is configured"
+    description:
+      "Configure the maximum size of the audit log file. "
+      "Once the log reaches the maximum size, it will be rotated and a new log file will be started."
+    rationale:
+      "It is important that an appropriate size is determined for log files "
+      "so that they do not impact the system and audit data is not lost."
+    remediation:
+      "Set the following parameter in /etc/audit/auditd.conf in accordance with site policy: "
+      "```max_log_file = <MB>``` \n"
+      "Notes: The max_log_file parameter is measured in megabytes. \n"
+      "Other methods of log rotation may be appropriate based on site policy. "
+      "One example is time-based rotation strategies which don't have native support in auditd configurations. "
+      "Manual audit of custom configurations should be evaluated for effectiveness and completeness."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "         content_entry:{"
+      "           match_type: ALL_MATCH_ANY_ORDER"
+      "           match_criteria: {"
+      "             filter_regex: \"\\\\s*max_log_file\\\\s*=.*\""
+      "             expected_regex: \"max_log_file\\\\s*=\\\\s*(\\\\d+)\""
+      "           }"
+      "         }"
+      "   }"
+      " }"
+      " check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      " }"
+      "}"
+  }
+}
+
