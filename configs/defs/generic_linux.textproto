@@ -14063,3 +14063,111 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "nftables-is-installed"
+  compliance_note: {
+    title: "Ensure nftables is installed"
+    description:
+      "nftables provides a new in-kernel packet classification framework that is based on a "
+      "network-specific Virtual Machine (VM) and a new nft userspace command line tool.\n"
+      "nftables reuses the existing Netfilter subsystems such as the existing hook infrastructure, "
+      "the connection tracking system, NAT, userspace queuing and logging subsystem.\n"
+      "Note:\n"
+      "nftables is available in Linux kernel 3.13 and newer.\n"
+      "Only one firewall utility should be installed and configured."
+    rationale:
+      "nftables is a subsystem of the Linux kernel that can protect against threats originating from "
+      "within a corporate network to include malicious mobile code and poorly configured "
+      "software on a host.\n"
+      "Impact:\n"
+      "Changing firewall settings while connected over the network can result in being locked out "
+      "of the system."
+    remediation:
+      "Run the following command to install nftables\n"
+      "# yum install nftables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+benchmark_configs: {
+  id: "nftables-not-installed-with-iptables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nftables is not installed with iptables"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
+      "packets/datagrams/frames and is the successor to iptables."
+    rationale: "Running both iptables and nftables may lead to conflict."
+    remediation:
+      "Run the following command to remove nftables:\n"
+      "# apt purge nftables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
