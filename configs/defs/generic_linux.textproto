@@ -9847,3 +9847,40 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "root-gid-zero-group-check"
+  compliance_note: {
+    title: "Ensure group root is the only GID 0 group"
+    description: 
+      "Using GID 0 for the root group helps prevent root group owned files from accidentally "
+      "becoming accessible to non-privileged users."
+    rationale: 
+      "Restricting GID 0 to the root account minimizes the risk of unauthorized access and ensures critical system "
+      "files are properly secured."
+    remediation: 
+      "Run the following commands to ensure the root user and group GID are correctly set and no other users have GID 0:\n"
+      "usermod -g 0 root\n"
+      "groupmod -g 0 root\n"
+      "Remove or reassign GID 0 from any other users."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/group\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^root]:x:0:.*\""
+      "          expected_regex: \".*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
