@@ -10062,3 +10062,65 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "xinetd-service-disabled"
+  compliance_note: {
+    title: "Ensure xinetd services are not in use"
+    description:
+      "The eXtended InterNET Daemon (xinetd) is an open source super daemon that "
+      "replaced the original inetd daemon. The xinetd daemon listens for well known "
+      "services and dispatches the appropriate daemon to properly respond to service "
+      "requests."
+    rationale:
+      "If there are no xinetd services required, it is recommended that the package be "
+      "removed to reduce the attack surface are of the system."
+    remediation:
+      "Run the following commands to stop xinetd.service, and remove the xinetd "
+      "package:\n"
+      "# systemctl stop xinetd.service\n"
+      "# apt purge xinetd\n"
+      "-OR-\n"
+      "-IF- the xinetd package is required as a dependency:\n"
+      "Run the following commands to stop and mask the xinetd.service:\n"
+      "# systemctl stop xinetd.service\n"
+      "# systemctl mask xinetd.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"xinetd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"xinetd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables xinetd\""
+      "    file_display_command: \"find /etc/systemd/system -name 'xinetd.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"xinetd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables xinetd\""
+      "    file_display_command: \"find /etc/systemd/system -name 'xinetd.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+
+
