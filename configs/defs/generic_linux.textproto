@@ -9772,3 +9772,55 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "ensure-ufw-service-enabled"
+  compliance_note: {
+    title: "Ensure ufw Service is Enabled"
+    description: 
+      "Uncomplicated Firewall (ufw) is a frontend for iptables that provides a framework for managing Netfilter, offering "
+      "both command-line and GUI interfaces for firewall management."
+    rationale: 
+      "The `ufw` service must be enabled and running to ensure proper system protection by the firewall."
+    remediation: 
+      "To unmask, enable, and start the `ufw` daemon:\n"
+      "```\n"
+      "# systemctl unmask ufw.service\n"
+      "# systemctl --now enable ufw.service\n"
+      "# ufw enable\n"
+      "```\n"
+      "Note: Ensure to configure rules to avoid being locked out of the system, especially when connected over SSH."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/lib/systemd/system/ufw.service\"}}"
+      "        existence:{should_exist:true}"
+      "        non_compliance_msg: \"The ufw service file is missing or masked.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/ufw.service\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The ufw service file is missing or masked.\""
+      "      }"
+      "    }"
+      "  }"
+      "  image_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{dir_path:\"/lib/systemd/system/\", filename_regex:\"ufw.service\", recursive:true}}"
+      "        existence:{should_exist:true}"
+      "        non_compliance_msg: \"The ufw service file is missing in the image.\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
