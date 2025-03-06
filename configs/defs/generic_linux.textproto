@@ -14485,3 +14485,66 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ufw-open-ports-rules-configured"
+  compliance_note: {
+    title: "Ensure ufw is uninstalled or disabled with nftables"
+    description: 
+      "Services and ports can be accepted or explicitly rejected."
+    rationale: 
+      "To reduce the attack surface of a system, all services and ports should be blocked "
+      "unless required.\n"
+      "• Any ports that have been opened on non-loopback addresses need firewall rules "
+      "to govern traffic.\n"
+      "• Without a firewall rule configured for open ports, the default firewall policy will "
+      "drop all packets to these ports.\n"
+      "• Required ports should have a firewall rule created to allow approved connections "
+      "in accordance with local site policy.\n"
+      "• Unapproved ports should have an explicit deny rule created."
+    remediation: 
+      "For each port identified in the audit which does not have a firewall rule, evaluate the "
+      "service listening on the port and add a rule for accepting or denying inbound "
+      "connections in accordance with local site policy:\n"
+      "Examples:\n"
+      "```\n"
+      "# ufw allow in <port>/<tcp or udp protocol>\n"
+      "# ufw deny in <port>/<tcp or udp protocol>\n"
+      "```\n"
+      "Note: Examples create rules for from any, to any. More specific rules should be "
+      "concentered when allowing inbound traffic e.g only traffic from this network.\n"
+      "Example to allow traffic on port 443 using the tcp protocol from the 192.168.1.0 network:\n"
+      "```\n"
+      "ufw allow from 192.168.1.0/24 to any proto tcp port 443\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    repeat_config: {type: FOR_EACH_OPEN_IPV4_PORT}"      
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*--dport $port.*\""
+      "        expected_regex: \"\\\\s*[^#].*--dport $port.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user6.rules\"}}"
+      "    repeat_config: {type: FOR_EACH_OPEN_IPV6_PORT}"      
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*--dport $port.*\""
+      "        expected_regex: \"\\\\s*[^#].*--dport $port.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
