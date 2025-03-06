@@ -12299,6 +12299,53 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ip6tables-loopback-traffic-configured"
+  compliance_note: {
+    title: "Ensure ip6tables Loopback Traffic is Configured"
+    description: 
+      "Configure the loopback interface to accept traffic. Configure all other interfaces to deny traffic to the loopback "
+      "network (::1)."
+    rationale: 
+      "Loopback traffic is generated between processes on the machine and is typically critical to the operation of the system. "
+      "The loopback interface is the only place that loopback network (::1) traffic should be seen; all other interfaces "
+      "should ignore traffic on this network as an anti-spoofing measure."
+    remediation: 
+      "Run the following commands to implement the loopback rules:\n"
+      "```\n"
+      "# ip6tables -A INPUT -i lo -j ACCEPT\n"
+      "# ip6tables -A OUTPUT -o lo -j ACCEPT\n"
+      "# ip6tables -A INPUT -s ::1 -j DROP\n"
+      "```\n"
+      "Note: Changing firewall settings while connected over the network can result in being locked out of the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions: 
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"-A INPUT -i lo -j ACCEPT\""
+      "          expected_regex: \"-A INPUT -i lo -j ACCEPT\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"-A INPUT -s ::1(/128)? -j DROP\""
+      "          expected_regex: \"-A INPUT -s ::1(/128)? -j DROP\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"-A OUTPUT -o lo -j ACCEPT\""
+      "          expected_regex: \"-A OUTPUT -o lo -j ACCEPT\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "password-history-enforce-use-authtok"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
