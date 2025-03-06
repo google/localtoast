@@ -20110,3 +20110,44 @@ benchmark_configs: {
     "}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-audit-log-mode-configured"
+  compliance_note: {
+    title: "Ensure audit log files mode is configured"
+    description: "Audit log files contain information about the system and system activity."
+    rationale:
+      "Access to audit records can reveal system and configuration data to attackers, "
+      "potentially compromising its confidentiality."
+    remediation:
+      "Run the following command to remove more permissive mode than 0640 from audit log "
+      "files:\n"
+      "```"
+      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\""
+      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f -perm"
+      "/0137 -exec chmod u-x,g-wx,o-rwx {} +"
+      "```"
+  cis_benchmark: {
+    profile_level: 2
+    severity: MEDIUM
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "    file_checks:{"
+    "      files_to_check:{single_file:{path:\"/var/log/audit/audit.log\"}}"
+    "      existence:{should_exist:true}"
+    "    }"
+    "      file_checks:{"
+    "        files_to_check:{single_file:{"
+    "          path:\"/var/log/audit/audit.log\""
+    "        }}"
+    "        permission:{"
+    "          set_bits: 0640"
+    "          clear_bits: 0137"
+    "          bits_should_match: BOTH_SET_AND_CLEAR"
+    "        }"
+    "      }"
+    "    }"
+    "}"
+  }
+}
