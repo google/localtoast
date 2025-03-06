@@ -13823,4 +13823,40 @@ benchmark_configs: {
       "    }"
       "}}"
   }
+}	
+
+benchmark_configs: {
+  id: "iptables-open-ports-rules-configured"
+  compliance_note: {
+    title: "Ensure iptables firewall rules exist for all open ports"
+    description: 
+      "Any ports that have been opened on non-loopback addresses need firewall rules to"
+      "govern traffic."
+    rationale: 
+      "Without a firewall rule configured for open ports default firewall policy will drop all"
+      "packets to these ports."
+    remediation: 
+      "For each port identified in the audit which does not have a firewall rule establish a"
+      "proper rule for accepting inbound connections:"
+      "# iptables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "    repeat_config: {type: FOR_EACH_OPEN_IPV4_PORT}"      
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*--dport $port.*\""
+      "        expected_regex: \"[^#].*--dport $port.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
 }
+
