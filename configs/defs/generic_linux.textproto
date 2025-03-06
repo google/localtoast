@@ -10124,3 +10124,40 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "rpcbind-not-in-use"
+  compliance_note: {
+    title: "Ensure rpcbind services are not in use"
+    description: 
+      "The rpcbind utility maps RPC services to the ports on which they listen. RPC processes notify rpcbind when they "
+      "start, registering the ports they are listening on and the RPC program numbers they expect to serve."
+    rationale: 
+      "A small request sent to the Portmapper generates a large response, making it a suitable tool for DDoS attacks. "
+      "If rpcbind is not required, removing it reduces the potential attack surface."
+    remediation: 
+      "1. Stop and mask the rpcbind.socket and rpcbind.service to ensure they do not run:\n"
+      "```\n"
+      "# systemctl stop rpcbind.socket rpcbind.service\n"
+      "# systemctl mask rpcbind.socket rpcbind.service\n"
+      "```\n"
+      "2. Remove the rpcbind package if it is not required as a dependency:\n"
+      "```\n"
+      "# apt purge rpcbind\n"
+      "```\n"
+      "Note: If rpcbind is required for dependencies, ensure the socket and service are stopped and masked."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}}"
+  }
+}
+
+
+
