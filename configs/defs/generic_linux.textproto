@@ -13320,3 +13320,68 @@ benchmark_configs: {
   }
 }
 
+
+benchmark_configs: {
+  id: "ensure-pam-pwquality-enabled"
+  compliance_note: {
+    title: "Ensure pam_pwquality module is enabled"
+    description:
+      "The pam_pwquality.so module performs password quality checking. This module can be plugged into the password "
+      "stack of a given service to provide strength-checking for passwords. The code was originally based on pam_cracklib "
+      "module and the module is backwards compatible with its options."
+    rationale:
+      "Use of a unique, complex password helps to increase the time and resources required to compromise the password."
+    remediation:
+      "Run the following script to verify the pam_pwquality.so line exists in a pam-auth-update profile:\n"
+      "```\n"
+      "# grep -P -- '\\bpam_pwquality\\.so\\b' /usr/share/pam-configs/*\n\n"
+      "```\n"
+      "If similar output is returned, update the /etc/pam.d/common-password file:\n"
+      "```\n"
+      "# pam-auth-update --enable {PROFILE_NAME}\n\n"
+      "```\n"
+      "If not, create a pam-auth-update profile for pwquality and enable it:\n"
+      "```\n"
+      "#!/usr/bin/env bash\n"
+      "{\n"
+      "arr=('Name: Pwquality password strength checking' 'Default: yes' 'Priority: 1024' 'Conflicts: cracklib' 'Password-Type: Primary' 'Password:' 'requisite\\tpam_pwquality.so retry=3' 'Password-Initial:' 'requisite')\n"
+      "printf '%s\\n' \"${arr[@]}\" > /usr/share/pam-configs/pwquality\n"
+      "}"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex: \"common-password\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "        expected_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/usr/share/pam-configs/\""
+      "      filename_regex: \".*\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "        expected_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
