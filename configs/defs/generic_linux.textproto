@@ -9705,3 +9705,70 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "ensure-bluetooth-services-disabled"
+  compliance_note: {
+    title: "Ensure Bluetooth Services Are Not in Use"
+    description:
+      "Bluetooth is a short-range wireless technology standard that is used for exchanging data between devices over short "
+      "distances. If Bluetooth is not needed, it should be disabled to reduce the potential attack surface."
+    rationale:
+      "Disabling Bluetooth services prevents attackers from exploiting vulnerabilities in Bluetooth technology, such as "
+      "bluesnarfing, and reduces the risk of data corruption, theft, or loss due to malicious activity."
+    remediation:
+      "Run the following commands to stop the Bluetooth service and remove the bluez package:\n"
+      "```\n"
+      "# systemctl stop bluetooth.service\n"
+      "# apt purge bluez\n"
+      "```\n"
+      "- OR - If the bluez package is required as a dependency:\n"
+      "```\n"
+      "# systemctl stop bluetooth.service\n"
+      "# systemctl mask bluetooth.service\n"
+      "```\n"
+      "Note: A reboot may be required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{process_path:{proc_name:\"bluetoothd\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"bluetoothd is running, Bluetooth services are active.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/bluetooth.service\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The Bluetooth service is not masked or disabled.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/bluetoothd\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The bluez package is installed.\""
+      "      }"
+      "    }"
+      "  }"
+      "  image_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/system/\", filename_regex:\"bluetooth.service\", recursive:true}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The Bluetooth service configuration file is present in the image.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/bluetoothd\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The bluez package is present in the image.\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
