@@ -10800,3 +10800,84 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "var-nosuid"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:debian:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nosuid option set on /var partition"
+    description:
+      "The nosuid mount option specifies that the filesystem cannot contain setuid files."
+    rationale:
+      "Since the /var filesystem is only intended for variable files such as logs, set this option "
+      "to ensure that users cannot create setuid files in /var."
+    remediation:
+      "- IF - a separate partition exists for /var.\n"
+      "Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
+      "/var partition.\n"
+      "Example:\n"
+      "<device> /var <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
+      "Run the following command to remount /var with the configured options:\n"
+      "# mount -o remount /var"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var .* - .*\""
+      "          expected_regex: \".* /var .*nosuid.* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var .*\""
+      "          expected_regex: \".*nosuid.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var .* - .*\""
+      "          expected_regex: \".* /var .* - .*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var .*\""
+      "          expected_regex: \".*nosuid.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
