@@ -13968,3 +13968,56 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-default-user-umask-configured"
+  compliance_note: {
+    title: "Ensure default user umask is configured"
+    description: 
+      "The user file-creation mode mask (umask) determines the default permissions for newly created files and directories, "
+      "ensuring they have appropriate restrictions."
+    rationale: 
+      "Setting a secure default umask ensures that newly created files and directories have restricted permissions, reducing "
+      "the risk of unauthorized access or modification."
+    remediation: 
+      "Edit configuration files to set the default umask to 027 or a more restrictive value. Suggested files include "
+      "/etc/profile, /etc/bashrc, and scripts in /etc/profile.d."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/bashrc\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/profile.d/\", filename_regex:\".*\\\\.sh\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
