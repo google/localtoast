@@ -13656,3 +13656,60 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "crontab-restricted-to-authorized-users"
+  compliance_note: {
+    title: "Ensure crontab is restricted to authorized users"
+    description:
+      "crontab is the program used to install, deinstall, or list the tables used to drive the cron "
+      "daemon. Each user can have their own crontab, and though these are files in /var/spool/cron/crontabs, "
+      "they are not intended to be edited directly. If the /etc/cron.allow file exists, then you must be listed "
+      "(one user per line) therein in order to be allowed to use this command. If the /etc/cron.allow file does "
+      "not exist but the /etc/cron.deny file does exist, then you must not be listed in the /etc/cron.deny file "
+      "in order to use this command. If neither of these files exists, then depending on site-dependent "
+      "configuration parameters, only the super user will be allowed to use this command, or all users will be "
+      "able to use this command. If both files exist then /etc/cron.allow takes precedence. Regardless of the "
+      "existence of any of these files, the root administrative user is always allowed to setup a crontab."
+    rationale:
+      "On many systems, only the system administrator is authorized to schedule cron jobs. Using the cron.allow "
+      "file to control who can run cron jobs enforces this policy. It is easier to manage an allow list than a deny "
+      "list. In a deny list, you could potentially add a user ID to the system and forget to add it to the deny files."
+    remediation:
+      "Run the following commands to ensure proper configuration of cron access:\n"
+      "```\n"
+      "# [ ! -e \"/etc/cron.allow\" ] && touch /etc/cron.allow\n"
+      "# chown root:root /etc/cron.allow\n"
+      "# chmod u-x,g-wx,o-rwx /etc/cron.allow\n"
+      "# [ -e \"/etc/cron.deny\" ] && chown root:root /etc/cron.deny\n"
+      "# [ -e \"/etc/cron.deny\" ] && chmod u-x,g-wx,o-rwx /etc/cron.deny\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.deny\"}}"
+      "    existence:{should_exist:false}"
+      "    non_compliance_msg:\"The /etc/cron.deny file exists. Remove it to restrict cron access to authorized users.\""
+      "    file_display_command:\"ls /etc/cron.deny\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.allow\"}}"
+      "    existence:{should_exist:true}"
+      "    non_compliance_msg:\"The /etc/cron.allow file is missing. Ensure it exists to restrict cron access to authorized users.\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.allow\"}}"
+      "    permission:{"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "    non_compliance_msg:\"The /etc/cron.allow file has incorrect permissions or ownership. Ensure it is properly configured.\""
+      "    file_display_command:\"stat -Lc 'Access: (%a/%A) Owner: (%U) Group: (%G)' /etc/cron.allow\""
+      "  }"
+      "}}"
+  }
+}
