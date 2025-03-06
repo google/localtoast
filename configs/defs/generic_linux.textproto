@@ -10132,3 +10132,58 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "users-password-for-escalation"
+  compliance_note: {
+    title: "Ensure users must provide password for escalation"
+    description:
+      "The operating system must be configured so that users must provide a password for "
+      "privilege escalation."
+    rationale:
+      "Without re-authentication, users may access resources or perform tasks for which they do "
+      "not have authorization.\n"
+      "When operating systems provide the capability to escalate a functional capability, it is "
+      "critical the user re-authenticate."
+    remediation:
+      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
+      "relevant sudoers file.\n"
+      "Remove any line with occurrences of NOPASSWD tags in the file."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/sudoers\"}}"
+      "          content_entry:{"
+      "            match_type: NONE_MATCH"
+      "            match_criteria: {"
+      "              filter_regex: \"[^#].*NOPASSWD:.*\""
+      "              expected_regex: \"[^#].*NOPASSWD:.*\""
+      "            }"
+      "          }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sudoers.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "              filter_regex: \"[^#].*NOPASSWD:.*\""
+      "              expected_regex: \"[^#].*NOPASSWD:.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
