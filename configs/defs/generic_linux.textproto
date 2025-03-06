@@ -9902,3 +9902,41 @@ benchmark_configs: {
 
 
 
+benchmark_configs: {
+  id: "password-history-remember-configured"
+  compliance_note: {
+    title: "Ensure Password History Remember is Configured"
+    description: 
+      "The configuration ensures that the pam_pwhistory module enforces a specific number of old passwords remembered, "
+      "preventing users from reusing recent passwords."
+    rationale: 
+      "Remembering previous passwords reduces the likelihood of attackers successfully compromising accounts by reusing "
+      "previous passwords, enhancing password security."
+    remediation: 
+      "Edit the `/etc/pam.d/common-password` file and ensure the `pam_pwhistory` module line includes:\n"
+      "```\n"
+      "remember=<N>\n"
+      "```\n"
+      "where `<N>` is 24 or more, based on local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember=(2[4-9]|[3-9][0-9]|[1-9][0-9]{2,}).*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember=(2[4-9]|[3-9][0-9]|[1-9][0-9]{2,}).*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+
+
