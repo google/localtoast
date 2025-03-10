@@ -1413,18 +1413,26 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
-      "    content:{content:\"\"}"
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/issue\"}}"
+      "        content_entry:{"
+      "          match_type: NONE_MATCH"
+      "          match_criteria: {"
+      "            filter_regex: \"((.*\\\\\\\\m.*)|(.*\\\\\\\\r.*)|(.*\\\\\\\\s.*)|(.*\\\\\\\\v.*))\""
+      "            expected_regex: \"((.*\\\\\\\\m.*)|(.*\\\\\\\\r.*)|(.*\\\\\\\\s.*)|(.*\\\\\\\\v.*))\""
+      "          }"
+      "        }"
+      "     }"
+      "  }"
+      "  check_alternatives:{"
+      "	   file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/issue.net\"}}"
+      "      existence:{should_exist:false}"
+      "	   }"
       "  }"
       "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/issue\"}}"
-      "    existence:{should_exist:false}"
-      "  }"
-      "}}"
   }
 }
 benchmark_configs: {
