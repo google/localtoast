@@ -13395,8 +13395,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "apparmor-enabled-bootloader"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
-    version: { cpe_uri: "cpe:/o:debian:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure AppArmor is enabled in the bootloader configuration"
     description:
       "Configure AppArmor to be enabled at boot time and verify that it has not been "
@@ -13857,7 +13855,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-apparmor-profiles-enforce-complain"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     title: "Ensure all AppArmor Profiles are in enforce or complain mode"
     description:
       "AppArmor profiles define what resources applications are able to access."
@@ -14171,7 +14168,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-systemd-timesyncd-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     title: "Ensure a single time synchronization daemon is in use"
     description:
       "systemd-timesyncd is a daemon that has been added for synchronizing the system "
