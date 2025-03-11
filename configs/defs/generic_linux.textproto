@@ -14122,7 +14122,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nftables-not-installed-with-iptables"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:debian:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure nftables is not installed with iptables"
     description:
       "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
