@@ -12176,6 +12176,10 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "  existence:{should_exist: false}"
+      "}"
+      "check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
       "      content_entry:{"
@@ -13628,6 +13632,10 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "  existence:{should_exist: false}"
+      "}"
+      "check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
       "      content_entry:{"
@@ -13683,6 +13691,10 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "  existence:{should_exist: false}"
+      "}"
+      "check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
       "      content_entry:{"
@@ -13785,6 +13797,10 @@ benchmark_configs: {
     scan_instructions:
       "generic:{"
       "  check_alternatives:{"
+      "    file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/\" recursive: true }}"
       "      content_entry:{"
@@ -13825,6 +13841,10 @@ benchmark_configs: {
     scan_instructions:
       "scan_type_specific:{instance_scanning:{"
       "  check_alternatives:{"
+      "    file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "check_alternatives:{"
       "    file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-autorun\"}}"
       "      content_entry:{"
@@ -13870,6 +13890,10 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{single_file{path:\"/var/lib/dpkg/status\"}}"
+      "  existence:{should_exist: false}"
+      "}"
+      "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
       "    content_entry:{"
@@ -13910,6 +13934,10 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "  existence:{should_exist: false}"
+      "}"
+      "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/screensaver\"}}"
       "    content_entry:{"
@@ -13976,6 +14004,10 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
+      "  file_checks:{single_file{path:\"/etc/dconf\"}}"
+      "  existence:{should_exist: false}"
+      "}"
+      "check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/00-screensaver\"}}"
       "    content_entry:{"
