@@ -19950,8 +19950,6 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-tools-mode-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
-    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     title: "Ensure audit tools mode is configured"
     description:
       "Audit tools must be configured with mode 0755 or more restrictive to protect the integrity of audit tools and prevent unauthorized access."
