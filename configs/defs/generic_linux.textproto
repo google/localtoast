@@ -14860,3 +14860,76 @@ benchmark_configs: {
       "}"
   }
 }
+
+
+
+benchmark_configs: {
+  id: "systemd-timesyncd-configured"
+  compliance_note: {
+    title: "Ensure systemd-timesyncd is configured"
+    description:
+      "systemd-timesyncd is a daemon that has been added for synchronizing "
+      "the system clock across the network. It implements an SNTP client. In "
+      "contrast to NTP implementations such as chrony or the NTP reference "
+      "server this only implements a client side, and does not bother with "
+      "the full NTP complexity, focusing only on querying time from one "
+      "remote server and synchronizing the local clock to it. The daemon "
+      "runs with minimal privileges, and has been hooked up with networkd to "
+      "only operate when network connectivity is available. The daemon saves "
+      "the current clock to disk every time a new NTP sync has been acquired, "
+      "and uses this to possibly correct the system clock early at bootup, "
+      "in order to accommodate for systems that lack an RTC such as the "
+      "Raspberry Pi and embedded devices, and make sure that time "
+      "monotonically progresses on these systems, even if it is not always "
+      "correct. To make use of this daemon a new system user and "
+      "group \"systemdtimesync\" needs to be created on installation of "
+      "systemd.\n"
+      "This recommendation only applies if timesyncd is in use on the system."
+    rationale:
+      "Proper configuration is vital to ensuring time synchronization is "
+      "working properly."
+    remediation:
+      "Based on your system configuration, run the appropriate one of the "
+      "following commands to enable cron:\n"
+      "```\n"
+      "# chkconfig crond on\n"
+      "# systemctl enable crond\n"
+      "# update-rc.d crond enable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/systemd/timesyncd.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"NTP=.*\""
+      "        expected_regex: \"NTP=.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"FallbackNTP=.*\""
+      "        expected_regex: \"FallbackNTP=.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"RootDistanceMaxSec=.*\""
+      "        expected_regex: \"RootDistanceMaxSec=.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"systemd-timesyncd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
