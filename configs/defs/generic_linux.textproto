@@ -9561,6 +9561,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-password-failed-attempts-lockout-includes-root-account"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password failed attempts lockout includes root account"
     description:
       "even_deny_root - Root account can become locked as well as regular accounts. root_unlock_time=n - This option "
@@ -9610,6 +9611,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-password-failed-attempts-lockout-is-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password failed attempts lockout is configured"
     description:
       "The deny=<n> option will deny access if the number of consecutive authentication failures for this user during "
@@ -9650,6 +9652,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-password-unlock-time-is-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure password unlock time is configured"
     description:
       "unlock_time=<n> - The access will be re-enabled after seconds after the lock out. The value 0 has the same meaning as value never - the access will not be re-enabled without resetting the faillock entries by the faillock(8) command."
@@ -9701,6 +9704,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-root-password-is-set"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure root password is set"
     description:
       "There are a number of methods to access the root account directly. Without a password set, any user would be able "
@@ -9738,6 +9742,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "login-defs-strong-password-hashing"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Strong Password Hashing Algorithm is Configured in /etc/login.defs"
     description:
       "The configuration ensures that /etc/login.defs specifies a strong password hashing algorithm, such as SHA-512 or "
@@ -9772,6 +9777,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-dictionary-check-enabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password Dictionary Check is Enabled"
     description:
       "The configuration ensures that passwords are checked against a dictionary to avoid the use of weak or predictable "
@@ -9811,6 +9817,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-difok-changed-characters-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password Number of Changed Characters is Configured"
     description:
       "The configuration ensures that a specified number of characters in a new password differ from the old password, "
@@ -9850,6 +9857,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-history-enforce-for-root"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password History is Enforced for the Root User"
     description:
       "The configuration ensures that the pam_pwhistory module enforces password history for the root user as well, preventing root from reusing recent passwords."
@@ -9885,6 +9893,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-history-enforce-use-authtok"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_pwhistory Includes use_authtok"
     description:
       "The configuration ensures that the pam_pwhistory module enforces the use_authtok argument, enabling multiple pam "
@@ -9922,6 +9931,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-history-remember-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password History Remember is Configured"
     description:
       "The configuration ensures that the pam_pwhistory module enforces a specific number of old passwords remembered, "
@@ -9960,6 +9970,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-maxrepeat-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password Same Consecutive Characters is Configured"
     description:
       "The configuration ensures that the maximum number of allowed same consecutive characters in a new password is "
@@ -9999,6 +10010,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-maxsequence-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password Maximum Sequential Characters is Configured"
     description:
       "The configuration ensures that the maximum length of monotonic character sequences in the new password is limited, "
@@ -10038,6 +10050,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-minimum-length-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Minimum Password Length is Configured"
     description:
       "The configuration ensures that the minimum password length is enforced to enhance password security."
@@ -10076,6 +10089,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-quality-check-enforced"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password Quality Checking is Enforced"
     description:
       "The configuration ensures that the pam_pwquality module enforces password quality checks by rejecting passwords "
@@ -10115,6 +10129,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "password-quality-enforced-for-root"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Password Quality is Enforced for the Root User"
     description:
       "The configuration ensures that the pam_pwquality module enforces password quality checks for the root user."
@@ -10152,6 +10167,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "users-password-for-escalation"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure users must provide password for escalation"
     description:
       "The operating system must be configured so that users must provide a password for "
