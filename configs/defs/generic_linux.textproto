@@ -10981,6 +10981,7 @@ benchmark_configs: {
       "}"
   }
 }
+
 benchmark_configs: {
   id: "ensure-sshd-ciphers-configured"
   compliance_note: {
@@ -12178,46 +12179,6 @@ benchmark_configs: {
   }
 }
 
-benchmark_configs: {
-  id: "ensure-libpam-modules-installed"
-  compliance_note: {
-    title: "Ensure libpam-modules is installed"
-    description:
-      "Pluggable Authentication Modules for PAM. Ensures the system has full functionality and access to the PAM options "
-      "covered by this Benchmark."
-    rationale:
-      "To ensure the system has full functionality and access to the PAM options covered by this Benchmark."
-    remediation:
-      "If the version of libpam-modules on the system is less than version 1.5.2-6, run the following command to update to "
-      "the latest version:\n"
-      "```\n"
-      "apt update && apt upgrade libpam-modules\n"
-      "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: MEDIUM
-    }
-    scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
-      "    existence:{should_exist: false}"
-      "  }"
-      "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
-      "    content_entry:{"
-      "      match_type: ALL_MATCH_ANY_ORDER"
-      "      match_criteria: {"
-      "        filter_regex: \"Package: libpam-modules\""
-      "        expected_regex: \"Package: libpam-modules\""
-      "      }"
-      "    }"
-      "  }"
-      "}}"
-  }
-}
 
 
 benchmark_configs: {
@@ -13190,7 +13151,6 @@ benchmark_configs: {
       "}}"
   }
 }
-    
 
 benchmark_configs: {
   id: "ensure-pam-faillock-enabled"
