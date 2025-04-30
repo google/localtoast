@@ -9579,7 +9579,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
@@ -9602,8 +9602,6 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
-      "}"
-      "image_scanning:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
