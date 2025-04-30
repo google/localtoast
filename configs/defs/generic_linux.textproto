@@ -13155,6 +13155,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-pam-faillock-enabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_faillock module is enabled"
     description:
       "The pam_faillock.so module maintains a list of failed authentication attempts per user during a specified interval "
@@ -13217,6 +13218,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-pam-pwhistory-enabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_pwhistory module is enabled"
     description:
       "The pam_pwhistory.so module saves the last passwords for each user in order to force password change history "
@@ -13286,6 +13288,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-pam-pwquality-enabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_pwquality module is enabled"
     description:
       "The pam_pwquality.so module performs password quality checking. This module can be plugged into the password "
@@ -13351,12 +13354,13 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-pam-unix-enabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_unix module is enabled"
-    description: 
+    description:
       "pam_unix is the standard Unix authentication module. It uses standard calls from the system's libraries to retrieve and set account information as well as authentication."
-    rationale: 
+    rationale:
       "The system should only provide access after performing authentication of a user."
-    remediation: 
+    remediation:
       "Run the following command to enable the pam_unix module:\n"
       "# pam-auth-update --enable unix\n"
       "\nNote: If a site-specific custom profile is being used in your environment to configure PAM that includes the configuration for the pam_faillock module, enable that module instead."
@@ -13364,7 +13368,7 @@ benchmark_configs: {
       profile_level: 1
       severity: MEDIUM
     }
-    scan_instructions: 
+    scan_instructions:
       "scan_type_specific:{instance_scanning:{"
       "  check_alternatives:{"
       "    file_checks:{"
@@ -13389,13 +13393,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "pam-unix-nullok-not-included"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_unix Does Not Include nullok"
-    description: 
+    description:
       "The configuration ensures that the pam_unix module does not include the `nullok` argument, which permits blank passwords."
-    rationale: 
+    rationale:
       "Excluding the `nullok` argument ensures that blank passwords are not permitted, enhancing security by enforcing the "
       "use of strong passwords."
-    remediation: 
+    remediation:
       "Edit any `pam_unix` lines in `/etc/pam.d/common-password`, `/etc/pam.d/common-auth`, `/etc/pam.d/common-account`, "
       "`/etc/pam.d/common-session`, and `/etc/pam.d/common-session-noninteractive` to remove the `nullok` argument.\n"
       "Ensure no `pam_unix.so` line includes the `nullok` argument."
@@ -13422,14 +13427,15 @@ benchmark_configs: {
 benchmark_configs: {
   id: "pam-unix-remember-not-included"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_unix Does Not Include remember"
-    description: 
+    description:
       "The configuration ensures that the pam_unix module does not include the `remember` argument, which stores passwords "
       "using the MD5 hash. Instead, the pam_pwhistory module should be used for enhanced security."
-    rationale: 
+    rationale:
       "Removing the `remember` argument from pam_unix ensures stronger password hashing algorithms are used, providing "
       "additional protection against password recovery attacks."
-    remediation: 
+    remediation:
       "Edit any `pam_unix` lines in `/etc/pam.d/common-password`, `/etc/pam.d/common-auth`, `/etc/pam.d/common-account`, "
       "`/etc/pam.d/common-session`, and `/etc/pam.d/common-session-noninteractive` to remove the `remember` argument.\n"
       "Ensure no `pam_unix.so` line includes the `remember` argument."
@@ -13456,14 +13462,15 @@ benchmark_configs: {
 benchmark_configs: {
   id: "pam-unix-strong-hashing-algorithm"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_unix Includes a Strong Password Hashing Algorithm"
-    description: 
+    description:
       "The configuration ensures that the pam_unix module uses a strong password hashing algorithm, such as SHA-512 or "
       "yescrypt, to enhance password security."
-    rationale: 
+    rationale:
       "Using strong hashing algorithms like SHA-512 or yescrypt provides additional protection against password recovery "
       "attacks by increasing the computational effort required to break the password hashes."
-    remediation: 
+    remediation:
       "Edit any `pam_unix` lines in `/etc/pam.d/common-password` to include either the `sha512` or `yescrypt` hashing "
       "algorithm. Ensure the configuration meets local site policy."
     cis_benchmark: {
@@ -13489,14 +13496,15 @@ benchmark_configs: {
 benchmark_configs: {
   id: "pam-unix-use-authtok"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure pam_unix Includes use_authtok"
-    description: 
+    description:
       "The configuration ensures that the pam_unix module uses the `use_authtok` argument to enforce the use of a password "
       "previously provided by a stacked PAM module."
-    rationale: 
+    rationale:
       "The `use_authtok` argument ensures consistency across PAM modules during password changes, enforcing security policies "
       "defined by other modules in the PAM stack."
-    remediation: 
+    remediation:
       "Edit any `pam_unix` lines in `/etc/pam.d/common-password` to include the `use_authtok` argument. Ensure the "
       "configuration meets local site policy."
     cis_benchmark: {
