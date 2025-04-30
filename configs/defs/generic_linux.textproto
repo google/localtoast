@@ -9561,6 +9561,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "changes-to-sudoers-collected"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure changes to system administration scope (sudoers) is collected"
     description:
       "Monitor scope changes for system administrators. If the system has been properly "
@@ -9668,6 +9669,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-privileged-commands-are-collected"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure use of privileged commands are collected"
     description: "Monitor privileged programs with setuid and/or setgid bit set to detect unauthorized use."
     rationale: "Monitoring privileged commands by non-privileged users helps identify potential unauthorized activities "
@@ -9715,6 +9717,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-root-umask-configured"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure root user umask is configured"
     description: 
       "The configuration ensures that the root user's umask is set to a secure value to enforce permissions for newly "
@@ -9763,6 +9766,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "reauthentication-for-privilege-escalation-not-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure re-authentication for privilege escalation is not disabled globally"
     description:
       "The operating system must be configured so that users must re-authenticate for privilege "
@@ -9811,6 +9815,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-gid-zero-check"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure Root is the Only GID 0 Account"
     description: 
       "The configuration ensures that the root user's primary GID is 0 and no other user accounts have GID 0 as their "
@@ -9850,6 +9855,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "root-gid-zero-group-check"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure group root is the only GID 0 group"
     description: 
       "Using GID 0 for the root group helps prevent root group owned files from accidentally "
@@ -9887,6 +9893,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sudo-authentication-timeout-is-configured-correctly"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure sudo authentication timeout is configured correctly"
     description:
       "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there "
