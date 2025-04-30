@@ -11493,6 +11493,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dccp-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure dccp kernel module is not available"
     description:
       "The Datagram Congestion Control Protocol (DCCP) is a transport layer protocol that "
@@ -13521,6 +13522,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "freevxfs-module-not-available"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure freevxfs kernel module is not available"
     description:
       "The freevxfs filesystem type is a free version of the Veritas type filesystem. This is the "
@@ -13749,6 +13751,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "hfs-module-not-available"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure hfs kernel module is not available"
     description:
       "The hfs filesystem type is a hierarchical filesystem that allows you to mount Mac OS "
@@ -13907,6 +13910,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "hfsplus-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure hfsplus kernel module is not available"
     description:
       "The hfsplus filesystem type is a hierarchical filesystem designed to replace hfs that "
@@ -14030,6 +14034,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "jffs2-module-not-available"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure jffs2 kernel module is not available"
     description:
       "The jffs2 (journaling flash filesystem 2) filesystem type is a log-structured filesystem "
@@ -14153,6 +14158,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "overlayfs-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure overlayfs kernel module is not available"
     description:
       "overlayfs is a Linux filesystem that layers multiple filesystems to create a single "
@@ -14277,6 +14283,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rds-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure rds kernel module is not available"
     description:
       "The Reliable Datagram Sockets (RDS) protocol is a transport layer protocol designed to "
@@ -14401,6 +14408,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sctp-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure sctp kernel module is not available"
     description:
       "The Stream Control Transmission Protocol (SCTP) is a transport layer protocol used to "
@@ -14527,6 +14535,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "tipc-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure tipc kernel module is not available"
     description:
       "The Transparent Inter-Process Communication (TIPC) protocol is designed to provide "
@@ -14650,6 +14659,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "usb_storage-mounting-disabled"
   compliance_note: {
+    version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure usb_storage kernel module is not available"
     description:
       "USB storage provides a means to transfer and store files ensuring persistence and "
