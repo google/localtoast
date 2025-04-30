@@ -9971,19 +9971,19 @@ benchmark_configs: {
   }
 }
 
-
-
 benchmark_configs: {
   id: "sudo-is-installed"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure sudo is installed"
     description:
       "sudo allows a permitted user to execute a command as the superuser or another user, as "
       "specified by the security policy. The invoking user's real (not effective) user ID is used to "
       "determine the user name with which to query the security policy."
     rationale:
-      "sudo supports a plugin architecture for security policies and input/output logging. Third "
-      "parties can develop and distribute their own policy and /0 logging plugins to work "
+      "sudo supports a plug-in architecture for security policies and input/output logging. Third "
+      "parties can develop and distribute their own policy and I/O logging plugins to work "
       "seamlessly with the sudo front end. The default security policy is sudoers, which is "
       "configured via the file /etc/sudoers.\n"
       "The security policy determines what privileges, if any, a user has to run sudo. The policy "
@@ -9991,8 +9991,13 @@ benchmark_configs: {
       "mechanism. If authentication is required, sudo will exit if the user's password is not "
       "entered within a configurable time limit. This limit is policy-specific."
     remediation:
-      "first determine is LDAP functionality is required. If so, then install sudo-ldap, else install sudo.\n"
-      "# apt install sudo"
+      "first determine if LDAP functionality is required. If so, then install sudo-ldap, else install sudo "
+      "using the appropriate package manager or manual:\n"
+      "```\n"
+      "# yum install sudo\n" 
+      "# dnf install sudo\n"       
+      "# apt install sudo\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10026,6 +10031,4 @@ benchmark_configs: {
       "}"
   }
 }
-
-
 
