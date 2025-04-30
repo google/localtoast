@@ -13986,13 +13986,13 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure default user umask is configured"
-    description: 
+    description:
       "The user file-creation mode mask (umask) determines the default permissions for newly created files and directories, "
       "ensuring they have appropriate restrictions."
-    rationale: 
+    rationale:
       "Setting a secure default umask ensures that newly created files and directories have restricted permissions, reducing "
       "the risk of unauthorized access or modification."
-    remediation: 
+    remediation:
       "Edit configuration files to set the default umask to 027 or a more restrictive value. Suggested files include "
       "/etc/profile, /etc/bashrc, and scripts in /etc/profile.d."
     cis_benchmark: {
@@ -14040,16 +14040,16 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure FTP client is not installed"
-    description: 
+    description:
       "FTP (File Transfer Protocol) is a traditional and widely used standard tool for transferring files between a server "
       "and clients over a network. However, FTP does not protect the confidentiality of data or authentication credentials. \n"
       "It is recommended to use SFTP if file transfer is required.\n"
       "Unless the system needs to run as an FTP server, it is recommended to remove the FTP package to reduce the potential "
       "attack surface."
-    rationale: 
+    rationale:
       "FTP does not protect data confidentiality or authentication credentials, making it vulnerable to interception. "
       "Removing unnecessary FTP clients reduces potential security risks."
-    remediation: 
+    remediation:
       "Run the following command to uninstall FTP:\n"
       "```\n"
       "# apt purge ftp\n"
@@ -14104,7 +14104,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-      "generic:{check_alternatives:{"        
+      "generic:{check_alternatives:{"
       "  file_checks:{"
       "    files_to_check:{single_file:{path:\"$home\"}}"
       "    repeat_config: {type: FOR_EACH_USER_WITH_LOGIN"
@@ -14309,7 +14309,7 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "fallback" version: "2.0.0" benchmark_document: "CIS Distribution Independent Linux" }
     title: "Ensure permissions on /etc/shells are configured"
-    description: 
+    description:
       "/etc/shells is a text file which contains the full pathnames of valid login shells. This file "
       "is consulted by chsh and available to be queried by other programs."
     rationale:
