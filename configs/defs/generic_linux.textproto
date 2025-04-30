@@ -619,9 +619,9 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /home partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -852,8 +852,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-tmp-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/tmp partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
@@ -9561,6 +9561,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-home"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /home"
     description: "The /home directory is used to support disk storage needs of local users."
     rationale:
@@ -9636,6 +9637,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-shm"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure /dev/shm is a separate partition"
     description:
       "The /dev/shm directory is a world-writable directory that can function as shared memory "
@@ -9696,40 +9698,80 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var"
     description:
-      "The /var directory is used by daemons and other system services to temporarily store dynamic data. "
-      "Some directories created by these processes may be world-writable."
-    rationale: "Since the /var directory may contain world-writable files and directories, there is a risk of resource exhaustion if it is not bound to a separate partition."
+      "The /var directory is used by daemons and other system services to temporarily store "
+      "dynamic data. Some directories created by these processes may be world-writable."
+    rationale:
+      "The reasoning for mounting /var on a separate partition is as follow.\n"
+      "Protection from resource exhaustion\n"
+      "The default installation only creates a single / partition. Since the /var directory may "
+      "contain world-writable files and directories, there is a risk of resource exhaustion. It will "
+      "essentially have the whole disk available to fill up and impact the system as a whole. In "
+      "addition, other operations on the system could fill up the disk unrelated to /var and cause "
+      "unintended behavior across the system as the disk is full. See man auditd.conf for details.\n"
+      "Fine grained control over the mount\n"
+      "Configuring /var as its own file system allows an administrator to set additional mount "
+      "options such as noexec/nosuid/nodev. These options limits an attackers ability to create "
+      "exploits on the system. Other options allow for specific behaviour. See man mount for exact "
+      "details regarding filesystem-independent and filesystem-specific options.\n"
+      "Protection from exploitation\n"
+      "An example of exploiting /var may be an attacker establishing a hard-link to a system "
+      "setuid program and wait for it to be updated. Once the program was updated, the hard-"
+      "link would be broken and the attacker would have his own copy of the program. If the "
+      "program happened to have a security vulnerability, the attacker could continue to exploit "
+      "the known flaw."
     remediation:
-      "For new installations, during installation create a custom partition setup and specify a separate partition for /var .\n"
-      "For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate."
+      "For new installations, during installation create a custom partition setup and specify a "
+      "separate partition for /var.\n"
+      "For systems that were previously installed, create a new partition and configure "
+      "/etc/fstab as appropriate."
     cis_benchmark: {
       profile_level: 2
       severity: LOW
     }
     scan_instructions:
       "scan_type_specific:{instance_scanning:{"
-      "    check_alternatives:{"
-      "      file_checks:{"
-      "        files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "        content_entry:{"
-      "          match_type: ALL_MATCH_ANY_ORDER"
-      "          match_criteria: {"
-      "            filter_regex: \".* /var .* - .*\""
-      "            expected_regex: \".* /var .* - .*\""
-      "          }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".* /var .* - .*\""
+      "          expected_regex: \".* /var .*\""
       "        }"
       "      }"
       "    }"
-      "    check_alternatives:{"
-      "     file_checks:{"
-      "       files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "       existence:{should_exist: false}"
-      "     }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var.*\""
+      "          expected_regex: \".*/var.*\""
+      "        }"
+      "      }"
       "    }"
       "  }"
       "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/fstab\"}}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*/var.*\""
+      "          expected_regex: \".*/var.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
   }
 }
 
@@ -9738,6 +9780,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var-log-audit"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/log/audit"
     description:
       "The auditing daemon, auditd, stores log data in the /var/log/audit directory."
@@ -9813,6 +9856,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var-log"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/log"
     description:
       "The /var/log directory is used by system services to store log data."
@@ -9885,6 +9929,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var-tmp"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/tmp"
     description:
       "The /var/tmp directory is a world-writable directory used for temporary storage by all "
@@ -10249,6 +10294,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-audit-nodev"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log/audit partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain special devices."
@@ -10330,6 +10376,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-audit-noexec"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log/audit partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain executable binaries."
@@ -10421,10 +10468,14 @@ benchmark_configs: {
       "Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
       "/var/log/audit partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log/audit <fstype>\n"
       "defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var/log/audit with the configured options:\n"
-      "# mount -o remount /var/log/audit"
+      "```\n"
+      "# mount -o remount /var/log/audit\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10490,6 +10541,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-nodev"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain special devices."
@@ -10564,11 +10616,10 @@ benchmark_configs: {
   }
 }
 
-
-
 benchmark_configs: {
   id: "var-log-noexec"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log partition"
     description:
       "The noexec mount option specifies that the filesystem cannot contain executable binaries."
@@ -10648,6 +10699,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-nosuid"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain setuid files."
@@ -10659,9 +10711,13 @@ benchmark_configs: {
       "Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
       "/var/log partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var/log <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var/log with the configured options:\n"
-      "# mount -o remount /var/log"
+      "```\n"
+      "# mount -o remount /var/log\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
@@ -10727,15 +10783,19 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-nodev"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var partition"
     description:
       "The nodev mount option specifies that the filesystem cannot contain "
       "special devices."
     rationale:
       "Since the /var filesystem is not intended to support devices, set "
-      "this option to ensure that users cannot attempt to create block or "
+      "this option to ensure that users cannot attempt to create a block or "
       "character special devices in /var."
     remediation:
+      "If a separate partition exists for /var.\n"
+      "Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the /var "
+      "partition.\n"
       "Run the following command to remount /var:\n"
       "```\n"
       "# mount -o remount,nodev /var\n"
@@ -10780,6 +10840,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-nosuid"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var partition"
     description:
       "The nosuid mount option specifies that the filesystem cannot contain setuid files."
@@ -10791,9 +10852,13 @@ benchmark_configs: {
       "Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
       "/var partition.\n"
       "Example:\n"
+      "```\n"
       "<device> /var <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
+      "```\n"
       "Run the following command to remount /var with the configured options:\n"
-      "# mount -o remount /var"
+      "```\n"
+      "# mount -o remount /var\n"
+      "```"
     cis_benchmark: {
       profile_level: 1
       severity: LOW
