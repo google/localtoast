@@ -1,4 +1,4 @@
-version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
 benchmark_id: "cramfs-mounting-disabled"
 benchmark_id: "squashfs-mounting-disabled"
 benchmark_id: "tmp-configured"
