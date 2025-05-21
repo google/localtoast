@@ -10823,3 +10823,642 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-password-failed-attempts-lockout-includes-root-account"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure password failed attempts lockout includes root account"
+    description:
+      "even_deny_root - Root account can become locked as well as regular accounts. root_unlock_time=n - This option "
+      "implies even_deny_root option. Allow access after n seconds to root account after the account is locked. \n"
+      "In case the option is not specified the value is the same as of the unlock_time option."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks "
+      "against your systems."
+    remediation:
+      "Edit /etc/security/faillock.conf:\n"
+      "• Remove or update any line containing root_unlock_time, - OR - set it to a value of 60 or more\n"
+      "• Update or add the following line:\n"
+      "```\n"
+      "even_deny_root\n"
+      "```\n"
+      "\nRun the following command:\n"
+      "```\n"
+      "# grep -Pl '\\bpam_faillock\\.so\\h+([^#\\n\\r]+\\h+)?(even_deny_root|root_unlock_time)' /usr/share/pam-configs/*\n"
+      "```\n"
+      "Edit any returned files and remove the even_deny_root and root_unlock_time arguments from the pam_faillock.so line(s):"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex:  \"[^#]*\\\\beven_deny_root.*\""
+      "        expected_regex:  \"[^#]*\\\\beven_deny_root.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#]*\\\\broot_unlock_time\\\\s*=\\\\s*[0-5]?\\\\d\\\\s*\""
+      "        expected_regex: \"[^#]*\\\\broot_unlock_time\\\\s*=\\\\s*[0-5]?\\\\d\\\\s*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-password-failed-attempts-lockout-is-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure password failed attempts lockout is configured"
+    description:
+      "The deny=<n> option will deny access if the number of consecutive authentication failures for this user during "
+      "the recent interval exceeds."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against "
+      "your systems."
+    remediation:
+      "Set the deny option in /etc/security/faillock.conf to 5 or lower to restrict the number of consecutive authentication "
+      "failures allowed."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"deny\\\\s*=\\\\s*(\\\\d+)\""
+      "        expected_regex: \"deny\\\\s*=\\\\s*(\\\\d+)\""
+      "        group_criteria:{"
+      "          group_index: 1"
+      "          type: LESS_THAN"
+      "          const: 6"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-password-unlock-time-is-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure password unlock time is configured"
+    description: "unlock_time=<n> - The access will be re-enabled after seconds after the lock out. The value 0 has the same meaning as value never - the access will not be re-enabled without resetting the faillock entries by the faillock(8) command."
+    rationale: "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against your systems."
+    remediation:
+      "Set password unlock time to conform to site policy. unlock_time should be 0 (never), or 900 seconds or greater. Edit /etc/security/faillock.conf and update or add the following line:\n"
+      "unlock_time = 900"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"unlock_time\\\\s*=\\\\s*0\""
+      "          expected_regex: \"unlock_time\\\\s*=\\\\s*0\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"unlock_time\\\\s*=\\\\s*([0-9]+)\""
+      "          expected_regex: \"unlock_time\\\\s*=\\\\s*([0-9]+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 899"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-root-password-is-set"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure root password is set"
+    description:
+      "There are a number of methods to access the root account directly. Without a password set, any user would be able "
+      "to gain access and control over the entire system."
+    rationale: "Access to root should be secured at all times."
+    remediation:
+      "Run the following command to set a password for the root user:\n"
+      "```\n"
+      "# passwd root\n"
+      "```\n"
+      "Note: Ensure no automated processes rely on root access without authentication."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_STRICT_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"root:[^!*]+:\""
+      "        expected_regex: \"root:[^!*]+:\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "login-defs-strong-password-hashing"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Strong Password Hashing Algorithm is Configured in /etc/login.defs"
+    description:
+      "The configuration ensures that /etc/login.defs specifies a strong password hashing algorithm, such as SHA-512 or "
+      "YESCRYPT, to enhance group password security."
+    rationale:
+      "Specifying strong hashing algorithms like SHA-512 or YESCRYPT in /etc/login.defs increases security by ensuring newly "
+      "created group passwords use secure hashing."
+    remediation: "Edit /etc/login.defs and set the ENCRYPT_METHOD parameter to SHA512 or YESCRYPT. Ensure consistency with PAM configuration."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bENCRYPT_METHOD\\\\s+\\\\b(SHA512|YESCRYPT)\\\\b.*\""
+      "          expected_regex: \"[^#]*\\\\bENCRYPT_METHOD\\\\s+\\\\b(SHA512|YESCRYPT)\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-dictionary-check-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password Dictionary Check is Enabled"
+    description:
+      "The configuration ensures that passwords are checked against a dictionary to avoid the use of weak or predictable "
+      "passwords, enhancing password security."
+    rationale:
+      "Using a policy to enable dictionary checks increases the security of passwords by reducing the chance of using "
+      "dictionary words or predictable combinations, mitigating brute-force attacks."
+    remediation:
+      "Edit any file ending in `.conf` in `/etc/security/pwquality.conf.d/` or the file `/etc/security/pwquality.conf` "
+      "and ensure the following configuration is included:\n"
+      "```\n"
+      "dictcheck = 1"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bdictcheck\\\\s*=\\\\s*1.*\""
+      "          expected_regex: \"[^#]*\\\\bdictcheck\\\\s*=\\\\s*1.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-difok-changed-characters-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password Number of Changed Characters is Configured"
+    description:
+      "The configuration ensures that a specified number of characters in a new password differ from the old password, "
+      "enhancing password complexity and security."
+    rationale:
+      "Using complex passwords with enforced character changes increases the time and resources required to compromise "
+      "passwords through brute-force attacks, enhancing overall security."
+    remediation:
+      "Create or modify a `.conf` file in `/etc/security/pwquality.conf.d/` or edit `/etc/security/pwquality.conf` to "
+      "include the following configuration:\n"
+      "```\n"
+      "difok = 2\n"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bdifok.*\\\\s*=\\\\s*2.*\""
+      "          expected_regex: \"[^#]*\\\\bdifok*\\\\s*=\\\\s*2.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-history-enforce-for-root"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password History is Enforced for the Root User"
+    description: "The configuration ensures that the pam_pwhistory module enforces password history for the root user as well, preventing root from reusing recent passwords."
+    rationale: "Requiring the root user not to reuse their passwords enhances overall system security by reducing the risk of password reuse attacks."
+    remediation:
+      "Edit the `/etc/pam.d/common-password` file and ensure the `pam_pwhistory` module line includes:\n"
+      "```\n"
+      "enforce_for_root\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?enforce_for_root\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?enforce_for_root\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-history-enforce-use-authtok"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_pwhistory Includes use_authtok"
+    description:
+      "The configuration ensures that the pam_pwhistory module enforces the use_authtok argument, enabling multiple pam "
+      "modules to validate a new password before it is accepted."
+    rationale:
+      "The use_authtok option ensures consistent password validation across multiple pam modules, enhancing security during "
+      "password changes."
+    remediation:
+      "Edit the `/etc/pam.d/common-password` file and ensure the `pam_pwhistory` module line includes:\n"
+      "```\n"
+      "use_authtok\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?use_authtok\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?use_authtok\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-history-remember-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password History Remember is Configured"
+    description:
+      "The configuration ensures that the pam_pwhistory module enforces a specific number of old passwords remembered, "
+      "preventing users from reusing recent passwords."
+    rationale:
+      "Remembering previous passwords reduces the likelihood of attackers successfully compromising accounts by reusing "
+      "previous passwords, enhancing password security."
+    remediation:
+      "Edit the `/etc/pam.d/common-password` file and ensure the `pam_pwhistory` module line includes:\n"
+      "```\n"
+      "remember=<N>\n"
+      "```\n"
+      "where `<N>` is 24 or more, based on local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember=(2[4-9]|[3-9][0-9]|[1-9][0-9]{2,}).*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_pwhistory\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember=(2[4-9]|[3-9][0-9]|[1-9][0-9]{2,}).*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-maxrepeat-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password Same Consecutive Characters is Configured"
+    description:
+      "The configuration ensures that the maximum number of allowed same consecutive characters in a new password is "
+      "limited, enhancing password complexity and security."
+    rationale:
+      "Using a policy to limit consecutive characters increases the complexity and reduces predictability of passwords, "
+      "enhancing overall security against brute-force attacks."
+    remediation:
+      "Create or modify a `.conf` file in `/etc/security/pwquality.conf.d/` or edit `/etc/security/pwquality.conf` to "
+      "include the following configuration:\n"
+      "```\n"
+      "maxrepeat = 3"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bmaxrepeat\\\\s*=\\\\s*3.*\""
+      "          expected_regex: \"[^#]*\\\\bmaxrepeat\\\\s*=\\\\s*3.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-maxsequence-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password Maximum Sequential Characters is Configured"
+    description:
+      "The configuration ensures that the maximum length of monotonic character sequences in the new password is limited, "
+      "enhancing password complexity and security."
+    rationale:
+      "Using a policy to limit monotonic character sequences increases the complexity and reduces predictability of passwords, "
+      "enhancing overall security against brute-force attacks."
+    remediation:
+      "Create or modify a `.conf` file in `/etc/security/pwquality.conf.d/` or edit `/etc/security/pwquality.conf` to include "
+      "the following configuration:\n"
+      "```\n"
+      "maxsequence = 3"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bmaxsequence\\\\s*=\\\\s*3.*\""
+      "          expected_regex: \"[^#]*\\\\bmaxsequence\\\\s*=\\\\s*3.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-minimum-length-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Minimum Password Length is Configured"
+    description: "The configuration ensures that the minimum password length is enforced to enhance password security."
+    rationale:
+      "Using a minimum password length policy helps to protect systems from password attacks by increasing the complexity "
+      "and reducing the predictability of passwords."
+    remediation:
+      "Create or modify a `.conf` file in `/etc/security/pwquality.conf.d/` or edit `/etc/security/pwquality.conf` to "
+      "include the following configuration:\n"
+      "```\n"
+      "minlen = 14"
+      "```\n"
+      "Ensure the setting conforms to local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\bminlen\\\\s*=\\\\s*14.*\""
+      "          expected_regex: \"[^#]*\\\\bminlen\\\\s*=\\\\s*14.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-quality-check-enforced"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password Quality Checking is Enforced"
+    description:
+      "The configuration ensures that the pam_pwquality module enforces password quality checks by rejecting passwords "
+      "that fail configured policies."
+    rationale:
+      "Enforcing password quality checks reduces the risk of password compromise by ensuring all passwords meet "
+      "security policies."
+    remediation:
+      "Edit any file ending in `.conf` in `/etc/security/pwquality.conf.d/` or the file `/etc/security/pwquality.conf` "
+      "to remove or comment out any line containing `enforcing = 0`:\n"
+      "```\n"
+      "# sed -ri 's/^\\h*enforcing\\h*=\\h*0/# &/' /etc/security/pwquality.conf\n"
+      "```\n"
+      "Remove the `enforcing=0` argument from the `pam_pwquality.so` module in PAM files if present."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\benforcing\\\\s*=\\\\s*0.*\""
+      "          expected_regex: \"[^#]*\\\\benforcing\\\\s*=\\\\s*0.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "password-quality-enforced-for-root"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Password Quality is Enforced for the Root User"
+    description: "The configuration ensures that the pam_pwquality module enforces password quality checks for the root user."
+    rationale:
+      "Enforcing password quality checks for the root user ensures that even administrative accounts adhere to password "
+      "policies, reducing the risk of password compromise."
+    remediation:
+      "Edit any file ending in `.conf` in `/etc/security/pwquality.conf.d/` or the file `/etc/security/pwquality.conf` "
+      "to include the following configuration:\n"
+      "```\n"
+      "enforce_for_root\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/security/\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\benforce_for_root.*\""
+      "          expected_regex: \"[^#]*\\\\benforce_for_root.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "users-password-for-escalation"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure users must provide password for escalation"
+    description:
+      "The operating system must be configured so that users must provide a password for "
+      "privilege escalation."
+    rationale:
+      "Without re-authentication, users may access resources or perform tasks for which they do "
+      "not have authorization.\n"
+      "When operating systems provide the capability to escalate a functional capability, it is "
+      "critical the user re-authenticate."
+    remediation:
+      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
+      "relevant sudoers file.\n"
+      "Remove any line with occurrences of NOPASSWD tags in the file."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/sudoers\"}}"
+      "          content_entry:{"
+      "            match_type: NONE_MATCH"
+      "            match_criteria: {"
+      "              filter_regex: \"[^#].*NOPASSWD:.*\""
+      "              expected_regex: \"[^#].*NOPASSWD:.*\""
+      "            }"
+      "          }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sudoers.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "              filter_regex: \"[^#].*NOPASSWD:.*\""
+      "              expected_regex: \"[^#].*NOPASSWD:.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
