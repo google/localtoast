@@ -9922,3 +9922,419 @@ benchmark_configs: {
       "}"
   }
 }
+benchmark_configs: {
+  id: "ensure-sshd-ciphers-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure sshd Ciphers are configured"
+    description:
+      "This variable limits the ciphers that SSH can use during communication. The only strong ciphers currently FIPS 140 "
+      "compliant are:\n"
+      "- aes256-gcm@openssh.com\n"
+      "- aes128-gcm@openssh.com\n"
+      "- aes256-ctr\n"
+      "- aes192-ctr\n"
+      "- aes128-ctr."
+    rationale:
+      "Weak ciphers cannot be relied upon to provide confidentiality or integrity. For example, Triple DES ciphers are "
+      "vulnerable to the \"Sweet32\" attack, and block cipher algorithms in CBC mode make systems susceptible to plain text "
+      "recovery attacks."
+    remediation:
+      "Edit the `/etc/ssh/sshd_config` file and modify the Ciphers line to exclude weak ciphers. Use a comma-separated list "
+      "prefixed by `-` to explicitly deny ciphers:\n"
+      "```\n"
+      "Ciphers -3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc\n"
+      "```\n"
+      "Ensure no weak ciphers are configured."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*3des-cbc(,|$).*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*aes128-cbc(,|$).*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*aes192-cbc(,|$).*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Ciphers .*\""
+      "        expected_regex: \"Ciphers .*aes256-cbc(,|$).*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "ensure-sshd-clientalive-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured"
+    description:
+      "The two options ClientAliveInterval and ClientAliveCountMax control the timeout "
+      "of SSH sessions. The ClientAliveInterval option sets a timeout interval in seconds, "
+      "after which, if no data has been received from the client, sshd will send a message "
+      "to request a response. The ClientAliveCountMax option determines the number of such "
+      "messages sent before terminating the session. For example, with ClientAliveInterval "
+      "set to 15 seconds and ClientAliveCountMax set to 3, unresponsive SSH clients will "
+      "be disconnected after approximately 45 seconds."
+    rationale:
+      "In order to prevent resource exhaustion and ensure unresponsive SSH sessions are "
+      "properly terminated, appropriate values should be set for ClientAliveInterval and "
+      "ClientAliveCountMax. Idle connections could lead to resource exhaustion or be used "
+      "as a vector for a Denial of Service attack. Recommended values are site-dependent, "
+      "but typical settings are a timeout of 15-45 seconds."
+    remediation:
+      "Edit the `/etc/ssh/sshd_config` file to set the ClientAliveInterval and "
+      "ClientAliveCountMax parameters above any Include or Match entries according to "
+      "site policy. Example configuration:\n"
+      "```\n"
+      "ClientAliveInterval 15\n"
+      "ClientAliveCountMax 3\n"
+      "```\n"
+      "Ensure that any Match blocks are configured appropriately for specific users or "
+      "groups as needed."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveInterval .*\""
+      "          expected_regex: \"ClientAliveInterval (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 46"
+      "          }"
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveInterval .*\""
+      "          expected_regex: \"ClientAliveInterval (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 0"
+      "          }"
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveCountMax .*\""
+      "          expected_regex: \"ClientAliveCountMax (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 0"
+      "          }"
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"ClientAliveCountMax .*\""
+      "          expected_regex: \"ClientAliveCountMax (\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 4"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "ssh-maxsessions-10-or-less"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure SSH MaxSessions is set to 10 or less"
+    description:
+      "The MaxSessions parameter specifies the maximum number of open "
+      "sessions permitted from a given connection."
+    rationale:
+      "To protect a system from denial of service due to a large number of "
+      "concurrent sessions, use the rate limiting function of MaxSessions to "
+      "protect availability of sshd logins and prevent overwhelming the daemon."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the parameter as follows:\n"
+      "```\n"
+      "MaxSessions 10\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*MaxSessions\\\\s+\\\\d+\""
+      "          expected_regex: \"\\\\s*MaxSessions\\\\s+(\\\\d+)\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 11"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "sshd-access-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure sshd access is configured"
+    description:
+      "There are several options available to limit which users and groups can access the "
+      "system via SSH. It is recommended that at least one of the following options be "
+      "leveraged:\n"
+      "- AllowUsers\n"
+      "- AllowGroups\n"
+      "- DenyUsers\n"
+      "- DenyGroups\n"
+      "These options restrict SSH access to specific users or groups, or deny access as required."
+    rationale:
+      "Restricting which users can remotely access the system via SSH will help ensure that "
+      "only authorized users access the system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set one or more of the parameters above any Include "
+      "and Match set statements as follows:\n\n"
+      "AllowUsers <userlist>\n"
+      "AND/OR\n"
+      "AllowGroups <grouplist>\n\n"
+      "Note:\n"
+      "- First occurrence of an option takes precedence, Match set statements notwithstanding.\n"
+      "- It is easier to manage an allow list than a deny list, as a deny list may overlook newly added users or groups."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*(AllowUsers|AllowGroups|DenyUsers|DenyGroups)\\\\s+.+\""
+      "          expected_regex: \"\\\\s*(AllowUsers|AllowGroups|DenyUsers|DenyGroups)\\\\s+.+\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "sshd-banner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure sshd Banner is configured"
+    description:
+      "The Banner parameter specifies a file whose contents must be sent to the remote user "
+      "before authentication is permitted. By default, no banner is displayed."
+    rationale:
+      "Banners are used to warn connecting users of the particular site's policy regarding "
+      "connection. Presenting a warning message prior to the normal user login may assist the "
+      "prosecution of trespassers on the computer system."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the Banner parameter above any Include and "
+      "Match entries as follows:\n\n"
+      "Banner /etc/issue.net\n\n"
+      "Note: First occurrence of an option takes precedence, Match set statements "
+      "withstanding. If Include locations are enabled, used, and order of precedence is "
+      "understood in your environment, the entry may be created in a file in Include location."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*Banner\\\\s+/etc/issue\\\\.net\""
+      "          expected_regex: \"\\\\s*Banner\\\\s+/etc/issue\\\\.net\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "sshd-disable-forwarding-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure sshd DisableForwarding is enabled"
+    description:
+      "The DisableForwarding parameter disables all forwarding features, including X11, ssh-agent, TCP, and StreamLocal forwarding. "
+      "This ensures restricted configurations and reduces potential security risks associated with SSH forwarding."
+    rationale:
+      "Disabling forwarding features prevents potential exploitation by attackers, including unauthorized access, data exfiltration, "
+      "and creating backdoors. Forwarding features such as X11, ssh-agent, and port forwarding can introduce significant "
+      "risks to organizational security."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the DisableForwarding parameter to 'yes':\n"
+      "```\n"
+      "DisableForwarding yes\n"
+      "```\n"
+      "Ensure this setting is applied above any Include directives to maintain precedence."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*DisableForwarding\\\\s+.*\""
+      "          expected_regex: \"\\\\s*DisableForwarding\\\\s+yes\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "sshd-gssapi-authentication-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure sshd GSSAPIAuthentication is disabled"
+    description:
+      "The GSSAPIAuthentication parameter specifies whether user authentication "
+      "based on GSSAPI is allowed. Disabling this option reduces the attack "
+      "surface of the system by avoiding exposure of the system's GSSAPI to remote hosts."
+    rationale:
+      "Allowing GSSAPI authentication through SSH exposes the system's GSSAPI to remote "
+      "hosts, increasing the attack surface. Disabling it minimizes potential risks."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file and set the following option:\n"
+      "```\n"
+      "GSSAPIAuthentication no\n"
+      "```\n"
+      "Ensure this is placed above any Include or Match entries."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*GSSAPIAuthentication\\\\s+.*\""
+      "          expected_regex: \"\\\\s*GSSAPIAuthentication\\\\s+no\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+
+
+benchmark_configs: {
+  id: "sshd-hostbasedauthentication-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure SSH HostbasedAuthentication is disabled"
+    description:
+      "The HostbasedAuthentication parameter specifies if authentication is allowed through "
+      "trusted hosts via the use of .rhosts or /etc/hosts.equiv, along with successful public "
+      "key client host authentication. This option only applies to SSH Protocol Version 2."
+    rationale:
+      "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.conf, "
+      "disabling the ability to use .rhosts files in SSH provides an additional layer of protection."
+    remediation:
+      "Edit the /etc/ssh/sshd_config file to set the HostbasedAuthentication parameter to no "
+      "above any Include and Match entries as follows:\n"
+      "```\n"
+      "HostbasedAuthentication no\n"
+      "```\n"
+      "Note: First occurrence of an option takes precedence. If Include locations are enabled, "
+      "used, and order of precedence is understood in your environment, the entry may be created "
+      "in a file in an Include location."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ssh/sshd_config\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*HostbasedAuthentication\\\\s+.*\""
+      "          expected_regex: \"\\\\s*HostbasedAuthentication\\\\s+no\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
