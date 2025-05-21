@@ -1,7 +1,7 @@
 benchmark_configs: {
   id: "var-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var partition"
     description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
@@ -55,7 +55,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var partition"
     description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
@@ -109,7 +109,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var partition"
     description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
@@ -163,7 +163,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log partition"
     description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
@@ -217,7 +217,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log partition"
     description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
@@ -271,7 +271,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log partition"
     description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
@@ -325,7 +325,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-audit-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log/audit partition"
     description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
@@ -380,7 +380,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-audit-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log/audit partition"
     description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
@@ -435,7 +435,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "var-log-audit-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log/audit partition"
     description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
@@ -490,7 +490,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /home partition"
     description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
     rationale:
@@ -544,7 +544,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-usrquota"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure usrquota option set on /home partition"
     description: "The usrquota mount optionallows for the filesystem to have disk quotas configured."
     rationale:
@@ -630,7 +630,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "home-grpquota"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure grpquota option set on /home partition"
     description: "The grpquota mount option allows for the filesystem to have disk quotas configured."
     rationale:
@@ -716,7 +716,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "boot-rescue-mode-password"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure authentication is required when booting into rescue mode"
     description:
       "Rescue mode (former single user mode) is used for recovery when the system detects an "
@@ -758,7 +758,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "systemwide-crypto-policy-not-legacy"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure system-wide crypto policy is not legacy"
     description:
       "The system-wide crypto-policies followed by the crypto core components allow "
@@ -814,7 +814,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "wireless-interfaces-are-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure wireless interfaces are disabled"
     description: "Wireless networking is used when wired networks are unavailable."
     rationale:
@@ -867,7 +867,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "systemd-journal-remote-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure systemd-journal-remote is installed"
     description:
       "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
@@ -904,7 +904,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "systemd-journal-remote-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure systemd-journal-remote is enabled"
     description:
       "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
@@ -941,7 +941,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "journald-no-logs-from-remote-client"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald is not configured to receive logs from a remote client"
     description:
       "Journald supports the ability to receive messages from remote hosts, thus acting as a log "
@@ -986,41 +986,9 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "journald-service-enabled"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure journald service is enabled"
-    description: "Ensure that the systemd-journald serviceis enabled to allow capturing of logging events."
-    rationale:
-      "If the systemd-journald serviceis not enabled to start on boot, the system will not capture "
-      "logging events."
-    remediation:
-      "By default the systemd-journald service does not have an [Install] sectionand thus "
-      "cannot be enabled / disabled.\nIt is meant to be referenced as Requires or wants by other "
-      "unit files. As such, if the status of systemd-journald is not static, investigate why."
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "         dir_path:\"/etc/systemd/system/\""
-      "        recursive: true"
-      "        filename_regex: \"systemd-journal.service\""
-      "       }"
-      "      }"
-      "      existence:{should_exist:true}"
-      "    }"
-      "}}"
-  }
-}
-benchmark_configs: {
   id: "journald-default-file-permissions-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald default file permissions configured"
     description:
       "Journald will create log files that do not already exist on the system. This setting controls "
@@ -1076,7 +1044,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "systemwide-crypto-policy-is-not-overridden"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure system-wide crypto policy is not over-ridden"
     description: "System-wide Crypto policy can be over-ridden or opted out of for openSSH"
     rationale:
@@ -1110,135 +1078,9 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "reauthentication-for-privilege-escalation-not-disabled"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure re-authentication for privilege escalation is not disabled globally"
-    description:
-      "The operating system must be configured so that users must re-authenticate for privilege "
-      "escalation."
-    rationale:
-      "Without re-authentication, users may access resources or perform tasks for which they do "
-      "not have authorization.\n"
-      "When operating systems provide the capability to escalate a functional capability, it is "
-      "critical the user re-authenticate."
-    remediation:
-      "Configure the operating system to require users to reauthenticate for privilege escalation.\n"
-      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
-      "relevant sudoers file.\n"
-      "Remove any occurrences of !authenticate tags in the file(s)."
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{"
-      "         path:\"/etc/sudoers\""
-      "       }"
-      "      }"
-      "      files_to_check:{files_in_dir:{"
-      "         dir_path:\"/etc/sudoers.d/\""
-      "       }"
-      "      }"
-      "    content_entry:{"
-      "        match_type: NONE_MATCH"
-      "        match_criteria: {"
-      "          filter_regex: \"[^#].*\\\\!authenticate.*\""
-      "          expected_regex: \"[^#].*\\\\!authenticate.*\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "sudo-authentication-timeout-is-configured-correctly"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure sudo authentication timeout is configured correctly"
-    description:
-      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there "
-      "are multiple administrative tasks to perform. The timeout can be modified to suit local "
-      "security policies."
-    rationale:
-      "Setting a timeout value reduces the window of opportunity for unauthorized privileged "
-      "access to another user."
-    remediation:
-      "If the currently configured time out is larger than 15 minutes, edit the file listed in the audit "
-      "section with \n```\nvisudo -f <PATH TO FILE>\n```\n and modify the entry \n```\ntimestamp_timeout=\n```\n to 15 "
-      "minutes or less as per your site policy. The value is in minutes. This particular entry may "
-      "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
-      "1. Same line\n"
-      "\n```\n"
-      "Defaults env_reset, timestamp timeout=15\n"
-      "```\n\n"
-      "2. Different lines\n"
-      "\n```\n"
-      "Defaults timestamp_ timeout=15\n"
-      "Defaults env_reset\n"
-      "```\n\n"
-      "References:\n"
-      "1. https://www.sudo.ws/man/1.9.0/sudoers.man.html"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{"
-      "         path:\"/etc/sudoers\""
-      "       }"
-      "      }"
-      "      files_to_check:{files_in_dir:{"
-      "         dir_path:\"/etc/sudoers.d/\""
-      "       }"
-      "      }"
-      "    content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
-      "          expected_regex: \".*timestamp_timeout\\\\s*=\\\\s*(\\\\d+).*\""
-      "          group_criteria:{"
-      "            group_index: 1"
-      "            type: LESS_THAN"
-      "            const: 16"
-      "          }"
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{"
-      "         path:\"/etc/sudoers\""
-      "       }"
-      "      }"
-      "      files_to_check:{files_in_dir:{"
-      "         dir_path:\"/etc/sudoers.d/\""
-      "       }"
-      "      }"
-      "    content_entry:{"
-      "        match_type: NONE_MATCH"
-      "        match_criteria: {"
-      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
-      "          expected_regex: \".*timestamp_timeout\\\\s*=.*\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
-      "}"
-  }
-}
-benchmark_configs: {
   id: "custom-authselect-profile-is-used"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure custom authselect profile is used"
     description:
       "A custom profile can be created by copying and customizing one of the default profiles. The "
@@ -1297,7 +1139,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "authselect-includes-with-faillock"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure authselect includes with-faillock"
     description:
       "The pam_faillock.so module maintains a list of failed authentication attempts per user "
@@ -1347,7 +1189,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nis-client-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure NIS Client is not installed"
     description:
       "The Network Information Service (NIS), formerly known as Yellow Pages, "
@@ -1388,7 +1230,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "squashfs-mounting-disabled-rocky"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure mounting of squashfs filesystems is disabled"
     description:
       "The squashfs filesystem type is a compressed read-only Linux "
@@ -1467,7 +1309,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "udf-mounting-disabled-rocky"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure mounting of udf filesystems is disabled"
     description:
       "The udf filesystem type is the universal disk format used to implement "
@@ -1548,7 +1390,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var"
     description:
       "The /var directory is used by daemons and other system services to temporarily store "
@@ -1601,7 +1443,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var-tmp"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/tmp"
     description:
       "The /var/tmp directory is a world-writable directory used for temporary storage by all"
@@ -1655,7 +1497,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var-log"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/log"
     description: "The /var/log directory is used by system services to store log data."
     rationale:
@@ -1701,7 +1543,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-var-log-audit"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/log/audit"
     description: "The auditing daemon, auditd, stores log data in the /var/log/audit directory."
     rationale:
@@ -1750,7 +1592,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "separate-partition-home"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /home"
     description: "The /home directory is used to support disk storage needs of local users."
     rationale:
@@ -1799,7 +1641,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "usb-storage-disabled-rocky"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Disable USB Storage"
     description:
       "USB storage provides a means to transfer and store files insuring persistence and "
@@ -1876,7 +1718,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "selinux-mode-enforcing"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure the SELinux mode is enforcing"
     description:
       "SELinux can run in one of three modes: disabled, permissive, or enforcing:\n"
@@ -1954,7 +1796,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "automount-removable-media-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure automatic mounting of removable media is disabled"
     description:
       "By default GNOME automatically mounts removable media when inserted as a convenience "
@@ -2004,7 +1846,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "avahi-disabled-not-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure Avahi Server is not installed"
     description:
       "Avahi is a free zeroconf implementation, including a system for multicast DNS/DNS-SD "
@@ -2067,7 +1909,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sctp-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SCTP is disabled"
     description:
       "The Stream Control Transmission Protocol (SCTP) is a transport layer protocol used to "
@@ -2146,7 +1988,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "dccp-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure DCCP is disabled"
     description:
       "The Datagram Congestion Control Protocol (DCCP) is a transport layer protocol that "
@@ -2260,7 +2102,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "auditd-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure auditd is installed"
     description:
       "auditd is the userspace component to the Linux Auditing System. It's responsible for"
@@ -2306,42 +2148,9 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "auditd-service-enabled"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure auditd service is enabled"
-    description: "Turn on the auditd daemon to record system events."
-    rationale:
-      "The capturing of system events provides system administrators with information to allow "
-      "them to determine if unauthorized access to their system is occurring."
-    remediation:
-      "Run the following command to enable auditd:\n"
-      "\n```\n"
-      "# systemctl --now enable auditd\n"
-      "```\n\n"
-    cis_benchmark: {
-      profile_level: 2
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "         dir_path:\"/etc/systemd/system/\""
-      "        recursive: true"
-      "        filename_regex: \"auditd.service\""
-      "       }"
-      "      }"
-      "      existence:{should_exist:true}"
-      "    }"
-      "}}"
-  }
-}
-benchmark_configs: {
   id: "auditing-prior-to-auditd-enabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure auditing for processes that start prior to auditd is enabled"
     description:
       "Configure grub2 so that processes that are capable of being audited can be audited even if "
@@ -2382,7 +2191,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-backlog-limit-sufficient"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure audit_backlog_limit is sufficient"
     description: "The backlog limit has a default setting of 64"
     rationale:
@@ -2432,7 +2241,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-log-storage-size-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure audit log storage size is configured"
     description:
       "Configure the maximum size of the audit log file. Once the log reaches the maximum size, it "
@@ -2469,7 +2278,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-log-not-auto-deleted"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure audit logs are not automatically deleted"
     description:
       "The max_log_file_action setting determines how to handle the audit log file reaching the "
@@ -2506,7 +2315,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "system-disabled-when-audit-logs-full"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure system is disabled when audit logs are full"
     description:
       "The auditd daemon can be configured to halt the system when the audit logs are full.\n"
@@ -2573,118 +2382,10 @@ benchmark_configs: {
       "    }"
   }
 }
-# The image check looks at the .rules files in /etc/audit/rules.d.
-# The instance check looks at the rule file (/etc/audit/audit.rules) which is automatically compiled from the files in /etc/audit/rules.d.
-# It is not possible to read the rules while auditd is running since they are provided directly to the kernel.
-benchmark_configs: {
-  id: "changes-to-sudoers-collected"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure changes to system administration scope (sudoers) is collected"
-    description:
-      "Monitor scope changes for system administrators. If the system has been properly "
-      "configured to force system administrators to log in as themselves first and then use the "
-      "sudo command to execute privileged commands, it is possible to monitor changes in scope. "
-      "The file /etc/sudoers, or files in /etc/sudoers.d, will be written to when the file(s) or "
-      "related attributes have changed. The audit records will be tagged with the identifier "
-      "\"scope\"."
-    rationale:
-      "Changes in the /etc/sudoers and /etc/sudoers.d files can indicate that an unauthorized "
-      "change has been made to the scope of system administrator activity"
-    remediation:
-      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
-      "the relevant rules to monitor scope changes for system administrators.\n"
-      "Example:\n"
-      "\n```\n"
-      "# printf \"\n"
-      "-w /etc/sudoers -p wa -k scope\n"
-      "-w /etc/sudoers.d -p wa -k scope\n"
-      "\" >> /etc/audit/rules.d/50-scope.rules\n"
-      "```\n\n"
-      "Merge and load the rules into active configuration:\n"
-      "\n```\n"
-      "# augenrules --load\n"
-      "```\n\n"
-      "Check if reboot is required.\n"
-      "\n```\n"
-      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot "
-      "required to load rules\n\"; fi\n"
-      "```\n\n"
-    cis_benchmark: {
-      profile_level: 2
-      severity: LOW
-    }
-    scan_instructions:
-      "scan_type_specific:{"
-      "    instance_scanning:{"
-      "        check_alternatives:{"
-      "            file_checks:{"
-      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
-      "                content_entry:{"
-      "                    match_type: ALL_MATCH_ANY_ORDER"
-      "                    match_criteria:{"
-      "                        filter_regex: \".*/etc/sudoers[^\\\\.].*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*$\""
-      "                    }"
-      "                }"
-      "            }"
-      "            file_checks:{"
-      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
-      "                content_entry:{"
-      "                    match_type: ALL_MATCH_ANY_ORDER"
-      "                    match_criteria:{"
-      "                        filter_regex: \".*/etc/sudoers\\\\.d.*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*$\""
-      "                    }"
-      "                }"
-      "            }"
-      "        }"
-      "    }"
-      "    image_scanning:{"
-      "        check_alternatives:{"
-      "            file_checks:{"
-      "                files_to_check:{"
-      "                    files_in_dir:{"
-      "                        dir_path:\"/etc/audit/rules.d\""
-      "                        recursive: true"
-      "                        files_only: true"
-      "                        filename_regex: \".*\\\\.rules\""
-      "                    }"
-      "                }"
-      "                content_entry:{"
-      "                    match_type: ALL_MATCH_ANY_ORDER"
-      "                    match_criteria:{"
-      "                        filter_regex: \".*/etc/sudoers[^\\\\.].*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*$\""
-      "                    }"
-      "                }"
-      "            }"
-      "            file_checks:{"
-      "                files_to_check:{"
-      "                    files_in_dir:{"
-      "                        dir_path:\"/etc/audit/rules.d\""
-      "                        recursive: true"
-      "                        files_only: true"
-      "                        filename_regex: \".*\\\\.rules\""
-      "                    }"
-      "                }"
-      "                content_entry:{"
-      "                    match_type: ALL_MATCH_ANY_ORDER"
-      "                    match_criteria:{"
-      "                        filter_regex: \".*/etc/sudoers\\\\.d.*\""
-      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*$\""
-      "                    }"
-      "                }"
-      "            }"
-      "        }"
-      "    }"
-      "}"
-  }
-}
 benchmark_configs: {
   id: "actions-as-another-user-logged"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure actions as another user are always logged"
     description:
       "sudo provides users with temporary elevated privileges to perform operations, either as "
@@ -2767,7 +2468,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-sudo-log-file-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure events that modify the sudo log file are collected"
     description:
       "Monitor the sudo log file. If the system has been properly configured to disable the use of "
@@ -2851,7 +2552,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-date-time-info-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure events that modify date and time information are collected"
     description:
       "Capture events where the system date and/or time has been modified. The parameters in "
@@ -3027,7 +2728,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-system-net-env-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure events that modify the system's network environment are collected"
     description:
       "Record changes to network environment files or system calls. The below parameters "
@@ -3174,7 +2875,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "unsuccessful-file-access-attempts-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure unsuccessful file access attempts are collected"
     description:
       "Monitor for unsuccessful attempts to access files. The following parameters are associated "
@@ -3396,7 +3097,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-user-group-info-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure events that modify user/group information are collected"
     description:
       "Record events affecting the modification of user or group information, including that of "
@@ -3514,7 +3215,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "access-control-permission-modification-events-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure discretionary access control permission modification events are collected"
     description:
       "Monitor changes to file permissions, attributes, ownership and group. The parameters in "
@@ -3879,7 +3580,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "successful-file-system-mounts-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure successful file system mounts are collected"
     description:
       "Monitor the use of the mount system call. The mount (and umount ) system call controls the "
@@ -4032,7 +3733,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "session-initiation-info-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure session initiation information is collected"
     description:
       "Monitor session initiation events. The parameters in this section track changes to the files "
@@ -4127,7 +3828,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "login-logout-events-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure login and logout events are collected"
     description:
       "Monitor login and logout events. The parameters below track changes to files associated "
@@ -4210,7 +3911,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "file-deletion-events-by-users-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure file deletion events by users are collected"
     description:
       "Monitor the use of system calls associated with the deletion or renaming of files and file "
@@ -4411,7 +4112,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-system-mac-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure events that modify the system's Mandatory Access Controls are collected"
     description:
       "Monitor SELinux, an implementation of mandatory access controls. The parameters below "
@@ -4496,7 +4197,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-chcon-recorded"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure successful and unsuccessful attempts to use the chcon command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the "
@@ -4583,7 +4284,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-setfacl-recorded"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure successful and unsuccessful attempts to use the setfacl command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the"
@@ -4670,7 +4371,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-chacl-recorded"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure successful and unsuccessful attempts to use the chacl command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the"
@@ -4757,7 +4458,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-usermod-recorded"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure successful and unsuccessful attempts to use the usermod command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the"
@@ -4844,7 +4545,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-kernel-module-load-unload-edit-collected"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure kernel module loading unloading and modification is collected"
     description:
       "Monitor the loading and unloading of kernel modules. All the loading / listing / dependency "
@@ -5077,7 +4778,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-config-immutable"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure the audit configuration is immutable"
     description:
       "Set system audit so that audit rules cannot be modified with auditctl . Setting the flag \"-e "
@@ -5132,59 +4833,6 @@ benchmark_configs: {
       "            }"
       "        }"
       "    }"
-      "}"
-  }
-}
-benchmark_configs: {
-  id: "users-password-for-escalation"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure users must provide password for escalation"
-    description:
-      "The operating system must be configured so that users must provide a password for "
-      "privilege escalation."
-    rationale:
-      "Without re-authentication, users may access resources or perform tasks for which they do "
-      "not have authorization.\n"
-      "When operating systems provide the capability to escalate a functional capability, it is "
-      "critical the user re-authenticate."
-    remediation:
-      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
-      "relevant sudoers file.\n"
-      "Remove any line with occurrences of NOPASSWD tags in the file."
-    cis_benchmark: {
-      profile_level: 2
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/sudoers\"}}"
-      "          content_entry:{"
-      "            match_type: NONE_MATCH"
-      "            match_criteria: {"
-      "              filter_regex: \"[^#].*NOPASSWD:.*\""
-      "              expected_regex: \"[^#].*NOPASSWD:.*\""
-      "            }"
-      "          }"
-      "    }"
-      "  }"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "        dir_path:\"/etc/sudoers.d\""
-      "        recursive: true"
-      "      }}"
-      "      content_entry:{"
-      "        match_type: NONE_MATCH"
-      "        match_criteria: {"
-      "              filter_regex: \"[^#].*NOPASSWD:.*\""
-      "              expected_regex: \"[^#].*NOPASSWD:.*\""
-      "        }"
-      "      }"
-      "    }"
-      "  }"
       "}"
   }
 }
