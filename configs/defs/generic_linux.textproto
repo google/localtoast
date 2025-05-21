@@ -11462,3 +11462,615 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "auditd-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure auditd service is enabled"
+    description: "Turn on the auditd daemon to record system events."
+    rationale:
+      "The capturing of system events provides system administrators with "
+      "information to allow them to determine if unauthorized access to their system is occurring."
+    remediation:
+      "Run the following commands to unmask, enable and start auditd: \n"
+      "```# systemctl unmask auditd \n"
+      "# systemctl enable auditd \n"
+      "# systemctl start auditd \n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"auditd.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/systemd/system/\"}}"
+      "     existence:{should_exist:false}"
+      "   }"
+      " }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "avahi-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Avahi Server is not enabled"
+    description:
+      "Avahi is a free zeroconf implementation, including a system for "
+      "multicast DNS/DNS-SD service discovery. Avahi allows programs to "
+      "publish and discover services and hosts running on a local network "
+      "with no specific configuration. For example, a user can plug a computer "
+      "into a network and Avahi automatically finds printers to print to, "
+      "files to look at and people to talk to, as well as network services "
+      "running on the machine."
+    rationale:
+      "Automatic discovery of network services is not normally required for "
+      "system functionality. It is recommended to disable the service to "
+      "reduce the potential attack surface"
+    remediation:
+      "Run one of the following commands to disable avahi-daemon:\n"
+      "```\n"
+      "# chkconfig avahi-daemon off\n"
+      "# systemctl disable avahi-daemon\n"
+      "# update-rc.d avahi-daemon disable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"avahi-daemon.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables avahi-daemon\""
+      "    file_display_command: \"find /etc/systemd/system -name avahi-daemon.service\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "dnsmasq-service-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure dnsmasq services are not in use"
+    description:
+      "dnsmasq is a lightweight tool that provides DNS caching, DNS forwarding and DHCP "
+      "(Dynamic Host Configuration Protocol) services."
+    rationale:
+      "Unless a system is specifically designated to act as a DNS caching, DNS forwarding "
+      "and/or DHCP server, it is recommended that the package be removed to reduce the "
+      "potential attack surface."
+    remediation:
+      "Run the following commands to stop dnsmasq.service and remove dnsmasq package:\n"
+      "# systemctl stop dnsmasq.service\n"
+      "# apt purge dnsmasq\n"
+      "- OR -\n"
+      "- IF - the dnsmasq package is required as a dependency:\n"
+      "Run the following commands to stop and mask the dnsmasq.service:\n"
+      "# systemctl stop dnsmasq.service\n"
+      "# systemctl mask dnsmasq.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"dnsmasq\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"dnsmasq.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dnsmasq\""
+      "    file_display_command: \"find /etc/systemd/system -name 'dnsmasq.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"dnsmasq.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables dnsmasq\""
+      "    file_display_command: \"find /etc/systemd/system -name 'dnsmasq.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-bluetooth-services-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Bluetooth Services Are Not in Use"
+    description:
+      "Bluetooth is a short-range wireless technology standard that is used for exchanging data between devices over short "
+      "distances. If Bluetooth is not needed, it should be disabled to reduce the potential attack surface."
+    rationale:
+      "Disabling Bluetooth services prevents attackers from exploiting vulnerabilities in Bluetooth technology, such as "
+      "bluesnarfing, and reduces the risk of data corruption, theft, or loss due to malicious activity."
+    remediation:
+      "Run the following commands to stop the Bluetooth service and remove the bluez package:\n"
+      "```\n"
+      "# systemctl stop bluetooth.service\n"
+      "# apt purge bluez\n"
+      "```\n"
+      "- OR - If the bluez package is required as a dependency:\n"
+      "```\n"
+      "# systemctl stop bluetooth.service\n"
+      "# systemctl mask bluetooth.service\n"
+      "```\n"
+      "Note: A reboot may be required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{process_path:{proc_name:\"bluetoothd\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"bluetoothd is running, Bluetooth services are active.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/bluetooth.service\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The Bluetooth service is not masked or disabled.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/bluetoothd\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The bluez package is installed.\""
+      "      }"
+      "    }"
+      "  }"
+      "  image_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/system/\", filename_regex:\"bluetooth.service\", recursive:true}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The Bluetooth service configuration file is present in the image.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/bluetoothd\"}}"
+      "        existence:{should_exist:false}"
+      "        non_compliance_msg: \"The bluez package is present in the image.\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-ufw-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw Service is Enabled"
+    description:
+      "Uncomplicated Firewall (ufw) is a frontend for iptables that provides a framework for managing Netfilter, offering "
+      "both command-line and GUI interfaces for firewall management."
+    rationale: "The `ufw` service must be enabled and running to ensure proper system protection by the firewall."
+    remediation:
+      "To unmask, enable, and start the `ufw` daemon:\n"
+      "```\n"
+      "# systemctl unmask ufw.service\n"
+      "# systemctl --now enable ufw.service\n"
+      "# ufw enable\n"
+      "```\n"
+      "Note: Ensure to configure rules to avoid being locked out of the system, especially when connected over SSH."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/lib/systemd/system/ufw.service\"}}"
+      "        existence:{should_exist:true}"
+      "        non_compliance_msg: \"The ufw service file is missing.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/ufw.service\"}}"
+      "        existence:{should_exist:true}"
+      "        non_compliance_msg: \"The ufw service file is not enabled.\""
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/ufw.service\"}}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria: {"
+      "            filter_regex: \".+\""
+      "            expected_regex: \".+\""
+      "          }"
+      "        }"
+      "        non_compliance_msg: \"The ufw service file is masked.\""
+      "      }"
+      "    }"
+      "  }"
+      "  image_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{dir_path:\"/lib/systemd/system/\", filename_regex:\"ufw.service\", recursive:true}}"
+      "        existence:{should_exist:true}"
+      "        non_compliance_msg: \"The ufw service file is missing in the image.\""
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "journald-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure journald service is enabled"
+    description: "Ensure that the systemd-journald service is enabled and running to allow capturing of logging events."
+    rationale: "If the systemd-journald service is not enabled or running, the system will not capture logging events, which is critical for monitoring and auditing."
+    remediation: "Investigate why systemd-journald is not active. Ensure it is configured correctly and not masked. By default, systemd-journald does not have an [Install] section, so its activation depends on other unit files."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.service\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.socket\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/systemd-journald.service\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/systemd-journald.socket\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "network-fs-service-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: " Ensure network file system services are not in use"
+    description:
+      "The Network File System (NFS) is one of the first and most widely distributed file "
+      "systems in the UNIX environment. It provides the ability for systems to mount file "
+      "systems of other servers through the network."
+    rationale:
+      "If the system does not export NFS shares, it is recommended that the nfs-kernel-server "
+      "package be removed to reduce the remote attack surface."
+    remediation:
+      "Run the following command to stop nfs-server.service and remove nfs-kernel-"
+      "server package:\n"
+      "# systemctl stop nfs-server.service\n"
+      "# apt purge nfs-kernel-server\n"
+      "- OR -\n"
+      "- IF - the nfs-kernel-server package is required as a dependency:\n"
+      "Run the following commands to stop and mask the nfs-server.service:\n"
+      "# systemctl stop nfs-server.service\n"
+      "# systemctl mask nfs-server.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"nfs-kernel-server\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"nfs-kernel-server.(service|socket)\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables nfs-kernel-server\""
+      "    file_display_command: \"find /etc/systemd/system -name 'nfs-kernel-server.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"nfs-kernel-server.(service|socket)\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables nfs-kernel-server\""
+      "    file_display_command: \"find /etc/systemd/system -name 'nfs-kernel-server.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-service-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nftables service is enabled"
+    description:
+      "The nftables service allows for the loading of nftables rulesets during boot, or starting on "
+      "the nftables service"
+    rationale:
+      "The nftables service restores the nftables rules from the rules files referenced in the "
+      "/etc/nftables.conf file during boot or the starting of the nftables service"
+    remediation:
+      "Run the following command to enable the nftables service:\n"
+      "```\n"
+      "# systemctl enable nftables "
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/lib/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "tftp-server-service-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure tftp server services are not in use"
+    description:
+      "Trivial File Transfer Protocol (TFTP) is a simple protocol for exchanging files between "
+      "two TCP/IP machines. TFTP servers allow connections from a TFTP Client for sending "
+      "and receiving files."
+    rationale:
+      "Unless there is a need to run the system as a TFTP server, it is recommended that the "
+      "package be removed to reduce the potential attack surface.\n"
+      "TFTP does not have built-in encryption, access control or authentication. This makes it "
+      "very easy for an attacker to exploit TFTP to gain access to files"
+    remediation:
+      "Run the following commands to stop tftpd-hpa.service, and remove the tftpd-hpa "
+      "package:\n"
+      "# systemctl stop tftpd-hpa.service\n"
+      "# apt purge tftpd-hpa\n"
+      "- OR -\n"
+      "- IF - the tftpd-hpa package is required as a dependency:\n"
+      "Run the following commands to stop and mask tftpd-hpa.service:\n"
+      "# systemctl stop tftpd-hpa.service\n"
+      "# systemctl mask tftpd-hpa.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"tftpd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"tftpd-hpa.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables tftpd-hpa\""
+      "    file_display_command: \"find /etc/systemd/system -name 'tftpd-hpa.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"tftpd-hpa.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables tftpd-hpa\""
+      "    file_display_command: \"find /etc/systemd/system -name 'tftpd-hpa.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "x-server-service-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure X window server services are not in use"
+    description:
+      "The X Window System provides a Graphical User Interface (GUI) where users can have "
+      "multiple windows in which to run programs and various add on. The X Windows system "
+      "is typically used on workstations where users login, but not on servers where users "
+      "typically do not login."
+    rationale:
+      "Unless your organization specifically requires graphical login access via X Windows, "
+      "remove it to reduce the potential attack surface."
+    remediation:
+      "- IF - a Graphical Desktop Manager or X-Windows server is not required and approved "
+      "by local site policy:\n"
+      "Run the following command to remove the X Windows Server package:\n"
+      "# apt purge xserver-common"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"Package: xserver-common.*\""
+      "        expected_regex: \"Package: xserver-common\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "xinetd-service-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure xinetd services are not in use"
+    description:
+      "The eXtended InterNET Daemon (xinetd) is an open source super daemon that "
+      "replaced the original inetd daemon. The xinetd daemon listens for well known "
+      "services and dispatches the appropriate daemon to properly respond to service "
+      "requests."
+    rationale:
+      "If there are no xinetd services required, it is recommended that the package be "
+      "removed to reduce the attack surface are of the system."
+    remediation:
+      "Run the following commands to stop xinetd.service, and remove the xinetd "
+      "package:\n"
+      "# systemctl stop xinetd.service\n"
+      "# apt purge xinetd\n"
+      "-OR-\n"
+      "-IF- the xinetd package is required as a dependency:\n"
+      "Run the following commands to stop and mask the xinetd.service:\n"
+      "# systemctl stop xinetd.service\n"
+      "# systemctl mask xinetd.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{process_path:{proc_name:\"xinetd\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"xinetd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables xinetd\""
+      "    file_display_command: \"find /etc/systemd/system -name 'xinetd.service'\""
+      "  }"
+      "}}"
+      "image_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      recursive: true"
+      "      filename_regex: \"xinetd.service\""
+      "    }}"
+      "    existence:{should_exist: false}"
+      "    non_compliance_msg: \"a config file in /etc/systemd/system enables xinetd\""
+      "    file_display_command: \"find /etc/systemd/system -name 'xinetd.service'\""
+      "  }"
+      "}}"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "rpcbind-not-in-use"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure rpcbind services are not in use"
+    description:
+      "The rpcbind utility maps RPC services to the ports on which they listen. RPC processes notify rpcbind when they "
+      "start, registering the ports they are listening on and the RPC program numbers they expect to serve."
+    rationale:
+      "A small request sent to the Portmapper generates a large response, making it a suitable tool for DDoS attacks. "
+      "If rpcbind is not required, removing it reduces the potential attack surface."
+    remediation:
+      "1. Stop and mask the rpcbind.socket and rpcbind.service to ensure they do not run:\n"
+      "```\n"
+      "# systemctl stop rpcbind.socket rpcbind.service\n"
+      "# systemctl mask rpcbind.socket rpcbind.service\n"
+      "```\n"
+      "2. Remove the rpcbind package if it is not required as a dependency:\n"
+      "```\n"
+      "# apt purge rpcbind\n"
+      "```\n"
+      "Note: If rpcbind is required for dependencies, ensure the socket and service are stopped and masked."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}}"
+  }
+}
