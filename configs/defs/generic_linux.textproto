@@ -10338,3 +10338,488 @@ benchmark_configs: {
       "}"
   }
 }
+
+# The image check looks at the .rules files in /etc/audit/rules.d.
+# The instance check looks at the rule file (/etc/audit/audit.rules) which is automatically compiled from the files in /etc/audit/rules.d.
+# It is not possible to read the rules while auditd is running since they are provided directly to the kernel.
+benchmark_configs: {
+  id: "changes-to-sudoers-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure changes to system administration scope (sudoers) is collected"
+    description:
+      "Monitor scope changes for system administrators. If the system has been properly "
+      "configured to force system administrators to log in as themselves first and then use the "
+      "sudo command to execute privileged commands, it is possible to monitor changes in scope. "
+      "The file /etc/sudoers, or files in /etc/sudoers.d, will be written to when the file(s) or "
+      "related attributes have changed. The audit records will be tagged with the identifier "
+      "\"scope\"."
+    rationale:
+      "Changes in the /etc/sudoers and /etc/sudoers.d files can indicate that an unauthorized "
+      "change has been made to the scope of system administrator activity"
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor scope changes for system administrators.\n"
+      "Example:\n"
+      "```\n"
+      "# printf \"\n"
+      "-w /etc/sudoers -p wa -k scope\n"
+      "-w /etc/sudoers.d -p wa -k scope\n"
+      "\" >> /etc/audit/rules.d/50-scope.rules\n"
+      "```\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot "
+      "required to load rules\n\"; fi\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/sudoers[^\\\\.].*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/sudoers\\\\.d.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/sudoers[^\\\\.].*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/sudoers\\\\.d.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s+/etc/sudoers\\\\.d\\\\s+-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-privileged-commands-are-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure use of privileged commands are collected"
+    description: "Monitor privileged programs with setuid and/or setgid bit set to detect unauthorized use."
+    rationale:
+      "Monitoring privileged commands by non-privileged users helps identify potential unauthorized activities "
+      "and access attempts."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with the relevant rules:\n"
+      "```\n"
+      "# Identify all privileged commands and monitor their execution\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)\n"
+      "AUDIT_RULE_FILE=/etc/audit/rules.d/50-privileged.rules\n"
+      "find / -xdev -perm /6000 -type f 2>/dev/null | awk -v UID_MIN=${UID_MIN} '{ print \"-a always,exit -F path=\" $1 \" -F perm=x -F auid>=\" UID_MIN \" -F auid!=unset -k privileged\" }' > ${AUDIT_RULE_FILE}\n"
+      "```\n"
+      "Merge and load the rules:\n"
+      "# augenrules --load\n"
+      "Check if reboot is required:\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{"
+      "          dir_path:\"/etc/audit/rules.d\""
+      "          recursive: true"
+      "          files_only: true"
+      "          filename_regex: \".*\\\\.rules\""
+      "        }}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria:{"
+      "            filter_regex: \".*-a\\\\s+always,exit\\\\s+-F\\\\s+path=.*-k\\\\s+privileged\\\\s*\""
+      "            expected_regex: \"\\\\s*-a\\\\s+always,exit\\\\s+-F\\\\s+path=.*-F\\\\s+perm=x\\\\s+-F\\\\s+auid>=\\\\d+\\\\s+-F\\\\s+auid!=unset\\\\s+-k\\\\s+privileged\\\\s*\""
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-root-umask-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure root user umask is configured"
+    description:
+      "The configuration ensures that the root user's umask is set to a secure value to enforce permissions for newly "
+      "created files and directories."
+    rationale:
+      "Setting a secure umask ensures that newly created files and directories have restricted permissions, reducing "
+      "the risk of unauthorized access."
+    remediation:
+      "Edit the `/root/.bash_profile` and `/root/.bashrc` files and ensure the following configuration is included:\n"
+      "```\n"
+      "umask 0027\n"
+      "```\n"
+      "Remove or comment out any other umask settings that are less restrictive."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/root/.bash_profile\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/root/.bashrc\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s*0027.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "reauthentication-for-privilege-escalation-not-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure re-authentication for privilege escalation is not disabled globally"
+    description:
+      "The operating system must be configured so that users must re-authenticate for privilege "
+      "escalation."
+    rationale:
+      "Without re-authentication, users may access resources or perform tasks for which they do "
+      "not have authorization.\n"
+      "When operating systems provide the capability to escalate a functional capability, it is "
+      "critical the user re-authenticate."
+    remediation:
+      "Configure the operating system to require users to reauthenticate for privilege escalation.\n"
+      "Based on the outcome of the audit procedure, use visudo -f <PATH TO FILE> to edit the "
+      "relevant sudoers file.\n"
+      "Remove any occurrences of !authenticate tags in the file(s)."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#].*\\\\!authenticate.*\""
+      "          expected_regex: \"[^#].*\\\\!authenticate.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "root-gid-zero-check"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure Root is the Only GID 0 Account"
+    description:
+      "The configuration ensures that the root user's primary GID is 0 and no other user accounts have GID 0 as their "
+      "primary GID, enhancing system security."
+    rationale:
+      "Restricting GID 0 to the root account minimizes the risk of unauthorized access and ensures critical system files "
+      "are properly secured."
+    remediation:
+      "Run the following commands to ensure the root user and group GID are correctly set and no other users have GID 0:\n"
+      "```\n"
+      "usermod -g 0 root\n"
+      "groupmod -g 0 root\n"
+      "```\n"
+      "Remove or reassign GID 0 from any other users."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/passwd\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*:[^:]*:[^:]*:0:[^:]*:[^:]*:[^:]*\""
+      "          expected_regex: \"root:[^:]*:[^:]*:0:[^:]*:[^:]*:[^:]*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "root-gid-zero-group-check"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure group root is the only GID 0 group"
+    description:
+      "Using GID 0 for the root group helps prevent root group owned files from accidentally "
+      "becoming accessible to non-privileged users."
+    rationale:
+      "Restricting GID 0 to the root account minimizes the risk of unauthorized access and ensures critical system "
+      "files are properly secured."
+    remediation:
+      "Run the following commands to ensure the root user and group GID are correctly set and no other users have GID 0:\n"
+      "usermod -g 0 root\n"
+      "groupmod -g 0 root\n"
+      "Remove or reassign GID 0 from any other users."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/group\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^root]:x:0:.*\""
+      "          expected_regex: \".*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "sudo-authentication-timeout-is-configured-correctly"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure sudo authentication timeout is configured correctly"
+    description:
+      "sudo caches used credentials for a default of 5 minutes. This is for ease of use when there "
+      "are multiple administrative tasks to perform. The timeout can be modified to suit local "
+      "security policies."
+    rationale:
+      "Setting a timeout value reduces the window of opportunity for unauthorized privileged "
+      "access to another user."
+    remediation:
+      "If the currently configured time out is larger than 15 minutes, edit the file listed in the audit "
+      "section with "
+      "```\n"
+      "visudo -f <PATH TO FILE>"
+      "```\n "
+      "and modify the entry "
+      "```\n"
+      "timestamp_timeout="
+      "```\n "
+      "to 15 minutes or less as per your site policy. The value is in minutes. This particular entry may "
+      "appear on its own, or on the sameline as env_reset. See the following two examples:\n"
+      "1. Same line\n"
+      "```\n"
+      "Defaults env_reset, timestamp timeout=15\n"
+      "```\n"
+      "2. Different lines\n"
+      "```\n"
+      "Defaults timestamp_ timeout=15\n"
+      "Defaults env_reset\n"
+      "```\n"
+      "References:\n"
+      "1. https://www.sudo.ws/man/1.9.0/sudoers.man.html"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "          expected_regex: \".*timestamp_timeout\\\\s*=\\\\s*(\\\\d+).*\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: LESS_THAN"
+      "            const: 16"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/etc/sudoers\""
+      "       }"
+      "      }"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/sudoers.d/\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "          expected_regex: \".*timestamp_timeout\\\\s*=.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "sudo-is-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure sudo is installed"
+    description:
+      "sudo allows a permitted user to execute a command as the superuser or another user, as "
+      "specified by the security policy. The invoking user's real (not effective) user ID is used to "
+      "determine the user name with which to query the security policy."
+    rationale:
+      "sudo supports a plug-in architecture for security policies and input/output logging. Third "
+      "parties can develop and distribute their own policy and I/O logging plugins to work "
+      "seamlessly with the sudo front end. The default security policy is sudoers, which is "
+      "configured via the file /etc/sudoers.\n"
+      "The security policy determines what privileges, if any, a user has to run sudo. The policy "
+      "may require that users authenticate themselves with a password or another authentication "
+      "mechanism. If authentication is required, sudo will exit if the user's password is not "
+      "entered within a configurable time limit. This limit is policy-specific."
+    remediation:
+      "first determine if LDAP functionality is required. If so, then install sudo-ldap, else install sudo "
+      "using the appropriate package manager or manual:\n"
+      "```\n"
+      "# yum install sudo\n"
+      "# dnf install sudo\n"
+      "# apt install sudo\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/sudo\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
