@@ -1,7 +1,7 @@
 benchmark_configs: {
   id: "shm-configured"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure /dev/shm is configured"
     description:
       "/dev/shm is a traditional shared memory concept. One program will create a memory "
@@ -72,7 +72,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "removable-media-partitions-noexec"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure removable media partitions include noexec option"
     description: "The noexec mount option specifies that the filesystem cannot contain executable binaries. "
     rationale:
@@ -122,7 +122,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "removable-media-partitions-nodev"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure nodev option set on removable media partitions"
     description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
@@ -172,7 +172,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "removable-media-partitions-nosuid"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure nosuid option set on removable media partitions"
     description: "The nosuid mount option specifies that the filesystem cannot contain setuid files."
     rationale:
@@ -221,7 +221,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "firewalld-is-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure firewalld is installed"
     description:
       "firewalld is a firewall management tool for Linux operating systems. It provides firewall "
@@ -284,7 +284,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "nftables-is-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure nftables is installed"
     description:
       "nftables provides a new in-kernel packet classification framework that is based on a "
@@ -340,7 +340,7 @@ benchmark_configs: {
 benchmark_configs: {
   id: "accounts-in-etc-passwd-use-shadowed-passwords"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     title: "Ensure accounts in /etc/passwd use shadowed passwords"
     description:
       "Local accounts can uses shadowed passwords. With shadowed passwords, The passwords "
