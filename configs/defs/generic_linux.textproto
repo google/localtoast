@@ -10615,12 +10615,6 @@ benchmark_configs: {
       "                }"
       "            }"
       "        }"
-      "        check_alternatives:{"
-      "            file_checks:{"
-      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
-      "                existence:{should_exist: false}"
-      "            }"
-      "        }"
       "    }"
       "}"
   }
