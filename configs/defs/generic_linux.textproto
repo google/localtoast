@@ -9561,17 +9561,19 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-disable-gnome-automount-removable-media-not-overridden"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM disabling automatic mounting of removable media is not overridden"
-    description: 
+    description:
         "By default, GNOME automatically mounts removable media when inserted as a convenience to the user. Disabling "
         "automounting enhances security by preventing unauthorized access to removable media. By using the lockdown mode "
         "in dconf, you can prevent users from changing specific settings. To lock down a dconf key or subpath, create a "
         "locks subdirectory in the keyfile directory. The files inside this directory contain a list of keys or subpaths "
         "to lock. Just as with the keyfiles, you may add any number of files to this directory."
-    rationale: 
+    rationale:
         "With automounting enabled, anyone with physical access could attach a USB drive or disc and have its contents "
         "available in the system even if they lacked permissions to mount it themselves."
-    remediation: 
+    remediation:
         "To disable automounting of removable media:\n"
         "1. Create the file /etc/dconf/db/local.d/locks/00-media-automount with the following content:\n"
         "```\n"
@@ -9623,14 +9625,14 @@ benchmark_configs: {
   id: "disable-gnome-automount-removable-media"
   compliance_note: {
     title: "Ensure GDM disabling automatic mounting of removable media is disabled"
-    description: 
+    description:
         "By default GNOME automatically mounts removable media when inserted as a "
 	"convenience to the user."
-    rationale: 
+    rationale:
         "With automounting enabled anyone with physical access could attach a USB drive or "
 	"disc and have its contents available in system even if they lacked permissions to mount"
 	"it themselves."
-    remediation: 
+    remediation:
         "- IF - A user profile exists run the following commands to ensure automatic mounting is "
 	"disabled:\n"
 	"```\n"
@@ -9689,76 +9691,18 @@ benchmark_configs: {
 
 
 
-benchmark_configs: {
-  id: "ensure-disable-gnome-automount-removable-media-not-overridden"
-  compliance_note: {
-    title: "Ensure GDM disabling automatic mounting of removable media is not overridden"
-    description: 
-        "By default, GNOME automatically mounts removable media when inserted as a convenience to the user. Disabling "
-        "automounting enhances security by preventing unauthorized access to removable media. By using the lockdown mode "
-        "in dconf, you can prevent users from changing specific settings. To lock down a dconf key or subpath, create a "
-        "locks subdirectory in the keyfile directory. The files inside this directory contain a list of keys or subpaths "
-        "to lock. Just as with the keyfiles, you may add any number of files to this directory."
-    rationale: 
-        "With automounting enabled, anyone with physical access could attach a USB drive or disc and have its contents "
-        "available in the system even if they lacked permissions to mount it themselves."
-    remediation: 
-        "To disable automounting of removable media:\n"
-        "1. Create the file /etc/dconf/db/local.d/locks/00-media-automount with the following content:\n"
-        "```\n"
-        "[org/gnome/desktop/media-handling]\n"
-        "automount=false\n"
-        "automount-open=false\n"
-        "```\n"
-        "2. Update the system's databases:\n"
-        "```\n"
-        "# dconf update\n"
-        "```\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: MEDIUM
-    }
-    scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{single_file{path:\"/etc/dconf\"}}"
-      "  existence:{should_exist: false}"
-      "}"
-      "check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"automount=false\\\\s*\""
-      "          expected_regex: \"automount=false\\\\s*\""
-      "        }"
-      "      }"
-      "    }"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-automount\"}}"
-      "      content_entry:{"
-      "        match_type: ALL_MATCH_ANY_ORDER"
-      "        match_criteria: {"
-      "          filter_regex: \"automount-open=false\\\\s*\""
-      "          expected_regex: \"automount-open=false\\\\s*\""
-      "        }"
-      "      }"
-      "    }"
-      "}}"
-  }
-}
-
-
 
 benchmark_configs: {
   id: "ensure-gdm-autorun-never-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM autorun-never is enabled"
-    description: 
+    description:
       "The autorun-never setting allows the GNOME Desktop Display Manager to disable autorun through GDM."
-    rationale: 
+    rationale:
       "Malware on removable media may take advantage of Autorun features when the media is inserted into a system and executed."
-    remediation: 
+    remediation:
       "Run the following script to verify that autorun-never is set to true for GDM:\n"
       "```\n"
       "#!/usr/bin/env bash\n"
@@ -9825,7 +9769,7 @@ benchmark_configs: {
       profile_level: 1
       severity: LOW
     }
-    scan_instructions: 
+    scan_instructions:
       "generic:{"
       "  check_alternatives:{"
       "    file_checks:{single_file{path:\"/etc/dconf\"}}"
@@ -9851,12 +9795,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-gdm-autorun-never-is-not-overridden"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM autorun-never is not overridden"
-    description: 
+    description:
       "The autorun-never setting allows the GNOME Desktop Display Manager to disable autorun through GDM. By using the lockdown mode in dconf, you can prevent users from changing specific settings."
-    rationale: 
+    rationale:
       "Malware on removable media may take advantage of Autorun features when the media is inserted into a system and executed."
-    remediation: 
+    remediation:
       "1. To prevent the user from overriding these settings, create the file /etc/dconf/db/local.d/locks/00-media-autorun with the following content:\n"
       "```\n"
       "[org/gnome/desktop/media-handling]\n"
@@ -9908,12 +9854,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-gdm-removed"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM is removed"
-    description: 
+    description:
       "The GNOME Display Manager (GDM) is a program that manages graphical display servers and handles graphical user logins. If a Graphical User Interface (GUI) is not required, it should be removed to reduce the attack surface of the system."
-    rationale: 
+    rationale:
       "Removing the GNOME Display manager will remove the Graphical User Interface (GUI) from the system."
-    remediation: 
+    remediation:
       "Run the following commands to uninstall gdm3 and remove unused dependencies:\n"
       "```\n"
       "# apt purge gdm3\n"
@@ -9923,7 +9871,7 @@ benchmark_configs: {
       profile_level: 2
       severity: MEDIUM
     }
-    scan_instructions: 
+    scan_instructions:
       "generic:{check_alternatives:{"
       "  file_checks:{single_file{path:\"/var/lib/dpkg/status\"}}"
       "  existence:{should_exist: false}"
@@ -9948,6 +9896,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-gdm-screen-locks-cannot-be-overridden"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM screen locks cannot be overridden"
     description:
       "GNOME Desktop Manager can lock down specific settings by using the lockdown mode in dconf to prevent users from changing specific settings."
@@ -10004,13 +9954,15 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-gdm-screen-locks-when-user-is-idle"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "3.1.2" benchmark_document: "CIS Centos Linux 7.x"	}
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "1.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure GDM screen locks when the user is idle"
-    description: 
+    description:
       "GNOME Desktop Manager can make the screen lock automatically whenever the user is idle for some amount of time."
-    rationale: 
+    rationale:
       "Setting a lock-out value reduces the window of opportunity for unauthorized user access to another user's session "
       "that has been left unattended."
-    remediation: 
+    remediation:
       "Run the following commands to enable screen locks when the user is idle:\n"
       "```\n"
       "# gsettings set org.gnome.desktop.screensaver lock-delay 5\n"
@@ -10041,7 +9993,7 @@ benchmark_configs: {
       profile_level: 1
       severity: LOW
     }
-    scan_instructions: 
+    scan_instructions:
       "generic:{check_alternatives:{"
       "  file_checks:{single_file{path:\"/etc/dconf\"}}"
       "  existence:{should_exist: false}"
@@ -10080,6 +10032,3 @@ benchmark_configs: {
       "}}"
   }
 }
-
-
-
