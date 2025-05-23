@@ -19797,7 +19797,7 @@ benchmark_configs: {
       severity: HIGH
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
