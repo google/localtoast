@@ -20135,7 +20135,7 @@ benchmark_configs: {
     "        permission:{"
     "          set_bits: 0640"
     "          clear_bits: 0137"
-    "          bits_should_match: BOTH_SET_AND_CLEAR"
+    "          bits_should_match: EITHER_SET_OR_CLEAR"
     "        }"
     "      }"
     "    }"
