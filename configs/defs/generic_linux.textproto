@@ -14274,7 +14274,7 @@ benchmark_configs: {
       severity: HIGH
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/audit/rules.d/99-finalize.rules\"}}"
@@ -14287,7 +14287,7 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
-      "}}"
+      "}"
   }
 }
 
