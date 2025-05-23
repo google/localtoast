@@ -14021,20 +14021,25 @@ benchmark_configs: {
       severity: HIGH
     }
     scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
+      "generic:{"
       "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
       "      content_entry:{"
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
-      "          filter_regex: \"\\b(audit_backlog_limit=(8192|[89][0-9]{3,}|[1-9][0-9]{4,}))\\b.*\""
-      "          expected_regex: \"\\b(audit_backlog_limit=(8192|[89][0-9]{3,}|[1-9][0-9]{4,}))\\b.*\""
+      "          filter_regex: \"audit_backlog_limit=.*\""
+      "          expected_regex: \"audit_backlog_limit=(\\\\d+).*\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 8191"
+      "          }"
       "        }"
       "      }"
       "    }"
       "  }"
-      "}}"
+      "}"
   }
 }
 
