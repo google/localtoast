@@ -19860,12 +19860,6 @@ benchmark_configs: {
       "    existence:{should_exist: true}"
       "  }"
       "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/bin\"}}"
-      "    existence:{should_exist: false}"
-      "  }"
-      "}"
       "}"
   }
 }
