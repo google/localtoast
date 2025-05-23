@@ -19778,12 +19778,6 @@ benchmark_configs: {
       "         }"
       "   }"
       " }"
-      " check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
-      "    existence:{should_exist: false}"
-      "  }"
-      " }"
       "}"
   }
 }
