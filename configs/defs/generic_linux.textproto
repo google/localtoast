@@ -19971,7 +19971,7 @@ benchmark_configs: {
     "        permission:{"
     "          set_bits: 0755"
     "          clear_bits: 0022"
-    "          bits_should_match: BOTH_SET_AND_CLEAR"
+    "          bits_should_match: EITHER_SET_OR_CLEAR"
     "        }"
     "        non_compliance_msg: \"Audit tools are not configured with mode 0755 or more restrictive.\""
     "        file_display_command: \"ls -l /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\""
