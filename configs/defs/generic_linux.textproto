@@ -12164,7 +12164,7 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
-      "    file_checks:{"
+            "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
       "      content_entry:{"
       "        match_type: ALL_MATCH_ANY_ORDER"
@@ -12250,6 +12250,45 @@ benchmark_configs: {
       "      }"
       "    }"
       "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-libpam-pwquality-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title:
+      "Ensure libpam-pwquality is installed"
+    description:
+      "libpwquality provides common functions for password quality checking and scoring based on their apparent randomness. "
+      "It helps in strengthening passwords to reduce brute force attacks."
+    rationale:
+      "Strong passwords reduce the risk of systems being hacked through brute force methods."
+    remediation:
+      "Run the following command to install libpam-pwquality:\n"
+      "```\n"
+      "apt install libpam-pwquality\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"Package: libpam-pwquality\""
+      "          expected_regex: \"Package: libpam-pwquality\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -13097,6 +13136,383 @@ benchmark_configs: {
       "# apt purge rpcbind\n"
       "```\n"
       "Note: If rpcbind is required for dependencies, ensure the socket and service are stopped and masked."
+      cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+    "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-pam-faillock-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_faillock module is enabled"
+    description:
+      "The pam_faillock.so module maintains a list of failed authentication attempts per user during a specified interval "
+      "and locks the account in case there were more than the configured number of consecutive failed authentications "
+      "(defined by the deny parameter in the faillock configuration). It stores the failure records into per-user files "
+      "in the tally directory."
+    rationale:
+      "Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute-force password attacks "
+      "against your systems."
+    remediation:
+      "Create two pam-auth-update profiles in /usr/share/pam-configs/:\n"
+      "First profile:\n"
+      "```\n"
+      "Name: Enable pam_faillock to deny access\n"
+      "Default: yes\n"
+      "Priority: 0\n"
+      "Auth-Type: Primary\n"
+      "Auth: [default=die] pam_faillock.so authfail\n\n"
+      "```\n"
+      "Second profile:\n"
+      "```\n"
+      "Name: Notify of failed login attempts and reset count upon success\n"
+      "Default: yes\n"
+      "Priority: 1024\n"
+      "Auth-Type: Primary\n"
+      "Auth: requisite pam_faillock.so preauth\n"
+      "Account-Type: Primary\n"
+      "Account: required pam_faillock.so\n\n"
+      "```\n"
+      "After creating the profiles, run the following commands to update PAM files:\n"
+      "```\n"
+      "# pam-auth-update --enable faillock\n"
+      "# pam-auth-update --enable faillock_notify"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/pam.d\""
+      "        filename_regex: \"common-(auth|account)\""
+      "        recursive: false"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "           filter_regex: \".*pam_faillock.so.*\""
+      "           expected_regex: \".*pam_faillock.so.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-pam-pwhistory-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_pwhistory module is enabled"
+    description:
+      "The pam_pwhistory.so module saves the last passwords for each user in order to force password change history "
+      "and prevent users from alternating between the same passwords too frequently."
+    rationale:
+      "Use of unique, complex passwords helps to increase the time and resources required to compromise the password."
+    remediation:
+      "Run the following script to verify the pam_pwhistory.so line exists in a pam-auth-update profile:\n"
+      "```\n"
+      "# grep -P -- '\\bpam_pwhistory\\.so\\b' /usr/share/pam-configs/*\n\n"
+      "```\n"
+      "If similar output is returned, update the /etc/pam.d/common-password file:\n"
+      "```\n"
+      "# pam-auth-update --enable {PROFILE_NAME}\n\n"
+      "```\n"
+      "If not, create a pam-auth-update profile for pwhistory and enable it:\n"
+      "```\n"
+      "#!/usr/bin/env bash\n"
+      "{\n"
+      "arr=('Name: pwhistory password history checking' 'Default: yes' 'Priority: 1024' 'Password-Type: Primary' 'Password:' '\\trequisite\\tpam_pwhistory.so remember=24 enforce_for_root try_first_pass use_authtok')\n"
+      "printf '%s\\n' \"${arr[@]}\" > /usr/share/pam-configs/pwhistory\n"
+      "}"
+      "```\n"
+      "Run the following command to update /etc/pam.d/common-password with the pwhistory profile:\n"
+      "```\n"
+      "# pam-auth-update --enable pwhistory\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex:\"common-password\""
+      "      recursive:false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type:ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "        expected_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/usr/share/pam-configs/\""
+      "      filename_regex:\".*\""
+      "      recursive:false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type:ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "        expected_regex:\"[^#]*\\\\bpam_pwhistory.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+
+benchmark_configs: {
+  id: "ensure-pam-pwquality-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_pwquality module is enabled"
+    description:
+      "The pam_pwquality.so module performs password quality checking. This module can be plugged into the password "
+      "stack of a given service to provide strength-checking for passwords. The code was originally based on pam_cracklib "
+      "module and the module is backwards compatible with its options."
+    rationale:
+      "Use of a unique, complex password helps to increase the time and resources required to compromise the password."
+    remediation:
+      "Run the following script to verify the pam_pwquality.so line exists in a pam-auth-update profile:\n"
+      "```\n"
+      "# grep -P -- '\\bpam_pwquality\\.so\\b' /usr/share/pam-configs/*\n\n"
+      "```\n"
+      "If similar output is returned, update the /etc/pam.d/common-password file:\n"
+      "```\n"
+      "# pam-auth-update --enable {PROFILE_NAME}\n\n"
+      "```\n"
+      "If not, create a pam-auth-update profile for pwquality and enable it:\n"
+      "```\n"
+      "#!/usr/bin/env bash\n"
+      "{\n"
+      "arr=('Name: Pwquality password strength checking' 'Default: yes' 'Priority: 1024' 'Conflicts: cracklib' 'Password-Type: Primary' 'Password:' 'requisite\\tpam_pwquality.so retry=3' 'Password-Initial:' 'requisite')\n"
+      "printf '%s\\n' \"${arr[@]}\" > /usr/share/pam-configs/pwquality\n"
+      "}"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/pam.d\""
+      "      filename_regex: \"common-password\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "        expected_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/usr/share/pam-configs/\""
+      "      filename_regex: \".*\""
+      "      recursive: false"
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "        expected_regex: \"[^#]*\\\\bpam_pwquality.so.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-pam-unix-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_unix module is enabled"
+    description:
+      "pam_unix is the standard Unix authentication module. It uses standard calls from the system's libraries to retrieve and set account information as well as authentication."
+    rationale:
+      "The system should only provide access after performing authentication of a user."
+    remediation:
+      "Run the following command to enable the pam_unix module:\n"
+      "# pam-auth-update --enable unix\n"
+      "\nNote: If a site-specific custom profile is being used in your environment to configure PAM that includes the configuration for the pam_faillock module, enable that module instead."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/pam.d\""
+      "        filename_regex: \"common-(account|session|auth|password)\""
+      "        recursive: false"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*pam_unix.so.*\""
+      "          expected_regex: \".*pam_unix.so.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "pam-unix-nullok-not-included"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_unix Does Not Include nullok"
+    description:
+      "The configuration ensures that the pam_unix module does not include the `nullok` argument, which permits blank passwords."
+    rationale:
+      "Excluding the `nullok` argument ensures that blank passwords are not permitted, enhancing security by enforcing the "
+      "use of strong passwords."
+    remediation:
+      "Edit any `pam_unix` lines in `/etc/pam.d/common-password`, `/etc/pam.d/common-auth`, `/etc/pam.d/common-account`, "
+      "`/etc/pam.d/common-session`, and `/etc/pam.d/common-session-noninteractive` to remove the `nullok` argument.\n"
+      "Ensure no `pam_unix.so` line includes the `nullok` argument."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/pam.d/\", filename_regex:\"common-(password|auth|account|session|session-noninteractive)\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_unix\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?nullok\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_unix\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?nullok\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "pam-unix-remember-not-included"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_unix Does Not Include remember"
+    description:
+      "The configuration ensures that the pam_unix module does not include the `remember` argument, which stores passwords "
+      "using the MD5 hash. Instead, the pam_pwhistory module should be used for enhanced security."
+    rationale:
+      "Removing the `remember` argument from pam_unix ensures stronger password hashing algorithms are used, providing "
+      "additional protection against password recovery attacks."
+    remediation:
+      "Edit any `pam_unix` lines in `/etc/pam.d/common-password`, `/etc/pam.d/common-auth`, `/etc/pam.d/common-account`, "
+      "`/etc/pam.d/common-session`, and `/etc/pam.d/common-session-noninteractive` to remove the `remember` argument.\n"
+      "Ensure no `pam_unix.so` line includes the `remember` argument."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/pam.d/\", filename_regex:\"common-(password|auth|account|session|session-noninteractive)\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex:  \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_unix\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\n\\r]+\\\\s+pam_unix\\\\.so\\\\s+([^#\\n\\r]+\\\\s+)?remember\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "pam-unix-strong-hashing-algorithm"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_unix Includes a Strong Password Hashing Algorithm"
+    description:
+      "The configuration ensures that the pam_unix module uses a strong password hashing algorithm, such as SHA-512 or "
+      "yescrypt, to enhance password security."
+    rationale:
+      "Using strong hashing algorithms like SHA-512 or yescrypt provides additional protection against password recovery "
+      "attacks by increasing the computational effort required to break the password hashes."
+    remediation:
+      "Edit any `pam_unix` lines in `/etc/pam.d/common-password` to include either the `sha512` or `yescrypt` hashing "
+      "algorithm. Ensure the configuration meets local site policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\\\n\\\\r]*\\\\bpam_unix\\\\.so\\\\b.*\\\\b(sha512|yescrypt)\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\\\n\\\\r]*\\\\bpam_unix\\\\.so\\\\b.*\\\\b(sha512|yescrypt)\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "pam-unix-use-authtok"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure pam_unix Includes use_authtok"
+    description:
+      "The configuration ensures that the pam_unix module uses the `use_authtok` argument to enforce the use of a password "
+      "previously provided by a stacked PAM module."
+    rationale:
+      "The `use_authtok` argument ensures consistency across PAM modules during password changes, enforcing security policies "
+      "defined by other modules in the PAM stack."
+    remediation:
+      "Edit any `pam_unix` lines in `/etc/pam.d/common-password` to include the `use_authtok` argument. Ensure the "
+      "configuration meets local site policy."
     cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
@@ -13104,8 +13520,14 @@ benchmark_configs: {
     scan_instructions:
       "generic:{check_alternatives:{"
       "    file_checks:{"
-      "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
-      "      existence:{should_exist:false}"
+      "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*password\\\\s+[^#\\\\n\\\\r]*\\\\bpam_unix\\\\.so\\\\b.*\\\\buse_authtok\\\\b.*\""
+      "          expected_regex: \"\\\\s*password\\\\s+[^#\\\\n\\\\r]*\\\\bpam_unix\\\\.so\\\\b.*\\\\buse_authtok\\\\b.*\""
+      "        }"
+      "      }"
       "    }"
       "}}"
   }
