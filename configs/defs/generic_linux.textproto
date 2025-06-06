@@ -12330,7 +12330,8 @@ benchmark_configs: {
       severity: MEDIUM
     }
     scan_instructions: 
-      "generic:{check_alternatives:{"
+      "generic:{"
+      "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
       "      content_entry:{"
@@ -12349,7 +12350,14 @@ benchmark_configs: {
       "        }"
       "      }"
       "    }"
-      "}}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -13478,19 +13486,27 @@ benchmark_configs: {
       severity: MEDIUM
     }
     scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
-      "    repeat_config: {type: FOR_EACH_OPEN_IPV6_PORT}"      
-      "    content_entry:{"
-      "      match_type: ALL_MATCH_ANY_ORDER"
-      "      match_criteria: {"
-      "        filter_regex: \".*--dport $port.*\""
-      "        expected_regex: \"[^#].*--dport $port.*\""
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      repeat_config: {type: FOR_EACH_OPEN_IPV6_PORT}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*--dport $port.*\""
+      "          expected_regex: \"[^#].*--dport $port.*\""
+      "        }"
       "      }"
       "    }"
       "  }"
-      "}}"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -13623,7 +13639,8 @@ benchmark_configs: {
       severity: MEDIUM
     }
     scan_instructions: 
-      "generic:{check_alternatives:{"
+      "generic:{"
+      "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
       "      content_entry:{"
@@ -13642,7 +13659,14 @@ benchmark_configs: {
       "        }"
       "      }"
       "    }"
-      "}}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -13775,7 +13799,8 @@ benchmark_configs: {
       severity: MEDIUM
     }
     scan_instructions: 
-      "generic:{check_alternatives:{"
+      "generic:{"
+      "  check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
       "      content_entry:{"
@@ -13794,7 +13819,14 @@ benchmark_configs: {
       "        }"
       "      }"
       "    }"
-      "}}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -13852,19 +13884,27 @@ benchmark_configs: {
       severity: MEDIUM
     }
     scan_instructions:
-      "generic:{check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
-      "    repeat_config: {type: FOR_EACH_OPEN_IPV4_PORT}"      
-      "    content_entry:{"
-      "      match_type: ALL_MATCH_ANY_ORDER"
-      "      match_criteria: {"
-      "        filter_regex: \".*--dport $port.*\""
-      "        expected_regex: \"[^#].*--dport $port.*\""
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      repeat_config: {type: FOR_EACH_OPEN_IPV4_PORT}"      
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*--dport $port.*\""
+      "          expected_regex: \"[^#].*--dport $port.*\""
+      "        }"
       "      }"
       "    }"
       "  }"
-      "}}"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
