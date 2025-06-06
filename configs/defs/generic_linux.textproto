@@ -13965,3 +13965,78 @@ benchmark_configs: {
   }
 }
 
+benchmark_configs: {
+  id: "ensure-events-modifying-system-network-env-collected"
+  compliance_note: {
+    title: "Ensure events that modify the system's network environment are collected"
+    description: "Record changes to network environment files or system calls. The parameters monitor the sethostname "
+    "and setdomainname system calls and various network-related files.\n"
+    rationale: "Monitoring changes to network environments helps identify unauthorized alterations that could compromise "
+    "security settings. Monitoring files like /etc/hosts or /etc/netplan/ ensures the detection of unauthorized changes "
+    "to network configurations."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with the relevant rules:\n"
+      "```\n"
+      "-a always,exit -F arch=b64 -S sethostname,setdomainname -k system-locale\n"
+      "-a always,exit -F arch=b32 -S sethostname,setdomainname -k system-locale\n"
+      "-w /etc/issue -p wa -k system-locale\n"
+      "-w /etc/issue.net -p wa -k system-locale\n"
+      "-w /etc/hosts -p wa -k system-locale\n"
+      "-w /etc/networks -p wa -k system-locale\n"
+      "-w /etc/network/ -p wa -k system-locale\n"
+      "-w /etc/netplan/ -p wa -k system-locale\n"
+      "```\n"
+      "Merge and load the rules:\n"
+      "# augenrules --load\n"
+      "Check if reboot is required:\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
+  
+  cis_benchmark: {
+    profile_level: 2
+    severity: LOW
+  }
+  scan_instructions:
+    "generic:{check_alternatives:{"
+    "      file_checks:{"
+    "        files_to_check:{files_in_dir:{"
+    "          dir_path:\"/etc/audit/rules.d\""
+    "          recursive: true"
+    "          files_only: true"
+    "          filename_regex: \".*\\\\.rules\""
+    "        }}"
+    "        content_entry:{"
+    "          match_type: ALL_MATCH_ANY_ORDER"
+    "          match_criteria:{"
+    "            filter_regex: \".*sethostname.*setdomainname.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s+sethostname,setdomainname\\\\s*-k\\\\s+system-locale\\\\s*\""
+    "          }"
+    "          match_criteria:{"
+    "            filter_regex: \".*/etc/issue\\\\s+.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+    "          }"
+    "          match_criteria:{"
+    "            filter_regex: \".*/etc/issue\\\\.net.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\.net\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+    "          }"
+    "          match_criteria:{"
+    "            filter_regex: \".*/etc/hosts.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-w\\\\s*/etc/hosts\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+    "          }"
+    "          match_criteria:{"
+    "            filter_regex: \".*/etc/networks.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-w\\\\s*/etc/networks\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+    "          }"
+    "          match_criteria:{"
+    "            filter_regex: \".*/etc/network/.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-w\\\\s*/etc/network/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+    "          }"
+    "          match_criteria:{"
+    "            filter_regex: \".*/etc/netplan/.*-k\\\\s+system-locale.*\""
+    "            expected_regex: \"\\\\s*-w\\\\s*/etc/netplan/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+    "          }"
+    "        }"
+    "      }"
+    "  }"
+    "}"
+  }
+}
