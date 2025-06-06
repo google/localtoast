@@ -14130,3 +14130,35 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-nologin-not-in-shells"
+  compliance_note: {
+    title: "Ensure nologin is not listed in /etc/shells"
+    description: 
+      "/etc/shells is a text file which contains the full pathnames of valid login shells. This file is consulted by "
+      "chsh and available to be queried by other programs."
+    rationale: 
+      "Having nologin listed in /etc/shells allows users configured with nologin as their shell to be treated as unrestricted "
+      "users, which is not expected behavior."
+    remediation: 
+      "Edit /etc/shells and remove any lines that include nologin."
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/shells\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"/nologin\\\\b.*\""
+      "          expected_regex: \"/nologin\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
