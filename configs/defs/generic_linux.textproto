@@ -13849,3 +13849,37 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-gdm-removed"
+  compliance_note: {
+    title: "Ensure GDM is removed"
+    description:
+      "The GNOME Display Manager (GDM) is a program that manages graphical display servers and handles graphical user logins. If a Graphical User Interface (GUI) is not required, it should be removed to reduce the attack surface of the system."
+    rationale:
+      "Removing the GNOME Display manager will remove the Graphical User Interface (GUI) from the system."
+    remediation:
+      "Run the following commands to uninstall gdm3 and remove unused dependencies:\n"
+      "```\n"
+      "# apt purge gdm3\n"
+      "# apt autoremove gdm3\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "    content_entry:{"
+      "      match_type: NONE_MATCH"
+      "      match_criteria: {"
+      "        filter_regex: \"Package: gdm3\""
+      "        expected_regex: \"Package: gdm3\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
