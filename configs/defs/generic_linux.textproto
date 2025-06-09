@@ -13630,6 +13630,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-chacl-recorded"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure successful and unsuccessful attempts to use the chacl command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the"
@@ -13717,6 +13719,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-chcon-recorded"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure successful and unsuccessful attempts to use the chcon command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the "
@@ -13804,6 +13808,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-setfacl-recorded"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure successful and unsuccessful attempts to use the setfacl command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the"
@@ -13891,6 +13897,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "attempts-to-use-usermod-recorded"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure successful and unsuccessful attempts to use the usermod command are recorded"
     description:
       "The operating system must generate audit records for successful/unsuccessful uses of the "
@@ -14000,73 +14008,74 @@ benchmark_configs: {
       "# augenrules --load\n"
       "Check if reboot is required:\n"
       "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
-  
-  cis_benchmark: {
-    profile_level: 2
-    severity: LOW
-  }
-  scan_instructions:
-    "generic:{check_alternatives:{"
-    "      file_checks:{"
-    "        files_to_check:{files_in_dir:{"
-    "          dir_path:\"/etc/audit/rules.d\""
-    "          recursive: true"
-    "          files_only: true"
-    "          filename_regex: \".*\\\\.rules\""
-    "        }}"
-    "        content_entry:{"
-    "          match_type: ALL_MATCH_ANY_ORDER"
-    "          match_criteria:{"
-    "            filter_regex: \".*sethostname.*setdomainname.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s+sethostname,setdomainname\\\\s*-k\\\\s+system-locale\\\\s*\""
-    "          }"
-    "          match_criteria:{"
-    "            filter_regex: \".*/etc/issue\\\\s+.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
-    "          }"
-    "          match_criteria:{"
-    "            filter_regex: \".*/etc/issue\\\\.net.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\.net\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
-    "          }"
-    "          match_criteria:{"
-    "            filter_regex: \".*/etc/hosts.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-w\\\\s*/etc/hosts\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
-    "          }"
-    "          match_criteria:{"
-    "            filter_regex: \".*/etc/networks.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-w\\\\s*/etc/networks\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
-    "          }"
-    "          match_criteria:{"
-    "            filter_regex: \".*/etc/network/.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-w\\\\s*/etc/network/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
-    "          }"
-    "          match_criteria:{"
-    "            filter_regex: \".*/etc/netplan/.*-k\\\\s+system-locale.*\""
-    "            expected_regex: \"\\\\s*-w\\\\s*/etc/netplan/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
-    "          }"
-    "        }"
-    "      }"
-    "  }"
-    "}"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{"
+      "          dir_path:\"/etc/audit/rules.d\""
+      "          recursive: true"
+      "          files_only: true"
+      "          filename_regex: \".*\\\\.rules\""
+      "        }}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria:{"
+      "            filter_regex: \".*sethostname.*setdomainname.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s+sethostname,setdomainname\\\\s*-k\\\\s+system-locale\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/issue\\\\s+.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/issue\\\\.net.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\.net\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/hosts.*-k\\\\s+system-locale.*\""
+      "              expected_regex: \"\\\\s*-w\\\\s*/etc/hosts\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/networks.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/networks\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/network/.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/network/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/netplan/.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/netplan/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "        }"
+      "      }"
+      "  }"
+      "}"
   }
 }
 
 benchmark_configs: {
   id: "ensure-journald-forwardtosyslog-disabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure journald ForwardToSyslog is disabled"
-    description: 
+    description:
       "Data from journald should be kept within the service and not forwarded to other logging mechanisms."
-    rationale: 
+    rationale:
       "Logs should be handled exclusively by journald to prevent unnecessary forwarding and enhance security."
-    remediation: 
+    remediation:
       "Set the following parameter in the [Journal] section of /etc/systemd/journald.conf or a file in "
-      "/etc/systemd/journald.conf.d/ ending in .conf:\n" 
+      "/etc/systemd/journald.conf.d/ ending in .conf:\n"
       "```\n"
-      "[Journal]\n" 
-      "ForwardToSyslog=no\n\n" 
+      "[Journal]\n"
+      "ForwardToSyslog=no\n\n"
       "```\n"
-      "After updating the configuration, reload or restart systemd-journald:\n\n" 
+      "After updating the configuration, reload or restart systemd-journald:\n\n"
       "```\n"
       "# systemctl reload-or-restart systemd-journald\n"
       "```\n"
@@ -14093,21 +14102,23 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-journald-storage-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure journald Storage is configured"
-    description: 
+    description:
       "Data from journald may be stored in volatile memory or persisted locally on the server. Logs in memory will be "
       "lost upon a system reboot. By persisting logs to local disk on the server, they are protected from loss due to a reboot."
-    rationale: 
+    rationale:
       "Writing log data to disk provides the ability to forensically reconstruct events which may have impacted the operations "
       "or security of a system even after a system crash or reboot."
-    remediation: 
+    remediation:
       "Set the following parameter in the [Journal] section of /etc/systemd/journald.conf or a file in "
-      "/etc/systemd/journald.conf.d/ ending in .conf:\n" 
+      "/etc/systemd/journald.conf.d/ ending in .conf:\n"
       "```\n"
-      "[Journal]\n" 
-      "Storage=persistent\n" 
+      "[Journal]\n"
+      "Storage=persistent\n"
       "```\n"
-      "After updating the configuration, reload or restart systemd-journald:\n" 
+      "After updating the configuration, reload or restart systemd-journald:\n"
       "```\n"
       "# systemctl reload-or-restart systemd-journald\n"
       "```\n"
@@ -14134,14 +14145,16 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-nologin-not-in-shells"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure nologin is not listed in /etc/shells"
-    description: 
+    description:
       "/etc/shells is a text file which contains the full pathnames of valid login shells. This file is consulted by "
       "chsh and available to be queried by other programs."
-    rationale: 
+    rationale:
       "Having nologin listed in /etc/shells allows users configured with nologin as their shell to be treated as unrestricted "
       "users, which is not expected behavior."
-    remediation: 
+    remediation:
       "Edit /etc/shells and remove any lines that include nologin."
     cis_benchmark: {
       profile_level: 2
@@ -14166,14 +14179,16 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-nologin-not-in-shells"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure nologin is not listed in /etc/shells"
-    description: 
+    description:
       "/etc/shells is a text file which contains the full pathnames of valid login shells. This file is consulted by "
       "chsh and available to be queried by other programs."
-    rationale: 
+    rationale:
       "Having nologin listed in /etc/shells allows users configured with nologin as their shell to be treated as unrestricted "
       "users, which is not expected behavior."
-    remediation: 
+    remediation:
       "Edit /etc/shells and remove any lines that include nologin."
     cis_benchmark: {
       profile_level: 2
@@ -14198,6 +14213,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-rsyslog-not-receive-log-from-client"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure rsyslog is not configured to receive logs from a remote client"
     description:
       "rsyslog supports the ability to receive messages from remote hosts, thus acting as a "
@@ -14290,16 +14307,18 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-single-logging-system"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure only one logging system is in use"
-    description: 
+    description:
       "Best practices recommend that a single centralized logging system be used for log "
       "management, choose a single service either rsyslog - OR - journald to be used as a "
       "single centralized logging system."
-    rationale: 
+    rationale:
       "Configuring only one logging service either rsyslog - OR - journald avoids "
       "redundancy, optimizes resources, simplifies configuration and management, and "
       "ensures consistency."
-    remediation: 
+    remediation:
       "1. Determine whether to use journald - OR - rsyslog depending on site needs\n"
       "2. Configure systemd-jounald.service\n"
       "3. Configure only ONE either journald - OR - rsyslog and complete the "
@@ -14309,7 +14328,7 @@ benchmark_configs: {
       profile_level: 1
       severity: LOW
     }
-    scan_instructions: 
+    scan_instructions:
       "generic:{check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.service\"}}"
@@ -14336,6 +14355,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-systemd-journal-remote-not-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure systemd-journal-remote service is not in use"
     description:
       "The systemd-journal-remote service supports receiving messages from remote hosts, effectively turning the system "
@@ -14370,6 +14391,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-date-time-info-collected"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure events that modify date and time information are collected"
     description:
       "Capture events where the system date and/or time has been modified. "
@@ -14503,6 +14526,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-system-mac-collected"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure events that modify the system's Mandatory Access Controls are collected"
     description:
       "Monitor SELinux/AppArmor mandatory access controls. "
@@ -14581,6 +14606,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "events-modifying-user-group-info-collected"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure events that modify user/group information are collected"
     description:
       "Record events affecting the group , passwd (user IDs), shadow and gshadow (passwords) "
@@ -14685,6 +14712,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "login-logout-events-collected"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure login and logout events are collected"
     description:
       "Monitor login and logout events. "
@@ -14770,6 +14799,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "rsyslog-log-creation-file-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure rsyslog log file creation mode is configured"
     description:
       "rsyslog will create logfiles that do not already exist on the system.\n"
@@ -14854,6 +14885,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "sudolog-actions-collected"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure system administrator actions (sudolog) are collected"
     description:
       "Monitor the sudo log file. "
@@ -14929,6 +14962,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "systemd-journal-upload-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure systemd-journal-upload is enabled and active"
     description:
       "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
@@ -14961,6 +14996,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "unsuccessful-file-access-attempts-collected"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure unsuccessful file access attempts are collected"
     description:
       "Monitor for unsuccessful attempts to access files. The following parameters are associated "
