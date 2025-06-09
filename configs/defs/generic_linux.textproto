@@ -18476,6 +18476,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-log-not-auto-deleted"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit logs are not automatically deleted"
     description:
       "The max_log_file_action setting determines how to handle the audit log file reaching the "
@@ -19746,6 +19748,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-log-storage-size-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit log storage size is configured"
     description:
       "Configure the maximum size of the audit log file. "
@@ -19785,6 +19789,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "audit-processes-prior-to-auditd-enabled"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure Auditing for Processes That Start Prior to Auditd Is Enabled"
     description:
       "This configuration ensures that audit events for processes that start prior to auditd are captured, enabling early detection of potential malicious activity."
@@ -19817,6 +19823,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "auditd-installed"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure auditd is installed"
     description:
       "auditd is the userspace component to the Linux Auditing System. "
@@ -19867,6 +19875,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-configuration-files-group-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit configuration files owner is configured"
     description:
       "Access to the audit configuration files could allow unauthorized personnel to prevent the "
@@ -19906,6 +19916,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-configuration-files-mode-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit configuration files mode is configured"
     description: "Audit configuration files must be configured with mode 0640 or more restrictive to prevent unauthorized "
     "access and protect the integrity of the audit system."
@@ -19984,6 +19996,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-configuration-files-owner-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit configuration files owner is configured"
     description:
       "Access to the audit configuration files could allow unauthorized personnel to prevent the "
@@ -20023,6 +20037,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-log-dir-mode-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure the audit log file directory mode is configured"
     description: "The audit log directory contains audit log files."
     rationale:
@@ -20057,6 +20073,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-log-group-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit log files group owner is configured"
     description: "Audit log files contain information about the system and system activity."
     rationale: "Restricting access to audit configuration files ensures that only authorized personnel can modify "
@@ -20105,6 +20123,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-log-mode-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit log files mode is configured"
     description: "Audit log files contain information about the system and system activity."
     rationale:
@@ -20146,6 +20166,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-log-owner-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit log files owner is configured"
     description: "Audit configuration files must be configured with mode 0640 or more restrictive to prevent "
     "unauthorized access and protect the integrity of the audit system.\n"
@@ -20192,6 +20214,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-tools-group-owner-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit tools group owner is configured"
     description: "Audit tools must be owned by the root group to ensure their integrity and prevent unauthorized access "
     "or modifications."
@@ -20253,6 +20277,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-tools-group-owner-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit tools group owner is configured"
     description: "Audit tools must be owned by the root group to ensure their integrity and prevent unauthorized access "
     "or modifications."
@@ -20314,6 +20340,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-audit-tools-owner-configured"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure audit tools owner is configured"
     description: "Audit tools must be owned by the root user to ensure their integrity and prevent unauthorized access "
     "or modifications.\n"
@@ -20374,6 +20402,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ensure-cryptographic-mechanisms-audit-tools"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure cryptographic mechanisms are used to protect the integrity of audit tools"
     description:
       "Audit tools include vendor-provided and open source tools needed to view and manipulate audit information. "
@@ -20416,6 +20446,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "system-disabled-when-audit-logs-full"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }  
     title: "Ensure system is disabled when audit logs are full"
     description: "The auditd daemon can be configured to halt the system when the audit logs are full."
     rationale:
@@ -20465,6 +20497,8 @@ benchmark_configs: {
 benchmark_configs: {
   id: "system-warns-on-audit-logs-low-space"
   compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure System Warns When Audit Logs Are Low on Space"
     description:
       "This configuration ensures that the system is configured to warn or take appropriate actions when audit logs are "
