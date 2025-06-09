@@ -13798,3 +13798,54 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-gdm-autorun-never-is-not-overridden"
+  compliance_note: {
+    title: "Ensure GDM autorun-never is not overridden"
+    description:
+      "The autorun-never setting allows the GNOME Desktop Display Manager to disable autorun through GDM. By using the lockdown mode in dconf, you can prevent users from changing specific settings."
+    rationale:
+      "Malware on removable media may take advantage of Autorun features when the media is inserted into a system and executed."
+    remediation:
+      "1. To prevent the user from overriding these settings, create the file /etc/dconf/db/local.d/locks/00-media-autorun with the following content:\n"
+      "```\n"
+      "[org/gnome/desktop/media-handling]\n"
+      "autorun-never=true\n"
+      "```\n"
+      "2. Update the system's databases:\n"
+      "```\n"
+      "# dconf update\n"
+      "```\n"
+      "Note: Users must log out and back in again before the system-wide settings take effect."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-autorun\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*org/gnome/desktop/media-handling.*\""
+      "          expected_regex: \".*org/gnome/desktop/media-handling.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf/db/local.d/locks/00-media-autorun\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"autorun-never\\\\s*=\\\\s*true\""
+      "          expected_regex: \"autorun-never\\\\s*=\\\\s*true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
