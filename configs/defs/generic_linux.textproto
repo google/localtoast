@@ -19786,11 +19786,11 @@ benchmark_configs: {
   id: "audit-processes-prior-to-auditd-enabled"
   compliance_note: {
     title: "Ensure Auditing for Processes That Start Prior to Auditd Is Enabled"
-    description: 
+    description:
       "This configuration ensures that audit events for processes that start prior to auditd are captured, enabling early detection of potential malicious activity."
-    rationale: 
+    rationale:
       "Auditing processes that start prior to auditd ensures comprehensive monitoring of all system activity, reducing the risk of undetected malicious activity."
-    remediation: 
+    remediation:
       "Edit `/etc/default/grub` to include `audit=1` in the `GRUB_CMDLINE_LINUX` configuration and update the GRUB configuration with the command `update-grub`."
     cis_benchmark: {
       profile_level: 2
@@ -20375,22 +20375,22 @@ benchmark_configs: {
   id: "ensure-cryptographic-mechanisms-audit-tools"
   compliance_note: {
     title: "Ensure cryptographic mechanisms are used to protect the integrity of audit tools"
-    description: 
+    description:
       "Audit tools include vendor-provided and open source tools needed to view and manipulate audit information. "
       "Protecting their integrity ensures audit data remains secure and trustworthy."
-    rationale: 
+    rationale:
       "Attackers may modify or replace audit tools to hide or erase activity from logs. Cryptographic signatures enable "
       "detection of unauthorized changes."
-    remediation: 
+    remediation:
       "Configure AIDE to monitor audit tool files with cryptographic integrity checks. Edit /etc/aide/aide.conf and add "
-      "or update the following entries:\n" 
+      "or update the following entries:\n"
       "```\n"
-      "# Audit Tools\n" 
-      "/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
-      "/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
-      "/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
-      "/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
-      "/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512\n" 
+      "# Audit Tools\n"
+      "/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512\n"
       "/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\n"
       "```\n"
     cis_benchmark: {
@@ -20466,13 +20466,13 @@ benchmark_configs: {
   id: "system-warns-on-audit-logs-low-space"
   compliance_note: {
     title: "Ensure System Warns When Audit Logs Are Low on Space"
-    description: 
+    description:
       "This configuration ensures that the system is configured to warn or take appropriate actions when audit logs are "
       "low on space, preserving the integrity and continuity of logging."
-    rationale: 
+    rationale:
       "Configuring the system to handle low audit log space helps prevent loss of critical audit data and enhances the "
       "reliability of audit records in monitoring and detecting security events."
-    remediation: 
+    remediation:
       "Edit `/etc/audit/auditd.conf` to set the `space_left_action` parameter to `email`, `exec`, `single`, or `halt` "
       "and the `admin_space_left_action` parameter to `single` or `halt`:\n"
       "```\n"
