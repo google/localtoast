@@ -1493,8 +1493,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/log/audit"
-    description:
-      "The auditing daemon, auditd, stores log data in the /var/log/audit directory."
+    description: "The auditing daemon, auditd, stores log data in the /var/log/audit directory."
     rationale:
       "The default installation only creates a single / partition. Since the /var/log/audit "
       "directory contains the audit.log file which can grow quite large, there is a risk of "
@@ -1568,8 +1567,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure separate partition exists for /var/log"
-    description:
-      "The /var/log directory is used by system services to store log data."
+    description: "The /var/log directory is used by system services to store log data."
     rationale:
       "The default installation only creates a single / partition. Since the /var/log directory "
       "contains log files which can grow quite large, there is a risk of resource exhaustion. It "
@@ -1711,8 +1709,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log/audit partition"
-    description:
-      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
       "Since the /var/log/audit filesystem is not intended to support devices, set this option "
       "to ensure that users cannot create a block or character special devices in"
@@ -1792,8 +1789,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log/audit partition"
-    description:
-      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
       "Since the /var/log/audit filesystem is only intended for audit logs, set this option to "
       "ensure that users cannot run executable binaries from /var/log/audit."
@@ -1872,8 +1868,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log/audit partition"
-    description:
-      "The nosuid mount option specifies that the filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies that the filesystem cannot contain setuid files."
     rationale:
       "Since the /var/log/audit filesystem is only intended for variable files such as logs, "
       "set this option to ensure that users cannot create setuid files in /var/log/audit."
@@ -1956,8 +1951,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nodev option set on /var/log partition"
-    description:
-      "The nodev mount option specifies that the filesystem cannot contain special devices."
+    description: "The nodev mount option specifies that the filesystem cannot contain special devices."
     rationale:
       "Since the /var/log filesystem is not intended to support devices, set this option to "
       "ensure that users cannot create a block or character special devices in /var/log."
@@ -2035,8 +2029,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure noexec option set on /var/log partition"
-    description:
-      "The noexec mount option specifies that the filesystem cannot contain executable binaries."
+    description: "The noexec mount option specifies that the filesystem cannot contain executable binaries."
     rationale:
       "Since the /var/log filesystem is only intended for log files, set this option to ensure "
       "that users cannot run executable binaries from /var/log."
@@ -2048,7 +2041,7 @@ benchmark_configs: {
       "<device> /var/log <fstype> defaults,rw,nosuid,nodev,noexec,relatime 0 0\n"
       "Run the following command to remount /var/log with the configured options:\n"
       "# mount -o remount /var/log"
-     cis_benchmark: {
+    cis_benchmark: {
       profile_level: 1
       severity: LOW
     }
@@ -2114,8 +2107,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var/log partition"
-    description:
-      "The nosuid mount option specifies that the filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies that the filesystem cannot contain setuid files."
     rationale:
       "Since the /var/log filesystem is only intended for log files, set this option to ensure "
       "that users cannot create setuid files in /var/log."
@@ -2222,7 +2214,7 @@ benchmark_configs: {
     scan_instructions:
       "generic:{check_alternatives:{"
       "  file_checks:{"
-            "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
+      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
       "    content_entry:{"
       "      match_type: ALL_MATCH_ANY_ORDER"
       "      match_criteria: {"
@@ -2253,8 +2245,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure nosuid option set on /var partition"
-    description:
-      "The nosuid mount option specifies that the filesystem cannot contain setuid files."
+    description: "The nosuid mount option specifies that the filesystem cannot contain setuid files."
     rationale:
       "Since the /var filesystem is only intended for variable files such as logs, set this option "
       "to ensure that users cannot create setuid files in /var."
@@ -10609,28 +10600,38 @@ benchmark_configs: {
       "      files_to_check:{files_in_dir:{"
       "         dir_path:\"/etc/rsyslog.d/\""
       "         filename_regex: \"*.conf\""
-      "       }"
+      "        }"
       "      }"
-      "    content_entry:{"
+      "      content_entry:{"
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
-      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
-      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode .*\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode (\\\\d+)\""
+      "          group_criteria: {"
+      "            group_index: 1"
+      "            type: NO_LESS_RESTRICTIVE_UMASK"
+      "            const: 0640"
+      "          }"
       "        }"
       "      }"
       "    }"
       "  }"
       "  check_alternatives:{"
       "    file_checks:{"
-      "    files_to_check:{single_file:{"
-      "         path:\"/etc/rsyslog.conf\""
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/rsyslog.conf\""
       "       }"
       "      }"
-      "    content_entry:{"
+      "      content_entry:{"
       "        match_type: ALL_MATCH_ANY_ORDER"
       "        match_criteria: {"
-      "          filter_regex: \"\\\\s*\\\\$FileCreateMode [0-9]+\""
-      "          expected_regex: \"\\\\s*\\\\$FileCreateMode 0[640][40]0\""
+      "          filter_regex: \"\\\\s*\\\\$FileCreateMode .*\""
+      "          expected_regex: \"\\\\s*\\\\$FileCreateMode (\\\\d+)\""
+      "          group_criteria: {"
+      "            group_index: 1"
+      "            type: NO_LESS_RESTRICTIVE_UMASK"
+      "            const: 0640"
+      "          }"
       "        }"
       "      }"
       "    }"
@@ -11423,7 +11424,7 @@ benchmark_configs: {
       severity: LOW
     }
     scan_instructions:
-          "scan_type_specific:{"
+      "scan_type_specific:{"
       "    instance_scanning:{"
       "        check_alternatives:{"
       "            file_checks:{"
@@ -11489,6 +11490,93 @@ benchmark_configs: {
       "}"
   }
 }
+
+benchmark_configs: {
+  id: "actions-as-another-user-logged"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure actions as another user are always logged"
+    description:
+      "sudo provides users with temporary elevated privileges to perform operations, either as "
+      "the superuser or another user. "
+    rationale:
+      "Creating an audit log of users with temporary elevated privileges and the operation(s) they "
+      "performed is essential to reporting. Administrators will want to correlate the events "
+      "written to the audit trail with the records written to sudo's logfile to verify if unauthorized "
+      "commands have been executed."
+    remediation:
+      "Create audit rules\n"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor elevated privileges.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# printf \"\n"
+      "-a always,exit -F arch=b64 -C euid!=uid -F auid!=unset -S execve -k "
+      "user_emulation\n"
+      "-a always,exit -F arch=b32 -C euid!=uid -F auid!=unset -S execve -k "
+      "user_emulation\n"
+      "\" >> /etc/audit/rules.d/50-user_emulation.rules\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot "
+      "required to load rules\\\\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*(e)?uid\\\\!=(e?)uid.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-C\\\\s*(euid\\\\!=uid|uid\\\\!=euid)\\\\s*-S\\\\s*execve\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*(e)?uid\\\\!=(e?)uid.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-C\\\\s*(euid\\\\!=uid|uid\\\\!=euid)\\\\s*-S\\\\s*execve\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
 benchmark_configs: {
   id: "ensure-privileged-commands-are-collected"
   compliance_note: {
@@ -11892,7 +11980,7 @@ benchmark_configs: {
     scan_instructions:
       "generic:{check_alternatives:{"
       "  file_checks:{"
-            "    files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
+      "    files_to_check:{single_file:{path:\"/etc/security/faillock.conf\"}}"
       "    content_entry:{"
       "      match_type: NONE_MATCH"
       "      match_criteria: {"
@@ -12164,7 +12252,7 @@ benchmark_configs: {
     }
     scan_instructions:
       "generic:{check_alternatives:{"
-            "    file_checks:{"
+      "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/pam.d/common-password\"}}"
       "      content_entry:{"
       "        match_type: ALL_MATCH_ANY_ORDER"
@@ -12258,13 +12346,11 @@ benchmark_configs: {
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
-    title:
-      "Ensure libpam-pwquality is installed"
+    title: "Ensure libpam-pwquality is installed"
     description:
       "libpwquality provides common functions for password quality checking and scoring based on their apparent randomness. "
       "It helps in strengthening passwords to reduce brute force attacks."
-    rationale:
-      "Strong passwords reduce the risk of systems being hacked through brute force methods."
+    rationale: "Strong passwords reduce the risk of systems being hacked through brute force methods."
     remediation:
       "Run the following command to install libpam-pwquality:\n"
       "```\n"
@@ -13136,12 +13222,12 @@ benchmark_configs: {
       "# apt purge rpcbind\n"
       "```\n"
       "Note: If rpcbind is required for dependencies, ensure the socket and service are stopped and masked."
-      cis_benchmark: {
+    cis_benchmark: {
       profile_level: 1
       severity: MEDIUM
     }
     scan_instructions:
-    "generic:{check_alternatives:{"
+      "generic:{check_alternatives:{"
       "    file_checks:{"
       "      files_to_check:{process_path:{proc_name:\"rpcbind\"}}"
       "      existence:{should_exist:false}"
@@ -13223,8 +13309,7 @@ benchmark_configs: {
     description:
       "The pam_pwhistory.so module saves the last passwords for each user in order to force password change history "
       "and prevent users from alternating between the same passwords too frequently."
-    rationale:
-      "Use of unique, complex passwords helps to increase the time and resources required to compromise the password."
+    rationale: "Use of unique, complex passwords helps to increase the time and resources required to compromise the password."
     remediation:
       "Run the following script to verify the pam_pwhistory.so line exists in a pam-auth-update profile:\n"
       "```\n"
@@ -13284,7 +13369,6 @@ benchmark_configs: {
   }
 }
 
-
 benchmark_configs: {
   id: "ensure-pam-pwquality-enabled"
   compliance_note: {
@@ -13295,8 +13379,7 @@ benchmark_configs: {
       "The pam_pwquality.so module performs password quality checking. This module can be plugged into the password "
       "stack of a given service to provide strength-checking for passwords. The code was originally based on pam_cracklib "
       "module and the module is backwards compatible with its options."
-    rationale:
-      "Use of a unique, complex password helps to increase the time and resources required to compromise the password."
+    rationale: "Use of a unique, complex password helps to increase the time and resources required to compromise the password."
     remediation:
       "Run the following script to verify the pam_pwquality.so line exists in a pam-auth-update profile:\n"
       "```\n"
@@ -13358,10 +13441,8 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure pam_unix module is enabled"
-    description:
-      "pam_unix is the standard Unix authentication module. It uses standard calls from the system's libraries to retrieve and set account information as well as authentication."
-    rationale:
-      "The system should only provide access after performing authentication of a user."
+    description: "pam_unix is the standard Unix authentication module. It uses standard calls from the system's libraries to retrieve and set account information as well as authentication."
+    rationale: "The system should only provide access after performing authentication of a user."
     remediation:
       "Run the following command to enable the pam_unix module:\n"
       "# pam-auth-update --enable unix\n"
@@ -13398,8 +13479,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure pam_unix Does Not Include nullok"
-    description:
-      "The configuration ensures that the pam_unix module does not include the `nullok` argument, which permits blank passwords."
+    description: "The configuration ensures that the pam_unix module does not include the `nullok` argument, which permits blank passwords."
     rationale:
       "Excluding the `nullok` argument ensures that blank passwords are not permitted, enhancing security by enforcing the "
       "use of strong passwords."
@@ -13530,5 +13610,1571 @@ benchmark_configs: {
       "      }"
       "    }"
       "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "attempts-to-use-chacl-recorded"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure successful and unsuccessful attempts to use the chacl command are recorded"
+    description:
+      "The operating system must generate audit records for successful/unsuccessful uses of the"
+      "chacl command"
+    rationale:
+      "Without generating audit records that are specific to the security and mission needs of the "
+      "organization, it would be difficult to establish, correlate, and investigate the events relating "
+      "to an incident or identify those responsible for one.\n"
+      "Audit records can be generated from various components within the information system "
+      "(e.g., module or policy filter)."
+    remediation:
+      "Create audit rules"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor successful and unsuccessful attempts to use the chacl "
+      "command.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# {\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)"
+      "[ -n \"${UID_MIN}\" ] && printf \""
+      "-a always,exit -F path=/usr/bin/chacl -F perm=x -F auid>=${UID_MIN} -F"
+      "auid!=unset -k perm_chng"
+      "\" >> /etc/audit/rules.d/50-perm_chng.rules \\"
+      "|| printf \"ERROR: Variable 'UID_MIN' is unset.\\\n\"\n"
+      "}\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot\""
+      "required to load rules\\\\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/bin/chacl.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/bin/chacl\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/bin/chacl.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/bin/chacl\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "attempts-to-use-chcon-recorded"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure successful and unsuccessful attempts to use the chcon command are recorded"
+    description:
+      "The operating system must generate audit records for successful/unsuccessful uses of the "
+      "chcon command."
+    rationale:
+      "Without generating audit records that are specific to the security and mission needs of the "
+      "organization, it would be difficult to establish, correlate, and investigate the events relating "
+      "to an incident or identify those responsible for one.\n"
+      "Audit records can be generated from various components within the information system "
+      "(e.g., module or policy filter)."
+    remediation:
+      "Create audit rules\n"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor successful and unsuccessful attempts to use the chcon "
+      "command.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# {\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)"
+      "[ -n \"${UID_MIN}\" ] && printf \""
+      "-a always,exit -F path=/usr/bin/chcon -F perm=x -F auid>=${UID_MIN} -F "
+      "auid!=unset -k perm_chng"
+      "\" >> /etc/audit/rules.d/50-perm_chng.rules \\ \n"
+      "|| printf \"ERROR: Variable 'UID_MIN' is unset.\\\n\"\n"
+      "}\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot\" "
+      "required to load rules\\\\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/bin/chcon.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/bin/chcon\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/bin/chcon.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/bin/chcon\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "attempts-to-use-setfacl-recorded"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure successful and unsuccessful attempts to use the setfacl command are recorded"
+    description:
+      "The operating system must generate audit records for successful/unsuccessful uses of the"
+      "setfacl command"
+    rationale:
+      "Without generating audit records that are specific to the security and mission needs of the "
+      "organization, it would be difficult to establish, correlate, and investigate the events relating "
+      "to an incident or identify those responsible for one.\n"
+      "Audit records can be generated from various components within the information system "
+      "(e.g., module or policy filter)."
+    remediation:
+      "Create audit rules"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor successful and unsuccessful attempts to use the setfacl "
+      "command.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# {\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)"
+      "[ -n \"${UID_MIN}\" ] && printf \""
+      "-a always,exit -F path=/usr/bin/setfacl -F perm=x -F auid>=${UID_MIN} -F"
+      "auid!=unset -k perm_chng"
+      "\" >> /etc/audit/rules.d/50-priv_cmd.rules \\"
+      "|| printf \"ERROR: Variable 'UID_MIN' is unset.\\\n\"\n"
+      "}\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot\""
+      "required to load rules\\\\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/bin/setfacl.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/bin/setfacl\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/bin/setfacl.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/bin/setfacl\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "attempts-to-use-usermod-recorded"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure successful and unsuccessful attempts to use the usermod command are recorded"
+    description:
+      "The operating system must generate audit records for successful/unsuccessful uses of the "
+      "usermod command"
+    rationale:
+      "The usermod command modifies the system account files to reflect the changes that are "
+      "specified on the command line. Without generating audit records that are specific to the "
+      "security and mission needs of the organization, it would be difficult to establish,"
+      "correlate, and investigate the events relating to an incident or identify those responsible "
+      "for one."
+    remediation:
+      "Create audit rules"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor successful and unsuccessful attempts to use the chacl "
+      "command.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# {\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)"
+      "[ -n \"${UID_MIN}\" ] && printf \""
+      "-a always,exit -F path=/usr/sbin/usermod -F perm=x -F auid>=${UID_MIN} -F "
+      "auid!=unset -k usermod "
+      "\" >> /etc/audit/rules.d/50-usermod.rules \\ \n"
+      "|| printf \"ERROR: Variable 'UID_MIN' is unset.\\\n\"\n"
+      "}\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot\" "
+      "required to load rules\\\\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/sbin/usermod.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/sbin/usermod\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/sbin/usermod.*\""
+      "                        expected_regex: \"^\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*path=/usr/sbin/usermod\\\\s*-F\\\\s*perm=x\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(\\\\s*(-F\\\\s*key=|-k))\\\\s*[!-~]*\\\\s*$\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "events-modifying-system-net-env-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure events that modify the system's network environment are collected"
+    description:
+      "Record changes to network environment files or system calls. The parameters monitor the sethostname "
+      "and setdomainname system calls and various network-related files.\n"
+    rationale:
+      "Monitoring changes to network environments helps identify unauthorized alterations that could compromise "
+      "security settings. Monitoring files like /etc/hosts or /etc/netplan/ ensures the detection of unauthorized changes "
+      "to network configurations."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with the relevant rules:\n"
+      "```\n"
+      "-a always,exit -F arch=b64 -S sethostname,setdomainname -k system-locale\n"
+      "-a always,exit -F arch=b32 -S sethostname,setdomainname -k system-locale\n"
+      "-w /etc/issue -p wa -k system-locale\n"
+      "-w /etc/issue.net -p wa -k system-locale\n"
+      "-w /etc/hosts -p wa -k system-locale\n"
+      "-w /etc/networks -p wa -k system-locale\n"
+      "-w /etc/network/ -p wa -k system-locale\n"
+      "-w /etc/netplan/ -p wa -k system-locale\n"
+      "```\n"
+      "Merge and load the rules:\n"
+      "# augenrules --load\n"
+      "Check if reboot is required:\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot required to load rules\\\n\"; fi"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{"
+      "          dir_path:\"/etc/audit/rules.d\""
+      "          recursive: true"
+      "          files_only: true"
+      "          filename_regex: \".*\\\\.rules\""
+      "        }}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria:{"
+      "            filter_regex: \".*sethostname.*setdomainname.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s+sethostname,setdomainname\\\\s*-k\\\\s+system-locale\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/issue\\\\s+.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/issue\\\\.net.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/issue\\\\.net\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/hosts.*-k\\\\s+system-locale.*\""
+      "              expected_regex: \"\\\\s*-w\\\\s*/etc/hosts\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/networks.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/networks\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/network/.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/network/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "          match_criteria:{"
+      "            filter_regex: \".*/etc/netplan/.*-k\\\\s+system-locale.*\""
+      "            expected_regex: \"\\\\s*-w\\\\s*/etc/netplan/\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "          }"
+      "        }"
+      "      }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-journald-forwardtosyslog-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure journald ForwardToSyslog is disabled"
+    description: "Data from journald should be kept within the service and not forwarded to other logging mechanisms."
+    rationale: "Logs should be handled exclusively by journald to prevent unnecessary forwarding and enhance security."
+    remediation:
+      "Set the following parameter in the [Journal] section of /etc/systemd/journald.conf or a file in "
+      "/etc/systemd/journald.conf.d/ ending in .conf:\n"
+      "```\n"
+      "[Journal]\n"
+      "ForwardToSyslog=no\n\n"
+      "```\n"
+      "After updating the configuration, reload or restart systemd-journald:\n\n"
+      "```\n"
+      "# systemctl reload-or-restart systemd-journald\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/journald.conf.d/\", filename_regex:\".*\\\\.conf\", recursive:false}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*\\\\s*ForwardToSyslog\\\\s*=\\\\s*.*\""
+      "          expected_regex: \"[^#]*\\\\s*ForwardToSyslog\\\\s*=\\\\s*yes.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-journald-storage-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure journald Storage is configured"
+    description:
+      "Data from journald may be stored in volatile memory or persisted locally on the server. Logs in memory will be "
+      "lost upon a system reboot. By persisting logs to local disk on the server, they are protected from loss due to a reboot."
+    rationale:
+      "Writing log data to disk provides the ability to forensically reconstruct events which may have impacted the operations "
+      "or security of a system even after a system crash or reboot."
+    remediation:
+      "Set the following parameter in the [Journal] section of /etc/systemd/journald.conf or a file in "
+      "/etc/systemd/journald.conf.d/ ending in .conf:\n"
+      "```\n"
+      "[Journal]\n"
+      "Storage=persistent\n"
+      "```\n"
+      "After updating the configuration, reload or restart systemd-journald:\n"
+      "```\n"
+      "# systemctl reload-or-restart systemd-journald\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/systemd/\", filename_regex:\".*\\\\.conf\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*\\\\s*Storage\\\\s*=\\\\s*(persistent|auto|volatile).*\""
+      "          expected_regex: \"[^#]*\\\\s*Storage\\\\s*=\\\\s*persistent\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-nologin-not-in-shells"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nologin is not listed in /etc/shells"
+    description:
+      "/etc/shells is a text file which contains the full pathnames of valid login shells. This file is consulted by "
+      "chsh and available to be queried by other programs."
+    rationale:
+      "Having nologin listed in /etc/shells allows users configured with nologin as their shell to be treated as unrestricted "
+      "users, which is not expected behavior."
+    remediation: "Edit /etc/shells and remove any lines that include nologin."
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/shells\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"/nologin\\\\b.*\""
+      "          expected_regex: \"/nologin\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-rsyslog-not-receive-log-from-client"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure rsyslog is not configured to receive logs from a remote client"
+    description:
+      "rsyslog supports the ability to receive messages from remote hosts, thus acting as a "
+      "log server. Clients should not receive data from other hosts."
+    rationale:
+      "If a client is configured to also receive data, thus turning it into a server, the client "
+      "system is acting outside its operational boundary."
+    remediation:
+      "Unless the system's primary function is to serve as a logfile server , modify the files "
+      "returned by the Audit Procedure and remove the specific lines highlighted by the audit.\n"
+      "Verify none of the following entries are present in the rsyslog configuration.\n"
+      "```\n"
+      "advanced format\n"
+      "module(load=\"imtcp\")\n"
+      "input(type=\"imtcp\" port=\"514\")\n"
+      "deprecated legacy format\n"
+      "$ModLoad imtcp\n"
+      "$InputTCPServerRun\n"
+      "```\n"
+      "Reload the service:\n"
+      "# systemctl reload-or-restart rsyslog"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]\\\\s*input(type=\\\"imtcp\\\" port=\\\"514\\\")\""
+      "          expected_regex: \".*\""
+      "        }"
+      "      }"
+      "  }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/rsyslog.d/\""
+      "         filename_regex: \"*.conf\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]\\\\s*module(load=\\\"imtcp\\\")\""
+      "          expected_regex: \".*\""
+      "        }"
+      "      }"
+      "  }"
+      "}"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "           path:\"/etc/rsyslog.conf\""
+      "         }"
+      "        }"
+      "      content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria: {"
+      "            filter_regex: \"[^#]\\\\s*input(type=\\\"imtcp\\\" port=\\\"514\\\")\""
+      "          expected_regex: \".*\""
+      "          }"
+      "        }"
+      "      }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "           path:\"/etc/rsyslog.conf\""
+      "        }"
+      "      }"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]\\\\s*module(load=\\\"imtcp\\\")\""
+      "          expected_regex: \".*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-single-logging-system"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure only one logging system is in use"
+    description:
+      "Best practices recommend that a single centralized logging system be used for log "
+      "management, choose a single service either rsyslog - OR - journald to be used as a "
+      "single centralized logging system."
+    rationale:
+      "Configuring only one logging service either rsyslog - OR - journald avoids "
+      "redundancy, optimizes resources, simplifies configuration and management, and "
+      "ensures consistency."
+    remediation:
+      "1. Determine whether to use journald - OR - rsyslog depending on site needs\n"
+      "2. Configure systemd-jounald.service\n"
+      "3. Configure only ONE either journald - OR - rsyslog and complete the "
+      "recommendations in that subsection\n"
+      "4. Return to this recommendation to ensure only one logging system is in use"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.service\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/rsyslog.service\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "}"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/systemd-journald.service\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/system/rsyslog.service\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-systemd-journal-remote-not-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure systemd-journal-remote service is not in use"
+    description:
+      "The systemd-journal-remote service supports receiving messages from remote hosts, effectively turning the system "
+      "into a log server. This is outside the operational boundary of a client system."
+    rationale:
+      "Ensuring that client systems are not configured to act as log servers reduces the attack surface and prevents "
+      "unauthorized use."
+    remediation:
+      "Run the following commands to ensure the services are not enabled or active:\n"
+      "```\n"
+      "# systemctl disable systemd-journal-remote.socket systemd-journal-remote.service\n"
+      "# systemctl stop systemd-journal-remote.socket systemd-journal-remote.service\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "      dir_path:\"/etc/systemd/system\""
+      "      filename_regex:\"(systemd-journal-remote.service)|(systemd-journal-remote.socket)\""
+      "      recursive: true"
+      "    }}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "events-modifying-date-time-info-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure events that modify date and time information are collected"
+    description:
+      "Capture events where the system date and/or time has been modified. "
+      "The parameters in this section are set to determine if the adjtimex (tune kernel clock), "
+      "settimeofday (Set time, using timeval and timezone structures) stime (using seconds since 1/1/1970) "
+      "or clock_settime (allows for the setting of several internal clocks and timers) "
+      "system calls have been executed and always write an audit record to the /var/log/audit.log "
+      "file upon exit, tagging the records with the identifier \"time-change\""
+    rationale: "Unexpected changes in system date and/or time could be a sign of malicious activity on the system."
+    remediation:
+      "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k timechange``` \n"
+      "-a always,exit -F arch=b32 -S clock_settime -k time-change \n"
+      "-w /etc/localtime -p wa -k time-change ```\n"
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change \n"
+      "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change \n"
+      "-a always,exit -F arch=b64 -S clock_settime -k time-change \n"
+      "-a always,exit -F arch=b32 -S clock_settime -k time-change \n"
+      "-w /etc/localtime -p wa -k time-change ```\n"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*adjtimex.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*adjtimex\\\\s*-S\\\\s*settimeofday\\\\s*(-S\\\\s*stime\\\\s*)?-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*clock_settime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*clock_settime\\\\s*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/localtime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/localtime\\\\s*-p\\\\s*wa\\\\s*.*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*adjtimex.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*adjtimex\\\\s*-S\\\\s*settimeofday\\\\s*(-S\\\\s*stime\\\\s*)?-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*clock_settime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*clock_settime\\\\s*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/localtime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/localtime\\\\s*-p\\\\s*wa\\\\s*.*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*adjtimex.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*adjtimex\\\\s*-S\\\\s*settimeofday\\\\s*(-S\\\\s*stime\\\\s*)?-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*clock_settime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*clock_settime\\\\s*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/localtime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/localtime\\\\s*-p\\\\s*wa\\\\s*.*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*adjtimex.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*adjtimex\\\\s*-S\\\\s*settimeofday\\\\s*(-S\\\\s*stime\\\\s*)?-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*clock_settime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*clock_settime\\\\s*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/localtime.*-k\\\\s+time-change\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/localtime\\\\s*-p\\\\s*wa\\\\s*.*-k\\\\s+time-change\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "events-modifying-system-mac-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure events that modify the system's Mandatory Access Controls are collected"
+    description:
+      "Monitor SELinux/AppArmor mandatory access controls. "
+      "The parameters below monitor any write access (potential additional, deletion or "
+      "modification of files in the directory) or attribute changes to the "
+      "/etc/selinux or /etc/apparmor and /etc/apparmor.d directories."
+    rationale:
+      "Changes to files in these directories could indicate that an unauthorized "
+      "user is attempting to modify access controls and change security contexts, "
+      "leading to a compromise of the system."
+    remediation:
+      "On systems using SELinux Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /etc/selinux/ -p wa -k MAC-policy \n"
+      "-w /usr/share/selinux/ -p wa -k MAC-policy \n"
+      "On systems using AppArmor Edit or create a file in the /etc/audit/rules.d/ "
+      "directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /etc/apparmor/ -p wa -k MAC-policy -w \n"
+      "/etc/apparmor.d/ -p wa -k MAC-policy ```"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/share/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/usr/share/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/usr/share/selinux.*-k\\\\s+MAC-policy\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/usr/share/selinux(/?)\\\\s*-p\\\\s*wa\\\\s+.*-k\\\\s+MAC-policy\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "events-modifying-user-group-info-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure events that modify user/group information are collected"
+    description:
+      "Record events affecting the group , passwd (user IDs), shadow and gshadow (passwords) "
+      "or /etc/security/opasswd (old passwords, based on remember parameter in the PAM configuration) files. "
+      "The parameters in this section will watch the files to see if they have been opened for write or have had attribute changes (e.g. "
+      "permissions) and tag them with the identifier \"identity\" in the audit log file."
+    rationale:
+      "Unexpected changes to these files could be an indication that the system has been compromised "
+      "and that an unauthorized user is attempting to hide their activities or compromise additional accounts."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /etc/group -p wa -k identity \n"
+      "-w /etc/passwd -p wa -k identity \n"
+      "-w /etc/gshadow -p wa -k identity \n"
+      "-w /etc/shadow -p wa -k identity \n"
+      "-w /etc/security/opasswd -p wa -k identity``` \n"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/group.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/group\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/passwd.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/passwd\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/gshadow.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/gshadow\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/shadow.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/shadow\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/security/opasswd.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/security/opasswd\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/group.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/group\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/passwd.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/passwd\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/gshadow.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/gshadow\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/shadow.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/shadow\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/etc/security/opasswd.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/etc/security/opasswd\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
+      "                existence:{should_exist: false}"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "login-logout-events-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure login and logout events are collected"
+    description:
+      "Monitor login and logout events. "
+      "The parameters below track changes to files associated with login/logout events. "
+      "The file /var/log/faillog tracks failed events from login. "
+      "The file /var/log/lastlog maintain records of the last time a user successfully logged in. "
+      "The file /var/log/tallylog maintains records of failures via the pam_tally2 module"
+    rationale: "Monitoring login/logout events could provide a system administrator with information associated with brute force attacks against user logins."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /var/log/faillog -p wa -k logins \n"
+      "-w /var/log/lastlog -p wa -k logins \n"
+      "-w /var/log/tallylog -p wa -k logins``` \n"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/lastlog.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/lastlog\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/faillog.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/faillog\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/tallylog.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/tallylog\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/lastlog.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/lastlog\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/faillog.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/faillog\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/tallylog.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/tallylog\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
+      "                existence:{should_exist: false}"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "rsyslog-log-creation-file-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure rsyslog log file creation mode is configured"
+    description:
+      "rsyslog will create logfiles that do not already exist on the system.\n"
+      "The global() configuration object umask, available in rsyslog 8.26.0+, sets the "
+      "rsyslogd process’ umask. If not specified, the system-provided default is used. The "
+      "value given must always be a 4-digit octal number, with the initial digit being zero.\n"
+      "The legacy $umask parameter sets the rsyslogd process' umask. If not specified, the "
+      "system-provided default is used. The value given must always be a 4-digit octal "
+      "number, with the initial digit being zero.\n"
+      "The legacy $FileCreateMode parameter allows the setting of the mode with which "
+      "rsyslogd creates new files. If not specified, the value 0644 is used. The value given "
+      "must always be a 4-digit octal number, with the initial digit being zero. Please note that "
+      "the actual permission depend on rsyslogd process umask. If in doubt, use $umask "
+      "0000 right at the beginning of the configuration file to remove any restrictions.\n"
+      "The legacy $FileCreateMode may be specified multiple times. If so, it specifies the "
+      "creation mode for all selector lines that follow until the next $FileCreateMode "
+      "parameter. Order of lines is vitally important."
+    rationale:
+      "It is important to ensure that log files have the correct permissions to ensure that "
+      "sensitive data is archived and protected."
+    remediation:
+      "Edit either /etc/rsyslog.conf or a dedicated .conf file in /etc/rsyslog.d/ and set "
+      "$FileCreateMode to 0640 or more restrictive:\n"
+      "$FileCreateMode 0640\n"
+      "Example script to create a drop-in configuration file in the default include location:\n"
+      "#!/usr/bin/env bash\n"
+      "{\n"
+      "[ ! -d \"/etc/rsyslog.d/\" ] && mkdir /etc/rsyslog.d/\n"
+      "printf '%s\n' \"\" \"\\\\$FileCreateMode 0640\" >> /etc/rsyslog.d/60-rsyslog.conf\n"
+      "}\n"
+      "Reload the service:\n"
+      "# systemctl reload-or-restart rsyslog"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{files_in_dir:{"
+      "       dir_path:\"/etc/rsyslog.d/\""
+      "       filename_regex: \"*.conf\""
+      "    }}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"\\\\s*\\\\$FileCreateMode .*\""
+      "        expected_regex: \"\\\\s*\\\\$FileCreateMode (\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: NO_LESS_RESTRICTIVE_UMASK"
+      "          const: 0640"
+      "        }"
+      "      }"
+      "    }}"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{"
+      "         path:\"/etc/rsyslog.conf\""
+      "      }"
+      "    }"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"\\\\s*\\\\$FileCreateMode .*\""
+      "        expected_regex: \"\\\\s*\\\\$FileCreateMode (\\\\d+)\""
+      "        group_criteria: {"
+      "          group_index: 1"
+      "          type: NO_LESS_RESTRICTIVE_UMASK"
+      "          const: 0640"
+      "        }"
+      "      }"
+      "    }}"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "sudolog-actions-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure system administrator actions (sudolog) are collected"
+    description:
+      "Monitor the sudo log file. "
+      "If the system has been properly configured to disable the use of the su command "
+      "and force all administrators to have to log in first and then use sudo to execute "
+      "privileged commands, then all administrator commands will be logged to /var/log/sudo.log . "
+      "Any time a command is executed, an audit event will be triggered as the /var/log/sudo.log "
+      "file will be opened for write and the executed administration command will be written to the log."
+    rationale:
+      "Changes in /var/log/sudo.log indicate that an administrator has executed a "
+      "command or the log file itself has been tampered with. "
+      "Administrators will want to correlate the events written to the audit trail "
+      "with the records written to /var/log/sudo.log to verify if unauthorized commands have been executed."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /var/log/sudo.log -p wa -k actions``` \n"
+      "Notes: \n"
+      "The system must be configured with sudisabled (See Item 5.6 Ensure access to the su "
+      "command is restricted) to force all command execution through sudo. "
+      "This will not be effective on the console, as administrators can log in as root. \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/sudo.log.*-k\\\\s+actions\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/sudo.log\\\\s*-p\\\\s*wa\\\\s*-k\\\\s*actions\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/sudo.log.*-k\\\\s+actions\\\\s*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/sudo.log\\\\s*-p\\\\s*wa\\\\s*-k\\\\s*actions\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
+      "                existence:{should_exist: false}"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "systemd-journal-upload-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure systemd-journal-upload is enabled and active"
+    description:
+      "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
+      "a remote log host or to receive messages from remote hosts, thus enabling centralised log "
+      "management."
+    rationale:
+      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
+      "gains root access on the local system, they could tamper with or remove log data that is "
+      "stored on the local system."
+    remediation:
+      "Run the following command to enable systemd-journal-remote:\n"
+      "```\n"
+      "systemctl --now enable systemd-journal-upload.service"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/systemd-journal-upload.service\"}}"
+      "    existence:{should_exist:true}"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "unsuccessful-file-access-attempts-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure unsuccessful file access attempts are collected"
+    description:
+      "Monitor for unsuccessful attempts to access files. The following parameters are associated "
+      "with system calls that control files:\n"
+      "creation - creat\n"
+      "opening - open , openat\n"
+      "truncation - truncate , ftruncate\n"
+      "An audit log record will only be written if all of the following criteria is met for the user "
+      "when trying to access a file:\n"
+      "a non-privileged user (auid>=UID_MIN)\n"
+      "is not a Daemon event (auid=4294967295/unset/-1)\n"
+      "if the system call returned EACCES (permission denied) or EPERM (some other "
+      "permanent error associated with the specific system call)"
+    rationale:
+      "Failed attempts to open, create or truncate files could be an indication that an individual or "
+      "process is trying to gain unauthorized access to the system."
+    remediation:
+      "Create audit rules\n"
+      "Edit or create a file in the /etc/audit/rules.d/ directory, ending in .rules extension, with "
+      "the relevant rules to monitor unsuccessful file access attempts.\n"
+      "64 Bit systems\n"
+      "Example:\n"
+      "```\n"
+      "# {\n"
+      "UID_MIN=$(awk '/^\\\\s*UID_MIN/{print $2}' /etc/login.defs)\n"
+      "[ -n \"${UID_MIN}\" ] && printf \"\n"
+      "-a always,exit -F arch=b64 -S creat,open,openat,truncate,ftruncate -F exit=-"
+      "EACCES -F auid>=${UID_MIN} -F auid!=unset -k access\n"
+      "-a always,exit -F arch=b64 -S creat,open,openat,truncate,ftruncate -F exit=-"
+      "EPERM -F auid>=${UID_MIN} -F auid!=unset -k access\n"
+      "-a always,exit -F arch=b32 -S creat,open,openat,truncate,ftruncate -F exit=-"
+      "EACCES -F auid>=${UID_MIN} -F auid!=unset -k access\n"
+      "-a always,exit -F arch=b32 -S creat,open,openat,truncate,ftruncate -F exit=-"
+      "EPERM -F auid>=${UID_MIN} -F auid!=unset -k access\n"
+      "\" >> /etc/audit/rules.d/50-access.rules \\\n"
+      "|| printf \"ERROR: Variable 'UID_MIN' is unset.\\\\n\"\n"
+      "}\n"
+      "```\n"
+      "Load audit rules\n"
+      "Merge and load the rules into active configuration:\n"
+      "```\n"
+      "# augenrules --load\n"
+      "```\n"
+      "Check if reboot is required.\n"
+      "```\n"
+      "# if [[ $(auditctl -s | grep \"enabled\") =~ \"2\" ]]; then printf \"Reboot "
+      "required to load rules\n\"; fi\n"
+      "```\n"
+      "32 Bit systems\n"
+      "Follow the same procedures as for 64 bit systems and ignore any entries with b64."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"UID_MIN.*\""
+      "                        expected_regex: \"UID_MIN\\\\s*1000\\\\s*\""
+      "                    }"
+      "                }"
+      "                non_compliance_msg: \"If UID_MIN is set to a value different from 1000 in /etc/login.defs, this check will fail.\""
+      "                file_display_command: \"grep '^UID_MIN' /etc/login.defs\""
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*creat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*creat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*open.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*open(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*openat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*openat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*truncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*truncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*ftruncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*ftruncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"UID_MIN.*\""
+      "                        expected_regex: \"UID_MIN\\\\s*1000\\\\s*\""
+      "                    }"
+      "                }"
+      "                non_compliance_msg: \"If UID_MIN is set to a value different from 1000 in /etc/login.defs, this check will fail.\""
+      "                file_display_command: \"grep '^UID_MIN' /etc/login.defs\""
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/proc/cpuinfo\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"flags\\\\s*:.*\""
+      "                        expected_regex: \".*\\\\slm\\\\s.*\""
+      "                    }"
+      "                }"
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*creat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*creat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*open.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*open(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*openat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*openat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*truncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*truncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*ftruncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*ftruncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b64.*creat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b64\\\\s*-S\\\\s*([a-zA-Z_]+,)*creat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b64.*open.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b64\\\\s*-S\\\\s*([a-zA-Z_]+,)*open(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b64.*openat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b64\\\\s*-S\\\\s*([a-zA-Z_]+,)*openat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b64.*truncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b64\\\\s*-S\\\\s*([a-zA-Z_]+,)*truncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b64.*ftruncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b64\\\\s*-S\\\\s*([a-zA-Z_]+,)*ftruncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"UID_MIN.*\""
+      "                        expected_regex: \"UID_MIN\\\\s*1000\\\\s*\""
+      "                    }"
+      "                }"
+      "                non_compliance_msg: \"If UID_MIN is set to a value different from 1000 in /etc/login.defs, this check will fail.\""
+      "                file_display_command: \"grep '^UID_MIN' /etc/login.defs\""
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*creat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*([a-zA-Z_]+,)*creat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*open.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*([a-zA-Z_]+,)*open(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*openat.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*([a-zA-Z_]+,)*openat(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*truncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*([a-zA-Z_]+,)*truncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*ftruncate.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*([a-zA-Z_]+,)*ftruncate(,[a-zA-Z_]+)*\\\\s*-F\\\\s*exit=-(EACCES|EPERM)\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
   }
 }
