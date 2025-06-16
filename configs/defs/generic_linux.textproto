@@ -12125,6 +12125,83 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "ensure-using-single-firewall"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure a single firewall configuration utility is in use"
+    description:
+      "In Linux security, employing a single, effective firewall configuration utility ensures that "
+      "only legitimate traffic gets processed, reducing the system’s exposure to potential "
+      "threats. The choice between ufw, nftables, and iptables depends on organizational "
+      "needs."
+    rationale:
+      "Proper configuration of a single firewall utility minimizes cyber threats and protects "
+      "services and data, while avoiding vulnerabilities like open ports or exposed services.\n"
+      "Standardizing on a single tool simplifies management, reduces errors, and fortifies "
+      "security across Linux systems."
+    remediation:
+      "Remediating to a single firewall configuration is a complex process and involves several "
+      "steps. The following provides the basic steps to follow for a single firewall configuration:\n"
+      "1. Determine which firewall utility best fits organizational needs\n"
+      "2. Follow the recommendations in the subsequent subsection for the single firewall "
+      "to be used\n"
+      "Note: Review the firewall subsection overview for the selected firewall to be "
+      "used, it contains a script to "
+      "simplify this process.\n"
+      "3. Return to this recommendation to ensure a single firewall configuration utility is in "
+      "use"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
   id: "ensure-password-failed-attempts-lockout-is-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -12279,6 +12356,60 @@ benchmark_configs: {
       "      }"
       "    }"
       "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ip6tables-default-deny-policy"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ip6tables Default Deny Firewall Policy"
+    description: "A default deny all policy on connections ensures that any unconfigured network usage will be rejected."
+    rationale:
+      "With a default accept policy, the firewall will accept any packet that is not configured to be denied. It is easier "
+      "to whitelist acceptable usage than to blacklist unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy:\n"
+      "```\n"
+      "# ip6tables -P INPUT DROP\n"
+      "# ip6tables -P OUTPUT DROP\n"
+      "# ip6tables -P FORWARD DROP\n"
+      "```\n"
+      "Note: Changing firewall settings while connected over network can result in being locked out of the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*:INPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "          expected_regex: \"\\\\s*:INPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*:FORWARD\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "          expected_regex: \"\\\\s*:FORWARD\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*:OUTPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "          expected_regex: \"\\\\s*:OUTPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -12447,6 +12578,63 @@ benchmark_configs: {
       "      }"
       "    }"
       "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ip6tables-loopback-traffic-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ip6tables Loopback Traffic is Configured"
+    description:
+      "Configure the loopback interface to accept traffic. Configure all other interfaces to deny traffic to the loopback "
+      "network (::1)."
+    rationale:
+      "Loopback traffic is generated between processes on the machine and is typically critical to the operation of the system. "
+      "The loopback interface is the only place that loopback network (::1) traffic should be seen; all other interfaces "
+      "should ignore traffic on this network as an anti-spoofing measure."
+    remediation:
+      "Run the following commands to implement the loopback rules:\n"
+      "```\n"
+      "# ip6tables -A INPUT -i lo -j ACCEPT\n"
+      "# ip6tables -A OUTPUT -o lo -j ACCEPT\n"
+      "# ip6tables -A INPUT -s ::1 -j DROP\n"
+      "```\n"
+      "Note: Changing firewall settings while connected over the network can result in being locked out of the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"-A INPUT -i lo -j ACCEPT\""
+      "          expected_regex: \"-A INPUT -i lo -j ACCEPT\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"-A INPUT -s ::1(/128)? -j DROP\""
+      "          expected_regex: \"-A INPUT -s ::1(/128)? -j DROP\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"-A OUTPUT -o lo -j ACCEPT\""
+      "          expected_regex: \"-A OUTPUT -o lo -j ACCEPT\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -13552,6 +13740,50 @@ benchmark_configs: {
       "}}"
   }
 }
+benchmark_configs: {
+  id: "ip6tables-open-ports-rules-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ip6tables firewall rules exist for all open ports"
+    description:
+      "Any ports that have been opened on non-loopback addresses need firewall rules to"
+      "govern traffic."
+    rationale:
+      "Without a firewall rule configured for open ports default firewall policy will drop all"
+      "packets to these ports."
+    remediation:
+      "For each port identified in the audit which does not have a firewall rule establish a"
+      "proper rule for accepting inbound connections:\n"
+      "# ip6tables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      repeat_config: {type: FOR_EACH_OPEN_IPV6_PORT}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*--dport $port.*\""
+      "          expected_regex: \"[^#].*--dport $port.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v6\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
 
 benchmark_configs: {
   id: "ensure-pam-pwquality-enabled"
@@ -13783,6 +14015,60 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "iptables-default-deny-policy"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure iptables Default Deny Firewall Policy"
+    description: "A default deny all policy on connections ensures that any unconfigured network usage will be rejected."
+    rationale:
+      "With a default accept policy, the firewall will accept any packet that is not configured to be denied. It is "
+      "easier to whitelist acceptable usage than to blacklist unacceptable usage."
+    remediation:
+      "Run the following commands to implement a default DROP policy:\n"
+      "```\n"
+      "# iptables -P INPUT DROP\n"
+      "# iptables -P OUTPUT DROP\n"
+      "# iptables -P FORWARD DROP\n"
+      "```\n"
+      "Note: Changing firewall settings while connected over network can result in being locked out of the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*:INPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "          expected_regex: \"\\\\s*:INPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*:FORWARD\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "          expected_regex: \"\\\\s*:FORWARD\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*:OUTPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "          expected_regex: \"\\\\s*:OUTPUT\\\\s+DROP\\\\s+\\\\[\\\\d+:\\\\d+\\\\]$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "pam-unix-nullok-not-included"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -13886,6 +14172,7 @@ benchmark_configs: {
       "}}"
   }
 }
+
 benchmark_configs: {
   id: "hfs-module-not-available"
   compliance_note: {
@@ -14008,6 +14295,62 @@ benchmark_configs: {
       "    }"
       "  }"
       "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "iptables-loopback-traffic-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure iptables Loopback Traffic is Configured"
+    description:
+      "Configure the loopback interface to accept traffic and deny traffic to the loopback network on all other interfaces "
+      "(127.0.0.0/8)."
+    rationale:
+      "Loopback traffic is critical for internal communication between processes on a machine. Denying loopback traffic "
+      "on other interfaces prevents spoofing attacks."
+    remediation:
+      "Run the following commands to implement the loopback rules:\n"
+      "```\n"
+      "# iptables -A INPUT -i lo -j ACCEPT\n"
+      "# iptables -A OUTPUT -o lo -j ACCEPT\n"
+      "# iptables -A INPUT -s 127.0.0.0/8 -j DROP\n"
+      "```\n"
+      "Note: Changing firewall settings while connected over a network can result in being locked out of the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*-A INPUT -i lo -j ACCEPT\""
+      "          expected_regex: \"\\\\s*-A INPUT -i lo -j ACCEPT\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*-A INPUT -s 127\\\\.0\\\\.0\\\\.0/8 -j DROP\""
+      "          expected_regex: \"\\\\s*-A INPUT -s 127\\\\.0\\\\.0\\\\.0/8 -j DROP\""
+      "        }"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*-A OUTPUT -o lo -j ACCEPT\""
+      "          expected_regex: \"\\\\s*-A OUTPUT -o lo -j ACCEPT\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -16859,6 +17202,921 @@ benchmark_configs: {
       "      }"
       "    }"
       "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "iptables-open-ports-rules-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure iptables firewall rules exist for all open ports"
+    description:
+      "Any ports that have been opened on non-loopback addresses need firewall rules to"
+      "govern traffic."
+    rationale:
+      "Without a firewall rule configured for open ports default firewall policy will drop all"
+      "packets to these ports."
+    remediation:
+      "For each port identified in the audit which does not have a firewall rule establish a"
+      "proper rule for accepting inbound connections:"
+      "# iptables -A INPUT -p <protocol> --dport <port> -m state --state NEW -j ACCEPT"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      repeat_config: {type: FOR_EACH_OPEN_IPV4_PORT}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \".*--dport $port.*\""
+      "          expected_regex: \"[^#].*--dport $port.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "iptables-packages-are-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure iptables packages are installed"
+    description:
+      "iptables is a utility program that allows a system administrator to configure the tables "
+      "provided by the Linux kernel firewall, implemented as different Netfilter modules, and the "
+      "chains and rules it stores. Different kernel modules and programs are used for different "
+      "protocols; iptables applies to IPv4, ip6tables to IPv6, arptables to ARP, and ebtables to "
+      "Ethernet frames."
+    rationale:
+      "A method of configuring and maintaining firewall rules is necessary to configure a Host "
+      "Based Firewall."
+    remediation:
+      "To install iptables and iptables-persistent, run one of the following:\n"
+      "```\n"
+      "# apt install iptables iptables-persistent\n"
+      "```\n"
+      "```\n"
+      "# yum install iptables iptables-services"
+      "```\n"
+      "Ensure proper configuration of firewall rules after installation."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/iptables-persistent\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "        content_entry:{"
+      "          match_type: ALL_MATCH_ANY_ORDER"
+      "          match_criteria:{"
+      "            filter_regex: \"Package: iptables-persistent\""
+      "            expected_regex: \"Package: iptables-persistent\""
+      "          }"
+      "       }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/bin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/sbin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/usr/bin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/iptables-services\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "iptables-persistent-not-installed-with-ufw"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure iptables-persistent is not installed with ufw"
+    description: "The iptables-persistent is a boot-time loader for Netfilter rules, which may conflict with ufw if both are running simultaneously."
+    rationale: "Running both ufw and the services included in the iptables-persistent package may lead to conflict. Removing iptables-persistent prevents potential issues."
+    remediation:
+      "To remove the iptables-persistent package, run:\n"
+      "```\n`\n"
+      "# apt purge iptables-persistent\n"
+      "```\n`\n"
+      "Note: Ensure ufw is the only active firewall utility on the system."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/iptables-persistent\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/init.d/iptables-persistent\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/share/doc/iptables-persistent\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist:true}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-base-chains-exist"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nftables Base Chains Exist"
+    description:
+      "Chains are containers for rules in nftables. Base chains are entry points for packets from the networking stack, "
+      "and their absence can result in packets not being processed as intended."
+    rationale:
+      "Base chains with appropriate hooks ensure that packets flowing through input, forward, and output chains are "
+      "processed as expected, providing the foundation for proper firewall functionality."
+    remediation:
+      "Run the following command to create the base chains:\n"
+      "```\n"
+      "# nft create chain inet <table name> <base chain name> { type filter hook <(input|forward|output)> priority 0 ; }\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "# nft create chain inet filter input { type filter hook input priority 0 ; }\n"
+      "# nft create chain inet filter forward { type filter hook forward priority 0 ; }\n"
+      "# nft create chain inet filter output { type filter hook output priority 0 ; }\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*type filter hook input priority 0;$\""
+      "          expected_regex: \"\\\\s*type filter hook input priority 0;$\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*type filter hook forward priority 0;$\""
+      "          expected_regex: \"\\\\s*type filter hook forward priority 0;$\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*type filter hook output priority 0;$\""
+      "          expected_regex: \"\\\\s*type filter hook output priority 0;$\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-default-deny-policy"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nftables default deny firewall policy"
+    description:
+      "Base chain policy is the default verdict that will be applied to packets reaching the end of the chain.\n"
+      "Setting a default deny policy helps ensure only explicitly allowed traffic is permitted."
+    rationale:
+      "There are two policies: accept (Default) and drop. If the policy is set to accept, the "
+      "firewall will accept any packet that is not configured to be denied and the packet will"
+      "continue transversing the network stack.\n"
+      "It is easier to allow list acceptable usage than to deny list unacceptable usage."
+    remediation:
+      "Run the following command for the base chains with the input, forward, and output "
+      "hooks to implement a default DROP policy:\n"
+      "# nft chain <table family> <table name> <chain name> { policy drop \\\\; }\n"
+      "Example:\n"
+      "# nft chain inet filter input { policy drop \\\\; }\n"
+      "# nft chain inet filter forward { policy drop \\\\; }\n"
+      "# nft chain inet filter output { policy drop \\\\; }\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*hook input\\\\s*.*policy drop;\""
+      "          expected_regex: \"[^#]*hook input\\\\s*.*policy drop;\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*hook forward\\\\s*.*policy drop;\""
+      "          expected_regex: \"[^#]*hook forward\\\\s*.*policy drop;\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"[^#]*hook output\\\\s*.*policy drop;\""
+      "          expected_regex: \"[^#]*hook output\\\\s*.*policy drop;\""
+      "        }"
+      "      }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-is-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    title: "Ensure nftables is installed"
+    description:
+      "nftables provides a new in-kernel packet classification framework that is based on a "
+      "network-specific Virtual Machine (VM) and a new nft userspace command line tool.\n"
+      "nftables reuses the existing Netfilter subsystems such as the existing hook infrastructure, "
+      "the connection tracking system, NAT, userspace queuing and logging subsystem.\n"
+      "Note:\n"
+      "nftables is available in Linux kernel 3.13 and newer.\n"
+      "Only one firewall utility should be installed and configured."
+    rationale:
+      "nftables is a subsystem of the Linux kernel that can protect against threats originating from "
+      "within a corporate network to include malicious mobile code and poorly configured "
+      "software on a host.\n"
+      "Impact:\n"
+      "Changing firewall settings while connected over the network can result in being locked out "
+      "of the system."
+    remediation:
+      "Run one the following commands to install nftables\n"
+      "# apt install nftables\n"
+      "# yum install nftables\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/bin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/sbin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/bin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/usr/sbin/nftables\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-not-installed-with-iptables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure nftables is not installed with iptables"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of network "
+      "packets/datagrams/frames and is the successor to iptables."
+    rationale: "Running both iptables and nftables may lead to conflict."
+    remediation:
+      "Run the following command to remove nftables:\n"
+      "# apt purge nftables"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-loopback-traffic-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nftables Loopback Traffic is Configured"
+    description:
+      "Configuring loopback traffic ensures that internal communication between processes on the machine is "
+      "maintained while preventing spoofing attacks by dropping loopback traffic on other interfaces."
+    rationale:
+      "The loopback interface is critical for system operation as it handles communication within the system "
+      "itself. Blocking loopback traffic on non-loopback interfaces prevents potential spoofing attacks."
+    remediation:
+      "Run the following commands to configure loopback traffic rules:\n"
+      "```\n"
+      "# nft add rule inet filter input iif lo accept\n"
+      "# nft add rule inet filter input ip saddr 127.0.0.0/8 counter drop\n"
+      "```\n"
+      "If IPv6 is enabled on the system, run:\n"
+      "```\n"
+      "# nft add rule inet filter input ip6 saddr ::1 counter drop\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*iif \\\"lo\\\" accept\""
+      "          expected_regex: \"\\\\s*iif \\\"lo\\\" accept\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*ip saddr 127\\\\.0\\\\.0\\\\.0/8 counter.*drop\""
+      "          expected_regex: \"\\\\s*ip saddr 127\\\\.0\\\\.0\\\\.0/8 counter.*drop\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*ip6 saddr ::1 counter.*drop\""
+      "          expected_regex: \"\\\\s*ip6 saddr ::1 counter.*drop\""
+      "        }"
+      "      }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-not-in-use-with-iptables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure nftables is not in use with iptable"
+    description:
+      "nftables is a subsystem of the Linux kernel providing filtering and classification of "
+      "network packets/datagrams/frames and is the successor to iptables."
+    rationale: "Running both iptables and nftables may lead to conflict."
+    remediation:
+      "Run the following command to remove nftables:\n"
+      "# apt purge nftables\n"
+      "- OR -\n"
+      "Run the following commands to stop and mask nftables.service:\n"
+      "# systemctl stop nftables.service\n"
+      "# systemctl mask nftables.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      " check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"nftables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "         dir_path:\"/etc/systemd/system/\""
+      "        recursive: true"
+      "        filename_regex: \"iptables.service\""
+      "       }"
+      "      }"
+      "      existence:{should_exist:false}"
+      "    }"
+      " }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "nftables-table-exists"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure a nftables table exists"
+    description:
+      "Tables hold chains in nftables. Each table only has one address family and only applies to packets of this family. "
+      "Without a table, nftables will not filter network traffic."
+    rationale:
+      "nftables does not have any default tables. Without a table, nftables will not filter network traffic, leaving the "
+      "system unprotected."
+    remediation:
+      "To create a table in nftables, run:\n"
+      "```\n"
+      "# nft create table inet <table name>\n"
+      "```\n"
+      "Example:\n"
+      "```\n"
+      "# nft create table inet filter\n"
+      "```\n"
+      "Note: Adding rules to a running nftables can cause loss of connectivity. Ensure proper configuration before "
+      "creating tables."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/nftables.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"table inet .*\""
+      "          expected_regex: \"table inet .*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ufw-default-deny-policy"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw default deny firewall policy"
+    description: "A default deny policy on connections ensures that any unconfigured network usage will be rejected."
+    rationale:
+      "With a default accept policy, the firewall will accept any packet that is not configured to be denied. It is "
+      "easier to whitelist acceptable usage than to blacklist unacceptable usage."
+    remediation:
+      "To implement a default deny policy, run:\n"
+      "```\n"
+      "# ufw default deny incoming\n"
+      "# ufw default deny outgoing\n"
+      "# ufw default deny routed\n"
+      "```\n"
+      "Note: Ensure necessary rules for specific services or protocols (e.g., HTTP, HTTPS, DNS) are added before applying "
+      "the default deny policy."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ufw/ufw.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"DEFAULT_INPUT_POLICY=deny\""
+      "          expected_regex: \"DEFAULT_INPUT_POLICY=deny\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ufw/ufw.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"DEFAULT_OUTPUT_POLICY=deny\""
+      "          expected_regex: \"DEFAULT_OUTPUT_POLICY=deny\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/ufw/ufw.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"DEFAULT_ROUTED_POLICY=deny\""
+      "          expected_regex: \"DEFAULT_ROUTED_POLICY=deny\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ufw-is-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw is installed"
+    description:
+      "The Uncomplicated Firewall (ufw) is a frontend for iptables and is particularly well-suited for host-based firewalls. "
+      "It provides a framework for managing Netfilter and a command-line interface for firewall configuration."
+    rationale:
+      "A firewall utility is required to configure the Linux kernel's Netfilter framework, providing protection against "
+      "internal threats and malicious mobile code."
+    remediation:
+      "To install Uncomplicated Firewall (ufw), run:\n"
+      "```\n"
+      "# apt install ufw\n"
+      "```\n"
+      "Note: Only one firewall utility should be installed and configured. UFW depends on the iptables package."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "    existence:{should_exist:true}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ufw-loopback-traffic-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw loopback traffic is configured"
+    description:
+      "Configure the loopback interface to accept traffic and configure all other interfaces to "
+      "deny traffic to the loopback network (127.0.0.0/8 for IPv4 and ::1/128 for IPv6)."
+    rationale:
+      "Loopback traffic is critical to system operation and should only be allowed on the loopback "
+      "interface. Denying loopback traffic on other interfaces is an anti-spoofing measure."
+    remediation:
+      "To implement the loopback rules, run:\n"
+      "```\n"
+      "# ufw allow in on lo\n"
+      "# ufw allow out on lo\n"
+      "# ufw deny in from 127.0.0.0/8\n"
+      "# ufw deny in from ::1\n"
+      "```\n"
+      "Note: Ensure ufw rules are applied in the correct order to achieve the desired effect."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-i lo.*\""
+      "        expected_regex: \".*ACCEPT.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-o lo.*\""
+      "        expected_regex: \".*ACCEPT.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-s 127.0.0.0/8.*\""
+      "        expected_regex: \".*DROP.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user6.rules\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria:{"
+      "        filter_regex: \".*-s ::1.*\""
+      "        expected_regex: \".*DROP.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ufw-open-ports-rules-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw firewall rules exist for all open ports"
+    description: "Services and ports can be accepted or explicitly rejected."
+    rationale:
+      "To reduce the attack surface of a system, all services and ports should be blocked "
+      "unless required.\n"
+      "• Any ports that have been opened on non-loopback addresses need firewall rules "
+      "to govern traffic.\n"
+      "• Without a firewall rule configured for open ports, the default firewall policy will "
+      "drop all packets to these ports.\n"
+      "• Required ports should have a firewall rule created to allow approved connections "
+      "in accordance with local site policy.\n"
+      "• Unapproved ports should have an explicit deny rule created."
+    remediation:
+      "For each port identified in the audit which does not have a firewall rule, evaluate the "
+      "service listening on the port and add a rule for accepting or denying inbound "
+      "connections in accordance with local site policy:\n"
+      "Examples:\n"
+      "```\n"
+      "# ufw allow in <port>/<tcp or udp protocol>\n"
+      "# ufw deny in <port>/<tcp or udp protocol>\n"
+      "```\n"
+      "Note: Examples create rules for from any, to any. More specific rules should be "
+      "concentered when allowing inbound traffic e.g only traffic from this network.\n"
+      "Example to allow traffic on port 443 using the tcp protocol from the 192.168.1.0 network:\n"
+      "```\n"
+      "ufw allow from 192.168.1.0/24 to any proto tcp port 443\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user.rules\"}}"
+      "    repeat_config: {type: FOR_EACH_OPEN_IPV4_PORT}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*--dport $port.*\""
+      "        expected_regex: \"\\\\s*[^#].*--dport $port.*\""
+      "      }"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/ufw/user6.rules\"}}"
+      "    repeat_config: {type: FOR_EACH_OPEN_IPV6_PORT}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \".*--dport $port.*\""
+      "        expected_regex: \"\\\\s*[^#].*--dport $port.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ufw-uninstalled-or-disabled-with-iptables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw is uninstalled or disabled with iptables"
+    description:
+      "Uncomplicated Firewall (UFW) is a program for managing a Netfilter firewall designed to be easy to use. Running "
+      "iptables.persistent with ufw enabled may lead to conflict and unexpected results."
+    rationale:
+      "Running iptables.persistent with UFW enabled may lead to conflict and unexpected results. Ensuring only one is "
+      "active prevents issues."
+    remediation:
+      "To remove or disable UFW, run one of the following:\n"
+      "```\n"
+      "# apt purge ufw\n"
+      "```\n"
+      "-OR-\n"
+      "```\n"
+      "# ufw disable\n"
+      "# systemctl stop ufw.service\n"
+      "# systemctl mask ufw.service\n"
+      "```\n"
+      "Note: Run `ufw disable` before `systemctl mask ufw.service` to ensure proper disabling of UFW."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "  instance_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/ufw.service\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "    }"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "        existence:{should_exist:false}"
+      "      }"
+      "    }"
+      "  }"
+      "  image_scanning:{"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/iptables\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/usr/sbin/ufw\"}}"
+      "        existence:{should_exist:false}"
+      "      }"
+      "    }"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/ufw.service\"}}"
+      "        existence:{should_exist:false}"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ufw-uninstalled-or-disabled-with-nftables"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure ufw is uninstalled or disabled with nftables"
+    description:
+      "Uncomplicated Firewall (UFW) is a program for managing a Netfilter firewall designed to be easy to use. Running "
+      "both the nftables service and UFW may lead to conflict and unexpected results."
+    rationale:
+      "Running both the nftables service and ufw may lead to conflict and unexpected results. Ensuring only one is "
+      "active prevents issues."
+    remediation:
+      "To remove or disable UFW, run one of the following:\n"
+      "```\n"
+      "# apt purge ufw\n"
+      "```\n"
+      "-OR-\n"
+      "```\n"
+      "# ufw disable\n"
+      "# systemctl stop ufw.service\n"
+      "# systemctl mask ufw.service\n"
+      "```\n"
+      "Note: Run `ufw disable` before `systemctl mask ufw.service` to ensure proper disabling of UFW."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/lib/systemd/system/nftables.service\"}}"
+      "    existence:{should_exist:true}"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/ufw.service\"}}"
+      "    existence:{should_exist:false}"
+      "   }"
       "}}"
   }
 }
