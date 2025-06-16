@@ -7528,12 +7528,6 @@ benchmark_configs: {
       "      permission:{user: {name: \"_chrony\" should_own: true}}"
       "    }"
       "  }"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
-      "      existence:{should_exist: false}"
-      "    }"
-      "  }"
       "}"
       "image_scanning:{"
       "  check_alternatives:{"
@@ -7558,12 +7552,6 @@ benchmark_configs: {
       "          expected_regex: \"server|pool .*\""
       "        }"
       "      }"
-      "    }"
-      "  }"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
-      "      existence:{should_exist: false}"
       "    }"
       "  }"
       "}}"
@@ -13740,6 +13728,7 @@ benchmark_configs: {
       "}}"
   }
 }
+
 benchmark_configs: {
   id: "ip6tables-open-ports-rules-configured"
   compliance_note: {
@@ -14062,6 +14051,56 @@ benchmark_configs: {
       "    file_checks:{"
       "      files_to_check:{single_file:{path:\"/etc/iptables/rules.v4\"}}"
       "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "apparmor-enabled-bootloader"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure AppArmor is enabled in the bootloader configuration"
+    description:
+      "Configure AppArmor to be enabled at boot time and verify that it has not been "
+      "overwritten by the bootloader boot parameters."
+    rationale:
+      "AppArmor must be enabled at boot time in your bootloader configuration to ensure that "
+      "the controls it provides are not overridden."
+    remediation:
+      "Edit /etc/default/grub and add the apparmor=1 and security=apparmor "
+      "parameters to the GRUB_CMDLINE_LINUX= line\n"
+      "GRUB_CMDLINE_LINUX=\"apparmor=1 security=apparmor\"\n"
+      "Run the following command to update the grub2 configuration:\n"
+      "# update-grub"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s+linux.*\""
+      "          expected_regex: \".*apparmor=1.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s+linux.*\""
+      "          expected_regex: \".*security=apparmor.*\""
+      "        }"
+      "      }"
       "    }"
       "  }"
       "}"
@@ -18117,6 +18156,1473 @@ benchmark_configs: {
       "    files_to_check:{single_file:{path:\"/etc/systemd/system/multi-user.target.wants/ufw.service\"}}"
       "    existence:{should_exist:false}"
       "   }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "automount-removable-media-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure automatic mounting of removable media is disabled"
+    description:
+      "By default GNOME automatically mounts removable media when inserted as a convenience "
+      "to the user."
+    rationale:
+      "With automounting enabled anyone with physical access could attach a USB drive or disc "
+      "and have its contents available in system even if they lacked permissions to mount it "
+      "themselves."
+    remediation:
+      "Ensure that automatic mounting of media is disabled for all GNOME users:\n"
+      "```\n"
+      "# cat << EOF >> /etc/dconf/db/local.d/00-media-automount\n"
+      "[org/gnome/desktop/media-handling]\n"
+      "automount=false\n"
+      "automount-open=false\n"
+      "EOF\n"
+      "```\n"
+      "Apply the changes with:\n"
+      "```\n"
+      "# dconf update\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/dconf\"}}"
+      "    existence:{should_exist:false}"
+      "}}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{"
+      "      files_in_dir:{"
+      "        dir_path:\"/etc/dconf/db/local.d/\""
+      "        recursive: true"
+      "        files_only: true"
+      "        filename_regex: \".*\""
+      "      }"
+      "    }"
+      "  content_entry:{"
+      "    match_type: ALL_MATCH_ANY_ORDER"
+      "    delimiter: \"\\0\""
+      "    match_criteria: {"
+      "      filter_regex: \"(?ms).*?^[^\\\\n\\\\S]*\\\\[org/gnome/desktop/media-handling\\\\][^\\\\n]*(\\\\n[^\\\\n\\\\S]*[^\\\\[\\\\n][^\\\\n]*)*?(\\\\n[^\\\\n\\\\S]*(automount=([^\\\\n]+))).*?\""
+      "      expected_regex: \"(?m).*^\\\\s*automount=false\\\\s*.*\""
+      "    }"
+      "    match_criteria: {"
+      "      filter_regex: \"(?ms).*?^[^\\\\n\\\\S]*\\\\[org/gnome/desktop/media-handling\\\\][^\\\\n]*(\\\\n[^\\\\n\\\\S]*[^\\\\[\\\\n][^\\\\n]*)*?(\\\\n[^\\\\n\\\\S]*(automount-open=([^\\\\n]+))).*?\""
+      "      expected_regex: \"(?m).*^\\\\s*automount-open=false\\\\s*.*\""
+      "    }"
+      "    }"
+      "  }"
+      "}}"
+
+  }
+}
+
+benchmark_configs: {
+  id: "crontab-restricted-to-authorized-users"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure crontab is restricted to authorized users"
+    description:
+      "crontab is the program used to install, deinstall, or list the tables used to drive the cron "
+      "daemon. Each user can have their own crontab, and though these are files in /var/spool/cron/crontabs, "
+      "they are not intended to be edited directly. If the /etc/cron.allow file exists, then you must be listed "
+      "(one user per line) therein in order to be allowed to use this command. If the /etc/cron.allow file does "
+      "not exist but the /etc/cron.deny file does exist, then you must not be listed in the /etc/cron.deny file "
+      "in order to use this command. If neither of these files exists, then depending on site-dependent "
+      "configuration parameters, only the super user will be allowed to use this command, or all users will be "
+      "able to use this command. If both files exist then /etc/cron.allow takes precedence. Regardless of the "
+      "existence of any of these files, the root administrative user is always allowed to setup a crontab."
+    rationale:
+      "On many systems, only the system administrator is authorized to schedule cron jobs. Using the cron.allow "
+      "file to control who can run cron jobs enforces this policy. It is easier to manage an allow list than a deny "
+      "list. In a deny list, you could potentially add a user ID to the system and forget to add it to the deny files."
+    remediation:
+      "Run the following commands to ensure proper configuration of cron access:\n"
+      "```\n"
+      "# [ ! -e \"/etc/cron.allow\" ] && touch /etc/cron.allow\n"
+      "# chown root:root /etc/cron.allow\n"
+      "# chmod u-x,g-wx,o-rwx /etc/cron.allow\n"
+      "# [ -e \"/etc/cron.deny\" ] && chown root:root /etc/cron.deny\n"
+      "# [ -e \"/etc/cron.deny\" ] && chmod u-x,g-wx,o-rwx /etc/cron.deny\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.deny\"}}"
+      "    existence:{should_exist:false}"
+      "    non_compliance_msg:\"The /etc/cron.deny file exists. Remove it to restrict cron access to authorized users.\""
+      "    file_display_command:\"ls /etc/cron.deny\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.allow\"}}"
+      "    existence:{should_exist:true}"
+      "    non_compliance_msg:\"The /etc/cron.allow file is missing. Ensure it exists to restrict cron access to authorized users.\""
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/cron.allow\"}}"
+      "    permission:{"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "    non_compliance_msg:\"The /etc/cron.allow file has incorrect permissions or ownership. Ensure it is properly configured.\""
+      "    file_display_command:\"stat -Lc 'Access: (%a/%A) Owner: (%U) Group: (%G)' /etc/cron.allow\""
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "access-control-permission-modification-events-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure discretionary access control permission modification events are collected"
+    description:
+      "Monitor changes to file permissions, attributes, ownership and group. "
+      "The parameters in this section track changes for system calls that affect file permissions and attributes. "
+      "The chmod , fchmod and fchmodat system calls affect the permissions associated with a file. "
+      "The chown , fchown , fchownat and lchown system calls affect owner and group attributes on a file. "
+      "The setxattr , lsetxattr , fsetxattr (set extended file attributes) and removexattr , lremovexattr , "
+      "fremovexattr (remove extended file attributes) control extended file attributes. "
+      "In all cases, an audit record will only be written for non-system user ids (auid >= 500) "
+      "and will ignore Daemon events (auid = 4294967295). "
+      "All audit records will be tagged with the identifier \"perm_mod.\""
+    rationale:
+      "Monitoring for changes in file attributes could alert a system administrator "
+      "to activity that could indicate intruder activity or policy violation."
+    remediation:
+      "For 32 bit systems Edit or create a file in "
+      "the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr "
+      "-F auid>=500 -F auid!=4294967295 -k perm_mod``` \n"
+      "For 64 bit systems Edit or create a file in "
+      "the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr "
+      "-F auid>=500 -F auid!=4294967295 -k perm_mod \n"
+      "-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S "
+      "lremovexattr -S fremovexattr -F auid>=500 -F auid!=4294967295 -k perm_mod``` \n"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*chmod.*\\\\s+perm_mod\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*chmod\\\\s*-S\\\\s*fchmod\\\\s*-S\\\\s*fchmodat\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+perm_mod\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*chown.*\\\\s+perm_mod\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*chown\\\\s*-S\\\\s*fchown\\\\s*-S\\\\s*fchownat\\\\s*-S\\\\s*lchown\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+perm_mod\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*setxattr.*\\\\s+perm_mod\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*setxattr\\\\s*-S\\\\s*lsetxattr\\\\s*-S\\\\s*fsetxattr\\\\s*-S\\\\s*removexattr\\\\s*-S\\\\s*lremovexattr\\\\s*-S\\\\s*fremovexattr\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+perm_mod\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*chmod.*\\\\s+perm_mod\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*chmod\\\\s*-S\\\\s*fchmod\\\\s*-S\\\\s*fchmodat\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+perm_mod\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*chown.*\\\\s+perm_mod\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*chown\\\\s*-S\\\\s*fchown\\\\s*-S\\\\s*fchownat\\\\s*-S\\\\s*lchown\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+perm_mod\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*setxattr.*\\\\s+perm_mod\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*setxattr\\\\s*-S\\\\s*lsetxattr\\\\s*-S\\\\s*fsetxattr\\\\s*-S\\\\s*removexattr\\\\s*-S\\\\s*lremovexattr\\\\s*-S\\\\s*fremovexattr\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+perm_mod\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/audit/rules.d\"}}"
+      "                existence:{should_exist: false}"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "disable-user-list-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure GDM disable-user-list option is enabled"
+    description:
+      "GDM is the GNOME Display Manager which handles graphical login for GNOME based "
+      "systems.\n"
+      "The `disable-user-list` option controls if a list of users is displayed on the login "
+      "screen"
+    rationale:
+      "Displaying the user list eliminates half of the Userid/Password equation "
+      "that an unauthorized person would need to log on."
+    remediation:
+      "- IF - A user profile exists run the following command to enable the disable-userlist:\n"
+      "```\n"
+      "# gsettings set org.gnome.login-screen disable-user-list true\n"
+      "```\n"
+      "Note:\n"
+      "* gsettings commands in this section MUST be done from a command window "
+      "on a graphical desktop or an error will be returned.\n"
+      "* The system must be restarted after all gsettings configurations have been set "
+      "in order for CIS-CAT Assessor to appropriately assess.\n"
+      "- OR/IF - A user profile does not exist:\n"
+      "1. Create or edit the gdm profile in /etc/dconf/profile/gdm with the following "
+      "lines:\n"
+      "```\n"
+      "user-db:user\n"
+      "system-db:gdm\n"
+      "file-db:/usr/share/gdm/greeter-dconf-defaults\n"
+      "```\n"
+      "Note: gdm is the name of a dconf database.\n"
+      "2. Create a gdm keyfile for machine-wide settings in /etc/dconf/db/gdm.d/00-\n"
+      "```\n"
+      "login-screen:\n"
+      "[org/gnome/login-screen]\n"
+      "# Do not show the user list\n"
+      "disable-user-list=true\n"
+      "```\n"
+      "3. Update the system databases:\n"
+      "```\n"
+      "# dconf update\n"
+      "```\n"
+      "Note: When the user profile is created or changed, the user will need to log out and log "
+      "in again before the changes will be applied."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/dconf/db/gdm.d/\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*disable-user-list=[a-z]+\""
+      "          expected_regex: \"\\\\s*disable-user-list=true\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-apparmor-profiles-enforce-complain"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure all AppArmor Profiles are in enforce or complain mode"
+    description: "AppArmor profiles define what resources applications are able to access."
+    rationale:
+      "Security configuration requirements vary from site to site.\n"
+      "Some sites may mandate a policy that is stricter than the default policy, which is perfectly acceptable.\n"
+      "This item is intended to ensure that any policies that exist on the system are activated."
+    remediation:
+      "Run the following command to set all profiles to enforce mode: \n"
+      "```\n"
+      "# enforce /etc/apparmor.d/*\n"
+      "```\n "
+      "Any unconfined processes may need to have a profile created or activated for them and then be restarted."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/sys/kernel/security/apparmor/profiles\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\(\\\\w+\\\\)\""
+      "                        expected_regex: \".*\\\\(enforce|complain\\\\)\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-chrony-running-as-user-chrony"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure chrony is running as user _chrony"
+    description:
+      "The chrony package is installed with a dedicated user account _chrony. This account is granted the access required "
+      "by the chronyd service."
+    rationale: "The chronyd service should run with only the required privileges."
+    remediation:
+      "Add or edit the user line to /etc/chrony/chrony.conf or a file ending in .conf in /etc/chrony/conf.d/:\n"
+      "```\n"
+      "user _chrony\n"
+      "```\n"
+      "- OR - If another time synchronization service is in use on the system, remove chrony:\n"
+      "```\n"
+      "# apt purge chrony\n"
+      "# apt autoremove chrony\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/chrony/\", filename_regex:\".*\\\\.conf\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "          expected_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "        }"
+      "      }"
+      "      non_compliance_msg: \"The user configuration for chronyd is missing or incorrect.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      permission:{user:{name:\"_chrony\" should_own:true}}"
+      "      non_compliance_msg: \"chronyd is not running as the user _chrony.\""
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"chrony is not in use on this system.\""
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/chrony/\", filename_regex:\".*\\\\.conf\", recursive:true}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "          expected_regex: \"\\\\s*user\\\\s+_chrony\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/chrony/chrony.conf\"}}"
+      "      existence:{should_exist:false}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-default-user-umask-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure default user umask is configured"
+    description:
+      "The user file-creation mode mask (umask) determines the default permissions for newly created files and directories, "
+      "ensuring they have appropriate restrictions."
+    rationale:
+      "Setting a secure default umask ensures that newly created files and directories have restricted permissions, reducing "
+      "the risk of unauthorized access or modification."
+    remediation:
+      "Edit configuration files to set the default umask to 027 or a more restrictive value. Suggested files include "
+      "/etc/profile, /etc/bashrc, and scripts in /etc/profile.d."
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/profile\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/bashrc\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{dir_path:\"/etc/profile.d/\", filename_regex:\".*\\\\.sh\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "          expected_regex: \"\\\\s*umask\\\\s+0?27\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-ftp-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure FTP client is not installed"
+    description:
+      "FTP (File Transfer Protocol) is a traditional and widely used standard tool for transferring files between a server "
+      "and clients over a network. However, FTP does not protect the confidentiality of data or authentication credentials. \n"
+      "It is recommended to use SFTP if file transfer is required.\n"
+      "Unless the system needs to run as an FTP server, it is recommended to remove the FTP package to reduce the potential "
+      "attack surface."
+    rationale:
+      "FTP does not protect data confidentiality or authentication credentials, making it vulnerable to interception. "
+      "Removing unnecessary FTP clients reduces potential security risks."
+    remediation:
+      "Run the following command to uninstall FTP:\n"
+      "```\n"
+      "# apt purge ftp\n"
+      "```\n"
+      "Ensure alternative secure protocols like SFTP are used if file transfer is required."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ftp\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ftp\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/ftp\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/ftp\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-local-interactive-user-home-dir-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure local interactive user home directories are configured"
+    description:
+      "The user home directory is space defined for the particular user to set local environment "
+      "variables and to store personal files. While the system administrator can establish "
+      "secure permissions for users' home directories, the users can easily override these.\n"
+      "Users can be defined in /etc/passwd without a home directory or with a home directory "
+      "that does not actually exist."
+    rationale:
+      "Since the user is accountable for files stored in the user home directory, the user must "
+      "be the owner of the directory. Group or world-writable user home directories may enable "
+      "malicious users to steal or modify other users' data or to gain another user's system "
+      "privileges. If the user's home directory does not exist or is unassigned, the user will be "
+      "placed in \"/\" and will not be able to write any files or have local environment variables "
+      "set."
+    remediation:
+      "If a local interactive users' home directory is undefined and/or doesn't exist, follow local "
+      "site policy and perform one of the following:\n"
+      "• Lock the user account\n"
+      "• Remove the user from the system\n"
+      "• create a directory for the user. If undefined, edit /etc/passwd and add the "
+      "absolute path to the directory to the last field of the user.\n"
+      "Run the following script to:\n"
+      "• Remove excessive permissions from local interactive users home directories\n"
+      "• Update the home directory's owner"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    repeat_config: {type: FOR_EACH_USER_WITH_LOGIN"
+      "      opt_out: {wildcard: \"$home\", value: \"/bin\"}}"
+      "    permission:{"
+      "      set_bits: 0700"
+      "      bits_should_match: BOTH_SET_AND_CLEAR"
+      "      user: {name: \"$user\" should_own: true}"
+      "    }"
+      "  }"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"$home\"}}"
+      "    repeat_config: {type: FOR_EACH_USER_WITH_LOGIN}"
+      "    existence:{should_exist:true}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-single-time-sync-daemon"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure a single time synchronization daemon is in use"
+    description:
+      "System time should be synchronized between all systems in an environment. This is typically done by establishing "
+      "an authoritative time server or set of servers and having all systems synchronize their clocks to them."
+    rationale:
+      "Time synchronization is important to support time-sensitive security mechanisms and ensures log files have consistent "
+      "time records across the enterprise, which aids in forensic investigations."
+    remediation:
+      "On physical systems, and virtual systems where host-based time synchronization is not available:\n"
+      "1. Select one of the two time synchronization daemons; chrony or systemd-timesyncd.\n"
+      "   - To use chrony:\n"
+      "```\n"
+      "     # apt install chrony\n"
+      "     # systemctl stop systemd-timesyncd.service\n"
+      "     # systemctl mask systemd-timesyncd.service\n"
+      "```\n"
+      "   - To use systemd-timesyncd:\n"
+      "```\n"
+      "     # apt purge chrony\n"
+      "     # apt autoremove chrony\n"
+      "```\n"
+      "Avoid enabling both daemons simultaneously, as this may lead to unreliable results."
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"chronyd is not active.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"timesyncd\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"timesyncd is active.\""
+      "    }"
+      "}"
+      "check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"chronyd\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"chronyd is active.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{process_path:{proc_name:\"timesyncd\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"timesyncd is not active.\""
+      "    }"
+      "}}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/systemd-timesyncd.service\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"systemd-timesyncd should be masked or disabled.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/chronyd.service\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"chronyd is not active.\""
+      "    }"
+      "  }"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/systemd-timesyncd.service\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"systemd-timesyncd is not active.\""
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/systemd/system/chronyd.service\"}}"
+      "      existence:{should_exist:false}"
+      "      non_compliance_msg: \"chronyd should be masked or disabled..\""
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-systemd-timesyncd-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: " Ensure systemd-timesyncd is enabled and running"
+    description:
+      "systemd-timesyncd is a daemon that has been added for synchronizing the system "
+      "clock across the network"
+    rationale:
+      "systemd-timesyncd needs to be enabled and running in order to synchronize the system "
+      "to a timeserver.\n"
+      "Time synchronization is important to support time sensitive security mechanisms and to "
+      "ensure log files have consistent time records across the enterprise to aid in forensic "
+      "investigations"
+    remediation:
+      "- IF - systemd-timesyncd is in use on the system, run the following commands:\n"
+      "Run the following command to unmask systemd-timesyncd.service:\n"
+      "# systemctl unmask systemd-timesyncd.service\n"
+      "Run the following command to enable and start systemd-timesyncd.service:\n"
+      "# systemctl --now enable systemd-timesyncd.service\n"
+      "- OR -\n"
+      "If another time synchronization service is in use on the system, run the following "
+      "command to stop and mask systemd-timesyncd:\n"
+      "# systemctl --now mask systemd-timesyncd.service"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/lib/systemd/systemd-timesyncd\"}}"
+      "      existence:{should_exist:true}"
+      "      non_compliance_msg: \"systemd-timesyncd is not active.\""
+      "    }"
+      "}"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "etc-passwd-dash-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure permissions on /etc/passwd- are configured"
+    description: "The /etc/passwd- file contains backup user account information."
+    rationale:
+      "It is critical to ensure that the /etc/passwd- file is protected from "
+      "unauthorized access. Although it is protected by default, the file "
+      "permissions could be changed either inadvertently or through malicious "
+      "actions."
+    remediation:
+      "Run the following command to set permissions on /etc/passwd-:\n"
+      "```\n"
+      "# chown root:root /etc/passwd-\n"
+      "# chmod u-x,go-wx /etc/passwd-\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd-\"}}"
+      "    existence:{should_exist:false}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/passwd-\"}}"
+      "    permission:{"
+      "      clear_bits: 0133"
+      "      user: {name: \"root\" should_own: true}"
+      "      group: {name: \"root\" should_own: true}"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "etc-shells-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure permissions on /etc/shells are configured"
+    description:
+      "/etc/shells is a text file which contains the full pathnames of valid login shells. This file "
+      "is consulted by chsh and available to be queried by other programs."
+    rationale:
+      "It is critical to ensure that the /etc/shells file is protected from unauthorized access. "
+      "Although it is protected by default, the file permissions could be changed either "
+      "inadvertently or through malicious actions. "
+    remediation:
+      "Run the following commands to remove excess permissions, set owner, and set group on /etc/shells:\n"
+      "```\n"
+      "# chmod u-x,go-wx /etc/shells\n"
+      "# chown root:root /etc/shells\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/shells\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/shells\"}}"
+      "      permission:{"
+      "        clear_bits: 0133"
+      "        user: {name: \"root\", should_own: true}"
+      "        group: {name: \"root\", should_own: true}"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "file-deletion-events-by-users-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure file deletion events by users are collected"
+    description:
+      "Monitor the use of system calls associated with the deletion or renaming of files and file attributes. "
+      "This configuration statement sets up monitoring for the unlink (remove a file), unlinkat "
+      "(remove a file attribute), rename (rename a file) and renameat (rename a file attribute) "
+      "system calls and tags them with the identifier \"delete\"."
+    rationale:
+      "Monitoring these calls from non-privileged users could provide a system administrator "
+      "with evidence that inappropriate removal of files and file attributes associated with protected files is occurring. "
+      "While this audit option will look at all events, system administrators will want to "
+      "look for specific privileged files that are being deleted or altered."
+    remediation:
+      "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules "
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete```\n"
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete \n"
+      "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete ```\n"
+      "Notes: \n"
+      "At a minimum, configure the audit system to collect file deletion events for all users and root. \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+delete\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*unlink\\\\s*-S\\\\s*unlinkat\\\\s*-S\\\\s*rename\\\\s*-S renameat\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+delete\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{"
+      "                    files_in_dir:{"
+      "                        dir_path:\"/etc/audit/rules.d\""
+      "                        recursive: true"
+      "                        files_only: true"
+      "                        filename_regex: \".*\\\\.rules\""
+      "                    }"
+      "                }"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*\\\\s+delete\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*unlink\\\\s*-S\\\\s*unlinkat\\\\s*-S\\\\s*rename\\\\s*-S renameat\\\\s*-F\\\\s*auid\\\\s*>=\\\\s*(5|10)00+\\\\s*-F\\\\s*auid\\\\!=(unset|-1|4294967295)\\\\s*-k\\\\s+delete\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "kernel-module-loading-unloading-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure kernel module loading and unloading is collected"
+    description:
+      "Monitor the loading and unloading of kernel modules. "
+      "The programs insmod (install a kernel module), rmmod (remove a kernel module), "
+      "and modprobe (a more sophisticated program to load and unload modules, as well "
+      "as some other features) control loading and unloading of modules. "
+      "The init_module (load a module) and delete_module (delete a module) system "
+      "calls control loading and unloading of modules. "
+      "Any execution of the loading and unloading module programs and system calls "
+      "will trigger an audit record with an identifier of \"modules\"."
+    rationale:
+      "Monitoring the use of insmod , rmmod and modprobe could provide system administrators "
+      "with evidence that an unauthorized user loaded or unloaded a kernel module, possibly "
+      "compromising the security of the system. "
+      "Monitoring of the init_module and delete_module system calls would reflect an "
+      "unauthorized user attempting to use a different program to load and unload modules."
+    remediation:
+      "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /sbin/insmod -p x -k modules \n"
+      "-w /sbin/rmmod -p x -k modules \n"
+      "-w /sbin/modprobe -p x -k modules \n"
+      "-a always,exit -F arch=b32 -S init_module -S delete_module -k modules``` \n"
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /sbin/insmod -p x -k modules \n"
+      "-w /sbin/rmmod -p x -k modules \n"
+      "-w /sbin/modprobe -p x -k modules \n"
+      "-a always,exit -F arch=b64 -S init_module -S delete_module -k modules``` \n"
+      "Notes: \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/sbin/insmod.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/sbin/insmod\\\\s*-p\\\\s*x\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/sbin/rmmod.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/sbin/rmmod\\\\s*-p\\\\s*x\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/sbin/modprobe.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/sbin/modprobe\\\\s*-p\\\\s*x\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*-S\\\\s*delete_module\\\\s*-k\\\\s*modules\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b(32|64)\\\\s*-S\\\\s*init_module\\\\s*-S\\\\s*delete_module\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/sbin/insmod.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/sbin/insmod\\\\s*-p\\\\s*x\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/sbin/rmmod.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/sbin/rmmod\\\\s*-p\\\\s*x\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/sbin/modprobe.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/sbin/modprobe\\\\s*-p\\\\s*x\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*-S\\\\s*delete_module\\\\s*-k\\\\s*modules\\\\s*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b(32|64)\\\\s*-S\\\\s*init_module\\\\s*-S\\\\s*delete_module\\\\s*-k\\\\s*modules\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "nis-client-not-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure NIS Client is not installed"
+    description:
+      "The Network Information Service (NIS), formerly known as Yellow Pages, "
+      "is a client-server directory service protocol used to distribute "
+      "system configuration files. The NIS client (ypbind) was used to bind a "
+      "machine to an NIS server and receive the distributed configuration "
+      "files."
+    rationale:
+      "The NIS service is inherently an insecure system that has been "
+      "vulnerable to DOS attacks, buffer overflows and has poor "
+      "authentication for querying NIS maps. NIS generally has been replaced "
+      "by such protocols as Lightweight Directory Access Protocol (LDAP). It "
+      "is recommended that the service be removed."
+    remediation:
+      "Uninstall ypbind using the appropriate package manager or manual "
+      "installation:\n"
+      "```\n"
+      "yum remove ypbind\n"
+      "apt-get remove ypbind\n"
+      "zypper remove ypbind\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/bin/ypbind\"}}"
+      "    files_to_check:{single_file:{path:\"/sbin/ypbind\"}}"
+      "    existence:{should_exist: false}"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "opasswd-permissions"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure permissions on /etc/security/opasswd are configured"
+    description:
+      "/etc/security/opasswd and its backup /etc/security/opasswd.old hold user's previous passwords if pam_unix or "
+      "pam_pwhistory is in use on the system."
+    rationale:
+      "It is critical to ensure that /etc/security/opasswd is protected from unauthorized access. "
+      "Although it is protected by default, the file permissions could be changed either inadvertently or through malicious actions."
+    remediation:
+      "Run the following commands to remove excess permissions, set owner, and set group on /etc/security/opasswd and "
+      "/etc/security/opasswd.old if they exist:\n"
+      "```\n"
+      "# [ -e \"/etc/security/opasswd\" ] && chmod u-x,go-rwx /etc/security/opasswd\n"
+      "# [ -e \"/etc/security/opasswd\" ] && chown root:root /etc/security/opasswd\n"
+      "# [ -e \"/etc/security/opasswd.old\" ] && chmod u-x,go-rwx /etc/security/opasswd.old\n"
+      "# [ -e \"/etc/security/opasswd.old\" ] && chown root:root /etc/security/opasswd.old\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/security/opasswd\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "    },"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/security/opasswd.old\"}}"
+      "        existence:{should_exist:true}"
+      "      }"
+      "    },"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/security/opasswd\"}}"
+      "        permission:{"
+      "          clear_bits: 0177"
+      "          user: {name: \"root\", should_own: true}"
+      "          group: {name: \"root\", should_own: true}"
+      "        }"
+      "      }"
+      "    },"
+      "    check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/etc/security/opasswd.old\"}}"
+      "        permission:{"
+      "          clear_bits: 0177"
+      "          user: {name: \"root\", should_own: true}"
+      "          group: {name: \"root\", should_own: true}"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ptrace-scope-restricted"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure ptrace_scope is restricted"
+    description:
+      "This configuration ensures that the ptrace() system call is restricted to limit the ability of compromised "
+      "processes to attach to other processes running under the same user, enhancing system security."
+    rationale:
+      "Enabling restricted mode limits the ability of compromised processes to attach to other processes running "
+      "under the same user, reducing the scope of potential attacks."
+    remediation:
+      "Set the following parameter in `/etc/sysctl.conf` or a file in `/etc/sysctl.d/` ending in `.conf`:\n"
+      "```\n"
+      "kernel.yama.ptrace_scope = 1\n"
+      "```\n"
+      "Run the following command to set the active kernel parameter:\n"
+      "```\n"
+      "sysctl -w kernel.yama.ptrace_scope=1\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: HIGH
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/proc/sys/kernel/yama/ptrace_scope\"}}"
+      "      content:{content:\"1\\n\"}"
+      "    }"
+      "  }"
+      "}"
+      "image_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/sysctl.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*.*\""
+      "          expected_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*1\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{files_in_dir:{"
+      "        dir_path:\"/etc/sysctl.d\""
+      "        recursive: true"
+      "      }}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*.*\""
+      "          expected_regex: \"kernel\\\\.yama\\\\.ptrace_scope\\\\s*=\\\\s*1\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "session-initiation-info-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure session initiation information is collected"
+    description:
+      "Monitor session initiation events. "
+      "The parameters in this section track changes to the files associated with session events. "
+      "The file /var/run/utmp tracks all currently logged in users. "
+      "All audit records will be tagged with the identifier \"session.\" "
+      "The /var/log/wtmp file tracks logins, logouts, shutdown, and reboot events. "
+      "The file /var/log/btmp keeps track of failed login attempts and can be read "
+      "by entering the command /usr/bin/last -f /var/log/btmp . "
+      "All audit records will be tagged with the identifier \"logins.\""
+    rationale:
+      "Monitoring these files for changes could alert a system administrator to "
+      "logins occurring at unusual hours, which could indicate intruder activity (i.e. "
+      "a user logging in at a time when they do not normally log in)."
+    remediation:
+      "Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-w /var/run/utmp -p wa -k session \n"
+      "-w /var/log/wtmp -p wa -k logins \n"
+      "-w /var/log/btmp -p wa -k logins \n"
+      "Notes: \n"
+      "The last command can be used to read /var/log/wtmp (last with no parameters) "
+      "and /var/run/utmp (last -f /var/run/utmp) \nReloading the auditd config to set "
+      "active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/run/utmp.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/run/utmp\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/wtmp.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/wtmp\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/btmp.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/btmp\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/run/utmp.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/run/utmp\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/wtmp.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/wtmp\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*/var/log/btmp.*\""
+      "                        expected_regex: \"\\\\s*-w\\\\s*/var/log/btmp\\\\s*-p\\\\s*wa\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "successful-file-system-mounts-collected"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure successful file system mounts are collected"
+    description:
+      "Monitor the use of the mount system call. "
+      "The mount (and umount ) system call controls the mounting and unmounting of file systems. "
+      "The parameters below configure the system to create an audit record "
+      "when the mount system call is used by a non-privileged user"
+    rationale:
+      "It is highly unusual for a non privileged user to mount file systems to the system. "
+      "While tracking mount commands gives the system administrator evidence that external "
+      "media may have been mounted (based on a review of the source of the mount and "
+      "confirming it's an external media type), it does not conclusively indicate that data was exported to the media. "
+      "System administrators who wish to determine if data were exported, would also "
+      "have to track successful open , creat and truncate system calls requiring write "
+      "access to a file under the mount point of the external media file system. "
+      "This could give a fair indication that a write occurred. "
+      "The only way to truly prove it, would be to track successful writes to the external media. "
+      "Tracking write system calls could quickly fill up the audit log and is not recommended. "
+      "Recommendations on configuration options to track data export to media is beyond the scope of this document."
+    remediation:
+      "For 32 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts``` \n"
+      "For 64 bit systems Edit or create a file in the /etc/audit/rules.d/ directory ending in .rules \n"
+      "Example: vi /etc/audit/rules.d/audit.rules \n"
+      "and add the following lines: \n"
+      "```-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts \n"
+      "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts ```\n"
+      "Notes: \n"
+      "This tracks successful and unsuccessful mount commands. "
+      "File system mounts do not have to come from external media and "
+      "this action still does not verify write (e.g. CD ROMS). \n"
+      "Reloading the auditd config to set active settings may require a system reboot."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{"
+      "    instance_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"UID_MIN.*\""
+      "                        expected_regex: \"UID_MIN\\\\s*1000\""
+      "                    }"
+      "                }"
+      "                non_compliance_msg: \"If UID_MIN is set to a value different from 1000 in /etc/login.defs, this check will fail.\""
+      "                file_display_command: \"grep '^UID_MIN' /etc/login.defs\""
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/proc/cpuinfo\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"flags\\\\s*:.*\""
+      "                        expected_regex: \".*\\\\slm\\\\s.*\""
+      "                    }"
+      "                }"
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*mount.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*mount(,[a-zA-Z_]+)*\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b64.*mount.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b64\\\\s*-S\\\\s*([a-zA-Z_]+,)*mount(,[a-zA-Z_]+)*\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"UID_MIN.*\""
+      "                        expected_regex: \"UID_MIN\\\\s*1000\""
+      "                    }"
+      "                }"
+      "                non_compliance_msg: \"If UID_MIN is set to a value different from 1000 in /etc/login.defs, this check will fail.\""
+      "                file_display_command: \"grep '^UID_MIN' /etc/login.defs\""
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path: \"/etc/audit/audit.rules\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*b32.*mount.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b32\\\\s*-S\\\\s*([a-zA-Z_]+,)*mount(,[a-zA-Z_]+)*\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "    image_scanning:{"
+      "        check_alternatives:{"
+      "            file_checks:{"
+      "                files_to_check:{single_file:{path:\"/etc/login.defs\"}}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \"UID_MIN.*\""
+      "                        expected_regex: \"UID_MIN\\\\s*1000\""
+      "                    }"
+      "                }"
+      "                non_compliance_msg: \"If UID_MIN is set to a value different from 1000 in /etc/login.defs, this check will fail.\""
+      "                file_display_command: \"grep '^UID_MIN' /etc/login.defs\""
+      "            }"
+      "            file_checks:{"
+      "                files_to_check:{files_in_dir:{"
+      "                    dir_path:\"/etc/audit/rules.d\""
+      "                    recursive: true"
+      "                    files_only: true"
+      "                    filename_regex: \".*\\\\.rules\""
+      "                }}"
+      "                content_entry:{"
+      "                    match_type: ALL_MATCH_ANY_ORDER"
+      "                    match_criteria:{"
+      "                        filter_regex: \".*mount.*\""
+      "                        expected_regex: \"\\\\s*-a\\\\s*always,exit\\\\s*-F\\\\s*arch=b[2346]{2}\\\\s*-S\\\\s*([a-zA-Z_]+,)*mount(,[a-zA-Z_]+)*\\\\s*-F\\\\s*auid>=1000\\\\s*-F\\\\s*auid!=(unset|-1|4294967295)\\\\s*(-F\\\\s*key=|-k)\\\\s*[!-~]*\\\\s*\""
+      "                    }"
+      "                }"
+      "            }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "systemd-timesyncd-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure systemd-timesyncd is configured"
+    description:
+      "systemd-timesyncd is a daemon that has been added for synchronizing "
+      "the system clock across the network. It implements an SNTP client. In "
+      "contrast to NTP implementations such as chrony or the NTP reference "
+      "server this only implements a client side, and does not bother with "
+      "the full NTP complexity, focusing only on querying time from one "
+      "remote server and synchronizing the local clock to it. The daemon "
+      "runs with minimal privileges, and has been hooked up with networkd to "
+      "only operate when network connectivity is available. The daemon saves "
+      "the current clock to disk every time a new NTP sync has been acquired, "
+      "and uses this to possibly correct the system clock early at bootup, "
+      "in order to accommodate for systems that lack an RTC such as the "
+      "Raspberry Pi and embedded devices, and make sure that time "
+      "monotonically progresses on these systems, even if it is not always "
+      "correct. To make use of this daemon a new system user and "
+      "group \"systemdtimesync\" needs to be created on installation of "
+      "systemd.\n"
+      "This recommendation only applies if timesyncd is in use on the system."
+    rationale:
+      "Proper configuration is vital to ensuring time synchronization is "
+      "working properly."
+    remediation:
+      "Based on your system configuration, run the appropriate one of the "
+      "following commands to enable cron:\n"
+      "```\n"
+      "# chkconfig crond on\n"
+      "# systemctl enable crond\n"
+      "# update-rc.d crond enable\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/systemd/timesyncd.conf\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"NTP=.*\""
+      "        expected_regex: \"NTP=.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"FallbackNTP=.*\""
+      "        expected_regex: \"FallbackNTP=.*\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"RootDistanceMaxSec=.*\""
+      "        expected_regex: \"RootDistanceMaxSec=.*\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "wireless-interfaces-are-disabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure wireless interfaces are disabled"
+    description:
+      "Wireless networking is used when wired networks are unavailable. "
+      "Debian contains a wireless tool kit to allow system administrators "
+      "to configure and use wireless networks."
+    rationale: "If wireless is not to be used, wireless devices can be disabled to reduce the potential attack surface."
+    remediation:
+      "Run the following command to disable any wireless interfaces: \n"
+      "```# ip link set <interface> down```\n "
+      "Disable any wireless interfaces in your network configuration."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "scan_type_specific:{instance_scanning:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "         path:\"/proc/net/wireless\""
+      "       }"
+      "      }"
+      "    content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      # if there is an active wifi interface the /proc/net/wireless will contain a line starting with <nameofdevice>:
+      "          filter_regex: \"[^:]*:.*\""
+      "          expected_regex: \"[^:]*:.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
       "}}"
   }
 }
