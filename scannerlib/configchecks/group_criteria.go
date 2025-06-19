@@ -31,7 +31,7 @@ var (
 )
 
 var (
-	swVersRe = regexp.MustCompile("^\d+.\d+.\d+-\d+\+.*$")
+	swVersRe = regexp.MustCompile("^\\d+.\\d+.\\d+-\\d+\\+.*$")
 )
 
 type groupCriteria struct {
