@@ -14004,6 +14004,49 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "audit-backlog-limit-sufficient"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure audit_backlog_limit is sufficient"
+    description:
+      "This configuration ensures that the audit subsystem's queue for audit events has a sufficient backlog limit to "
+      "prevent loss of audit data during high activity periods."
+    rationale:
+      "Setting a sufficient audit backlog limit minimizes the risk of losing critical audit data, enhancing the reliability "
+      "of audit records in detecting potential malicious activities."
+    remediation:
+      "Edit `/etc/default/grub` to include `audit_backlog_limit=8192` or a higher value in the `GRUB_CMDLINE_LINUX` "
+      "configuration. Update the GRUB configuration with the command `update-grub`."
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"audit_backlog_limit=.*\""
+      "          expected_regex: \"audit_backlog_limit=(\\\\d+).*\""
+      "          group_criteria:{"
+      "            group_index: 1"
+      "            type: GREATER_THAN"
+      "            const: 8191"
+      "          }"
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "iptables-default-deny-policy"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -14209,6 +14252,46 @@ benchmark_configs: {
       "      }"
       "    }"
       "}}"
+  }
+}
+benchmark_configs: {
+  id: "ensure-audit-config-immutable"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure the Audit Configuration is Immutable"
+    description: "This configuration ensures that the audit rules are immutable, preventing unauthorized modifications and ensuring the integrity of the audit system."
+    rationale: "Setting the audit system to immutable mode prevents unauthorized changes to audit rules, reducing the risk of malicious activities going unnoticed."
+    remediation:
+      "Edit or create the file `/etc/audit/rules.d/99-finalize.rules` and add the following line at the end of the file:"
+      "```"
+      " -e 2"
+      "```"
+      "Then, merge and load the rules into active configuration using:"
+      "```"
+      "augenrules --load"
+      "```"
+      "If required, reboot the system to activate the immutable configuration."
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/rules.d/99-finalize.rules\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_STRICT_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*-e\\\\s+2\\b\\\\s*$\""
+      "          expected_regex: \"\\\\s*-e\\\\s+2\\b\\\\s*$\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
   }
 }
 
@@ -18395,6 +18478,46 @@ benchmark_configs: {
 }
 
 benchmark_configs: {
+  id: "audit-log-not-auto-deleted"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure audit logs are not automatically deleted"
+    description:
+      "The max_log_file_action setting determines how to handle the audit log file reaching the "
+      "max file size. A value of keep_logs will rotate the logs but never delete old logs."
+    rationale:
+      "In high security contexts, the benefits of maintaining a long audit history exceed the cost of "
+      "storing the audit history."
+    remediation:
+      "Set the following parameter in /etc/audit/auditd.conf:\n"
+      "```\n"
+      "max_log_file_action = keep_logs\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      "      check_alternatives:{"
+      "        file_checks:{"
+      "          files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "              content_entry:{"
+      "                match_type: ALL_MATCH_ANY_ORDER"
+      "                match_criteria: {"
+      "                  filter_regex: \"\\\\s*max_log_file_action(\\\\s|=).*\""
+      "                  expected_regex: \"max_log_file_action\\\\s*=\\\\s*keep_logs\""
+      "                }"
+      "              }"
+      "        }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
   id: "disable-user-list-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -19622,6 +19745,745 @@ benchmark_configs: {
       "        }"
       "      }"
       "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "audit-log-storage-size-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure audit log storage size is configured"
+    description:
+      "Configure the maximum size of the audit log file. "
+      "Once the log reaches the maximum size, it will be rotated and a new log file will be started."
+    rationale:
+      "It is important that an appropriate size is determined for log files "
+      "so that they do not impact the system and audit data is not lost."
+    remediation:
+      "Set the following parameter in /etc/audit/auditd.conf in accordance with site policy: "
+      "```max_log_file = <MB>``` \n"
+      "Notes: The max_log_file parameter is measured in megabytes. \n"
+      "Other methods of log rotation may be appropriate based on site policy. "
+      "One example is time-based rotation strategies which don't have native support in auditd configurations. "
+      "Manual audit of custom configurations should be evaluated for effectiveness and completeness."
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "   file_checks:{"
+      "     files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "         content_entry:{"
+      "           match_type: ALL_MATCH_ANY_ORDER"
+      "           match_criteria: {"
+      "             filter_regex: \"\\\\s*max_log_file\\\\s*=.*\""
+      "             expected_regex: \"max_log_file\\\\s*=\\\\s*(\\\\d+)\""
+      "           }"
+      "         }"
+      "   }"
+      " }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "auditing-prior-to-auditd-enabled"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure Auditing for Processes That Start Prior to Auditd Is Enabled"
+    description: "This configuration ensures that audit events for processes that start prior to auditd are captured, enabling early detection of potential malicious activity."
+    rationale: "Auditing processes that start prior to auditd ensures comprehensive monitoring of all system activity, reducing the risk of undetected malicious activity."
+    remediation: "Edit `/etc/default/grub` to include `audit=1` in the `GRUB_CMDLINE_LINUX` configuration and update the GRUB configuration with the command `update-grub`."
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{"
+      "  check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/boot/grub/grub.cfg\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*linux.*\\\\s+audit=1\\b.*\""
+      "          expected_regex: \"\\\\s*linux.*\\\\s+audit=1\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "auditd-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure auditd is installed"
+    description:
+      "auditd is the userspace component to the Linux Auditing System. "
+      "It's responsible for writing audit records to the disk"
+    rationale:
+      "The capturing of system events provides system administrators with "
+      "information to allow them to determine if unauthorized access to their system is occurring."
+    remediation:
+      "Run the following command and verify auditd is installed: \n"
+      "```# dpkg-query -s auditd &>/dev/null && echo auditd is installed\n```"
+      "Run the following command to verify audispd-plugins is installed:\n"
+      "```# dpkg-query -s audispd-plugins &>/dev/null && echo audispd-plugins is installed\n```"
+      "Run one of the following command to Install auditd and audispd-plugins\n"
+      "```# apt install auditd audispd-plugins\n```"
+      "```# dnf install audit\n```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/bin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/usr/sbin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/bin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/sbin/auditd\"}}"
+      "    existence:{should_exist: true}"
+      "  }"
+      "}"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-configuration-files-mode-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit configuration files mode is configured"
+    description:
+      "Audit configuration files must be configured with mode 0640 or more restrictive to prevent unauthorized "
+      "access and protect the integrity of the audit system."
+    rationale:
+      "Restricting access to audit configuration files ensures that only authorized personnel can modify the "
+      "settings, preventing the disabling of critical auditing or misconfigurations that may impact performance or "
+      "investigation efforts."
+    remediation:
+      "Run the following command to set permissions on audit configuration files:\n"
+      "```bash\n"
+      "find /etc/audit/ -type f \\\\( -name '*.conf' -o -name '*.rules' \\\\) -exec chmod u-x,g-wx,o-rwx {} +\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{files_in_dir:{"
+      "          dir_path:\"/etc/audit/\""
+      "          recursive: false"
+      "          files_only: true"
+      "          filename_regex: \".*\\\\.(conf|rules)\""
+      "        }}"
+      "        permission:{"
+      "          clear_bits: 0137"
+      "          bits_should_match: EITHER_SET_OR_CLEAR"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-configuration-files-owner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit configuration files owner is configured"
+    description: "Audit configuration files control auditd and what events are audited."
+    rationale:
+      "Access to the audit configuration files could allow unauthorized personnel to prevent the "
+      "auditing of critical events.\n"
+      "Misconfigured audit configuration files may prevent the auditing of critical events or "
+      "impact the system's performance by overwhelming the audit log. Misconfiguration of the "
+      "audit configuration files may also make it more difficult to establish and investigate "
+      "events relating to an incident."
+    remediation:
+      "Run the following command to change ownership to root user:\n"
+      "```\n"
+      "# find /etc/audit/ -type f \\\\( -name '*.conf' -o -name '*.rules' \\\\) ! -user root -exec chown root {} +\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/audit/auditd.conf\""
+      "      }}"
+      "      permission:{"
+      "        group: {name: \"root\" should_own: true}"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-configuration-files-group-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit configuration files group owmer is configured"
+    description: "Audit configuration files control auditd and what events are audited."
+    rationale:
+      "Access to the audit configuration files could allow unauthorized personnel to prevent the "
+      "auditing of critical events.\n"
+      "Misconfigured audit configuration files may prevent the auditing of critical events or "
+      "impact the system's performance by overwhelming the audit log. Misconfiguration of the "
+      "audit configuration files may also make it more difficult to establish and investigate "
+      "events relating to an incident."
+    remediation:
+      "Run the following command to change group to root:\n"
+      "```\n"
+      "# find /etc/audit/ -type f \\\\( -name '*.conf' -o -name '*.rules' \\\\) ! -group root -exec chgrp root {} +\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{"
+      "        path:\"/etc/audit/auditd.conf\""
+      "      }}"
+      "      permission:{"
+      "        group: {name: \"root\" should_own: true}"
+      "      }"
+      "    }"
+      "  }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-tools-mode-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit tools mode is configured"
+    description: "Audit tools must be configured with mode 0755 or more restrictive to protect the integrity of audit tools and prevent unauthorized access."
+    rationale: "Protecting audit tools ensures the integrity of audit information and prevents unauthorized operations on log data."
+    remediation:
+      "Run the following command to set permissions on audit tools:\n"
+      "```bash\n"
+      "chmod go-w \\\\/sbin/auditctl \\\\/sbin/aureport \\\\/sbin/ausearch \\\\/sbin/autrace \\\\/sbin/auditd \\\\/sbin/augenrules\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{"
+      "          files_in_dir:{"
+      "            dir_path:\"/sbin\""
+      "            recursive: false"
+      "            files_only: true"
+      "            filename_regex: \"auditctl|aureport|ausearch|autrace|auditd|augenrules\""
+      "          }"
+      "        }"
+      "        permission:{"
+      "          clear_bits: 0022"
+      "          bits_should_match: EITHER_SET_OR_CLEAR"
+      "        }"
+      "        non_compliance_msg: \"Audit tools are not configured with mode 0755 or more restrictive.\""
+      "        file_display_command: \"ls -l /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\""
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-log-dir-mode-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure the audit log file directory mode is configured"
+    description: "The audit log directory contains audit log files."
+    rationale:
+      "Audit information includes all information including: audit records, audit settings and "
+      "audit reports. This information is needed to successfully audit system activity. This "
+      "information must be protected from unauthorized modification or deletion. If this "
+      "information were to be compromised, forensic analysis and discovery of the true source "
+      "of potentially malicious system activity is impossible to achieve."
+    remediation:
+      "Run the following command to configure the audit log directory to have a mode of "
+      "\"0750\" or less permissive:\n"
+      "```"
+      "# chmod g-w,o-rwx \"$(dirname \"$(awk -F= '/^\\\\s*log_file\\\\s*/{print $2}'"
+      "/etc/audit/auditd.conf | xargs)\")\""
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/var/log/audit/audit.log\"}}"
+      "    permission:{"
+      "      clear_bits: 0133"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-log-group-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit log files group owner is configured"
+    description: "Audit log files contain information about the system and system activity."
+    rationale:
+      "Restricting access to audit configuration files ensures that only authorized personnel can modify "
+      "the settings, preventing the disabling of critical auditing or misconfigurations that may impact performance "
+      "or investigation efforts."
+    remediation:
+      "Run the following command to configure the audit log files to be group owned by adm:\n"
+      "```\n"
+      "# find $(dirname $(awk -F\"=\" '/^\\\\s*log_file/ {print $2}' "
+      "/etc/audit/auditd.conf | xargs)) -type f \\\\( ! -group adm -a ! -group root \\\\) "
+      "-exec chgrp adm {} +\n"
+      "```\n"
+      "Run the following command to set the log_group parameter in the audit configuration\n"
+      "file to log_group = adm:\n"
+      "```\n"
+      "# sed -ri 's/^\\\\s*#?\\\\s*log_group\\\\s*=\\\\s*\\\\S+(\\\\s*#.*)?.*$/log_group = adm\1/' "
+      "/etc/audit/auditd.conf\n"
+      "```\n"
+      "Run the following command to restart the audit daemon to reload the configuration file:\n"
+      "```\n"
+      "# systemctl restart audit\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/var/log/audit/audit.log\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{"
+      "          path:\"/var/log/audit/audit.log\""
+      "        }}"
+      "        permission:{"
+      "          group: {name: \"adm\" should_own: true}"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-log-mode-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit log files mode is configured"
+    description: "Audit log files contain information about the system and system activity."
+    rationale:
+      "Access to audit records can reveal system and configuration data to attackers, "
+      "potentially compromising its confidentiality."
+    remediation:
+      "Run the following command to remove more permissive mode than 0640 from audit log "
+      "files:\n"
+      "```"
+      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\""
+      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f -perm"
+      "/0137 -exec chmod u-x,g-wx,o-rwx {} +"
+      "```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/var/log/audit/audit.log\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{"
+      "          path:\"/var/log/audit/audit.log\""
+      "        }}"
+      "        permission:{"
+      "          clear_bits: 0137"
+      "          bits_should_match: EITHER_SET_OR_CLEAR"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-log-owner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit log files owner is configured"
+    description:
+      "Audit configuration files must be configured with mode 0640 or more restrictive to prevent "
+      "unauthorized access and protect the integrity of the audit system.\n"
+    rationale:
+      "Access to audit records can reveal system and configuration data to attackers, potentially "
+      "compromising its confidentiality."
+    remediation:
+      "Run the following command to configure the audit log files to be group owned by adm:\n"
+      "# find $(dirname $(awk -F\"=\" '/^\\\\s*log_file/ {print $2}'\n"
+      "/etc/audit/auditd.conf | xargs)) -type f \\\\( ! -group adm -a ! -group root \\\\)"
+      "-exec chgrp adm {} +\n"
+      "Run the following command to set the log_group parameter in the audit configuration "
+      "file to log_group = adm:\n"
+      "/etc/audit/auditd.conf\n"
+      "Run the following command to restart the audit daemon to reload the configuration file:\n"
+      "```\n"
+      "# [ -f /etc/audit/auditd.conf ] && find \"$(dirname $(awk -F \"=\""
+      "'/^\\\\s*log_file/ {print $2}' /etc/audit/auditd.conf | xargs))\" -type f ! -user"
+      "root -exec chown root {} +"
+      "```"
+      "# systemctl restart audit"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/var/log/audit/audit.log\"}}"
+      "      existence:{should_exist:true}"
+      "    }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{"
+      "          path:\"/var/log/audit/audit.log\""
+      "        }}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-tools-group-owner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit tools group owner is configured"
+    description:
+      "Audit tools must be owned by the root group to ensure their integrity and prevent unauthorized access "
+      "or modifications."
+    rationale:
+      "Protecting audit tools from unauthorized access or modification is critical to maintaining the integrity "
+      "of the audit system and ensuring accurate logging of events. Ensuring the correct group ownership prevents unauthorized "
+      "users from altering critical audit files."
+    remediation:
+      "Run the following command to set the correct group ownership for the audit tools:\n"
+      "```bash\n"
+      "chgrp root /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/auditctl\"}}"
+      "        permission:{"
+      "          group: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/aureport\"}}"
+      "        permission:{"
+      "          group: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/ausearch\"}}"
+      "        permission:{"
+      "          group: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/autrace\"}}"
+      "        permission:{"
+      "          group: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/auditd\"}}"
+      "        permission:{"
+      "          group: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/augenrules\"}}"
+      "        permission:{"
+      "          group: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-audit-tools-owner-configured"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure audit tools owner is configured"
+    description:
+      "Audit tools must be owned by the root user to ensure their integrity and prevent unauthorized access "
+      "or modifications.\n"
+    rationale:
+      "Protecting audit tools from unauthorized access or modification is critical to maintaining the integrity "
+      "of the audit system and ensuring accurate logging of events."
+    remediation:
+      "Run the following command to set the correct ownership for the audit tools:\n"
+      "```bash\n"
+      "chown root:root /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/augenrules\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/auditctl\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/aureport\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/ausearch\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/autrace\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/auditd\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "      file_checks:{"
+      "        files_to_check:{single_file:{path:\"/sbin/augenrules\"}}"
+      "        permission:{"
+      "          user: {name: \"root\" should_own: true}"
+      "        }"
+      "      }"
+      "    }"
+      "}"
+  }
+}
+
+benchmark_configs: {
+  id: "ensure-cryptographic-mechanisms-audit-tools"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure cryptographic mechanisms are used to protect the integrity of audit tools"
+    description:
+      "Audit tools include vendor-provided and open source tools needed to view and manipulate audit information. "
+      "Protecting their integrity ensures audit data remains secure and trustworthy."
+    rationale:
+      "Attackers may modify or replace audit tools to hide or erase activity from logs. Cryptographic signatures enable "
+      "detection of unauthorized changes."
+    remediation:
+      "Configure AIDE to monitor audit tool files with cryptographic integrity checks. Edit /etc/aide/aide.conf and add "
+      "or update the following entries:\n"
+      "```\n"
+      "# Audit Tools\n"
+      "/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/aide/aide.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria:{"
+      "          filter_regex: \"/sbin/(auditctl|auditd|ausearch|aureport|autrace|augenrules)\\\\s+p\\\\+i\\\\+n\\\\+u\\\\+g\\\\+s\\\\+b\\\\+acl\\\\+xattrs\\\\+sha512.*\""
+      "          expected_regex: \"/sbin/(auditctl|auditd|ausearch|aureport|autrace|augenrules)\\\\s+p\\\\+i\\\\+n\\\\+u\\\\+g\\\\+s\\\\+b\\\\+acl\\\\+xattrs\\\\+sha512.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "system-disabled-when-audit-logs-full"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure system is disabled when audit logs are full"
+    description: "The auditd daemon can be configured to halt the system when the audit logs are full."
+    rationale:
+      "In high security contexts, the risk of detecting unauthorized access or "
+      "nonrepudiation exceeds the benefit of the system's availability."
+    remediation:
+      "Set the following parameters in /etc/audit/auditd.conf: \n"
+      "```space_left_action = email \n"
+      "action_mail_acct = root \n"
+      "admin_space_left_action = halt```"
+    cis_benchmark: {
+      profile_level: 2
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{"
+      " check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*space_left_action(\\\\s|=).*\""
+      "          expected_regex: \"space_left_action\\\\s*=\\\\s*email\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*action_mail_acct(\\\\s|=).*\""
+      "          expected_regex: \"action_mail_acct\\\\s*=\\\\s*root\""
+      "        }"
+      "        match_criteria: {"
+      "          filter_regex: \"\\\\s*admin_space_left_action(\\\\s|=).*\""
+      "          expected_regex: \"admin_space_left_action\\\\s*=\\\\s*(halt|single)\""
+      "        }"
+      "      }"
+      "  }"
+      "}}"
+  }
+}
+
+benchmark_configs: {
+  id: "system-warns-on-audit-logs-low-space"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    title: "Ensure System Warns When Audit Logs Are Low on Space"
+    description:
+      "This configuration ensures that the system is configured to warn or take appropriate actions when audit logs are "
+      "low on space, preserving the integrity and continuity of logging."
+    rationale:
+      "Configuring the system to handle low audit log space helps prevent loss of critical audit data and enhances the "
+      "reliability of audit records in monitoring and detecting security events."
+    remediation:
+      "Edit `/etc/audit/auditd.conf` to set the `space_left_action` parameter to `email`, `exec`, `single`, or `halt` "
+      "and the `admin_space_left_action` parameter to `single` or `halt`:\n"
+      "```\n"
+      "space_left_action = email\n"
+      "admin_space_left_action = single\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 2
+      severity: HIGH
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex:  \"[^#]*\\\\bspace_left_action\\\\s*=\\\\s*\\\\b(email|exec|single|halt)\\\\b.*\""
+      "          expected_regex: \"[^#]*\\\\bspace_left_action\\\\s*=\\\\s*\\\\b(email|exec|single|halt)\\\\b.*\""
+      "        }"
+      "      }"
+      "    }"
+      "    file_checks:{"
+      "      files_to_check:{single_file:{path:\"/etc/audit/auditd.conf\"}}"
+      "      content_entry:{"
+      "        match_type: ALL_MATCH_ANY_ORDER"
+      "        match_criteria: {"
+      "          filter_regex: \"[^#]*\\\\badmin_space_left_action\\\\s*=\\\\s*\\\\b(single|halt)\\\\b.*\""
+      "          expected_regex:  \"[^#]*\\\\badmin_space_left_action\\\\s*=\\\\s*\\\\b(single|halt)\\\\b.*\""
+      "        }"
+      "      }"
       "  }"
       "}}"
   }
