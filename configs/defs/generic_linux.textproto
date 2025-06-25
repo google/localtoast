@@ -21034,5 +21034,44 @@ benchmark_configs: {
       "    }"
       "  }"
       "}}"
-  }
  }
+}
+
+benchmark_configs: {
+  id: "ensure-libpam-modules-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    title: "Ensure libpam-modules is installed"
+    description:
+      "Pluggable Authentication Modules for PAM. Ensures the system has full functionality and access to the PAM options covered by this Benchmark."
+    rationale:
+      "To ensure the system has full functionality and access to the PAM options covered by this Benchmark."
+    remediation:
+      "If the version of libpam-modules on the system is less than version 1.5.2-6, run the following command to update to the latest version:\n"
+      "```\n"
+      "apt update && apt upgrade libpam-modules\n"
+      "```\n"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "    content_entry:{"
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"Package: libpam-modules\""
+      "        expected_regex: \"Package: libpam-modules\""
+      "      }"
+      "      match_criteria: {"
+      "        filter_regex: \"Version: (1\\\\.5\\\\.[2-9]|1\\\\.5\\\\.[1-9][0-9]+|1\\\\.[6-9]|[2-9]\\\\..*)\""
+      "        expected_regex: \"Version: (1\\\\.5\\\\.[2-9]|1\\\\.5\\\\.[1-9][0-9]+|1\\\\.[6-9]|[2-9]\\\\..*)\""
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+}
