@@ -53,60 +53,6 @@ benchmark_configs: {
   }
 }
 benchmark_configs: {
-  id: "home-nosuid"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure nosuid option set on /home partition"
-    description: "The nosuid mount option specifies thatthe filesystem cannot contain setuid files."
-    rationale:
-      "Since the /nome filesystem is only intended for user file storage, set this option to ensure "
-      "that users cannot create setuid files in /home."
-    remediation:
-      "Editthe /etc/fstab file and add nosuid to the fourth field (mounting options) for the "
-      "/home partition.\n"
-      "Example:\n"
-      "\n```\n"
-      "<device> /home <fstype> defaults, rw,nosuid, nodev, noexec, relatime 0 0\n"
-      "```\n\n"
-      "Run the following command to remount /home with the configured options:\n"
-      "\n```\n"
-      "mount -o remount /home\n"
-      "```\n\n"
-      "References:\n"
-      "1. See the fstab(5) manual page for more information."
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "scan_type_specific:{instance_scanning:{"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "    content_entry:{"
-      "      match_type: ALL_MATCH_ANY_ORDER"
-      "      match_criteria: {"
-      "          filter_regex: \".* /home .* - .*\""
-      "          expected_regex: \".* /home .*nosuid.* - .*\""
-      "      }"
-      "    }"
-      "  }"
-      "}"
-      "check_alternatives:{"
-      "  file_checks:{"
-      "    files_to_check:{single_file:{path:\"/proc/self/mountinfo\"}}"
-      "    content_entry:{"
-      "      match_type: NONE_MATCH"
-      "      match_criteria: {"
-      "          filter_regex: \".* /home .* - .*\""
-      "          expected_regex: \".* /home .* - .*\""
-      "      }"
-      "    }"
-      "  }"
-      "}}}"
-  }
-}
-benchmark_configs: {
   id: "home-usrquota"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -374,43 +320,6 @@ benchmark_configs: {
       "    }"
       "  }"
       "}"
-  }
-}
-benchmark_configs: {
-  id: "systemd-journal-remote-installed"
-  compliance_note: {
-    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure systemd-journal-remote is installed"
-    description:
-      "Journald (via systemd-journal-remote) supports the ability to send log events it gathers to "
-      "a remote log host or to receive messages from remote hosts, thus enabling centralised log "
-      "management."
-    rationale:
-      "Storing log data on a remote host protects log integrity from local attacks. If an attacker "
-      "gains root access on the local system, they could tamper with or remove log data that is "
-      "stored on the local system."
-    remediation:
-      "Run the following command to install systemd-journal-remote:\n"
-      "\n```\n"
-      "dnf install systemd-journal-remote\n"
-      "```\n\n"
-    cis_benchmark: {
-      profile_level: 1
-      severity: LOW
-    }
-    scan_instructions:
-      "generic:{"
-      "  check_alternatives:{"
-      "    file_checks:{"
-      "      files_to_check:{files_in_dir:{"
-      "         dir_path:\"/usr/lib/systemd/system/\""
-      "        recursive: true"
-      "        filename_regex: \"systemd-journal-upload.service\""
-      "       }"
-      "      }"
-      "      existence:{should_exist:true}"
-      "    }"
-      "}}"
   }
 }
 benchmark_configs: {
