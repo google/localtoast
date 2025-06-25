@@ -5272,6 +5272,49 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "etc-shadow-passwords-not-empty"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
+    version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
+    title: "Ensure permissions on /etc/shadow are configured"
+    description:
+      "An account with an empty password field means that anybody may log in as that user "
+      "without providing a password."
+    rationale:
+      "All accounts must have passwords or be locked to prevent the account from being used "
+      "by an unauthorized user."
+    remediation:
+      "If any accounts in the /etc/shadow file do not have a password, run the following "
+      "command to lock the account until it can be determined why it does not have a "
+      "password:\n"
+      "```\n"
+      "# passwd -l <username>"
+      "```\n"
+      "Also, check to see if the account is logged in and investigate what it is being used for to"
+      "determine if it needs to be forced off."
+    cis_benchmark: {
+      profile_level: 1
+      severity: LOW
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/etc/shadow\"}}"
+      "      content_entry:{"
+      "        match_type: NONE_MATCH"
+      "        match_criteria: {"
+      "          filter_regex: \".*\""
+      "          expected_regex: \"+*::.*:.*:.*:.*:.*:.*:.*\""
+      "        }"
+      "      }"
+      "    }"
+      "}}"
+  }
+}
+
 benchmark_configs: {
   id: "etc-shadow-permissions"
   compliance_note: {
