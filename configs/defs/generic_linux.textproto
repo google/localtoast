@@ -20994,3 +20994,45 @@ benchmark_configs: {
       "}}"
   }
 }
+
+benchmark_configs: {
+  id: "ensure-latest-libpam-installed"
+  compliance_note: {
+    version: { cpe_uri: "cpe:/o:debian:debian_linux:12.0" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
+    title: "Ensure libpam-modules is installed"
+    description:
+      "Updated versions of PAM include additional functionality"
+    rationale:
+      "To ensure the system has full functionality and access to the options covered by this "
+      "Benchmark the latest version of libpam-runtime should be installed on the system"
+    remediation:
+      "- IF - the version of libpam-runtime on the system is less that version 1.5.2-6:\n"
+      "Run the following command to update to the latest version of PAM:\n"
+      "```\n"
+      "# apt upgrade libpam-runtime\n"
+      "```"
+    cis_benchmark: {
+      profile_level: 1
+      severity: MEDIUM
+    }
+    scan_instructions:
+      "generic:{check_alternatives:{"
+      "  file_checks:{"
+      "    files_to_check:{single_file:{path:\"/var/lib/dpkg/status\"}}"
+      "    content_entry:{"
+      "	     delimiter: \"\\n\\n\""
+      "      match_type: ALL_MATCH_ANY_ORDER"
+      "      match_criteria: {"
+      "        filter_regex: \"Package: libpam-runtime.*\""
+      "        expected_regex: \"(?m).*Version: (\\\\S*)\""
+      "        group_criteria:{"
+      "          group_index: 1"
+      "          type: VERSION_GREATER_THAN"
+      "          version: \"1.5.2-6\"" 
+      "        }"
+      "      }"
+      "    }"
+      "  }"
+      "}}"
+  }
+ }
