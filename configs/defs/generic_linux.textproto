@@ -5408,9 +5408,8 @@ benchmark_configs: {
   id: "etc-shadow-passwords-not-empty"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
-    version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
-    title: "Ensure permissions on /etc/shadow are configured"
+    title: "Ensure /etc/shadow password fields are not empty"
     description:
       "An account with an empty password field means that anybody may log in as that user "
       "without providing a password."
