@@ -96,6 +96,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "1337"},
 						{TextToReplace: "$gid", ReplaceWith: "1338"},
 						{TextToReplace: "$home", ReplaceWith: "/home/user1"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 				{
@@ -104,6 +105,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "2337"},
 						{TextToReplace: "$gid", ReplaceWith: "2338"},
 						{TextToReplace: "$home", ReplaceWith: "/dev/null"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/false"},
 					},
 				},
 				{
@@ -112,6 +114,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "3337"},
 						{TextToReplace: "$gid", ReplaceWith: "3338"},
 						{TextToReplace: "$home", ReplaceWith: "/bin/nologin"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/false"},
 					},
 				},
 				{
@@ -120,6 +123,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "4337"},
 						{TextToReplace: "$gid", ReplaceWith: "4338"},
 						{TextToReplace: "$home", ReplaceWith: "/home/user2"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 			},
@@ -134,6 +138,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "1337"},
 						{TextToReplace: "$gid", ReplaceWith: "1338"},
 						{TextToReplace: "$home", ReplaceWith: "/home/user1"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 				{
@@ -142,6 +147,7 @@ func TestCreateRepeatConfigsForEachUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "4337"},
 						{TextToReplace: "$gid", ReplaceWith: "4338"},
 						{TextToReplace: "$home", ReplaceWith: "/home/user2"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 			},
@@ -185,6 +191,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "1000"},
 						{TextToReplace: "$gid", ReplaceWith: "1000"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser1"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 				&repeatconfig.RepeatConfig{
@@ -193,6 +200,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "1999"},
 						{TextToReplace: "$gid", ReplaceWith: "1999"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser2"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 			},
@@ -210,6 +218,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "500"},
 						{TextToReplace: "$gid", ReplaceWith: "500"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser1"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 				&repeatconfig.RepeatConfig{
@@ -218,6 +227,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "999"},
 						{TextToReplace: "$gid", ReplaceWith: "999"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser2"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 			},
@@ -236,6 +246,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "120"},
 						{TextToReplace: "$gid", ReplaceWith: "120"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser1"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 				&repeatconfig.RepeatConfig{
@@ -244,6 +255,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "456"},
 						{TextToReplace: "$gid", ReplaceWith: "456"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser2"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 			},
@@ -263,6 +275,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "120"},
 						{TextToReplace: "$gid", ReplaceWith: "120"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser1"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 				&repeatconfig.RepeatConfig{
@@ -271,6 +284,7 @@ func TestCreateRepeatConfigsForEachSystemUser(t *testing.T) {
 						{TextToReplace: "$uid", ReplaceWith: "456"},
 						{TextToReplace: "$gid", ReplaceWith: "456"},
 						{TextToReplace: "$home", ReplaceWith: "/home/systemuser2"},
+						{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 					},
 				},
 			},
@@ -515,6 +529,7 @@ func TestCreateRepeatConfigsWithOptOut(t *testing.T) {
 				{TextToReplace: "$uid", ReplaceWith: "2337"},
 				{TextToReplace: "$gid", ReplaceWith: "2338"},
 				{TextToReplace: "$home", ReplaceWith: "/home/user2"},
+				{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 			},
 		},
 		{
@@ -523,6 +538,7 @@ func TestCreateRepeatConfigsWithOptOut(t *testing.T) {
 				{TextToReplace: "$uid", ReplaceWith: "4337"},
 				{TextToReplace: "$gid", ReplaceWith: "4338"},
 				{TextToReplace: "$home", ReplaceWith: "/home/user4"},
+				{TextToReplace: "$shell", ReplaceWith: "/bin/bash"},
 			},
 		},
 	}

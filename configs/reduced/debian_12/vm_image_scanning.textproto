@@ -1,5 +1,4 @@
 version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
-
 benchmark_id: "access-control-permission-modification-events-collected"
 benchmark_id: "access-to-su-restricted"
 benchmark_id: "accounts-in-etc-passwd-use-shadowed-passwords"
@@ -47,6 +46,7 @@ benchmark_id: "dnsmasq-service-disabled"
 benchmark_id: "dns-server-disabled"
 benchmark_id: "dot-files-not-group-world-writable"
 benchmark_id: "enforcing-apparmor-profiles"
+benchmark_id: "ensure-accounts-without-valid-shell-locked"
 benchmark_id: "ensure-apparmor-profiles-enforce-complain"
 benchmark_id: "ensure-audit-config-immutable"
 benchmark_id: "ensure-audit-configuration-files-group-configured"
