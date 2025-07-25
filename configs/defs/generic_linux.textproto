@@ -16062,7 +16062,7 @@ benchmark_configs: {
       "    content_entry:{"
       "      match_type: NONE_MATCH"
       "      match_criteria: {"
-      "        filter_regex: \"$user.*\""
+      "        filter_regex: \"$user:.*\""
       "        expected_regex: \"$user:[^(!*|*)].*\""
       "      }"
       "    }"
