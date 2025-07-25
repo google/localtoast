@@ -28,10 +28,7 @@ import (
 
 var (
 	umaskRe = regexp.MustCompile("^0?[0-7][0-7][0-7]$")
-)
-
-var (
-	swVersRe = regexp.MustCompile("^\\d+.\\d+.\\d+-\\d+\\+.*$")
+	softwareVersionRe = regexp.MustCompile("(\\w+)")
 )
 
 type groupCriteria struct {
@@ -227,27 +224,27 @@ type lessThanVersionMatcher struct {
 	cmpStr string
 }
 func (m *lessThanVersionMatcher) match(group string) bool {
-	if !swVersRe.MatchString(group) {
+	if !softwareVersionRe.MatchString(group) {
 		log.Printf("unable to parse %q as a software version", group)
 		return false
 	}
-	version := strings.ReplaceAll(m.cmpStr, "-", ".")
+
 	re := regexp.MustCompile("\\W+")
-	chunks_group := re.Split(group, -1)
-	chunks_version := re.Split(version,-1)
-	min_len := 0
-	if len(chunks_group) < len(chunks_version) {
-		min_len = len(chunks_group)
+	chunksGroup := re.Split(group, -1)
+	chunksDetectedVersion := re.Split(m.cmpStr,-1)
+	minLen := 0
+	if len(chunksGroup) < len(chunksDetectedVersion) {
+		minLen = len(chunksGroup)
 	} else {
-		min_len = len(chunks_version)
+		minLen = len(chunksDetectedVersion)
 	}
-	for i:=0; i< min_len; i++ {
-		chunks_group[i] = fmt.Sprintf("%06s", chunks_group[i])
-		chunks_version[i] = fmt.Sprintf("%06s", chunks_version[i])
-		if chunks_group[i] == chunks_version[i] {
+	for i:=0; i<minLen; i++ {
+		chunksGroup[i] = fmt.Sprintf("%06s", chunksGroup[i])
+		chunksDetectedVersion[i] = fmt.Sprintf("%06s", chunksDetectedVersion[i])
+		if chunksGroup[i] == chunksDetectedVersion[i] {
 			continue
 		}
-		return chunks_group[i] < chunks_version[i]
+		return chunksGroup[i] < chunksDetectedVersion[i]
 	}
 	return false
 }
@@ -258,27 +255,27 @@ type greaterThanVersionMatcher struct {
 	cmpStr string
 }
 func (m *greaterThanVersionMatcher) match(group string) bool {
-	if !swVersRe.MatchString(group) {
+	if !softwareVersionRe.MatchString(group) {
 		log.Printf("unable to parse %q as a software version", group)
 		return false
 	}
 	version := strings.ReplaceAll(m.cmpStr, "-", ".")
 	re := regexp.MustCompile("\\W+")
-	chunks_group := re.Split(group, -1)
-	chunks_version := re.Split(version,-1)
-	min_len := 0
-	if len(chunks_group) < len(chunks_version) {
-		min_len = len(chunks_group)
+	chunksGroup := re.Split(group, -1)
+	chunksDetectedVersion := re.Split(version,-1)
+	minLen := 0
+	if len(chunksGroup) < len(chunksDetectedVersion) {
+		minLen = len(chunksGroup)
 	} else {
-		min_len = len(chunks_version)
+		minLen = len(chunksDetectedVersion)
 	}
-	for i:=0; i< min_len; i++ {
-		chunks_group[i] = fmt.Sprintf("%06s", chunks_group[i])
-		chunks_version[i] = fmt.Sprintf("%06s", chunks_version[i])
-		if chunks_group[i] == chunks_version[i] {
+	for i:=0; i< minLen; i++ {
+		chunksGroup[i] = fmt.Sprintf("%06s", chunksGroup[i])
+		chunksDetectedVersion[i] = fmt.Sprintf("%06s", chunksDetectedVersion[i])
+		if chunksGroup[i] == chunksDetectedVersion[i] {
 			continue
 		}
-		return chunks_group[i] > chunks_version[i]
+		return chunksGroup[i] > chunksDetectedVersion[i]
 	}
 	return false
 }
