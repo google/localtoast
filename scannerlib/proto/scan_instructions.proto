@@ -72,8 +72,9 @@ message RepeatConfig {
     // Run the checks just once.
     ONCE = 0;
     // Run the checks for each user found in /etc/passwd, replace "$user",
-    // "$home", "$uid", and "$gid" with the  username, home directory, etc. in
+    // "$home", "$uid", "$shell" and "$gid" with the  username, home directory, shells installed etc. in
     // file names and file checks.
+    // "$shell" wildcard type can be used to iterate over all the installed shells on the system. For example "/bin/sh", "/bin/bash", "/bin/zsh", etc...
     FOR_EACH_USER = 5;
     // Same as FOR_EACH_USER, but skips users that don't have login shells.
     FOR_EACH_USER_WITH_LOGIN = 1;
