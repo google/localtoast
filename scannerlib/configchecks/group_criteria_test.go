@@ -525,6 +525,43 @@ func TestGroupCriteria(t *testing.T) {
 			},
 			expectedError: true,
 		},
+		{
+			description: "VERSION_GREATER_THAN",
+			fileContent: "Version: 1.5.2-6",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_NONE_MATCH,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "Version: .*",
+					ExpectedRegex: `Version: (.*)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex: 1,
+							Type:       ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Const{String:'1.5.3-7'},
+						},
+					},
+				}},
+			},
+			expectedError: true,
+		},
+		{
+			description: "VERSION_LESS_THAN",
+			fileContent: "Version: 1.5.2-6",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_NONE_MATCH,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "Version: .*",
+					ExpectedRegex: `Version: (.*)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex: 1,
+							Type:       ipb.GroupCriterion_VERSION_LESS_THAN,
+						},
+					},
+				}},
+			},
+			expectedError: true,
+		},
 	}
 
 	for _, tc := range testCases {
