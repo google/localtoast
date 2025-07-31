@@ -220,65 +220,61 @@ func getCmpStr(gc *ipb.GroupCriterion) string {
 	}
 	return strconv.Itoa(int(gc.GetConst()))
 }
+func min(x, y int) int {
+	if x <= y {
+		return x
+	}
+	return y
+}
+
+func cmp(x, y int) int {
+	if x < y {
+		return -1
+	} else if x > y {
+		return 1 
+	} else {
+		return 0
+	}
+}
+func versionCmp(detectedVersion, cmpVersion string) int {
+	if !softwareVersionRe.MatchString(cmpVersion) {
+		log.Printf("unable to parse %q as a software version", cmpVersion)
+		return -2
+	}
+	re := regexp.MustCompile("(\\d+)")
+	chunksCmpVersion := re.Split(cmpVersion, -1)
+	chunksDetectedVersion := re.Split(detectedVersion,-1)
+	minLen := min(len(chunksCmpVersion), len(chunksDetectedVersion))
+	for i:=0; i< minLen; i++ {
+		chunkCmpVersion, err := strconv.Atoi(chunksCmpVersion[i])
+		chunkDetectedVersion, err := strconv.Atoi(chunksDetectedVersion[i])
+		if err != nil {
+			log.Printf("unable to parse %q as a software version", cmpVersion)
+			return -2
+		}
+		if chunkCmpVersion == chunkDetectedVersion {
+			continue
+		}
+		return cmp(chunkDetectedVersion, chunkCmpVersion)
+	}
+	return 0
+}
 type lessThanVersionMatcher struct {
 	cmpStr string
 }
 func (m *lessThanVersionMatcher) match(group string) bool {
-	if !softwareVersionRe.MatchString(group) {
-		log.Printf("unable to parse %q as a software version", group)
-		return false
-	}
-
-	re := regexp.MustCompile("\\W+")
-	chunksGroup := re.Split(group, -1)
-	chunksDetectedVersion := re.Split(m.cmpStr,-1)
-	minLen := 0
-	if len(chunksGroup) < len(chunksDetectedVersion) {
-		minLen = len(chunksGroup)
-	} else {
-		minLen = len(chunksDetectedVersion)
-	}
-	for i:=0; i<minLen; i++ {
-		chunksGroup[i] = fmt.Sprintf("%06s", chunksGroup[i])
-		chunksDetectedVersion[i] = fmt.Sprintf("%06s", chunksDetectedVersion[i])
-		if chunksGroup[i] == chunksDetectedVersion[i] {
-			continue
-		}
-		return chunksGroup[i] < chunksDetectedVersion[i]
-	}
-	return false
+	return versionCmp(group, m.cmpStr) < 0
 }
 func (m *lessThanVersionMatcher) String() string {
 	return "< " + m.cmpStr
 }
+
 type greaterThanVersionMatcher struct {
 	cmpStr string
 }
 func (m *greaterThanVersionMatcher) match(group string) bool {
-	if !softwareVersionRe.MatchString(group) {
-		log.Printf("unable to parse %q as a software version", group)
-		return false
-	}
-	version := strings.ReplaceAll(m.cmpStr, "-", ".")
-	re := regexp.MustCompile("\\W+")
-	chunksGroup := re.Split(group, -1)
-	chunksDetectedVersion := re.Split(version,-1)
-	minLen := 0
-	if len(chunksGroup) < len(chunksDetectedVersion) {
-		minLen = len(chunksGroup)
-	} else {
-		minLen = len(chunksDetectedVersion)
-	}
-	for i:=0; i< minLen; i++ {
-		chunksGroup[i] = fmt.Sprintf("%06s", chunksGroup[i])
-		chunksDetectedVersion[i] = fmt.Sprintf("%06s", chunksDetectedVersion[i])
-		if chunksGroup[i] == chunksDetectedVersion[i] {
-			continue
-		}
-		return chunksGroup[i] > chunksDetectedVersion[i]
-	}
-	return false
+	return versionCmp(group, m.cmpStr) > 0
 }
 func (m *greaterThanVersionMatcher) String() string {
-	return "< " + m.cmpStr
+	return "> " + m.cmpStr
 }
