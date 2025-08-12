@@ -525,6 +525,174 @@ func TestGroupCriteria(t *testing.T) {
 			},
 			expectedError: true,
 		},
+		{
+			description: "VERSION_GREATER_THAN matches",
+			fileContent: "VERSION=1.2.3\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.2.0"},
+						},
+					},
+				}},
+			},
+		},
+		{
+			description: "VERSION_LESS_THAN matches",
+			fileContent: "VERSION=1.1.9\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_LESS_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.2.0"},
+						},
+					},
+				}},
+			},
+		},
+		{
+			description: "VERSION_GREATER_THAN less than",
+			fileContent: "VERSION=1.2.3\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.3.1"},
+						},
+					},
+				}},
+			},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
+					Path:   testFilePath,
+					Reason: `File contains entry "VERSION=1.2.3", expected "(?s)^VERSION=(\\S+)$ with group criteria {[group#1 > 1.3.1]}"`,
+				},
+			},
+		},
+		{
+			description: "VERSION_GREATER_THAN equals",
+			fileContent: "VERSION=1.2.3\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.2.3"},
+						},
+					},
+				}},
+			},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
+					Path:   testFilePath,
+					Reason: `File contains entry "VERSION=1.2.3", expected "(?s)^VERSION=(\\S+)$ with group criteria {[group#1 > 1.2.3]}"`,
+				},
+			},
+		},
+		{
+			description: "VERSION_GREATER_THAN additional minor version in detected version",
+			fileContent: "VERSION=1.2.3-4\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.2.3"},
+						},
+					},
+				}},
+			},
+		},
+		{
+			description: "VERSION_LESS_THAN additional minor version in comparison version",
+			fileContent: "VERSION=1.2.3\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_LESS_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.2.3-4"},
+						},
+					},
+				}},
+			},
+		},
+		{
+			description: "VERSION_GREATER_THAN invalid comparison version",
+			fileContent: "VERSION=1.2.3\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "invalid"},
+						},
+					},
+				}},
+			},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
+					Path:   testFilePath,
+					Reason: `File contains entry "VERSION=1.2.3", expected "(?s)^VERSION=(\\S+)$ with group criteria {[group#1 > invalid]}"`,
+				},
+			},
+		},
+		{
+			description: "VERSION_GREATER_THAN invalid detected version",
+			fileContent: "VERSION=invalid\n",
+			check: &ipb.ContentEntryCheck{
+				MatchType: ipb.ContentEntryCheck_ALL_MATCH_ANY_ORDER,
+				MatchCriteria: []*ipb.MatchCriterion{&ipb.MatchCriterion{
+					FilterRegex:   "VERSION=.*",
+					ExpectedRegex: `VERSION=(\S+)`,
+					GroupCriteria: []*ipb.GroupCriterion{
+						&ipb.GroupCriterion{
+							GroupIndex:      1,
+							Type:            ipb.GroupCriterion_VERSION_GREATER_THAN,
+							ComparisonValue: &ipb.GroupCriterion_Version{Version: "1.2.3"},
+						},
+					},
+				}},
+			},
+			expectedNonCompliantFiles: []*cpb.NonCompliantFile{
+				&cpb.NonCompliantFile{
+					Path:   testFilePath,
+					Reason: `File contains entry "VERSION=invalid", expected "(?s)^VERSION=(\\S+)$ with group criteria {[group#1 > 1.2.3]}"`,
+				},
+			},
+		},
 	}
 
 	for _, tc := range testCases {

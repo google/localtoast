@@ -28,7 +28,7 @@ import (
 
 var (
 	regexCache = make(map[string]*regexp.Regexp)
-	mutex = &sync.Mutex{}
+	mutex      = &sync.Mutex{}
 )
 
 // contentEntryFileChecker performs checks about whether files have specific entries in their content.

@@ -15,6 +15,7 @@
 package configchecks
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"log"
@@ -28,6 +29,9 @@ import (
 
 var (
 	umaskRe = regexp.MustCompile("^0?[0-7][0-7][0-7]$")
+	// e.g. 1.5.2-6
+	softwareVersionRe = regexp.MustCompile("^\\d+(\\.\\d+)+(-\\d+)?$")
+	separatorRe       = regexp.MustCompile("(\\D+)")
 )
 
 type groupCriteria struct {
@@ -59,6 +63,10 @@ func newGroupCriteria(regex string, numSubexp int, gcs []*ipb.GroupCriterion, ma
 				return nil, errors.New("GroupCriterion_UNIQUE and ContentEntryCheck_NONE_MATCH are incompatible")
 			}
 			m = &uniqueMatcher{seen: make(map[string]bool)}
+		case ipb.GroupCriterion_VERSION_LESS_THAN:
+			m = &lessThanVersionMatcher{cmpStr: gc.GetVersion()}
+		case ipb.GroupCriterion_VERSION_GREATER_THAN:
+			m = &greaterThanVersionMatcher{cmpStr: gc.GetVersion()}
 		default:
 			return nil, fmt.Errorf("unrecognized group criterion type %v", t)
 		}
@@ -214,4 +222,65 @@ func getCmpStr(gc *ipb.GroupCriterion) string {
 		return "today"
 	}
 	return strconv.Itoa(int(gc.GetConst()))
+}
+
+// Compares detectedVersion (the version found in a text file) with cmpVersion.
+// Returns 0 if they're equal, -1 if detectedVersion is less, and 1 if it's greater.
+func versionCmp(detectedVersion, cmpVersion string) int {
+	if !softwareVersionRe.MatchString(cmpVersion) {
+		log.Printf("unable to parse %q as a software version", cmpVersion)
+		// Returning 0 will cause the comparison to fail since it expects -1 or +1
+		return 0
+	}
+	if !softwareVersionRe.MatchString(detectedVersion) {
+		log.Printf("unable to parse %q as a software version", detectedVersion)
+		return 0
+	}
+	chunksCmpVersion := separatorRe.Split(cmpVersion, -1)
+	chunksDetectedVersion := separatorRe.Split(detectedVersion, -1)
+	minLen := len(chunksCmpVersion)
+	if len(chunksDetectedVersion) < minLen {
+		minLen = len(chunksDetectedVersion)
+	}
+	for i := 0; i < minLen; i++ {
+		chunkCmpVersion, err := strconv.Atoi(chunksCmpVersion[i])
+		if err != nil {
+			log.Printf("unable to parse %q as a software version", cmpVersion)
+			return 0
+		}
+		chunkDetectedVersion, err := strconv.Atoi(chunksDetectedVersion[i])
+		if err != nil {
+			log.Printf("unable to parse %q as a software version", detectedVersion)
+			return 0
+		}
+		if chunkCmpVersion == chunkDetectedVersion {
+			continue
+		}
+		return cmp.Compare(chunkDetectedVersion, chunkCmpVersion)
+	}
+	return cmp.Compare(len(chunksDetectedVersion), len(chunksCmpVersion))
+}
+
+type lessThanVersionMatcher struct {
+	cmpStr string
+}
+
+func (m *lessThanVersionMatcher) match(group string) bool {
+	return versionCmp(group, m.cmpStr) < 0
+}
+
+func (m *lessThanVersionMatcher) String() string {
+	return "< " + m.cmpStr
+}
+
+type greaterThanVersionMatcher struct {
+	cmpStr string
+}
+
+func (m *greaterThanVersionMatcher) match(group string) bool {
+	return versionCmp(group, m.cmpStr) > 0
+}
+
+func (m *greaterThanVersionMatcher) String() string {
+	return "> " + m.cmpStr
 }
