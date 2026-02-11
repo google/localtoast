@@ -1,6 +1,6 @@
 module github.com/google/localtoast
 
-go 1.21
+go 1.24.6
 
 require (
   bitbucket.org/creachadair/stringset v0.0.10
