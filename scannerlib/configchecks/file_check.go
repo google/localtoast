@@ -55,17 +55,18 @@ type FileCheckBatch struct {
 // Exec executes the file checks batched by the FileCheckBatch.
 // The method takes as input the Previous check result output as string, if any
 func (b *FileCheckBatch) Exec(prvRes string) (ComplianceMap, string, error) {
+	if b.filesToCheck != nil {
+		fileset.ApplyPipelineTokenReplacement(b.filesToCheck, prvRes)
 
-	fileset.ApplyPipelineTokenReplacement(b.filesToCheck, prvRes)
-
-	err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
-		func(path string, isDir bool, traversingDir bool) error {
-			return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, traversingDir, b.fs)
-		})
-	if err != nil {
-		return nil, "", err
+		err := fileset.WalkFiles(b.ctx, b.filesToCheck, b.fs, b.timeout.benchmarkCheckTimeoutNow(),
+			func(path string, isDir bool, traversingDir bool) error {
+				return b.fileCheckers.execChecksOnFile(b.ctx, path, isDir, traversingDir, b.fs)
+			})
+		if err != nil {
+			return nil, "", err
+		}
+		b.fileCheckers.execChecksAfterFileTraversal(b.filesToCheck)
 	}
-	b.fileCheckers.execChecksAfterFileTraversal(b.filesToCheck)
 	return aggregateComplianceResults(b.fileChecks)
 }
 
@@ -181,6 +182,16 @@ func addFileCheckToBatchMap(ctx context.Context, options addFileCheckToBatchMapO
 	if err != nil {
 		return err
 	}
+	if len(repeatConfigs) == 0 {
+		key := fileCheckBatchCommonProps{}
+		options.batchMap[key] = append(options.batchMap[key],
+			&fileCheck{
+				benchmarkID:      options.benchmarkID,
+				alternativeID:    options.alternativeID,
+				checkInstruction: options.fc,
+			})
+		return nil
+	}
 	for _, repeatConfig := range repeatConfigs {
 		fc := repeatconfig.ApplyRepeatConfigToInstruction(options.fc, repeatConfig)
 		for _, filesToCheck := range fc.GetFilesToCheck() {
@@ -228,7 +239,7 @@ type fileCheckers struct {
 func newFileCheckers(fileChecks []*fileCheck) (*fileCheckers, error) {
 	result := &fileCheckers{}
 	for _, fc := range fileChecks {
-		if fc.err != nil { // The check couldn't properly be created because of an error.
+		if fc.err != nil || fc.filesToCheck == nil { // The check couldn't properly be created because of an error, or has no files to check.
 			continue
 		}
 		if fc.checkInstruction.GetExistence() != nil {

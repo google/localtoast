@@ -42,6 +42,8 @@ const (
 	regexMatchingTestFiles = "/path/to/test.*"
 	testQueryNoRows        = "SELECT 1 WHERE FALSE"
 	testQueryOneRow        = "SELECT 1"
+	testPasswdPath         = "/etc/passwd"
+	testPasswdContent      = "root:x:0:0::/root:/bin/bash\nnobody:x:65534:65534::/nonexistent:/bin/false\n"
 )
 
 type fakeAPIProvider struct{}
@@ -51,6 +53,8 @@ func (fakeAPIProvider) OpenFile(ctx context.Context, path string) (io.ReadCloser
 		return io.NopCloser(bytes.NewReader([]byte(testFileContent1))), nil
 	} else if path == testFilePath2 {
 		return io.NopCloser(bytes.NewReader([]byte(testFileContent2))), nil
+	} else if path == testPasswdPath {
+		return io.NopCloser(bytes.NewReader([]byte(testPasswdContent))), nil
 	}
 	return nil, errors.New("File not found")
 }
@@ -825,3 +829,101 @@ func TestOldestBenchmarkVersionInScanResult(t *testing.T) {
 		})
 	}
 }
+
+func TestVacuousRepeatConfigAlternatives(t *testing.T) {
+	vacuousRepeatCheck := &ipb.FileCheck{
+		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("$home/.forward")},
+		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+		RepeatConfig: &ipb.RepeatConfig{
+			Type: ipb.RepeatConfig_FOR_EACH_USER_WITH_LOGIN,
+			OptOut: []*ipb.RepeatConfig_OptOutSubstitution{
+				{Wildcard: "$user", Value: "root"},
+			},
+		},
+	}
+	nonCompliantCheck := &ipb.FileCheck{
+		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath(testFilePath1)},
+		CheckType:    &ipb.FileCheck_Content{Content: &ipb.ContentCheck{Content: "Different content"}},
+	}
+
+	testCases := []struct {
+		name                    string
+		instructions            *ipb.BenchmarkScanInstruction
+		wantCompliantBenchmarks []*apb.ComplianceResult
+		wantNonCompliant        []*apb.ComplianceResult
+	}{
+		{
+			name: "single_vacuous_repeat_config_alternative",
+			instructions: &ipb.BenchmarkScanInstruction{
+				CheckAlternatives: []*ipb.CheckAlternative{
+					{FileChecks: []*ipb.FileCheck{vacuousRepeatCheck}},
+				},
+			},
+			wantCompliantBenchmarks: []*apb.ComplianceResult{{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{},
+				},
+			}},
+			wantNonCompliant: []*apb.ComplianceResult{},
+		},
+		{
+			name: "vacuous_repeat_config_with_non_compliant_fallback_alternative",
+			instructions: &ipb.BenchmarkScanInstruction{
+				CheckAlternatives: []*ipb.CheckAlternative{
+					{FileChecks: []*ipb.FileCheck{vacuousRepeatCheck}},
+					{FileChecks: []*ipb.FileCheck{nonCompliantCheck}},
+				},
+			},
+			wantCompliantBenchmarks: []*apb.ComplianceResult{{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{},
+				},
+			}},
+			wantNonCompliant: []*apb.ComplianceResult{},
+		},
+		{
+			name: "vacuous_repeat_config_and_non_compliant_check_in_same_alternative",
+			instructions: &ipb.BenchmarkScanInstruction{
+				CheckAlternatives: []*ipb.CheckAlternative{
+					{FileChecks: []*ipb.FileCheck{vacuousRepeatCheck, nonCompliantCheck}},
+				},
+			},
+			wantCompliantBenchmarks: []*apb.ComplianceResult{},
+			wantNonCompliant: []*apb.ComplianceResult{{
+				Id: "id",
+				ComplianceOccurrence: &cpb.ComplianceOccurrence{
+					NonCompliantFiles: []*cpb.NonCompliantFile{{
+						Path:   testFilePath1,
+						Reason: fmt.Sprintf("Got content %q, expected \"Different content\"", testFileContent1),
+					}},
+				},
+			}},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			config := &apb.ScanConfig{
+				BenchmarkConfigs: []*apb.BenchmarkConfig{
+					testconfigcreator.NewBenchmarkConfig(t, "id", tc.instructions),
+				},
+			}
+			result, err := scannerlib.Scanner{}.Scan(t.Context(), config, fakeAPIProvider{})
+			if err != nil {
+				t.Fatalf("scannerlib.Scan(%v) unexpected error: %v", config, err)
+			}
+			if result.GetStatus().GetStatus() != apb.ScanStatus_SUCCEEDED {
+				t.Fatalf("scannerlib.Scan(%v) status = %v, want %v", config, result.GetStatus().GetStatus(), apb.ScanStatus_SUCCEEDED)
+			}
+			if diff := cmp.Diff(tc.wantCompliantBenchmarks, result.GetCompliantBenchmarks(), protocmp.Transform()); diff != "" {
+				t.Errorf("scannerlib.Scan(%v) compliant benchmarks diff (-want +got):\n%s", config, diff)
+			}
+			if diff := cmp.Diff(tc.wantNonCompliant, result.GetNonCompliantBenchmarks(), protocmp.Transform()); diff != "" {
+				t.Errorf("scannerlib.Scan(%v) non-compliant benchmarks diff (-want +got):\n%s", config, diff)
+			}
+		})
+	}
+}
+

@@ -1451,6 +1451,54 @@ func TestRepeatConfigApplied(t *testing.T) {
 	}
 }
 
+func TestRepeatConfigNoMatchingItems(t *testing.T) {
+	passwdContent := "root:x:0:0::/root:/bin/bash\n" +
+		"daemon:x:1:1::/usr/sbin:/usr/sbin/nologin\n" +
+		"nobody:x:65534:65534::/nonexistent:/bin/false"
+	fileChecks := []*ipb.FileCheck{{
+		FilesToCheck: []*ipb.FileSet{testconfigcreator.SingleFileWithPath("$home/.forward")},
+		CheckType:    &ipb.FileCheck_Existence{Existence: &ipb.ExistenceCheck{ShouldExist: false}},
+		RepeatConfig: &ipb.RepeatConfig{
+			Type: ipb.RepeatConfig_FOR_EACH_USER_WITH_LOGIN,
+			OptOut: []*ipb.RepeatConfig_OptOutSubstitution{
+				{Wildcard: "$user", Value: "root"},
+			},
+		},
+	}}
+	want := &apb.ComplianceResult{
+		Id:                   "id",
+		ComplianceOccurrence: &cpb.ComplianceOccurrence{},
+	}
+
+	scanInstruction := testconfigcreator.NewFileScanInstruction(fileChecks)
+	config := testconfigcreator.NewBenchmarkConfig(t, "id", scanInstruction)
+	checks, err := configchecks.CreateChecksFromConfig(
+		t.Context(),
+		&apb.ScanConfig{
+			BenchmarkConfigs: []*apb.BenchmarkConfig{config},
+		},
+		newFakeAPI(withFileContent(passwdContent)))
+	if err != nil {
+		t.Fatalf("configchecks.CreateChecksFromConfig([%v]) unexpected error: %v", config, err)
+	}
+	if len(checks) != 1 {
+		t.Fatalf("len(configchecks.CreateChecksFromConfig([%v])) = %d, want 1", config, len(checks))
+	}
+
+	var pVal string
+	resultMap, _, err := checks[0].Exec(pVal)
+	if err != nil {
+		t.Fatalf("checks[0].Exec() unexpected error: %v", err)
+	}
+	result, gotSingleton := singleComplianceResult(resultMap)
+	if !gotSingleton {
+		t.Fatalf("len(checks[0].Exec()) = %d, want 1", len(resultMap))
+	}
+	if diff := cmp.Diff(want, result, protocmp.Transform()); diff != "" {
+		t.Errorf("checks[0].Exec() returned unexpected diff (-want +got):\n%s", diff)
+	}
+}
+
 func TestRepeatConfigCreationFails(t *testing.T) {
 	passwdContent := "invalid\n"
 	fileChecks := []*ipb.FileCheck{&ipb.FileCheck{
