@@ -429,7 +429,7 @@ benchmark_configs: {
   id: "tmp-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -518,7 +518,7 @@ benchmark_configs: {
   id: "tmp-nodev"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -614,7 +614,7 @@ benchmark_configs: {
   id: "tmp-nosuid"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -710,7 +710,7 @@ benchmark_configs: {
   id: "tmp-noexec"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -889,7 +889,7 @@ benchmark_configs: {
   id: "home-nodev"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -970,7 +970,7 @@ benchmark_configs: {
   id: "shm-nodev"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -1053,7 +1053,7 @@ benchmark_configs: {
   id: "shm-nosuid"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -1136,7 +1136,7 @@ benchmark_configs: {
   id: "shm-noexec"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -2434,14 +2434,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "automounting-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -2484,14 +2484,14 @@ benchmark_configs: {
   id: "nx-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure XD/NX support is enabled"
     description:
       "Recent processors in the x86 family support the ability to prevent "
@@ -2580,14 +2580,14 @@ benchmark_configs: {
   id: "aslr-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -2662,14 +2662,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "apparmor-installed"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure SELinux or AppArmor are installed"
@@ -2733,7 +2733,7 @@ benchmark_configs: {
   id: "local-login-warning-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure local login warning banner is configured properly"
@@ -2793,7 +2793,7 @@ benchmark_configs: {
   id: "remote-login-warning-configured"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure remote login warning banner is configured properly"
@@ -2854,7 +2854,7 @@ benchmark_configs: {
   id: "etc-issue-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -2903,7 +2903,7 @@ benchmark_configs: {
   id: "nfs-rpc-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure NFS and RPC are not enabled"
     description:
@@ -2956,7 +2956,7 @@ benchmark_configs: {
   id: "packet-redirect-sending-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -3043,7 +3043,7 @@ benchmark_configs: {
   id: "source-routed-packets-not-accepted"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -3112,7 +3112,7 @@ benchmark_configs: {
   id: "broadcast-icmp-requests-ignored"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -3193,7 +3193,7 @@ benchmark_configs: {
   id: "bogus-icmp-responses-ignored"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -3268,7 +3268,7 @@ benchmark_configs: {
   id: "reverse-path-filtering-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -3361,7 +3361,7 @@ benchmark_configs: {
   id: "tcp-syn-cookies-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -3446,7 +3446,7 @@ benchmark_configs: {
   id: "journald-write-to-persistent-disk"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure journald is configured to write logfiles to persistent disk"
     description:
@@ -3485,14 +3485,14 @@ benchmark_configs: {
   id: "sshd-config-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -3536,14 +3536,14 @@ benchmark_configs: {
   id: "sshd-private-host-key-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -3590,14 +3590,14 @@ benchmark_configs: {
   id: "sshd-public-host-key-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -3639,14 +3639,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-protocol-set-to-2"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure SSH Protocol is set to 2"
     description:
       "Older versions of SSH support two different and incompatible protocols: SSH1\n"
@@ -3681,14 +3681,14 @@ benchmark_configs: {
   id: "ssh-loglevel-appropriate"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -3750,14 +3750,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "ssh-x11-forwarding-disabled"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH X11 forwarding is disabled"
     description:
@@ -3810,13 +3810,13 @@ benchmark_configs: {
   id: "ssh-maxauthtries-4-or-less"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -3863,14 +3863,14 @@ benchmark_configs: {
   id: "ssh-ignorerhosts-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -3922,14 +3922,14 @@ benchmark_configs: {
   id: "ssh-hostbasedauthentication-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure SSH HostbasedAuthentication is disabled"
     description:
@@ -3982,14 +3982,14 @@ benchmark_configs: {
   id: "ssh-root-login-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -4030,14 +4030,14 @@ benchmark_configs: {
   id: "ssh-permitemptypasswords-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -4089,14 +4089,14 @@ benchmark_configs: {
   id: "ssh-permituserenvironments-disabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -4149,14 +4149,14 @@ benchmark_configs: {
   id: "strong-ciphers-used"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure only strong Ciphers are used"
     description: "This variable limits the ciphers that SSH can use during communication."
     rationale:
@@ -4366,14 +4366,14 @@ benchmark_configs: {
   id: "strong-key-exchange-algos-used"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     title: "Ensure only strong Key Exchange algorithms are used"
@@ -4605,14 +4605,14 @@ benchmark_configs: {
   id: "ssh-pam-enabled"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -4920,13 +4920,13 @@ benchmark_configs: {
   id: "minimum-days-between-password-changes-7-or-more"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure minimum days between password changes is 7 or more"
     description:
@@ -4994,14 +4994,14 @@ benchmark_configs: {
   id: "password-expiration-warning-days-7-or-more"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -5136,14 +5136,14 @@ benchmark_configs: {
   id: "last-password-change-date-in-past"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -5258,14 +5258,14 @@ benchmark_configs: {
   id: "default-group-for-root-account-is-gid-0"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -5304,14 +5304,14 @@ benchmark_configs: {
   id: "root-login-restricted-to-system-console"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     title: "Ensure root login is restricted to system console"
     description:
       "The file /etc/securetty contains a list of valid terminals that may be logged\n"
@@ -5349,7 +5349,7 @@ benchmark_configs: {
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure access to the su command is restricted"
     description:
@@ -5407,14 +5407,14 @@ benchmark_configs: {
   id: "etc-passwd-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -5502,14 +5502,14 @@ benchmark_configs: {
   id: "etc-shadow-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -5561,14 +5561,14 @@ benchmark_configs: {
   id: "etc-group-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -5612,14 +5612,14 @@ benchmark_configs: {
   id: "etc-gshadow-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -5678,14 +5678,14 @@ benchmark_configs: {
   id: "etc-group-dash-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -5732,13 +5732,13 @@ benchmark_configs: {
   id: "etc-shadow-dash-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -5797,13 +5797,13 @@ benchmark_configs: {
   id: "etc-gshadow-dash-permissions"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -5862,14 +5862,14 @@ benchmark_configs: {
   id: "password-fields-not-empty"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
@@ -5913,14 +5913,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "passwd-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/passwd"
@@ -5957,14 +5957,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "shadow-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/shadow"
@@ -5999,14 +5999,14 @@ benchmark_configs: {
 benchmark_configs: {
   id: "group-no-legacy-plus-entries"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     title: "Ensure no legacy \"+\" entries exist in /etc/group"
@@ -6044,14 +6044,14 @@ benchmark_configs: {
   id: "root-is-only-uid-0-account"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -6090,13 +6090,13 @@ benchmark_configs: {
   id: "home-dirs-exist"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure all users' home directories exist"
     description:
@@ -6141,13 +6141,13 @@ benchmark_configs: {
   id: "home-dirs-750-or-more-restrictive"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure users' home directories permissions are 750 or more restrictive"
     description:
@@ -6208,13 +6208,13 @@ benchmark_configs: {
   id: "users-own-home-dirs"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -6280,13 +6280,13 @@ benchmark_configs: {
   id: "dot-files-not-group-world-writable"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -6352,13 +6352,13 @@ benchmark_configs: {
   id: "no-forward-files"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .forward files"
     description:
@@ -6411,13 +6411,13 @@ benchmark_configs: {
   id: "no-netrc-files"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .netrc files"
     description:
@@ -6469,13 +6469,13 @@ benchmark_configs: {
 benchmark_configs: {
   id: "netrc-files-not-group-world-accessible"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure users' .netrc Files are not group or world accessible"
     description:
@@ -6519,13 +6519,13 @@ benchmark_configs: {
 benchmark_configs: {
   id: "no-rhost-files"
   compliance_note: {
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     title: "Ensure no users have .rhost files"
@@ -6580,13 +6580,13 @@ benchmark_configs: {
   id: "groups-from-etc-passwd-in-etc-group"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
@@ -6634,14 +6634,14 @@ benchmark_configs: {
   id: "no-duplicate-uids"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -6688,14 +6688,14 @@ benchmark_configs: {
   id: "no-duplicate-gids"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -6740,14 +6740,14 @@ benchmark_configs: {
   id: "no-duplicate-user-names"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -6797,14 +6797,14 @@ benchmark_configs: {
   id: "no-duplicate-group-names"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -6852,14 +6852,14 @@ benchmark_configs: {
   id: "shadow-group-empty"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:89" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:9" version: "1.0.0" benchmark_document: "CIS Debian Linux 9" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:10" version: "1.0.0" benchmark_document: "CIS Debian Linux 10" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
@@ -6903,13 +6903,13 @@ benchmark_configs: {
   id: "default-user-shell-timeout-900-or-less"
   compliance_note: {
     version: { cpe_uri: "cpe:/o:centos:centos:7.%02" version: "4.0.0" benchmark_document: "CIS Centos Linux 7.x" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
-    version: { cpe_uri: "cpe:/o:cos:cos_linux:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:93" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:97" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:101" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:105" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:109" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:113" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
+    version: { cpe_uri: "cpe:/o:cos:cos:117" version: "1.0.0" benchmark_document: "CIS Container-Optimized OS" }
     version: { cpe_uri: "cpe:/o:rockylinux:rockylinux:8.5" version: "2.0.0" benchmark_document: "CIS Rocky Linux 8" }
     version: { cpe_uri: "cpe:/o:debian:debian_linux:12" version: "1.1.0" benchmark_document: "CIS Debian Linux 12" }
     version: { cpe_uri: "cpe:/o:canonical:ubuntu_linux:22.04" version: "2.0.0" benchmark_document: "CIS Ubuntu 22.04" }
